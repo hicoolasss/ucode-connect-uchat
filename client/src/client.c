@@ -1,7 +1,7 @@
 #include "header.h"
 int main(int argc, char *argv[])
 {
-	if(argc != 2) {
+	if(argc != 3) {
 		puts("Write ip adress of server");
 		exit(1);
 	}
@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 	struct sockaddr_in client;
 	char message[1000] , server_reply[2000];
 	const char *ip = argv[1];
-
+	int host = atoi(argv[2]);
 	//Create socket
 	sock = socket(AF_INET , SOCK_STREAM , 0);
 	if (sock == -1)
@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
 	
 	client.sin_addr.s_addr = inet_addr(ip);
 	client.sin_family = AF_INET;
-	client.sin_port = htons(1234);
+	client.sin_port = htons(host);
 
 	//Connect to remote client
 	if (connect(sock , (struct sockaddr *)&client , sizeof(client)) < 0)
@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 	
 	puts("Connected\n");
 	
-	//keep communicating with client
+	//keep communicating with server
 	while(1)
 	{
 		printf("Enter message : ");
@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 			break;
 		}
 		
-		puts("client reply :");
+		puts("server reply :");
 		puts(server_reply);
 	}
 	
