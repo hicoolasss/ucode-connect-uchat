@@ -1,0 +1,54 @@
+.background {
+    background-color: #171722;
+}
+.box {
+    background: #212130;
+    border-radius: 20px;
+}
+.login {
+    background: #434461;
+    border-radius: 60px;
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 26px;
+    color: rgba(198, 198, 198, 0.5);
+}
+
+.welcome_to_the_dark {
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 40px;
+    color: #B1BAE6;
+}
+
+.login_button {
+    background: #13131A;
+    border-radius: 60px;
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 26px;
+    color: #B1BAE6;
+}
+
+.dont_have_account {
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 20px;
+}
+.signup {
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 20px;
+    color: #565F89;
+    text-decoration: underline;
+}

@@ -1,5 +1,5 @@
-SERVER = ../server.bin
-CLIENT = ../client.bin
+SERVER = uchat_server
+CLIENT = uchat
 
 SERVER_DIR = server
 CLIENT_DIR = client
@@ -31,8 +31,8 @@ $(OBJ_DIR):
 	@$(MKDIR) $@
 
 MINILIBMX:
-	@$(CC) $(CFLAGS) $(SERVER_DIR)/server.c -I $(INC_DIR) -o $(SERVER)
-	@$(CC) $(CFLAGS) $(CLIENT_DIR)/client.c -I $(INC_DIR) -o $(CLIENT)
+	@$(CC) $(CFLAGS) `pkg-config --cflags gtk4` $(SERVER_DIR)/server.c `pkg-config --libs gtk4` -I $(INC_DIR) -o $(SERVER)
+	@$(CC) $(CFLAGS) `pkg-config --cflags gtk4` $(CLIENT_DIR)/client.c `pkg-config --libs gtk4` -I $(INC_DIR) -o $(CLIENT)
 
 clean:
 	@$(RM) $(OBJ_DIR)
