@@ -8,6 +8,8 @@
 .login {
     background: #434461;
     border-radius: 60px;
+    border-color: inherit;
+    outline:none;
     font-family: 'JetBrains Mono';
     font-style: normal;
     font-weight: 400;
@@ -28,6 +30,7 @@
 .login_button {
     background: #13131A;
     border-radius: 60px;
+    border-color: inherit;
     font-family: 'JetBrains Mono';
     font-style: normal;
     font-weight: 400;
@@ -42,6 +45,7 @@
     font-weight: 400;
     font-size: 15px;
     line-height: 20px;
+    color: #B1BAE6;
 }
 .signup {
     font-family: 'JetBrains Mono';
