@@ -1,4 +1,4 @@
-#include "server.h"
+#include "../inc/server.h"
 
 static _Atomic unsigned int cli_count = 0;
 static int uid = 10;
