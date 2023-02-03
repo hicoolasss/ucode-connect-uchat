@@ -9,6 +9,7 @@
 #include <pthread.h>
 #include <sys/types.h>
 #include <signal.h>
+#include <gtk/gtk.h>
 #include "../libmx/inc/libmx.h"
 
 #define MAX_CLIENTS 100
@@ -22,5 +23,16 @@ typedef struct{
 	int uid;
 	char name[32];
 } client_t;
+
+//gtk windows structure
+struct {
+    GtkWidget *login_screen;
+} t_screens;
+
+//gtk screen components
+struct {
+    GtkCssProvider *provider;
+} t_comp;
+
 
 client_t *clients[MAX_CLIENTS];
