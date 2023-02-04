@@ -1,8 +1,10 @@
 #include "../inc/client.h"
 
-void show_loginscreen () {
-    GtkWidget *box, *username, *password;
+extern t_screen login_screen;
 
+void show_loginscreen () {
+    
+    GtkWidget *box, *username, *password;
 
     GtkStyleContext *context = gtk_widget_get_style_context(login_screen.screen);
     gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(login_screen.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);

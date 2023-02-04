@@ -1,5 +1,7 @@
 #include "../inc/client.h"
 
+t_screen login_screen;
+
 // Global variables
 volatile sig_atomic_t flag = 0;
 int sockfd = 0;
@@ -85,7 +87,8 @@ void *recv_msg_handler()
 
 
 void loadstyles() {
-    login_screen.provider = gtk_css_provider_new();
+    
+	login_screen.provider = gtk_css_provider_new();
     gtk_css_provider_load_from_path(login_screen.provider,
                                     "client/style/theme.css");
 }
