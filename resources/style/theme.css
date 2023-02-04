@@ -59,13 +59,19 @@
     font-size: 15px;
     line-height: 20px;
     color: #565F89;
-    border: none;
-    background: none;
+    border-color: transparent;
+    background: transparent;
     text-decoration-line: underline;
+    outline-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
 }
 
 .signup:hover {
-    border: none;
-    background: none;
+    border-color: transparent;
+    background: transparent;
     text-decoration-line: underline;
+    outline-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
 }

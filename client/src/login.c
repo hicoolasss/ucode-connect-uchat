@@ -18,7 +18,8 @@ void show_loginscreen () {
 
     GtkWidget *dont_have_account = gtk_label_new_with_mnemonic("Don’t have an account?");
 
-    GtkWidget *signup = gtk_label_new_with_mnemonic("Sign up");
+    GtkWidget *signup = gtk_button_new_with_label("Sign up");
+
 
     gtk_widget_set_halign(box, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(box, GTK_ALIGN_CENTER);
@@ -37,8 +38,8 @@ void show_loginscreen () {
 
     gtk_entry_set_alignment(GTK_ENTRY(username), 0.1);
     gtk_entry_set_alignment(GTK_ENTRY(password), 0.1);
-    gtk_entry_set_placeholder_text(GTK_ENTRY(username), "Username");
-    gtk_entry_set_placeholder_text(GTK_ENTRY(password), "Password");
+    gtk_entry_set_placeholder_text(GTK_ENTRY(username), " Username");
+    gtk_entry_set_placeholder_text(GTK_ENTRY(password), " Password");
 
 
     gtk_box_append(GTK_BOX(box), welcome);
@@ -88,37 +89,12 @@ void show_loginscreen () {
 
 
     widget_styling(box, login_screen, "box");
-
-    context = gtk_widget_get_style_context(welcome);
-
-    gtk_style_context_add_class(context, "welcome_to_the_dark");
-    gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(login_screen.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
-
-
-    context = gtk_widget_get_style_context(username);
-
-    gtk_style_context_add_class(context, "login");
-    gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(login_screen.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
-
-    context = gtk_widget_get_style_context(password);
-
-    gtk_style_context_add_class(context, "login");
-    gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(login_screen.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
-
-    context = gtk_widget_get_style_context(login_button);
-
-    gtk_style_context_add_class(context, "login_button");
-    gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(login_screen.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
-
-    context = gtk_widget_get_style_context(dont_have_account);
-
-    gtk_style_context_add_class(context, "dont_have_account");
-    gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(login_screen.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
-
-    context = gtk_widget_get_style_context(signup);
-
-    gtk_style_context_add_class(context, "signup");
-    gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(login_screen.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
+    widget_styling(welcome, login_screen, "welcome_to_the_dark");
+    widget_styling(username, login_screen, "login");
+    widget_styling(password, login_screen, "login");
+    widget_styling(login_button, login_screen, "login_button");
+    widget_styling(dont_have_account, login_screen, "dont_have_account");
+    widget_styling(signup, login_screen, "signup");
 
     gtk_widget_show(login_screen.screen);
 }
