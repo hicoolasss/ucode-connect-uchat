@@ -24,12 +24,12 @@ $(CLIENT):
 clean:
 	@rm -rf $(SERVER)
 	@rm -rf $(CLIENT)
+	@rm -rf $(OBJS)
+	@rm -rf $(OBJDIR)
 
 uninstall:
 	make -sC $(SERVER_DIR) 
 	make -sC $(CLIENT_DIR) 
 	make -sC $(LIBMX_DIR)
-	@rm -rf $(OBJS)
-	@rm -rf $(OBJDIR)
 
 reinstall: clean uninstall

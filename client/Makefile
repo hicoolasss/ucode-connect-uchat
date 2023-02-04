@@ -12,7 +12,7 @@ LIBMX_DIR = ../libs/libmx
 LIBMX_NAME = $(LIBMX_DIR)/libmx.a
 LIB_FLAGS = -lmx -L$(LIBMX_DIR) $(LIBMX_NAME)
 
-all: clean $(NAMEBIN)
+all:  $(NAMEBIN) clean
 
 $(NAMEBIN): 
 	mkdir -p $(OBJDIR)
