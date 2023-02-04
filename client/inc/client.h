@@ -18,14 +18,13 @@
 
 
 //gtk windows structure
-struct {
-    GtkWidget *login_screen;
-} t_screens;
-
-//gtk screen components
-struct {
+typedef struct t_screen{
+    GtkWidget *screen;
     GtkCssProvider *provider;
-} t_comp;
+} t_screen;
+
+t_screen start_screen;
+t_screen login_screen;
 
 void show_loginscreen();
 void loadstyles();

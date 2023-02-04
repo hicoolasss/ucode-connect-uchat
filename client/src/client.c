@@ -82,25 +82,25 @@ void *recv_msg_handler()
 	return NULL;
 }
 
+
+
 void loadstyles() {
-    t_comp.provider = gtk_css_provider_new();
-    gtk_css_provider_load_from_path(t_comp.provider,
+    login_screen.provider = gtk_css_provider_new();
+    gtk_css_provider_load_from_path(login_screen.provider,
                                     "client/style/theme.css");
 }
 
-
-
-static void
-app_activate(GApplication *app)
+static void app_activate(GApplication *app)
 {
 
-    t_screens.login_screen = gtk_application_window_new(GTK_APPLICATION(app));
+    login_screen.screen = gtk_application_window_new(GTK_APPLICATION(app));
 
-	gtk_window_set_title(GTK_WINDOW(t_screens.login_screen), "darkchat");
-	gtk_window_set_default_size(GTK_WINDOW(t_screens.login_screen), 1200, 760);
+	gtk_window_set_title(GTK_WINDOW(login_screen.screen), "darkchat");
+	gtk_window_set_default_size(GTK_WINDOW(login_screen.screen), 1200, 760);
 
+    loadstyles();
     show_loginscreen();
-
+    gtk_widget_show(login_screen.screen);
 }
 
 

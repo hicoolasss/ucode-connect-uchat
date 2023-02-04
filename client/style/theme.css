@@ -31,12 +31,17 @@
     background: #13131A;
     border-radius: 60px;
     border-color: inherit;
+    outline:none;
     font-family: 'JetBrains Mono';
     font-style: normal;
     font-weight: 400;
     font-size: 20px;
     line-height: 26px;
     color: #B1BAE6;
+}
+
+.login_button:hover {
+    background-color: #565F89;
 }
 
 .dont_have_account {
@@ -54,5 +59,13 @@
     font-size: 15px;
     line-height: 20px;
     color: #565F89;
-    text-decoration: underline;
+    border: none;
+    background: none;
+    text-decoration-line: underline;
+}
+
+.signup:hover {
+    border: none;
+    background: none;
+    text-decoration-line: underline;
 }

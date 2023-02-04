@@ -1,11 +1,11 @@
 #include "../inc/client.h"
 
 void show_loginscreen () {
-	
     GtkWidget *box, *username, *password;
-    loadstyles();
-    GtkStyleContext *context = gtk_widget_get_style_context(t_screens.login_screen);
-    gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(t_comp.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
+
+
+    GtkStyleContext *context = gtk_widget_get_style_context(login_screen.screen);
+    gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(login_screen.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
 
     box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
@@ -15,14 +15,14 @@ void show_loginscreen () {
 
     GtkWidget *dont_have_account = gtk_label_new_with_mnemonic("Don’t have an account?");
 
-    GtkWidget *signup = gtk_button_new();
+    GtkWidget *signup = gtk_label_new_with_mnemonic("Sign up");
 
     //GtkWidget *signup_label = gtk_label_new_with_mnemonic("Sign up");
 
 
-    gtk_button_set_label(GTK_BUTTON(signup), "Sign up");
+//    gtk_button_set_label(GTK_BUTTON(signup), "Sign up");
 
-    gtk_button_set_has_frame(GTK_BUTTON(signup), FALSE);
+//    gtk_button_set_has_frame(GTK_BUTTON(signup), FALSE);
 
 
     gtk_widget_set_halign(box, GTK_ALIGN_CENTER);
@@ -35,7 +35,7 @@ void show_loginscreen () {
 
     gtk_widget_set_size_request(box, 586, 544);
 
-    gtk_window_set_child(GTK_WINDOW(t_screens.login_screen), box);
+    gtk_window_set_child(GTK_WINDOW(login_screen.screen), box);
 
     username = gtk_entry_new();
     password = gtk_entry_new();
@@ -95,38 +95,38 @@ void show_loginscreen () {
     context = gtk_widget_get_style_context(box);
 
     gtk_style_context_add_class(context, "box");
-    gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(t_comp.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
+    gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(login_screen.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
 
     context = gtk_widget_get_style_context(welcome);
 
     gtk_style_context_add_class(context, "welcome_to_the_dark");
-    gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(t_comp.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
+    gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(login_screen.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
 
 
     context = gtk_widget_get_style_context(username);
 
     gtk_style_context_add_class(context, "login");
-    gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(t_comp.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
+    gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(login_screen.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
 
     context = gtk_widget_get_style_context(password);
 
     gtk_style_context_add_class(context, "login");
-    gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(t_comp.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
+    gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(login_screen.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
 
     context = gtk_widget_get_style_context(login_button);
 
     gtk_style_context_add_class(context, "login_button");
-    gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(t_comp.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
+    gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(login_screen.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
 
     context = gtk_widget_get_style_context(dont_have_account);
 
     gtk_style_context_add_class(context, "dont_have_account");
-    gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(t_comp.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
+    gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(login_screen.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
 
     context = gtk_widget_get_style_context(signup);
 
     gtk_style_context_add_class(context, "signup");
-    gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(t_comp.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
+    gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(login_screen.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
 
-    gtk_widget_show(t_screens.login_screen);
+    gtk_widget_show(login_screen.screen);
 }
