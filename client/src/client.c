@@ -87,10 +87,17 @@ void *recv_msg_handler()
 
 
 void loadstyles() {
-    
 	login_screen.provider = gtk_css_provider_new();
     gtk_css_provider_load_from_path(login_screen.provider,
                                     "client/style/theme.css");
+}
+
+void widget_styling(GtkWidget *widget, t_screen screen, const char *name_of_css_class) {
+	
+	GtkStyleContext *context = gtk_widget_get_style_context(widget);
+
+    gtk_style_context_add_class(context, name_of_css_class);
+    gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(screen.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
 }
 
 static void app_activate(GApplication *app)

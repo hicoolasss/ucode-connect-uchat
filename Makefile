@@ -10,7 +10,7 @@ LIBMX = $(LIBMX_DIR)/libmx.a
 SRC = $(SRCDIR)/*.c
 OBJS = $(OBJDIR)/*.o
 
-all: $(LIBMX) $(SERVER) $(CLIENT) clean
+all: $(LIBMX) $(SERVER) $(CLIENT) reinstall
 
 $(LIBMX):
 	make -sC $(LIBMX_DIR)
@@ -22,15 +22,14 @@ $(CLIENT):
 	make -sC $(CLIENT_DIR)
 
 clean:
-	@rm -f $(OBJS)
-	@rm -df $(OBJDIR) 
+	@rm -rf $(SERVER)
+	@rm -rf $(CLIENT)
 
 uninstall:
-	make -sC $(SERVER_DIR) $@
-	make -sC $(CLIENT_DIR) $@
-	make -sC $(LIBMX_DIR) $@
-	make clean
+	make -sC $(SERVER_DIR) 
+	make -sC $(CLIENT_DIR) 
+	make -sC $(LIBMX_DIR)
+	@rm -rf $(OBJS)
+	@rm -rf $(OBJDIR)
 
-reinstall:
-	make uninstall
-	make all
+reinstall: clean uninstall

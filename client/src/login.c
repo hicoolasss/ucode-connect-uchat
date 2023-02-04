@@ -7,6 +7,7 @@ void show_loginscreen () {
     GtkWidget *box, *username, *password;
 
     GtkStyleContext *context = gtk_widget_get_style_context(login_screen.screen);
+    
     gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(login_screen.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
 
     box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
@@ -94,10 +95,7 @@ void show_loginscreen () {
     gtk_widget_set_size_request(signup, 63, 20);
 
 
-    context = gtk_widget_get_style_context(box);
-
-    gtk_style_context_add_class(context, "box");
-    gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(login_screen.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
+    widget_styling(box, login_screen, "box");
 
     context = gtk_widget_get_style_context(welcome);
 

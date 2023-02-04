@@ -23,8 +23,11 @@ typedef struct {
     GtkCssProvider *provider;
 } t_screen;
 
-//t_screen start_screen;
-//extern t_screen login_screen;
-
+//show login screen
 void show_loginscreen();
+
+//load styles
 void loadstyles();
+
+//add style to widget
+void widget_styling(GtkWidget *widget, t_screen screen, const char *name_of_css_class);
