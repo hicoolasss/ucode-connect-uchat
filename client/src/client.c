@@ -85,11 +85,10 @@ void *recv_msg_handler()
 }
 
 
-
 void loadstyles() {
 	login_screen.provider = gtk_css_provider_new();
     gtk_css_provider_load_from_path(login_screen.provider,
-                                    "client/style/theme.css");
+                                    "resources/style/theme.css");
 }
 
 void widget_styling(GtkWidget *widget, t_screen screen, const char *name_of_css_class) {

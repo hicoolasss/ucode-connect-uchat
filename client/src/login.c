@@ -12,21 +12,13 @@ void show_loginscreen () {
 
     box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
-    GtkWidget *welcome = gtk_label_new_with_mnemonic ("Welcome to the dark");
+    GtkWidget *welcome = gtk_label_new_with_mnemonic ("Welcome to the dark!");
 
     GtkWidget *login_button = gtk_button_new_with_mnemonic("Login");
 
     GtkWidget *dont_have_account = gtk_label_new_with_mnemonic("Don’t have an account?");
 
     GtkWidget *signup = gtk_label_new_with_mnemonic("Sign up");
-
-    //GtkWidget *signup_label = gtk_label_new_with_mnemonic("Sign up");
-
-
-//    gtk_button_set_label(GTK_BUTTON(signup), "Sign up");
-
-//    gtk_button_set_has_frame(GTK_BUTTON(signup), FALSE);
-
 
     gtk_widget_set_halign(box, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(box, GTK_ALIGN_CENTER);
