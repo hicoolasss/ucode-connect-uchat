@@ -1,5 +1,8 @@
 #include "../inc/server.h"
 
+client_t *clients[MAX_CLIENTS];
+
+
 static _Atomic unsigned int cli_count = 0;
 static int uid = 10;
 
@@ -175,6 +178,7 @@ int main(int argc, char **argv){
 	}
 
 	printf("=== WELCOME TO THE CHATROOM ===\n");
+	sqlite3_create_db();
 
 	while(1){
 		socklen_t clilen = sizeof(cli_addr);
