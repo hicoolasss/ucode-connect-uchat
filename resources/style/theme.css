@@ -5,7 +5,7 @@
     background: #212130;
     border-radius: 20px;
 }
-.login {
+.main_entry_field {
     background: #434461;
     border-radius: 60px;
     border-style: solid;
@@ -16,10 +16,10 @@
     font-weight: 400;
     font-size: 20px;
     line-height: 26px;
-    color: rgba(198, 198, 198, 0.5);
+    color: #6E78A8;
 }
 
-.login:hover {
+.main_entry_field:hover {
     border-color: #13131A;
     background-color: #212130;
 }
@@ -33,7 +33,7 @@
     color: #B1BAE6;
 }
 
-.login_button {
+.log_in_button {
     background: #13131A;
     border-radius: 60px;
     border-color: #13131A;
@@ -46,7 +46,23 @@
     color: #B1BAE6;
 }
 
-.login_button:hover {
+.log_in_button:hover {
+    background-color: #171722;
+}
+.sign_up_button_registration {
+    background: #13131A;
+    border-radius: 60px;
+    border-color: #13131A;
+    outline:none;
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 26px;
+    color: #B1BAE6;
+}
+
+.sign_up_button_registration:hover {
     background-color: #171722;
 }
 
@@ -58,7 +74,17 @@
     line-height: 20px;
     color: #B1BAE6;
 }
-.signup {
+
+.have_account {
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 20px;
+    color: #B1BAE6;
+}
+
+.sign_up_button_log_in {
     font-family: 'JetBrains Mono';
     font-style: normal;
     font-weight: 400;
@@ -73,7 +99,32 @@
     box-shadow: none;
 }
 
-.signup:hover {
+.sign_up_button_log_in:hover {
+    border-color: transparent;
+    background: transparent;
+    text-decoration-line: underline;
+    color: #0269A4;
+    outline-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+.sign_in_button {
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 20px;
+    color: #565F89;
+    border-color: transparent;
+    background: transparent;
+    text-decoration-line: underline;
+    outline-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+.sign_in_button:hover {
     border-color: transparent;
     background: transparent;
     text-decoration-line: underline;

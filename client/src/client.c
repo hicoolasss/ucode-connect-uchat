@@ -1,6 +1,6 @@
 #include "../inc/client.h"
 
-extern t_screen curent_screen;
+ t_screen curent_screen;
 
 // Global variables
 volatile sig_atomic_t flag = 0;
@@ -89,7 +89,7 @@ void loadstyles() {
 
     curent_screen.provider = gtk_css_provider_new();
     gtk_css_provider_load_from_path(curent_screen.provider,
-                                    "client/resources/style/theme.css");
+                                    "resources/style/theme.css");
 }
 
 void widget_styling(GtkWidget *widget, t_screen screen, const char *name_of_css_class) {
