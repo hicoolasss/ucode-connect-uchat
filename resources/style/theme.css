@@ -133,3 +133,17 @@
     border-color: transparent;
     box-shadow: none;
 }
+
+.main_box_style {
+    background: #13131A;
+    border: 1px solid rgba(122, 162, 247, 0.35);
+    border-radius: 20px;
+}
+
+.profile_avatar_btn {
+    border-radius: 50%;
+    background-position: 100% 100%;
+    background-repeat: no-repeat;
+    background: url(../../resources/images/test_avatar1.jpg);
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+}

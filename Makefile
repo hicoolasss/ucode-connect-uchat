@@ -14,15 +14,15 @@ all: $(LIBMX) $(SERVER) $(CLIENT) reinstall
 
 $(LIBMX): 
 	$(info $@ compiling...)
-	make -sC $(LIBMX_DIR)
+	@make -sC $(LIBMX_DIR)
 
 $(SERVER): 
 	$(info $@ compiling...)
-	make -sC $(SERVER_DIR)
+	@make -sC $(SERVER_DIR)
 
 $(CLIENT): 
 	$(info $@ compiling...)
-	make -sC $(CLIENT_DIR)
+	@make -sC $(CLIENT_DIR)
 
 clean:
 	@rm -rf $(SERVER)

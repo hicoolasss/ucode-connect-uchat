@@ -16,21 +16,24 @@
 #define BUFFER_SZ 2048
 #define LENGTH 2048
 
-
-//gtk windows structure
-typedef struct {
+// gtk windows structure
+typedef struct
+{
     GtkWidget *screen;
     GtkCssProvider *provider;
 } t_screen;
 
-//show login screen
+
+// show login screen
 void show_loginscreen();
 
-//show registration screen
+// show registration screen
 void show_registrationscreen();
 
-//load styles
+void show_home_page_screen(void);
+
+// load styles
 void loadstyles();
 
-//add style to widget
+// add style to widget
 void widget_styling(GtkWidget *widget, t_screen screen, const char *name_of_css_class);

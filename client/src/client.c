@@ -158,7 +158,6 @@ int main(int argc, char **argv)
     app = gtk_application_new("com.github.darkchat", G_APPLICATION_DEFAULT_FLAGS);
     g_signal_connect(app, "activate", G_CALLBACK(app_activate), NULL);
     stat = g_application_run(G_APPLICATION(app), FALSE, NULL);
-    // login_page();
 
 	/////////////////////////////////////////////////////////////////////////////////////
 	// Send name

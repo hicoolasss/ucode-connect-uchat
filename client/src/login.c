@@ -8,14 +8,19 @@ static void donthaveaccountbtn_clicked(GtkWidget *box) {
 
 }
 
+static void log_in_btn_clicked(GtkWidget *box) {
+    gtk_widget_unparent(box);
+    show_home_page_screen();
+
+}
+
+
 void show_loginscreen () {
 
     GtkWidget *box, *username, *password;
 
     box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_window_set_child(GTK_WINDOW(curent_screen.screen), box);
-
-
 
     GtkStyleContext *context = gtk_widget_get_style_context(curent_screen.screen);
     gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(curent_screen.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
@@ -48,6 +53,7 @@ void show_loginscreen () {
     gtk_entry_set_alignment(GTK_ENTRY(password), 0.1);
     gtk_entry_set_placeholder_text(GTK_ENTRY(username), " Username");
     gtk_entry_set_placeholder_text(GTK_ENTRY(password), " Password");
+    gtk_entry_set_visibility(GTK_ENTRY(password),FALSE);
 
 
     gtk_box_append(GTK_BOX(box), welcome);
@@ -74,8 +80,6 @@ void show_loginscreen () {
     gtk_widget_set_margin_top(password, 25);
 
     gtk_widget_set_size_request(password, 423, 63);
-
-    gtk_entry_set_visibility(GTK_ENTRY(password),FALSE);
 
     gtk_widget_set_margin_start(log_in_button, 81);
     gtk_widget_set_margin_end(log_in_button, 81);
@@ -105,5 +109,5 @@ void show_loginscreen () {
     widget_styling(sign_up_button_log_in, curent_screen, "sign_up_button_log_in");
 
     g_signal_connect(sign_up_button_log_in, "clicked", G_CALLBACK(donthaveaccountbtn_clicked), NULL);
-
+    g_signal_connect(log_in_button, "clicked", G_CALLBACK(log_in_btn_clicked), NULL);
 }

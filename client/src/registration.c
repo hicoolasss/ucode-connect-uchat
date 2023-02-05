@@ -8,6 +8,7 @@ static void sign_inbtn_clicked(GtkWidget *box) {
 }
 
 void show_registrationscreen() {
+    
     GtkWidget *box, *username, *password, *confirm_password;
 
     box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
