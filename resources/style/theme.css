@@ -8,14 +8,20 @@
 .login {
     background: #434461;
     border-radius: 60px;
-    border-color: inherit;
-    outline:none;
+    border-style: solid;
+    border-color: #434461;
+    outline: none;
     font-family: 'JetBrains Mono';
     font-style: normal;
     font-weight: 400;
     font-size: 20px;
     line-height: 26px;
     color: rgba(198, 198, 198, 0.5);
+}
+
+.login:hover {
+    border-color: #13131A;
+    background-color: #212130;
 }
 
 .welcome_to_the_dark {
@@ -30,7 +36,7 @@
 .login_button {
     background: #13131A;
     border-radius: 60px;
-    border-color: inherit;
+    border-color: #13131A;
     outline:none;
     font-family: 'JetBrains Mono';
     font-style: normal;
@@ -71,6 +77,7 @@
     border-color: transparent;
     background: transparent;
     text-decoration-line: underline;
+    color: #0269A4;
     outline-color: transparent;
     border-color: transparent;
     box-shadow: none;

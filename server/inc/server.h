@@ -30,21 +30,8 @@ typedef struct{
 	char name[32];
 } client_t;
 
-// //gtk windows structure
-// struct {
-//     GtkWidget *login_screen;
-// } t_screens;
-
-// //gtk screen components
-// struct {
-//     GtkCssProvider *provider;
-// } t_comp;
-
-
-// void show_loginscreen();
-// void loadstyles();
 void sqlite3_create_db();
-static int callback(void *data, int argc, char **argv, char **azColName);
+//static int callback(void *data, int argc, char **argv, char **azColName);
 void *sqlite3_exec_db(char *query, int type);
 void update_user_name(char *name, int id);
 void update_user_avatar(char *path, int id);
