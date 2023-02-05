@@ -1,16 +1,24 @@
 #include "../inc/client.h"
 
-extern t_screen login_screen;
+t_screen curent_screen;
+
+static void donthaveaccountbtn_clicked(GtkWidget *box) {
+    gtk_widget_unparent(box);
+    show_registrationscreen();
+
+}
 
 void show_loginscreen () {
-    
+
     GtkWidget *box, *username, *password;
 
-    GtkStyleContext *context = gtk_widget_get_style_context(login_screen.screen);
-    
-    gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(login_screen.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
-
     box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    gtk_window_set_child(GTK_WINDOW(curent_screen.screen), box);
+
+
+
+    GtkStyleContext *context = gtk_widget_get_style_context(curent_screen.screen);
+    gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(curent_screen.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
 
     GtkWidget *welcome = gtk_label_new_with_mnemonic ("Welcome to the dark!");
 
@@ -31,7 +39,7 @@ void show_loginscreen () {
 
     gtk_widget_set_size_request(box, 586, 544);
 
-    gtk_window_set_child(GTK_WINDOW(login_screen.screen), box);
+//    gtk_window_set_child(GTK_WINDOW(login_screen.screen), box);
 
     username = gtk_entry_new();
     password = gtk_entry_new();
@@ -88,13 +96,15 @@ void show_loginscreen () {
     gtk_widget_set_size_request(signup, 63, 20);
 
 
-    widget_styling(box, login_screen, "box");
-    widget_styling(welcome, login_screen, "welcome_to_the_dark");
-    widget_styling(username, login_screen, "login");
-    widget_styling(password, login_screen, "login");
-    widget_styling(login_button, login_screen, "login_button");
-    widget_styling(dont_have_account, login_screen, "dont_have_account");
-    widget_styling(signup, login_screen, "signup");
+    widget_styling(box, curent_screen, "box");
+    widget_styling(welcome, curent_screen, "welcome_to_the_dark");
+    widget_styling(username, curent_screen, "login");
+    widget_styling(password, curent_screen, "login");
+    widget_styling(login_button, curent_screen, "login_button");
+    widget_styling(dont_have_account, curent_screen, "dont_have_account");
+    widget_styling(signup, curent_screen, "signup");
 
-    gtk_widget_show(login_screen.screen);
+    g_signal_connect(signup, "clicked", G_CALLBACK(donthaveaccountbtn_clicked), NULL);
+
+//    gtk_widget_show(login_screen.screen);
 }

@@ -26,6 +26,9 @@ typedef struct {
 //show login screen
 void show_loginscreen();
 
+//show registration screen
+void show_registrationscreen();
+
 //load styles
 void loadstyles();
 

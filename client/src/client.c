@@ -1,6 +1,6 @@
 #include "../inc/client.h"
 
-t_screen login_screen;
+extern t_screen curent_screen;
 
 // Global variables
 volatile sig_atomic_t flag = 0;
@@ -86,9 +86,10 @@ void *recv_msg_handler()
 
 
 void loadstyles() {
-	login_screen.provider = gtk_css_provider_new();
-    gtk_css_provider_load_from_path(login_screen.provider,
-                                    "resources/style/theme.css");
+
+    curent_screen.provider = gtk_css_provider_new();
+    gtk_css_provider_load_from_path(curent_screen.provider,
+                                    "client/resources/style/theme.css");
 }
 
 void widget_styling(GtkWidget *widget, t_screen screen, const char *name_of_css_class) {
@@ -102,14 +103,14 @@ void widget_styling(GtkWidget *widget, t_screen screen, const char *name_of_css_
 static void app_activate(GApplication *app)
 {
 
-    login_screen.screen = gtk_application_window_new(GTK_APPLICATION(app));
+    curent_screen.screen = gtk_application_window_new(GTK_APPLICATION(app));
 
-	gtk_window_set_title(GTK_WINDOW(login_screen.screen), "darkchat");
-	gtk_window_set_default_size(GTK_WINDOW(login_screen.screen), 1200, 760);
+    gtk_window_set_title(GTK_WINDOW(curent_screen.screen), "darkchat");
+    gtk_window_set_default_size(GTK_WINDOW(curent_screen.screen), 1200, 760);
 
     loadstyles();
     show_loginscreen();
-    gtk_widget_show(login_screen.screen);
+    gtk_window_present(GTK_WINDOW(curent_screen.screen));
 }
 
 
@@ -152,12 +153,12 @@ int main(int argc, char **argv)
 	}
 	/////////////////////////////////////////////////////////////////////////////////////
 
-	GtkApplication *app;
-	int stat;
-	app = gtk_application_new("com.github.darkchat", G_APPLICATION_DEFAULT_FLAGS);
-	g_signal_connect(app, "activate", G_CALLBACK(app_activate), NULL);
-	stat = g_application_run(G_APPLICATION(app), FALSE, NULL);
-	// login_page();
+    GtkApplication *app;
+    int stat;
+    app = gtk_application_new("com.github.darkchat", G_APPLICATION_DEFAULT_FLAGS);
+    g_signal_connect(app, "activate", G_CALLBACK(app_activate), NULL);
+    stat = g_application_run(G_APPLICATION(app), FALSE, NULL);
+    // login_page();
 
 	/////////////////////////////////////////////////////////////////////////////////////
 	// Send name
