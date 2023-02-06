@@ -144,6 +144,83 @@
     border-radius: 50%;
     background-position: 100% 100%;
     background-repeat: no-repeat;
-    background: url(../../resources/images/test_avatar1.jpg);
+    background-image: url(../../resources/images/test_avatar1.jpg);
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+}
+
+.home_btn {
+    border-color: transparent;
+    background: transparent;
+    background-repeat: no-repeat;
+    background-image: url(../../resources/images/home_btn.png);
+    background-position: center;
+    outline-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+
+.chats_btn {
+    border-color: transparent;
+    background: transparent;
+    background-repeat: no-repeat;
+    background-image: url(../../resources/images/chats_btn.png);
+    background-position: center;
+    outline-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+.settings_btn {
+    border-color: transparent;
+    background: transparent;
+    background-repeat: no-repeat;
+    background-image: url(../../resources/images/settings_btn.png);
+    background-position: center;
+    outline-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+.achievements_btn {
+    border-color: transparent;
+    background: transparent;
+    background-repeat: no-repeat;
+    background-image: url(../../resources/images/achievements_btn.png);
+    background-position: center;
+    outline-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+.log_out_btn {
+    border-color: transparent;
+    background: transparent;
+    background-repeat: no-repeat;
+    background-image: url(../../resources/images/log_out_btn.png);
+    background-position: center;
+    outline-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+.search_btn {
+    border-color: transparent;
+    background: transparent;
+    background-repeat: no-repeat;
+    background-image: url(../../resources/images/search_btn.png);
+    background-position: center;
+    outline-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
+}
+.entry_for_search {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    /* identical to box height */
+    color: rgba(255, 255, 255, 0.35);
+
 }
