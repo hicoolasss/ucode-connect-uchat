@@ -44,8 +44,6 @@ void show_loginscreen () {
 
     gtk_widget_set_size_request(box, 586, 544);
 
-//    gtk_window_set_child(GTK_WINDOW(login_screen.screen), box);
-
     username = gtk_entry_new();
     password = gtk_entry_new();
 
@@ -108,6 +106,8 @@ void show_loginscreen () {
     widget_styling(dont_have_account, curent_screen, "dont_have_account");
     widget_styling(sign_up_button_log_in, curent_screen, "sign_up_button_log_in");
 
+
+    //g_signal_connect(sign_up_button_log_in, "clicked", G_CALLBACK(donthaveaccountbtn_clicked), NULL);
     g_signal_connect(sign_up_button_log_in, "clicked", G_CALLBACK(donthaveaccountbtn_clicked), NULL);
     g_signal_connect(log_in_button, "clicked", G_CALLBACK(log_in_btn_clicked), NULL);
 }

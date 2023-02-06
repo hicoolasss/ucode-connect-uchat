@@ -33,23 +33,29 @@ void show_home_page_screen(void) {
 
     GtkWidget *entry_for_search = gtk_entry_new();
 
-    gtk_entry_set_placeholder_text(GTK_ENTRY(entry_for_search), " Search");
-
-
-
+    gtk_entry_set_placeholder_text(GTK_ENTRY(entry_for_search), "Search");
 
 
     //groups box
     GtkWidget *groups_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
+    GtkWidget *groups_label = gtk_label_new("Groups");
+
+    GtkWidget *create_new_group_btn = gtk_button_new_with_mnemonic("Create new group");
+
+
     //chats box
     GtkWidget *chats_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
-    //scrollbar
-    GtkWidget *scrollbar = gtk_scrollbar_new(GTK_ORIENTATION_HORIZONTAL, NULL);
+    GtkWidget *chats_label = gtk_label_new("Chats");
 
-    //box with randomly generated sentences
+    GtkWidget *create_new_chat_btn = gtk_button_new_with_mnemonic("Create new chat");
+
+
+    //current_dirrect_message_box
     GtkWidget *current_dirrect_message_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+
+    GtkWidget *select_chat_or_group_label = gtk_label_new("Please, select a chat or a group");
 
 
 
@@ -61,10 +67,10 @@ void show_home_page_screen(void) {
     gtk_widget_set_halign(main_menu_box, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(main_menu_box, GTK_ALIGN_CENTER);
 
-    gtk_widget_set_margin_start(main_menu_box, 33);
-    gtk_widget_set_margin_end(main_menu_box, 1043);
-    gtk_widget_set_margin_top(main_menu_box, 45);
-    gtk_widget_set_margin_bottom(main_menu_box, 45);
+    gtk_widget_set_margin_start(main_menu_box, 22);
+    gtk_widget_set_margin_end(main_menu_box, 1054);
+    gtk_widget_set_margin_top(main_menu_box, 47);
+    gtk_widget_set_margin_bottom(main_menu_box, 46);
 
     gtk_widget_set_size_request(main_menu_box, 124, 667);
 
@@ -138,10 +144,10 @@ void show_home_page_screen(void) {
     gtk_widget_set_halign(search_bar_box, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(search_bar_box, GTK_ALIGN_CENTER);
 
-    gtk_widget_set_margin_start(search_bar_box, 177);
-    gtk_widget_set_margin_end(search_bar_box, 596);
-    gtk_widget_set_margin_top(search_bar_box, 45);
-    gtk_widget_set_margin_bottom(search_bar_box, 656);
+    gtk_widget_set_margin_start(search_bar_box, 170);
+    gtk_widget_set_margin_end(search_bar_box, 603);
+    gtk_widget_set_margin_top(search_bar_box, 47);
+    gtk_widget_set_margin_bottom(search_bar_box, 654);
 
     gtk_widget_set_size_request(search_bar_box, 427, 59);
 
@@ -159,11 +165,11 @@ void show_home_page_screen(void) {
     gtk_widget_set_size_request(search_btn, 24, 24);
 
     //entry_for_search
-    gtk_widget_set_margin_start(entry_for_search, 31);
+    gtk_widget_set_margin_start(entry_for_search, 15);
     gtk_widget_set_margin_top(entry_for_search, 15);
     gtk_widget_set_margin_bottom(entry_for_search, 15);
 
-    gtk_widget_set_size_request(entry_for_search, 57, 24);
+    gtk_widget_set_size_request(entry_for_search, 51, 21);
 
 
 
@@ -174,30 +180,46 @@ void show_home_page_screen(void) {
 
 
 
-
-
-
-
-
-
-
-
-
     //groups_box init
     gtk_grid_attach(GTK_GRID(main_grid), groups_box, 0, 0, 1, 1);
 
     gtk_widget_set_halign(groups_box, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(groups_box, GTK_ALIGN_CENTER);
 
-    gtk_widget_set_margin_start(groups_box, 177);
-    gtk_widget_set_margin_end(groups_box, 596);
-    gtk_widget_set_margin_top(groups_box, 127);
-    gtk_widget_set_margin_bottom(groups_box, 315);
+    gtk_widget_set_margin_start(groups_box, 170);
+    gtk_widget_set_margin_end(groups_box, 603);
+    gtk_widget_set_margin_top(groups_box, 128);
+    gtk_widget_set_margin_bottom(groups_box, 350);
 
-    gtk_widget_set_size_request(groups_box, 427, 318);
+    gtk_widget_set_size_request(groups_box, 427, 282);
+
+
+
+    //groups_label
+    gtk_box_append(GTK_BOX(groups_box), groups_label);
+
+    gtk_widget_set_margin_start(groups_label, 20);
+    gtk_widget_set_margin_end(groups_label, 333);
+    gtk_widget_set_margin_top(groups_label, 12);
+
+    gtk_widget_set_size_request(groups_label, 74, 27);
+
+    //create_new_group_btn
+    gtk_box_append(GTK_BOX(groups_box), create_new_group_btn);
+
+    gtk_widget_set_margin_start(create_new_group_btn, 138);
+    gtk_widget_set_margin_end(create_new_group_btn, 139);
+    gtk_widget_set_margin_top(create_new_group_btn, 87);
+
+    gtk_widget_set_size_request(create_new_group_btn, 150, 32);
 
     //styling
     widget_styling(groups_box, curent_screen, "main_box_style");
+    widget_styling(groups_label, curent_screen, "groups_label");
+    widget_styling(create_new_group_btn, curent_screen, "create_new_group_btn");
+
+
+
 
     //chats_box init
     gtk_grid_attach(GTK_GRID(main_grid), chats_box, 0, 0, 1, 1);
@@ -205,27 +227,38 @@ void show_home_page_screen(void) {
     gtk_widget_set_halign(chats_box, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(chats_box, GTK_ALIGN_CENTER);
 
-    gtk_widget_set_margin_start(chats_box, 177);
-    gtk_widget_set_margin_end(chats_box, 596);
-    gtk_widget_set_margin_top(chats_box, 468);
+    gtk_widget_set_margin_start(chats_box, 170);
+    gtk_widget_set_margin_end(chats_box, 603);
+    gtk_widget_set_margin_top(chats_box, 432);
     gtk_widget_set_margin_bottom(chats_box, 46);
 
-    gtk_widget_set_size_request(chats_box, 427, 246);
+    gtk_widget_set_size_request(chats_box, 427, 282);
+
+
+    //chats_label
+    gtk_box_append(GTK_BOX(chats_box), chats_label);
+
+    gtk_widget_set_margin_start(chats_label, 10);
+    gtk_widget_set_margin_end(chats_label, 333);
+    gtk_widget_set_margin_top(chats_label, 12);
+
+    gtk_widget_set_size_request(chats_label, 74, 27);
+
+
+    //create_new_chat_btn
+    gtk_box_append(GTK_BOX(chats_box), create_new_chat_btn);
+
+    gtk_widget_set_margin_start(create_new_chat_btn, 138);
+    gtk_widget_set_margin_end(create_new_chat_btn, 139);
+    gtk_widget_set_margin_top(create_new_chat_btn, 87);
+
+    gtk_widget_set_size_request(create_new_chat_btn, 150, 32);
 
     //styling
     widget_styling(chats_box, curent_screen, "main_box_style");
+    widget_styling(chats_label, curent_screen, "chats_label");
+    widget_styling(create_new_chat_btn, curent_screen, "create_new_chat_btn");
 
-
-
-
-    /*
-    
-
-            space for scrollbar
-    
-    
-    
-    */
 
 
     //current_dirrect_message_box init
@@ -234,15 +267,25 @@ void show_home_page_screen(void) {
     gtk_widget_set_halign(current_dirrect_message_box, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(current_dirrect_message_box, GTK_ALIGN_CENTER);
 
-    gtk_widget_set_margin_start(current_dirrect_message_box, 656);
-    gtk_widget_set_margin_end(current_dirrect_message_box, 31);
-    gtk_widget_set_margin_top(current_dirrect_message_box, 47);
-    gtk_widget_set_margin_bottom(current_dirrect_message_box, 46);
+    gtk_widget_set_margin_start(current_dirrect_message_box, 621);
+    gtk_widget_set_margin_end(current_dirrect_message_box, 22);
+    gtk_widget_set_margin_top(current_dirrect_message_box, 46);
+    gtk_widget_set_margin_bottom(current_dirrect_message_box, 47);
 
-    gtk_widget_set_size_request(current_dirrect_message_box, 533, 667);
+    gtk_widget_set_size_request(current_dirrect_message_box, 557, 667);
+
+
+    gtk_box_append(GTK_BOX(current_dirrect_message_box), select_chat_or_group_label);
+
+    gtk_widget_set_margin_start(select_chat_or_group_label, 180);
+    gtk_widget_set_margin_end(select_chat_or_group_label, 178);
+    gtk_widget_set_margin_top(select_chat_or_group_label, 301);
+
+    gtk_widget_set_size_request(select_chat_or_group_label, 200, 36);
 
     //styling
-    widget_styling(current_dirrect_message_box, curent_screen, "main_box_style");
+    widget_styling(current_dirrect_message_box, curent_screen, "current_dirrect_message_box");
+    widget_styling(select_chat_or_group_label, curent_screen, "select_chat_or_group_label");
 
 
 

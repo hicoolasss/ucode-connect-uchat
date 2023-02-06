@@ -140,6 +140,13 @@
     border-radius: 20px;
 }
 
+.current_dirrect_message_box {
+    background: #171722;
+    border: 1px solid rgba(122, 162, 247, 0.35);
+    border-radius: 20px;
+}
+
+
 .profile_avatar_btn {
     border-radius: 50%;
     background-position: 100% 100%;
@@ -215,12 +222,78 @@
     box-shadow: none;
 }
 .entry_for_search {
-    font-family: 'Poppins';
+    font-family: 'Open Sans';
     font-style: normal;
-    font-weight: 500;
+    font-weight: 400;
     font-size: 16px;
-    line-height: 24px;
+    line-height: 22px;
     /* identical to box height */
-    color: rgba(255, 255, 255, 0.35);
+    color: #7AA2F7;
+    border-color: transparent;
+    background: transparent;
+    background-repeat: no-repeat;
+    outline-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
+}
+.groups_label {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 30px;
+    color: rgba(122, 162, 247, 0.5);
+}
 
+.create_new_group_btn {
+    background: #202332;
+    border-radius: 20px;
+    font-family: 'Open Sans';
+    color: #7AA2F7;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 14px;
+    box-shadow: none;
+    outline-color: transparent;
+    border-color: transparent;
+
+}
+
+.chats_label {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 30px;
+    color: rgba(122, 162, 247, 0.5);
+}
+
+.create_new_chat_btn {
+    background: #202332;
+    border-radius: 20px;
+    font-family: 'Open Sans';
+    color: #7AA2F7;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 14px;
+    box-shadow: none;
+    outline-color: transparent;
+    border-color: transparent;
+}
+
+.select_chat_or_group_label {
+    background: #13131A;
+    border-radius: 20px;
+    font-family: 'Open Sans';
+    color: #7AA2F7;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 14px;
+    box-shadow: none;
+    outline-color: transparent;
+    border-color: transparent;
+    
 }

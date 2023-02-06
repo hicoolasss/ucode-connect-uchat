@@ -7,6 +7,12 @@ static void sign_inbtn_clicked(GtkWidget *box) {
     show_loginscreen();
 }
 
+
+static void sign_up_btn_clicked(GtkWidget *box) {
+    gtk_widget_unparent(box);
+    show_home_page_screen();
+}
+
 void show_registrationscreen() {
     
     GtkWidget *box, *username, *password, *confirm_password;
@@ -112,6 +118,7 @@ void show_registrationscreen() {
     widget_styling(have_account, curent_screen, "have_account");
 
     g_signal_connect(sign_in_button, "clicked", G_CALLBACK(sign_inbtn_clicked), NULL);
+    g_signal_connect(sign_up_button_registration, "clicked", G_CALLBACK(sign_up_btn_clicked), NULL);
 
     gtk_window_present(GTK_WINDOW(curent_screen.screen));
 
