@@ -109,7 +109,7 @@ static void app_activate(GApplication *app)
     gtk_window_set_default_size(GTK_WINDOW(curent_screen.screen), 1200, 760);
 
     loadstyles();
-    show_loginscreen();
+    show_login();
     gtk_window_present(GTK_WINDOW(curent_screen.screen));
 }
 

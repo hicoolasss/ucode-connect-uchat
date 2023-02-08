@@ -25,15 +25,18 @@ typedef struct
 
 
 // show login screen
-void show_loginscreen();
+void show_login(void);
 
 // show registration screen
-void show_registrationscreen();
-
-void show_home_page_screen(void);
+void show_registration(void);
 
 // load styles
-void loadstyles();
+void loadstyles(void);
+
+void show_home(void);
+
+void show_log_out(void);
+
 
 // add style to widget
 void widget_styling(GtkWidget *widget, t_screen screen, const char *name_of_css_class);

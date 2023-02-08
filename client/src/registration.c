@@ -4,16 +4,16 @@ extern t_screen curent_screen;
 
 static void sign_inbtn_clicked(GtkWidget *box) {
     gtk_widget_unparent(box);
-    show_loginscreen();
+    show_login();
 }
 
 
 static void sign_up_btn_clicked(GtkWidget *box) {
     gtk_widget_unparent(box);
-    show_home_page_screen();
+    show_home();
 }
 
-void show_registrationscreen() {
+void show_registration() {
     
     GtkWidget *box, *username, *password, *confirm_password;
 

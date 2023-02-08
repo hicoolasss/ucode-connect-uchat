@@ -2,13 +2,17 @@
 
 extern t_screen curent_screen;
 
-static void log_out_btn_clicked(GtkWidget *box) {
+static void yes_btn_clicked(GtkWidget *box) {
     gtk_widget_unparent(box);
-    show_log_out();
+    show_login();
 }
 
-void show_home(void) {
+static void no_btn_clicked(GtkWidget *box) {
+    gtk_widget_unparent(box);
+    show_home();
+}
 
+void show_log_out(void) {
     //main box
     GtkWidget *main_grid = gtk_grid_new();
     
@@ -60,7 +64,17 @@ void show_home(void) {
     //current_dirrect_message_box
     GtkWidget *current_dirrect_message_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
-    GtkWidget *lets_start = gtk_label_new("LET'S START");
+    GtkWidget *select_chat_or_group_label = gtk_label_new("Please, select a chat or a group");
+
+    
+    //log_out box
+    GtkWidget *log_out_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    
+    GtkWidget *log_out_label = gtk_label_new("Log out?");
+
+    GtkWidget *yes_btn = gtk_button_new_with_mnemonic("Yes");
+
+    GtkWidget *no_btn = gtk_button_new_with_mnemonic("No!");
 
 
 
@@ -134,7 +148,7 @@ void show_home(void) {
 
     
     //styling
-    widget_styling(main_menu_box, curent_screen, "main_box_style");
+    widget_styling(main_menu_box, curent_screen, "main_box_style_blurred");
     widget_styling(profile_avatar_btn, curent_screen, "profile_avatar_btn");
     widget_styling(home_btn, curent_screen, "home_btn");
     widget_styling(chats_btn, curent_screen, "chats_btn");
@@ -180,7 +194,7 @@ void show_home(void) {
 
 
     //styling
-    widget_styling(search_bar_box, curent_screen, "search_bar_box");
+    widget_styling(search_bar_box, curent_screen, "main_box_style_blurred");
     widget_styling(search_btn, curent_screen, "search_btn");
     widget_styling(entry_for_search, curent_screen, "entry_for_search");
 
@@ -221,7 +235,7 @@ void show_home(void) {
     gtk_widget_set_size_request(create_new_group_btn, 32, 32);
 
     //styling
-    widget_styling(groups_box, curent_screen, "main_box_style");
+    widget_styling(groups_box, curent_screen, "main_box_style_blurred");
     widget_styling(groups_label, curent_screen, "groups_label");
     widget_styling(create_new_group_btn, curent_screen, "create_new_group_btn");
 
@@ -260,7 +274,7 @@ void show_home(void) {
     gtk_widget_set_margin_bottom(create_new_chat_btn, 237);
 
     //styling
-    widget_styling(chats_box, curent_screen, "main_box_style");
+    widget_styling(chats_box, curent_screen, "main_box_style_blurred");
     widget_styling(chats_label, curent_screen, "chats_label");
     widget_styling(create_new_chat_btn, curent_screen, "create_new_chat_btn");
 
@@ -280,24 +294,85 @@ void show_home(void) {
     gtk_widget_set_size_request(current_dirrect_message_box, 557, 667);
 
 
-    gtk_box_append(GTK_BOX(current_dirrect_message_box), lets_start);
+    gtk_box_append(GTK_BOX(current_dirrect_message_box), select_chat_or_group_label);
 
-    gtk_widget_set_margin_start(lets_start, 180);
-    gtk_widget_set_margin_end(lets_start, 178);
-    gtk_widget_set_margin_top(lets_start, 301);
+    gtk_widget_set_margin_start(select_chat_or_group_label, 180);
+    gtk_widget_set_margin_end(select_chat_or_group_label, 178);
+    gtk_widget_set_margin_top(select_chat_or_group_label, 301);
 
-    gtk_widget_set_size_request(lets_start, 200, 36);
+    gtk_widget_set_size_request(select_chat_or_group_label, 200, 36);
 
     //styling
-    widget_styling(current_dirrect_message_box, curent_screen, "current_dirrect_message_box");
-    widget_styling(lets_start, curent_screen, "lets_start");
+    widget_styling(current_dirrect_message_box, curent_screen, "current_dirrect_message_box_blurred");
+    widget_styling(select_chat_or_group_label, curent_screen, "select_chat_or_group_label");
 
 
-    g_signal_connect(log_out_btn, "clicked", G_CALLBACK(log_out_btn_clicked), NULL);
+
+    //log_out box
+    gtk_grid_attach(GTK_GRID(main_grid), log_out_box, 0, 0, 1, 1);
+
+    gtk_widget_set_halign(log_out_box, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(log_out_box, GTK_ALIGN_CENTER);
+
+    gtk_widget_set_margin_start(log_out_box, 400);
+    gtk_widget_set_margin_end(log_out_box, 400);
+    gtk_widget_set_margin_top(log_out_box, 255);
+    gtk_widget_set_margin_bottom(log_out_box, 255);
+
+    gtk_widget_set_size_request(log_out_box, 400, 250);
+
+
+
+    //log_out_label
+    gtk_box_append(GTK_BOX(log_out_box), log_out_label);
+
+    gtk_widget_set_margin_start(log_out_label, 100);
+    gtk_widget_set_margin_end(log_out_label, 100);
+    gtk_widget_set_margin_top(log_out_label, 56);
+    //gtk_widget_set_margin_bottom(yes_btn, 162);
+
+    gtk_widget_set_size_request(log_out_label, 200, 32);
+
+
+    //yes_btn
+    gtk_grid_attach(GTK_GRID(main_grid), yes_btn, 0, 0, 1, 1);
+
+    gtk_widget_set_margin_start(yes_btn, 414);
+    gtk_widget_set_margin_end(yes_btn, 614);
+    gtk_widget_set_margin_top(yes_btn, 403);
+    gtk_widget_set_margin_bottom(yes_btn, 302);
+
+    gtk_widget_set_size_request(yes_btn, 172, 55);
+
+    //no_btn
+    gtk_grid_attach(GTK_GRID(main_grid), no_btn, 0, 0, 1, 1);
+
+    gtk_widget_set_margin_start(no_btn, 614);
+    gtk_widget_set_margin_end(no_btn, 414);
+    gtk_widget_set_margin_top(no_btn, 403);
+    gtk_widget_set_margin_bottom(no_btn, 302);
+
+    gtk_widget_set_size_request(no_btn, 172, 55);
+
+
+    //styling
+    widget_styling(log_out_box, curent_screen, "log_out_box");
+    widget_styling(log_out_label, curent_screen, "log_out_label");
+    widget_styling(yes_btn, curent_screen, "yes_btn");
+    widget_styling(no_btn, curent_screen, "no_btn");    
+
+    g_signal_connect(yes_btn, "clicked", G_CALLBACK(yes_btn_clicked), NULL);
+    g_signal_connect(no_btn, "clicked", G_CALLBACK(no_btn_clicked), NULL);
+
+
+
+
+
+
+
 
 
 
 
 
 }
-
