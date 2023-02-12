@@ -1,42 +1,11 @@
 #include "../inc/client.h"
 
 extern t_screen curent_screen;
+extern t_grid curent_grid;
 
-static void home_btn_clicked(GtkWidget *box) {
-    gtk_widget_unparent(box);
-    show_home();
-}
+void show_achievements() {
 
-static void settings_btn_clicked(GtkWidget *box) {
-    gtk_widget_unparent(box);
-    show_settings();
-}
 
-static void log_out_btn_clicked(GtkWidget *box) {
-    gtk_widget_unparent(box);
-    show_log_out();
-}
-
-void show_achievements(void) {
-
-    //main box
-    GtkWidget *main_grid = gtk_grid_new();
-    
-    //left box(home,settings,profile,etc..)
-    GtkWidget *main_menu_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-
-    GtkWidget *profile_avatar_btn = gtk_button_new();
-
-    GtkWidget *home_btn = gtk_button_new();
-
-    GtkWidget *chats_btn = gtk_button_new();
-
-    GtkWidget *settings_btn = gtk_button_new();
-
-    GtkWidget *achievements_btn = gtk_button_new();
-
-    GtkWidget *log_out_btn = gtk_button_new();
-    
 
 
     //achievements_box
@@ -136,7 +105,6 @@ void show_achievements(void) {
 
     GtkWidget *scrollbar = gtk_scrollbar_new(GTK_ORIENTATION_VERTICAL, NULL);
 
-
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW(scrolled_window), GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
     gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(scrolled_window), achievements_box);
     //gtk_scrolled_window_set_min_content_height(scrolled_window, 500);
@@ -152,103 +120,20 @@ void show_achievements(void) {
 
 
 
+    //attach your main box to mygrid
+    gtk_grid_attach(GTK_GRID(curent_grid.achievements), scrolled_window, 0, 0, 1, 1);
 
+    // gtk_widget_set_halign(scrolled_window, GTK_ALIGN_CENTER);
+    // gtk_widget_set_valign(scrolled_window, GTK_ALIGN_CENTER);
 
-
-
-
-
-    gtk_window_set_child(GTK_WINDOW(curent_screen.screen), main_grid);
-
-    //main_menu_box(all boxes has 1 style) init
-    gtk_grid_attach(GTK_GRID(main_grid), main_menu_box, 0, 0, 1, 1);
-
-    gtk_widget_set_halign(main_menu_box, GTK_ALIGN_CENTER);
-    gtk_widget_set_valign(main_menu_box, GTK_ALIGN_CENTER);
-
-    gtk_widget_set_margin_start(main_menu_box, 22);
-    gtk_widget_set_margin_end(main_menu_box, 1054);
-    gtk_widget_set_margin_top(main_menu_box, 47);
-    gtk_widget_set_margin_bottom(main_menu_box, 46);
-
-    gtk_widget_set_size_request(main_menu_box, 124, 667);
-
-    //
-    gtk_box_append(GTK_BOX(main_menu_box), profile_avatar_btn);
-    gtk_box_append(GTK_BOX(main_menu_box), home_btn);
-    gtk_box_append(GTK_BOX(main_menu_box), chats_btn);
-    gtk_box_append(GTK_BOX(main_menu_box), settings_btn);
-    gtk_box_append(GTK_BOX(main_menu_box), achievements_btn);
-    gtk_box_append(GTK_BOX(main_menu_box), log_out_btn);
-
-
-
-    //profile_avatar_btn
-    gtk_widget_set_margin_start(profile_avatar_btn, 29);
-    gtk_widget_set_margin_end(profile_avatar_btn, 29);
-    gtk_widget_set_margin_top(profile_avatar_btn, 35);
-
-    gtk_widget_set_size_request(profile_avatar_btn, 67, 67);
-
-    //home_btn
-    gtk_widget_set_margin_start(home_btn, 17);
-    gtk_widget_set_margin_end(home_btn, 16);
-    gtk_widget_set_margin_top(home_btn, 37);
-
-    gtk_widget_set_size_request(home_btn, 62, 62);
-
-    //chats_btn
-    gtk_widget_set_margin_start(chats_btn, 17);
-    gtk_widget_set_margin_end(chats_btn, 16);
-    gtk_widget_set_margin_top(chats_btn, 37);
-
-    gtk_widget_set_size_request(chats_btn, 62, 62);
-
-    //settings_btn
-    gtk_widget_set_margin_start(settings_btn, 17);
-    gtk_widget_set_margin_end(settings_btn, 16);
-    gtk_widget_set_margin_top(settings_btn, 37);
-
-    gtk_widget_set_size_request(settings_btn, 62, 62);
-
-    //achievements_btn
-    gtk_widget_set_margin_start(achievements_btn, 17);
-    gtk_widget_set_margin_end(achievements_btn, 16);
-    gtk_widget_set_margin_top(achievements_btn, 37);
-
-    gtk_widget_set_size_request(achievements_btn, 62, 62);
-
-    //log_out_btn
-    gtk_widget_set_margin_start(log_out_btn, 17);
-    gtk_widget_set_margin_end(log_out_btn, 16);
-    gtk_widget_set_margin_top(log_out_btn, 90);
-
-    gtk_widget_set_size_request(log_out_btn, 62, 62);
-
-    
-    //styling
-    widget_styling(main_menu_box, curent_screen, "main_box_style");
-    widget_styling(profile_avatar_btn, curent_screen, "profile_avatar_btn");
-    widget_styling(home_btn, curent_screen, "home_btn");
-    widget_styling(chats_btn, curent_screen, "chats_btn");
-    widget_styling(settings_btn, curent_screen, "settings_btn");
-    widget_styling(achievements_btn, curent_screen, "achievements_btn");
-    widget_styling(log_out_btn, curent_screen, "log_out_btn");
-
-
-
-    //achievements_box init
-    gtk_grid_attach(GTK_GRID(main_grid), scrolled_window, 0, 0, 1, 1);
-
-    gtk_widget_set_halign(scrolled_window, GTK_ALIGN_CENTER);
-    gtk_widget_set_valign(scrolled_window, GTK_ALIGN_CENTER);
-
-    gtk_widget_set_margin_start(scrolled_window, 165);
-    gtk_widget_set_margin_end(scrolled_window, 25);
-    gtk_widget_set_margin_top(scrolled_window, 46);
-    gtk_widget_set_margin_bottom(scrolled_window, 47);
+    // gtk_widget_set_margin_start(scrolled_window, 165);
+    // gtk_widget_set_margin_end(scrolled_window, 25);
+    // gtk_widget_set_margin_top(scrolled_window, 46);
+    // gtk_widget_set_margin_bottom(scrolled_window, 47);
 
     gtk_widget_set_size_request(scrolled_window, 1010, 667);
+
+
 
     //achievements_icon_btn
     gtk_box_append(GTK_BOX(achievements_box), achievements_icon_btn);
@@ -366,7 +251,7 @@ void show_achievements(void) {
 
 
     //styling
-    widget_styling(achievements_box, curent_screen, "achievements_box");
+    //widget_styling(achievements_box, curent_screen, "achievements_box");
     widget_styling(achievements_icon_btn, curent_screen, "achievements_icon_btn");
     widget_styling(achievements_label_btn, curent_screen, "achievements_label_btn");
     widget_styling(first_hbox, curent_screen, "first_hbox");
@@ -377,11 +262,19 @@ void show_achievements(void) {
 
     widget_styling(second_hbox, curent_screen, "second_hbox");
     widget_styling(loving_box, curent_screen, "achievement_card");
-    
-    
 
 
-    g_signal_connect(log_out_btn, "clicked", G_CALLBACK(log_out_btn_clicked), NULL);
-    g_signal_connect(settings_btn, "clicked", G_CALLBACK(settings_btn_clicked), NULL);
-    g_signal_connect(home_btn, "clicked", G_CALLBACK(home_btn_clicked), NULL);
+
+    //show to on screen
+    gtk_widget_set_visible(GTK_WIDGET(curent_grid.achievements), TRUE);
+
+
+
+
+
+
+
+
+
+
 }
