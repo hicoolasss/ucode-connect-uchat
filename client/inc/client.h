@@ -23,20 +23,50 @@ typedef struct
     GtkCssProvider *provider;
 } t_screen;
 
+typedef struct {
+    //containers for easier display
+    GtkWidget *main_grid;
+    GtkWidget *chats_container;
+    //container to grout searchbar ghats ang groups
+    GtkWidget *three_rows_container;
+    //all grid boxes
+    GtkWidget *left_menu_bar;
+    GtkWidget *your_profile;
+    GtkWidget *home;
+    GtkWidget *search_bar;
+    GtkWidget *mini_groups;
+    GtkWidget *mini_chats;
+
+    GtkWidget *chats;
+    GtkWidget *settings;
+    GtkWidget *achievements;
+} t_grid;
+
 
 // show login screen
 void show_login(void);
 
+void show_home(void);
 // show registration screen
 void show_registration(void);
 
 // load styles
 void loadstyles(void);
 
-void show_home(void);
 
+void set_unvisible_all(void);
+
+void show_left_menu_bar(void);
+void show_your_profile(void);
+void show_home_grid(void);
+void show_chats(void);
+void show_achievements(void);
+void show_settings(void);
 void show_log_out(void);
 
+void show_mini_groups(void);
+void show_mini_chats(void);
+void show_search_bar(void);
 
 // add style to widget
 void widget_styling(GtkWidget *widget, t_screen screen, const char *name_of_css_class);
