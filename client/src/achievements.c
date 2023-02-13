@@ -265,8 +265,6 @@ void show_achievements() {
 
 
 
-    //show to on screen
-    gtk_widget_set_visible(GTK_WIDGET(curent_grid.achievements), TRUE);
 
 
 
