@@ -11,7 +11,6 @@ void show_chats() {
     GtkWidget *chats_container_lab = gtk_label_new("chats");
 
     gtk_grid_attach(GTK_GRID(curent_grid.chats), chats_container_lab, 0, 0, 1, 1);
-    gtk_widget_set_visible(GTK_WIDGET(curent_grid.chats_container), TRUE);
 }
 
 void show_search_bar() {

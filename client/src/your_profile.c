@@ -11,5 +11,4 @@ void show_your_profile() {
     gtk_box_append(GTK_BOX(main_box), your_profile_lab);
 
     gtk_grid_attach(GTK_GRID(curent_grid.your_profile), main_box, 0, 0, 1, 1);
-    gtk_widget_set_visible(GTK_WIDGET(curent_grid.your_profile), TRUE);
 }

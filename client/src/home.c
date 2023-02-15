@@ -10,5 +10,4 @@ void show_home_grid() {
 
     gtk_box_append(GTK_BOX(main_box), home_lab);
     gtk_grid_attach(GTK_GRID(curent_grid.home), main_box, 0, 0, 1, 1);
-    gtk_widget_set_visible(GTK_WIDGET(curent_grid.home), TRUE);
 }

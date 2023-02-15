@@ -33,8 +33,13 @@ void show_home(void) {
     curent_grid.settings = create_grid(1010, 667, "grid_margins");
     curent_grid.achievements = create_grid(1010, 667, "achievements_margin");
 
-    //fill menu bar grid
+    //fill all grids
     show_left_menu_bar();
+    show_achievements();
+    show_your_profile();
+    show_home_grid();
+    show_chats();
+    show_settings();
 
     //create the structure of chat main screen
     gtk_grid_attach(GTK_GRID(curent_grid.main_grid), curent_grid.left_menu_bar, 0, 0, 1, 1);
@@ -55,9 +60,8 @@ void show_home(void) {
     //set unvisible all
     set_unvisible_all();
 
-    //by default at first show menu bar and home grid
-    show_left_menu_bar();
-    show_home_grid();
+    //by default at first show home grid
+    gtk_widget_set_visible(GTK_WIDGET(curent_grid.home), TRUE);
 
     //set main grid as a chlid to a widow
     gtk_window_set_child(GTK_WINDOW(curent_screen.screen), curent_grid.main_grid);
