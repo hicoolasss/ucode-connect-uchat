@@ -6,7 +6,9 @@ extern t_grid curent_grid;
 void show_your_profile() {
     GtkWidget *your_profile_lab = gtk_label_new("YOUR PROFILE");
 
-    GtkWidget *main_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);;
+    GtkWidget *main_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+
+    gtk_widget_set_size_request(main_box, 1010, 667);
 
     gtk_box_append(GTK_BOX(main_box), your_profile_lab);
 

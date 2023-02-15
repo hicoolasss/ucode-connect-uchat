@@ -18,27 +18,27 @@ GtkWidget *create_grid( const gint width,
 
 void show_home(void) {
     //main box
-    curent_grid.main_grid = create_grid(1140, 667, "main_grid");
+    curent_grid.main_grid = create_grid(1200, 760, "main_grid");
     curent_grid.chats_container = create_grid(1010, 667, "chats_container");
-    curent_grid.three_rows_container = create_grid(427, 667, NULL);
+    curent_grid.three_rows_container = create_grid(427, 667, "three_rows_container");
 
     //the children of the main grid
-    curent_grid.left_menu_bar = create_grid(124, 667, "grid_margins");
-    curent_grid.your_profile = create_grid(1010, 667, "grid_margins");
-    curent_grid.home = create_grid(1010, 667, "grid_margins");
-    curent_grid.search_bar = create_grid(427, 60, "main_box_style");
-    curent_grid.mini_groups = create_grid(427, 300, "main_box_style");
-    curent_grid.mini_chats = create_grid(427, 250, "main_box_style");
-    curent_grid.chats = create_grid(533, 667, "main_box_style");
-    curent_grid.settings = create_grid(1010, 667, "grid_margins");
-    curent_grid.achievements = create_grid(1010, 667, "achievements_margin");
+    curent_grid.left_menu_bar = create_grid(124, 667, "left_menu_bar");
+    curent_grid.your_profile = create_grid(1010, 667, "home");
+    curent_grid.home = create_grid(1010, 667, "home");
+    curent_grid.search_bar = create_grid(427, 59, "search_bar_box");
+    curent_grid.mini_groups = create_grid(427, 282, "mini_groups");
+    curent_grid.mini_chats = create_grid(427, 282, "main_box_style");
+    curent_grid.chats = create_grid(557, 667, "chats");
+    curent_grid.settings = create_grid(1010, 667, "home");
+    curent_grid.achievements = create_grid(1010, 667, "home");
 
     //fill all grids
     show_left_menu_bar();
+    show_chats();
     show_achievements();
     show_your_profile();
     show_home_grid();
-    show_chats();
     show_settings();
 
     //create the structure of chat main screen

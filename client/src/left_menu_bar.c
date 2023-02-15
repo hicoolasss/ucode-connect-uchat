@@ -96,6 +96,7 @@ void show_left_menu_bar() {
 
     //styling
 //    widget_styling(main_menu_box, curent_screen, "main_box_style");
+    widget_styling(curent_grid.left_menu_bar, curent_screen, "main_box_style");
     widget_styling(profile_avatar_btn, curent_screen, "profile_avatar_btn");
     widget_styling(home_btn, curent_screen, "home_btn");
     widget_styling(chats_btn, curent_screen, "chats_btn");

@@ -8,6 +8,8 @@ void show_settings() {
 
     GtkWidget *main_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);;
 
+    gtk_widget_set_size_request(main_box, 1010, 667);
+    
     gtk_box_append(GTK_BOX(main_box), settings_lab);
 
     gtk_grid_attach(GTK_GRID(curent_grid.settings), main_box, 0, 0, 1, 1);
