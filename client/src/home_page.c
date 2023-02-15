@@ -31,7 +31,7 @@ void show_home(void) {
     curent_grid.mini_chats = create_grid(427, 250, "main_box_style");
     curent_grid.chats = create_grid(533, 667, "main_box_style");
     curent_grid.settings = create_grid(1010, 667, "grid_margins");
-    curent_grid.achievements = create_grid(1010, 667, "achievements_box");
+    curent_grid.achievements = create_grid(1010, 667, "achievements_margin");
 
     //fill menu bar grid
     show_left_menu_bar();

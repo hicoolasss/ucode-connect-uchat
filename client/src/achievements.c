@@ -123,8 +123,8 @@ void show_achievements() {
     //attach your main box to mygrid
     gtk_grid_attach(GTK_GRID(curent_grid.achievements), scrolled_window, 0, 0, 1, 1);
 
-    // gtk_widget_set_halign(scrolled_window, GTK_ALIGN_CENTER);
-    // gtk_widget_set_valign(scrolled_window, GTK_ALIGN_CENTER);
+    gtk_widget_set_halign(scrolled_window, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(scrolled_window, GTK_ALIGN_CENTER);
 
     // gtk_widget_set_margin_start(scrolled_window, 165);
     // gtk_widget_set_margin_end(scrolled_window, 25);
@@ -251,7 +251,7 @@ void show_achievements() {
 
 
     //styling
-    //widget_styling(achievements_box, curent_screen, "achievements_box");
+    widget_styling(achievements_box, curent_screen, "achievements_box");
     widget_styling(achievements_icon_btn, curent_screen, "achievements_icon_btn");
     widget_styling(achievements_label_btn, curent_screen, "achievements_label_btn");
     widget_styling(first_hbox, curent_screen, "first_hbox");

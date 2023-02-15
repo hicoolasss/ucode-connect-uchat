@@ -545,8 +545,10 @@
     transform: translateY(0);
 }
 
-.achievements_box {
+.achievements_margin {
     margin: 45px 35px 28px;
+}
+.achievements_box {
     background: #171722;
     border: 1px solid rgba(122, 162, 247, 0.35);
     border-radius: 20px;
