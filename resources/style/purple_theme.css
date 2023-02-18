@@ -1,32 +1,32 @@
 /*LOG_IN and REGISTRATION START*/
 
 .background {
-    background-color: #32305f;
+    background-color: #3e3b75;
 }
 
 .auth_main_box {
-    background: #212130;
+    background: #4C498F;
     border-radius: 20px;
 }
 
 .auth_entry_field {
-    background: #434461;
+    background: #6762C2;
     border-radius: 60px;
     border-style: solid;
-    border-color: #434461;
+    border-color: #DAD3FF;
     outline: none;
     font-family: 'JetBrains Mono';
     font-style: normal;
     font-weight: 400;
     font-size: 20px;
     line-height: 26px;
-    color: #6E78A8;
+    color: #B4A8FF;
     transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
     box-shadow: 0px 0px 20px -18px;
 }
 
 .auth_entry_field:hover {
-    border: 2px solid #6E78A8;
+    border: 2px solid #DAD3FF;
     box-shadow: 0px 0px 20px -17px;
 }
 
@@ -35,7 +35,7 @@
 }
 
 .auth_entry_field:focus {
-    border: 2px solid #7AA2F7;
+    border: 2px solid #DAD3FF;
 }
 
 .auth_welcome_to_the_dark {
@@ -44,11 +44,11 @@
     font-weight: 400;
     font-size: 30px;
     line-height: 40px;
-    color: #B1BAE6;
+    color: #DAD3FF;
 }
 
 .auth_button {
-    background: #13131A;
+    background: #332F63;
     border-radius: 60px;
     outline: none;
     font-family: 'JetBrains Mono';
@@ -56,7 +56,7 @@
     font-weight: 400;
     font-size: 20px;
     line-height: 26px;
-    color: #B1BAE6;
+    color: #DAD3FF;
     transition: all 0.3s ease-in-out;
     outline-color: transparent;
     border-color: transparent;
@@ -65,12 +65,12 @@
 
 .auth_button:hover {
     transform: translateY(-4px) translateX(-2px);
-    box-shadow: 2px 5px 0 0 #565F89;
+    box-shadow: 2px 5px 0 0 #B4A8FF;
 }
 
 .auth_button:active {
     transform: translateY(2px) translateX(1px);
-    box-shadow: 0 0 0 0 #565F89;
+    box-shadow: 0 0 0 0 #B4A8FF;
 }
 
 .auth_dont_or_have_account {
@@ -79,7 +79,7 @@
     font-weight: 400;
     font-size: 15px;
     line-height: 20px;
-    color: #B1BAE6;
+    color: #DAD3FF;
 }
 
 .auth_sign_button {
@@ -88,7 +88,7 @@
     font-weight: 400;
     font-size: 15px;
     line-height: 20px;
-    color: #565F89;
+    color: #B4A8FF;
     border-color: transparent;
     background: transparent;
     text-decoration-line: underline;
@@ -101,7 +101,7 @@
     border-color: transparent;
     background: transparent;
     text-decoration-line: underline;
-    color: #0269A4;
+    color: #DAD3FF;
     outline-color: transparent;
     border-color: transparent;
     box-shadow: none;
@@ -267,10 +267,13 @@
     margin: 46px 0px 47px 0px;
 }
 
-.mini_groups {
+.mini_groups_grid {
     background: #13131A;
     border: 1px solid rgba(122, 162, 247, 0.35);
     border-radius: 20px;
+}
+.mini_groups_box {
+    margin: 10px 20px;
 }
 
 .mini_chats {
@@ -280,7 +283,7 @@
 }
 
 .chats {
-    background: #13131A;
+    background: #171722;
     border: 1px solid rgba(122, 162, 247, 0.35);
     border-radius: 20px;
 }
@@ -305,10 +308,15 @@
     filter: blur(5px);
 }
 
-.search_bar_box {
+.search_bar_grid {
     background: #13131A;
     border: 1px solid rgba(122, 162, 247, 0.35);
     border-radius: 20px;
+}
+
+.search_bar_box {
+    margin-top: 10px;
+    margin-left: 10px;
 }
 
 .search_bar_box_blurred {
@@ -340,6 +348,7 @@
 }
 
 .entry_for_search {
+    margin-left: 10px;
     font-family: 'Open Sans';
     font-style: normal;
     font-weight: 400;
@@ -354,37 +363,7 @@
     box-shadow: none;
 }
 
-.groups_label {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 30px;
-    color: rgba(122, 162, 247, 0.5);
-}
-
-.create_new_group_btn {
-    border-color: transparent;
-    background: transparent;
-    background-image: url(../../resources/images/create.png);
-    background-repeat: no-repeat;
-    background-position: center;
-    outline-color: transparent;
-    border-color: transparent;
-    box-shadow: none;
-    transition: all 0.3s ease 0s;
-    outline: none;
-}
-
-.create_new_group_btn:hover {
-    transform: translateY(-7px);
-}
-
-.create_new_group_btn:active {
-    transform: translateY(-1px);
-}
-
-.chats_label {
+.group_label {
     font-family: 'Open Sans';
     font-style: normal;
     font-weight: 400;
@@ -518,8 +497,9 @@
 /*LOG OUT END*/
 
 /*ACHIEVEMENTS START*/
-.achievements_margin {
-    margin: 45px 21px 48px 23px;
+
+.achievements_grid {
+    margin: 47px 0px 48px 0px;
 }
 .achievements_box {
     background: #171722;

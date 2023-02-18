@@ -1,7 +1,7 @@
 /*LOG_IN and REGISTRATION START*/
 
 .background {
-    background-color: blue;
+    background-color: #171722;
 }
 
 .auth_main_box {
@@ -267,10 +267,13 @@
     margin: 46px 0px 47px 0px;
 }
 
-.mini_groups {
+.mini_groups_grid {
     background: #13131A;
     border: 1px solid rgba(122, 162, 247, 0.35);
     border-radius: 20px;
+}
+.mini_groups_box {
+    margin: 10px 20px;
 }
 
 .mini_chats {
@@ -280,7 +283,7 @@
 }
 
 .chats {
-    background: #13131A;
+    background: #171722;
     border: 1px solid rgba(122, 162, 247, 0.35);
     border-radius: 20px;
 }
@@ -305,10 +308,15 @@
     filter: blur(5px);
 }
 
-.search_bar_box {
+.search_bar_grid {
     background: #13131A;
     border: 1px solid rgba(122, 162, 247, 0.35);
     border-radius: 20px;
+}
+
+.search_bar_box {
+    margin-top: 10px;
+    margin-left: 10px;
 }
 
 .search_bar_box_blurred {
@@ -340,6 +348,7 @@
 }
 
 .entry_for_search {
+    margin-left: 10px;
     font-family: 'Open Sans';
     font-style: normal;
     font-weight: 400;
@@ -354,37 +363,7 @@
     box-shadow: none;
 }
 
-.groups_label {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 30px;
-    color: rgba(122, 162, 247, 0.5);
-}
-
-.create_new_group_btn {
-    border-color: transparent;
-    background: transparent;
-    background-image: url(../../resources/images/create.png);
-    background-repeat: no-repeat;
-    background-position: center;
-    outline-color: transparent;
-    border-color: transparent;
-    box-shadow: none;
-    transition: all 0.3s ease 0s;
-    outline: none;
-}
-
-.create_new_group_btn:hover {
-    transform: translateY(-7px);
-}
-
-.create_new_group_btn:active {
-    transform: translateY(-1px);
-}
-
-.chats_label {
+.group_label {
     font-family: 'Open Sans';
     font-style: normal;
     font-weight: 400;
@@ -518,8 +497,9 @@
 /*LOG OUT END*/
 
 /*ACHIEVEMENTS START*/
-.achievements_margin {
-    margin: 45px 21px 48px 23px;
+
+.achievements_grid {
+    margin: 47px 0px 48px 0px;
 }
 .achievements_box {
     background: #171722;

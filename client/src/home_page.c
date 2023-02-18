@@ -1,7 +1,7 @@
 #include "../inc/client.h"
 
 extern t_screen curent_screen;
-t_grid curent_grid;
+extern t_grid curent_grid;
 
 void show_home(void) {
     //main box
@@ -15,12 +15,12 @@ void show_home(void) {
     curent_grid.left_menu_bar = create_grid(124, 667, "left_menu_bar");
     curent_grid.your_profile = create_grid(1010, 667, "home");
     curent_grid.home = create_grid(1010, 667, "home");
-    curent_grid.search_bar = create_grid(427, 59, "search_bar_box");
-    curent_grid.mini_groups = create_grid(427, 318, "mini_groups");
+    curent_grid.search_bar = create_grid(427, 59, "search_bar_grid");
+    curent_grid.mini_groups = create_grid(427, 318, "mini_groups_grid");
     curent_grid.mini_chats = create_grid(427, 246, "mini_chats");
     curent_grid.chats = create_grid(557, 667, "chats");
     curent_grid.settings = create_grid(1010, 667, "settings_main_grid");
-    curent_grid.achievements = create_grid(1010, 667, "home");
+    curent_grid.achievements = create_grid(1010, 667, "achievements_grid");
 
     //fill all grids
     show_left_menu_bar();
