@@ -27,6 +27,11 @@ typedef struct {
     //containers for easier display
     GtkWidget *main_grid;
     GtkWidget *chats_container;
+    //auth grids
+    GtkWidget *auth_grid;
+    GtkWidget *log_in_conrainer;
+    GtkWidget *registration_container;
+
     //container to grout searchbar ghats ang groups
     GtkWidget *three_rows_container;
     //all grid boxes
@@ -43,18 +48,23 @@ typedef struct {
 } t_grid;
 
 
-// show login screen
-void show_login(void);
+// load styles
+void loadstyles(void);
+// add style to widget
+void widget_styling(GtkWidget *widget, t_screen screen, const char *name_of_css_class);
 
-void show_home(void);
+// show login screen
+void show_auth(void);
+void show_login(void);
 // show registration screen
 void show_registration(void);
 
-// load styles
-void loadstyles(void);
+void show_home(void);
 
 
+//unvisible grids
 void set_unvisible_all(void);
+void set_unvisible_auth(void);
 
 void show_left_menu_bar(void);
 void show_your_profile(void);
@@ -68,5 +78,8 @@ void show_mini_groups(void);
 void show_mini_chats(void);
 void show_search_bar(void);
 
-// add style to widget
-void widget_styling(GtkWidget *widget, t_screen screen, const char *name_of_css_class);
+//help func to create grid with needed params
+GtkWidget *create_grid( const gint width,
+                        const gint height,
+                        const gchar *const style );
+

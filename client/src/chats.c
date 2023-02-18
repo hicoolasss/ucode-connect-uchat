@@ -9,18 +9,13 @@ void show_chats() {
     
     GtkWidget *main_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);;
 
-    gtk_widget_set_size_request(main_box, 557, 667);
+    gtk_widget_set_size_request(main_box, 553, 667);
     
     gtk_box_append(GTK_BOX(main_box), chats_container_lab);
 
     gtk_grid_attach(GTK_GRID(curent_grid.chats), main_box, 0, 0, 1, 1); 
 
     widget_styling(main_box, curent_screen, "main_box_style");
-
-    show_search_bar();
-    show_mini_groups();
-    show_mini_chats();
-    
 }
 
 void show_search_bar() {
@@ -59,9 +54,9 @@ void show_search_bar() {
     gtk_widget_set_size_request(search_btn, 24, 24);
 
     //entry_for_search
-    gtk_widget_set_margin_start(entry_for_search, 15);
-    gtk_widget_set_margin_top(entry_for_search, 15);
-    gtk_widget_set_margin_bottom(entry_for_search, 15);
+//    gtk_widget_set_margin_start(entry_for_search, 15);
+//    gtk_widget_set_margin_top(entry_for_search, 15);
+//    gtk_widget_set_margin_bottom(entry_for_search, 15);
 
     gtk_widget_set_size_request(entry_for_search, 357, 21);
 
@@ -82,13 +77,13 @@ void show_mini_chats() {
 
     GtkWidget *main_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 
-    gtk_widget_set_size_request(main_box, 427, 282);
+    gtk_widget_set_size_request(main_box, 427, 246);
     
     gtk_box_append(GTK_BOX(main_box), chats_label);
 
     gtk_grid_attach(GTK_GRID(curent_grid.mini_chats), main_box, 0, 0, 1, 1);
 
-    widget_styling(main_box, curent_screen, "chats");
+//    widget_styling(main_box, curent_screen, "chats");
 
 
 }
@@ -99,11 +94,11 @@ void show_mini_groups() {
 
     GtkWidget *main_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 
-    gtk_widget_set_size_request(main_box, 427, 282);
+    gtk_widget_set_size_request(main_box, 427, 318);
     
     gtk_box_append(GTK_BOX(main_box), groups_label);
 
     gtk_grid_attach(GTK_GRID(curent_grid.mini_groups), main_box, 0, 0, 1, 1);
 
-     widget_styling(main_box, curent_screen, "chats");
+//    widget_styling(main_box, curent_screen, "chats");
 }

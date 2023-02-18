@@ -1,10 +1,11 @@
 #include "../inc/client.h"
 
 extern t_screen curent_screen;
+extern t_grid curent_grid;
 
-static void sign_inbtn_clicked(GtkWidget *box) {
-    gtk_widget_unparent(box);
-    show_login();
+static void sign_inbtn_clicked() {
+    set_unvisible_auth();
+    gtk_widget_set_visible(GTK_WIDGET(curent_grid.log_in_conrainer), TRUE);
 }
 
 
@@ -18,11 +19,6 @@ void show_registration() {
     GtkWidget *box, *username, *password, *confirm_password;
 
     box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-    gtk_window_set_child(GTK_WINDOW(curent_screen.screen), box);
-
-    GtkStyleContext *context = gtk_widget_get_style_context(curent_screen.screen);
-    gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(curent_screen.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
-
 
     GtkWidget *welcome = gtk_label_new_with_mnemonic ("Welcome to the dark!");
 
@@ -31,6 +27,9 @@ void show_registration() {
     GtkWidget *have_account = gtk_label_new_with_mnemonic("Have account?");
 
     GtkWidget *sign_in_button = gtk_button_new_with_label("Sign in");
+
+    gtk_grid_attach(GTK_GRID(curent_grid.registration_container), box, 0, 0, 1, 1);
+
 
     gtk_widget_set_halign(box, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(box, GTK_ALIGN_CENTER);
@@ -108,14 +107,14 @@ void show_registration() {
     gtk_widget_set_size_request(sign_in_button, 63, 20);
 
 
-    widget_styling(box, curent_screen, "box");
-    widget_styling(welcome, curent_screen, "welcome_to_the_dark");
-    widget_styling(username, curent_screen, "main_entry_field");
-    widget_styling(password, curent_screen, "main_entry_field");
-    widget_styling(confirm_password, curent_screen, "main_entry_field");
-    widget_styling(sign_up_button_registration, curent_screen, "sign_up_button_registration");
-    widget_styling(sign_in_button, curent_screen, "sign_in_button");
-    widget_styling(have_account, curent_screen, "have_account");
+    widget_styling(box, curent_screen, "auth_main_box");
+    widget_styling(welcome, curent_screen, "auth_welcome_to_the_dark");
+    widget_styling(username, curent_screen, "auth_entry_field");
+    widget_styling(password, curent_screen, "auth_entry_field");
+    widget_styling(confirm_password, curent_screen, "auth_entry_field");
+    widget_styling(sign_up_button_registration, curent_screen, "auth_button");
+    widget_styling(sign_in_button, curent_screen, "auth_sign_button");
+    widget_styling(have_account, curent_screen, "auth_dont_or_have_account");
 
     g_signal_connect(sign_in_button, "clicked", G_CALLBACK(sign_inbtn_clicked), NULL);
     g_signal_connect(sign_up_button_registration, "clicked", G_CALLBACK(sign_up_btn_clicked), NULL);

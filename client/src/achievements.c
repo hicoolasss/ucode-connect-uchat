@@ -45,7 +45,7 @@ void show_achievements() {
 
     //second box
     GtkWidget *explorer_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-    
+
 
     GtkWidget *explorer_label = gtk_label_new("Explorer");
 
@@ -54,7 +54,7 @@ void show_achievements() {
     //third box
     GtkWidget *fickle_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
-    
+
     GtkWidget *fickle_label = gtk_label_new("Fickle");
 
     GtkWidget *fickle_desc_label = gtk_label_new("Change your avatar");
@@ -62,7 +62,7 @@ void show_achievements() {
     //fourth box
     GtkWidget *argument_with_a_women_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
-    
+
     GtkWidget *argument_with_a_women_label = gtk_label_new("Argument with a women");
 
     GtkWidget *argument_with_a_women_desc_label = gtk_label_new("Write 5000 messages");
@@ -70,7 +70,7 @@ void show_achievements() {
     //fifth box
     GtkWidget *loving_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
-    
+
     GtkWidget *loving_label = gtk_label_new("Loving");
 
     GtkWidget *loving_desc_label = gtk_label_new("Confess your love");
@@ -78,7 +78,7 @@ void show_achievements() {
     //6th box
     GtkWidget *vicious_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
-    
+
     GtkWidget *vicious_label = gtk_label_new("vicious");
 
     GtkWidget *vicious_desc_label = gtk_label_new("Block someone");
@@ -86,7 +86,7 @@ void show_achievements() {
     //7th box
     GtkWidget *smart_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
-    
+
     GtkWidget *smart_label = gtk_label_new("Loving");
 
     GtkWidget *smart_desc_label = gtk_label_new("Press achievements button");
@@ -95,7 +95,7 @@ void show_achievements() {
     //8th box
     GtkWidget *mission_impossible_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
-    
+
     GtkWidget *mission_impossible_label = gtk_label_new("mission_impossible");
 
     GtkWidget *mission_impossible_desc_label = gtk_label_new("Complete all achievements");

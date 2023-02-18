@@ -4,7 +4,7 @@ extern t_screen curent_screen;
 
 static void yes_btn_clicked(GtkWidget *box) {
     gtk_widget_unparent(box);
-    show_login();
+    show_auth();
 }
 
 static void no_btn_clicked(GtkWidget *box) {
