@@ -27,6 +27,8 @@ GtkWidget *create_color_circle(const gchar *const style) {
 }
 
 void show_settings() {
+    GtkWidget *settings_grid_help = create_grid(470, 629, "settings_grid_help");
+    GtkWidget *settings_grid_for_ico = create_grid(201, 201, "settings_grid_for_ico");
     GtkWidget *settings_grid_with_ico = create_grid(200, 200, "settings_grid_with_ico");
     GtkWidget *settings_grid_with_lab = create_grid(160, 35, "settings_grid_with_lab");
     GtkWidget *settings_grid_with_body = create_grid(470, 340, "settings_grid_with_body");
@@ -38,9 +40,12 @@ void show_settings() {
     GtkWidget *settings_second_scheme_btn = create_color_circle("settings_second_scheme_btn");
     GtkWidget *settings_third_scheme_btn = create_color_circle("settings_third_scheme_btn");
 
-    gtk_grid_attach(GTK_GRID(curent_grid.settings), settings_grid_with_ico, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(curent_grid.settings), settings_grid_with_lab, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(curent_grid.settings), settings_grid_with_body, 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(curent_grid.settings), settings_grid_help, 0, 0, 1, 1);
+    gtk_grid_set_row_spacing(GTK_GRID(settings_grid_help), 19);
+    gtk_grid_attach(GTK_GRID(settings_grid_help), settings_grid_for_ico, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(settings_grid_for_ico), settings_grid_with_ico, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(settings_grid_help), settings_grid_with_lab, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(settings_grid_help), settings_grid_with_body, 0, 2, 1, 1);
 
     widget_styling(settings_lab, curent_screen, "settings_lab");
 

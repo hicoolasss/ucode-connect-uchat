@@ -1,7 +1,7 @@
 /*LOG_IN and REGISTRATION START*/
 
 .background {
-    background-color: mediumpurple;
+    background-color: #32305f;
 }
 
 .auth_main_box {
@@ -124,6 +124,9 @@
 /*LEFT MENU BAR START*/
 .left_menu_bar {
     margin: 46px 22px 47px 23px;
+    background: #13131A;
+    border: 1px solid rgba(122, 162, 247, 0.35);
+    border-radius: 20px;
 }
 
 .profile_avatar_btn {
@@ -261,28 +264,22 @@
 
 /*CHATS CONTAINER START*/
 .chats_container {
-    margin: 46px 22px 47px 0px;
+    margin: 46px 0px 47px 0px;
 }
 
 .mini_groups {
-    margin: 22px 0px;
     background: #13131A;
     border: 1px solid rgba(122, 162, 247, 0.35);
     border-radius: 20px;
 }
 
 .mini_chats {
-    /*margin: 0px 0px 0px 0px;*/
     background: #13131A;
     border: 1px solid rgba(122, 162, 247, 0.35);
     border-radius: 20px;
 }
 
 .chats {
-    /*margin: 0px 0px 0px 0px;*/
-}
-
-.main_box_style {
     background: #13131A;
     border: 1px solid rgba(122, 162, 247, 0.35);
     border-radius: 20px;
@@ -606,12 +603,21 @@
     border-radius: 20px;
 }
 
+.settings_grid_help {
+    margin: 29px 268px 18px 268px;
+}
+
+.settings_grid_for_ico {
+    margin: 0px 138px;
+    border-radius: 50%;
+    border: 1px solid rgba(122, 162, 247, 0.35);
+    background: none;
+}
+
 .settings_grid_with_ico {
     border-radius: 50%;
-    border-color: #0269A4;
-    background: none;
     background-repeat: no-repeat;
-    background-image: url(../../resources/images/achievements_icon_btn.png);
+    background-image: url(../../resources/images/settings_btn.png);
     background-color: transparent;
     background-position: center;
     outline-color: transparent;
@@ -619,14 +625,13 @@
 }
 
 .settings_grid_with_lab {
+    margin: 0px 157px;
     background: #171717;
-    margin: 0px 425px 20px 425px;
     border-radius: 15px;
 }
 
 .settings_lab {
     margin: 5px 55px;
-    color: #B1BAE6;
     color: #B1BAE6;
     font-family: 'Open Sans';
     font-weight: 400;
@@ -636,7 +641,6 @@
 
 .settings_grid_with_body {
     border: 1px solid rgba(122, 162, 247, 0.35);
-    margin: 0px 268px 28px 268px;
     background: #13131A;
     border-radius: 20px;
 }
@@ -659,7 +663,7 @@
     margin: 10px 10.625px 10px 10.625px;
     border-radius: 50%;
     border: 1px solid rgba(122, 162, 247, 0.35);
-    background: mediumpurple;
+    background: #32305f;
 }
 
 .settings_third_scheme_btn {

@@ -5,7 +5,7 @@ t_grid curent_grid;
 
 void show_home(void) {
     //main box
-    curent_grid.main_grid = create_grid(1200, 760, "main_grid");
+    curent_grid.main_grid = create_grid(1200, 760, NULL);
 
     //help containers
     curent_grid.chats_container = create_grid(1010, 667, "chats_container");
@@ -17,7 +17,7 @@ void show_home(void) {
     curent_grid.home = create_grid(1010, 667, "home");
     curent_grid.search_bar = create_grid(427, 59, "search_bar_box");
     curent_grid.mini_groups = create_grid(427, 318, "mini_groups");
-    curent_grid.mini_chats = create_grid(427, 246, "main_box_style");
+    curent_grid.mini_chats = create_grid(427, 246, "mini_chats");
     curent_grid.chats = create_grid(557, 667, "chats");
     curent_grid.settings = create_grid(1010, 667, "settings_main_grid");
     curent_grid.achievements = create_grid(1010, 667, "home");
@@ -38,9 +38,11 @@ void show_home(void) {
 
     gtk_grid_attach(GTK_GRID(curent_grid.main_grid), curent_grid.chats_container, 1, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(curent_grid.chats_container), curent_grid.three_rows_container, 0, 0, 1, 1);
+    gtk_grid_set_row_spacing(GTK_GRID(curent_grid.three_rows_container), 23);
     gtk_grid_attach(GTK_GRID(curent_grid.three_rows_container), curent_grid.search_bar, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(curent_grid.three_rows_container), curent_grid.mini_groups, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(curent_grid.three_rows_container), curent_grid.mini_chats, 0, 2, 1, 1);
+    gtk_grid_set_column_spacing(GTK_GRID(curent_grid.chats_container), 26);
     gtk_grid_attach(GTK_GRID(curent_grid.chats_container), curent_grid.chats, 1, 0, 1, 1);
 
     gtk_grid_attach(GTK_GRID(curent_grid.main_grid), curent_grid.your_profile, 1, 0, 1, 1);
