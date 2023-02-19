@@ -9,9 +9,10 @@ static void sign_inbtn_clicked() {
 }
 
 
-static void sign_up_btn_clicked(GtkWidget *box) {
-    gtk_widget_unparent(box);
-    show_home();
+static void sign_up_btn_clicked() {
+    //we can log in after registration
+    set_unvisible_auth();
+    gtk_widget_set_visible(GTK_WIDGET(curent_grid.log_in_conrainer), TRUE);
 }
 
 void show_registration() {

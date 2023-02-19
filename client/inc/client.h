@@ -40,7 +40,12 @@ typedef struct {
     GtkWidget *home;
     GtkWidget *search_bar;
     GtkWidget *mini_groups;
+
     GtkWidget *mini_chats;
+    //chats list
+    GtkWidget *chats_list_grid_child;
+    //count num of chats in chats list
+    int chat_pos_count;
 
     GtkWidget *chats;
     GtkWidget *settings;
