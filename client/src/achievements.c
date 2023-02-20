@@ -3,6 +3,20 @@
 extern t_screen curent_screen;
 extern t_grid curent_grid;
 
+// void init_achievement_card(GtkWidget *box, GtkWidget *card, int width, int height, int start) {
+    
+//     gtk_box_append(GTK_BOX(box), card);
+
+//     gtk_widget_set_halign(card, GTK_ALIGN_CENTER);
+//     gtk_widget_set_valign(card, GTK_ALIGN_CENTER);
+
+//     gtk_widget_set_margin_start(card, start);
+//     gtk_widget_set_margin_top(card, 0);
+//     gtk_widget_set_margin_bottom(card, 0);
+
+//     gtk_widget_set_size_request(card, width, height);
+// }
+
 void show_achievements() {
 
 
@@ -22,17 +36,21 @@ void show_achievements() {
     GtkWidget *achievements_label_btn = gtk_button_new_with_label("Achievements");
 
     //completed and not completed yet buttons
-    GtkWidget *complete_btn_0 = gtk_button_new();
+    GtkWidget *btn_0 = gtk_button_new();
 
-    GtkWidget *complete_btn_1 = gtk_button_new();
+    GtkWidget *btn_1 = gtk_button_new();
     
-    GtkWidget *complete_btn_2 = gtk_button_new();
+    GtkWidget *btn_2 = gtk_button_new();
 
-    GtkWidget *unfinished_btn_0 = gtk_button_new();
+    GtkWidget *btn_3 = gtk_button_new();
 
-    GtkWidget *unfinished_btn_1 = gtk_button_new();
+    GtkWidget *btn_4 = gtk_button_new();
 
-    GtkWidget *unfinished_btn_2 = gtk_button_new();
+    GtkWidget *btn_5 = gtk_button_new();
+
+    GtkWidget *btn_6 = gtk_button_new();
+
+    GtkWidget *btn_7 = gtk_button_new();
 
     //first box
     GtkWidget *first_step_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
@@ -79,7 +97,7 @@ void show_achievements() {
     GtkWidget *vicious_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
 
-    GtkWidget *vicious_label = gtk_label_new("vicious");
+    GtkWidget *vicious_label = gtk_label_new("Vicious");
 
     GtkWidget *vicious_desc_label = gtk_label_new("Block someone");
 
@@ -87,7 +105,7 @@ void show_achievements() {
     GtkWidget *smart_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
 
-    GtkWidget *smart_label = gtk_label_new("Loving");
+    GtkWidget *smart_label = gtk_label_new("Smart");
 
     GtkWidget *smart_desc_label = gtk_label_new("Press achievements button");
 
@@ -96,7 +114,7 @@ void show_achievements() {
     GtkWidget *mission_impossible_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
 
-    GtkWidget *mission_impossible_label = gtk_label_new("mission_impossible");
+    GtkWidget *mission_impossible_label = gtk_label_new("Mission impossible");
 
     GtkWidget *mission_impossible_desc_label = gtk_label_new("Complete all achievements");
 
@@ -158,9 +176,6 @@ void show_achievements() {
     //first_hbox
     gtk_box_append(GTK_BOX(achievements_box), first_hbox);
 
-    gtk_widget_set_halign(first_hbox, GTK_ALIGN_CENTER);
-    gtk_widget_set_valign(first_hbox, GTK_ALIGN_CENTER);
-
     gtk_widget_set_margin_start(first_hbox, 0);
     gtk_widget_set_margin_end(first_hbox, 0);
     gtk_widget_set_margin_top(first_hbox, 32);
@@ -170,14 +185,44 @@ void show_achievements() {
     //first_step_box
     gtk_box_append(GTK_BOX(first_hbox), first_step_box);
 
-    gtk_widget_set_halign(first_step_box, GTK_ALIGN_CENTER);
-    gtk_widget_set_valign(first_step_box, GTK_ALIGN_CENTER);
-
     gtk_widget_set_margin_start(first_step_box, 17);
     gtk_widget_set_margin_top(first_step_box, 0);
     gtk_widget_set_margin_bottom(first_step_box, 0);
 
     gtk_widget_set_size_request(first_step_box, 190, 254);
+
+    //label
+    gtk_widget_set_halign(first_step_label, GTK_ALIGN_CENTER);
+
+    gtk_box_append(GTK_BOX(first_step_box), first_step_label);
+
+    gtk_widget_set_margin_top(first_step_label, 46);
+
+    
+    //desc
+    gtk_widget_set_halign(first_step_desc_label, GTK_ALIGN_CENTER);
+
+    gtk_box_append(GTK_BOX(first_step_box), first_step_desc_label);
+
+    gtk_widget_set_margin_top(first_step_desc_label, 35);
+
+
+    //btn
+    gtk_widget_set_halign(btn_0, GTK_ALIGN_CENTER);
+
+    gtk_box_append(GTK_BOX(first_step_box), btn_0);
+
+    gtk_widget_set_margin_top(btn_0, 35);
+
+    gtk_widget_set_size_request(btn_0, 50, 50);
+
+
+
+
+
+
+
+
 
 
     //explorer_box
@@ -193,6 +238,32 @@ void show_achievements() {
     gtk_widget_set_size_request(explorer_box, 190, 254);
 
 
+    //label
+    gtk_widget_set_halign(explorer_label, GTK_ALIGN_CENTER);
+
+    gtk_box_append(GTK_BOX(explorer_box), explorer_label);
+
+    gtk_widget_set_margin_top(explorer_label, 46);
+
+    
+    //desc
+    gtk_widget_set_halign(explorer_desc_label, GTK_ALIGN_CENTER);
+
+    gtk_box_append(GTK_BOX(explorer_box), explorer_desc_label);
+
+    gtk_widget_set_margin_top(explorer_desc_label, 35);
+
+
+    //btn
+    gtk_widget_set_halign(btn_1, GTK_ALIGN_CENTER);
+
+    gtk_box_append(GTK_BOX(explorer_box), btn_1);
+
+    gtk_widget_set_margin_top(btn_1, 35);
+
+    gtk_widget_set_size_request(btn_1, 50, 50);
+
+
     //fickle_box
     gtk_box_append(GTK_BOX(first_hbox), fickle_box);
 
@@ -204,6 +275,31 @@ void show_achievements() {
     gtk_widget_set_margin_bottom(fickle_box, 0);
 
     gtk_widget_set_size_request(fickle_box, 190, 254);
+
+    //label
+    gtk_widget_set_halign(fickle_label, GTK_ALIGN_CENTER);
+
+    gtk_box_append(GTK_BOX(fickle_box), fickle_label);
+
+    gtk_widget_set_margin_top(fickle_label, 46);
+
+    
+    //desc
+    gtk_widget_set_halign(fickle_desc_label, GTK_ALIGN_CENTER);
+    
+    gtk_box_append(GTK_BOX(fickle_box), fickle_desc_label);
+
+    gtk_widget_set_margin_top(fickle_desc_label, 35);
+
+
+    //btn
+    gtk_widget_set_halign(btn_2, GTK_ALIGN_CENTER);
+     
+    gtk_box_append(GTK_BOX(fickle_box), btn_2);
+
+    gtk_widget_set_margin_top(btn_2, 35);
+
+    gtk_widget_set_size_request(btn_2, 50, 50);
 
 
     //argument_with_a_women_box
@@ -217,6 +313,31 @@ void show_achievements() {
     gtk_widget_set_margin_bottom(argument_with_a_women_box, 0);
 
     gtk_widget_set_size_request(argument_with_a_women_box, 190, 254);
+
+    //label
+    gtk_widget_set_halign(argument_with_a_women_label, GTK_ALIGN_CENTER);
+
+    gtk_box_append(GTK_BOX(argument_with_a_women_box), argument_with_a_women_label);
+
+    gtk_widget_set_margin_top(argument_with_a_women_label, 46);
+
+    
+    //desc
+    gtk_widget_set_halign(argument_with_a_women_desc_label, GTK_ALIGN_CENTER);
+    
+    gtk_box_append(GTK_BOX(argument_with_a_women_box), argument_with_a_women_desc_label);
+
+    gtk_widget_set_margin_top(argument_with_a_women_desc_label, 35);
+
+
+    //btn
+    gtk_widget_set_halign(btn_3, GTK_ALIGN_CENTER);
+     
+    gtk_box_append(GTK_BOX(argument_with_a_women_box), btn_3);
+
+    gtk_widget_set_margin_top(btn_3, 35);
+
+    gtk_widget_set_size_request(btn_3, 50, 50);
 
 
     //second_hbox
@@ -232,17 +353,157 @@ void show_achievements() {
 
     gtk_widget_set_size_request(second_hbox, 1010, 254);
 
-    //argument_with_a_women_box
+    //loving_box
     gtk_box_append(GTK_BOX(second_hbox), loving_box);
 
     gtk_widget_set_halign(loving_box, GTK_ALIGN_CENTER);
-    gtk_widget_set_valign(loving_box, GTK_ALIGN_CENTER);
 
     gtk_widget_set_margin_start(loving_box, 17);
     gtk_widget_set_margin_top(loving_box, 0);
     gtk_widget_set_margin_bottom(loving_box, 0);
 
     gtk_widget_set_size_request(loving_box, 190, 254);
+
+    //label
+    gtk_widget_set_halign(loving_label, GTK_ALIGN_CENTER);
+
+    gtk_box_append(GTK_BOX(loving_box), loving_label);
+
+    gtk_widget_set_margin_top(loving_label, 46);
+
+    
+    //desc
+    gtk_widget_set_halign(loving_desc_label, GTK_ALIGN_CENTER);
+    
+    gtk_box_append(GTK_BOX(loving_box), loving_desc_label);
+
+    gtk_widget_set_margin_top(loving_desc_label, 35);
+
+
+    //btn
+    gtk_widget_set_halign(btn_4, GTK_ALIGN_CENTER);
+     
+    gtk_box_append(GTK_BOX(loving_box), btn_4);
+
+    gtk_widget_set_margin_top(btn_4, 35);
+
+    gtk_widget_set_size_request(btn_4, 50, 50);
+
+     
+    //vicious_box
+    gtk_box_append(GTK_BOX(second_hbox), vicious_box);
+
+    gtk_widget_set_halign(vicious_box, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(vicious_box, GTK_ALIGN_CENTER);
+
+    gtk_widget_set_margin_start(vicious_box, 72);
+    gtk_widget_set_margin_top(vicious_box, 0);
+    gtk_widget_set_margin_bottom(vicious_box, 0);
+
+    gtk_widget_set_size_request(vicious_box, 190, 254);
+
+
+    //label
+    gtk_widget_set_halign(vicious_label, GTK_ALIGN_CENTER);
+
+    gtk_box_append(GTK_BOX(vicious_box), vicious_label);
+
+    gtk_widget_set_margin_top(vicious_label, 46);
+
+    
+    //desc
+    gtk_widget_set_halign(vicious_desc_label, GTK_ALIGN_CENTER);
+    
+    gtk_box_append(GTK_BOX(vicious_box), vicious_desc_label);
+
+    gtk_widget_set_margin_top(vicious_desc_label, 35);
+
+
+    //btn
+    gtk_widget_set_halign(btn_5, GTK_ALIGN_CENTER);
+     
+    gtk_box_append(GTK_BOX(vicious_box), btn_5);
+
+    gtk_widget_set_margin_top(btn_5, 35);
+
+    gtk_widget_set_size_request(btn_5, 50, 50);
+
+
+
+    //smart_box
+    gtk_box_append(GTK_BOX(second_hbox), smart_box);
+
+    gtk_widget_set_halign(smart_box, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(smart_box, GTK_ALIGN_CENTER);
+
+    gtk_widget_set_margin_start(smart_box, 72);
+    gtk_widget_set_margin_top(smart_box, 0);
+    gtk_widget_set_margin_bottom(smart_box, 0);
+
+    gtk_widget_set_size_request(smart_box, 190, 254);
+
+    //label
+    gtk_widget_set_halign(smart_label, GTK_ALIGN_CENTER);
+
+    gtk_box_append(GTK_BOX(smart_box), smart_label);
+
+    gtk_widget_set_margin_top(smart_label, 46);
+
+    
+    //desc
+    gtk_widget_set_halign(smart_desc_label, GTK_ALIGN_CENTER);
+    
+    gtk_box_append(GTK_BOX(smart_box), smart_desc_label);
+
+    gtk_widget_set_margin_top(smart_desc_label, 35);
+
+
+    //btn
+    gtk_widget_set_halign(btn_6, GTK_ALIGN_CENTER);
+     
+    gtk_box_append(GTK_BOX(smart_box), btn_6);
+
+    gtk_widget_set_margin_top(btn_6, 35);
+
+    gtk_widget_set_size_request(btn_6, 50, 50);
+
+    //mission_impossible_box
+    gtk_box_append(GTK_BOX(second_hbox), mission_impossible_box);
+
+    gtk_widget_set_halign(mission_impossible_box, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(mission_impossible_box, GTK_ALIGN_CENTER);
+
+    gtk_widget_set_margin_start(mission_impossible_box, 72);
+    gtk_widget_set_margin_top(mission_impossible_box, 0);
+    gtk_widget_set_margin_bottom(mission_impossible_box, 0);
+
+    gtk_widget_set_size_request(mission_impossible_box, 190, 254);
+
+    //label
+    gtk_widget_set_halign(mission_impossible_label, GTK_ALIGN_CENTER);
+
+    gtk_box_append(GTK_BOX(mission_impossible_box), mission_impossible_label);
+
+    gtk_widget_set_margin_top(mission_impossible_label, 46);
+
+    
+    //desc
+    gtk_widget_set_halign(mission_impossible_desc_label, GTK_ALIGN_CENTER);
+    
+    gtk_box_append(GTK_BOX(mission_impossible_box), mission_impossible_desc_label);
+
+    gtk_widget_set_margin_top(mission_impossible_desc_label, 35);
+
+
+    //btn
+    gtk_widget_set_halign(btn_7, GTK_ALIGN_CENTER);
+     
+    gtk_box_append(GTK_BOX(mission_impossible_box), btn_7);
+
+    gtk_widget_set_margin_top(btn_7, 35);
+
+    gtk_widget_set_size_request(btn_7, 50, 50);
+
 
 
 
@@ -254,11 +515,90 @@ void show_achievements() {
     widget_styling(achievements_box, curent_screen, "achievements_box");
     widget_styling(achievements_icon_btn, curent_screen, "achievements_icon_btn");
     widget_styling(achievements_label_btn, curent_screen, "achievements_label_btn");
+    
     widget_styling(first_hbox, curent_screen, "first_hbox");
+    
     widget_styling(first_step_box, curent_screen, "achievement_card");
+    widget_styling(first_step_label, curent_screen, "achievement_label_text");
+    widget_styling(first_step_desc_label, curent_screen, "achievement_desc_text");
+
+    //if () {
+    widget_styling(btn_0, curent_screen, "complete_btn");
+    //} else {
+        //widget_styling(btn_0, curent_screen, "unfinished_btn");
+    //}
+
     widget_styling(explorer_box, curent_screen, "achievement_card");
+    widget_styling(explorer_label, curent_screen, "achievement_label_text");
+    widget_styling(explorer_desc_label, curent_screen, "achievement_desc_text");
+
+     //if () {
+    widget_styling(btn_1, curent_screen, "complete_btn");
+    //} else {
+        //widget_styling(btn_1, curent_screen, "unfinished_btn");
+    //}
+
     widget_styling(fickle_box, curent_screen, "achievement_card");
+    widget_styling(fickle_label, curent_screen, "achievement_label_text");
+    widget_styling(fickle_desc_label, curent_screen, "achievement_desc_text");
+
+     //if () {
+    widget_styling(btn_2, curent_screen, "complete_btn");
+    //} else {
+        //widget_styling(btn_2, curent_screen, "unfinished_btn");
+    //}
+
+
     widget_styling(argument_with_a_women_box, curent_screen, "achievement_card");
+    widget_styling(argument_with_a_women_label, curent_screen, "achievement_label_text");
+    widget_styling(argument_with_a_women_desc_label, curent_screen, "achievement_desc_text");
+
+     //if () {
+    widget_styling(btn_3, curent_screen, "complete_btn");
+    //} else {
+        //widget_styling(btn_3, curent_screen, "unfinished_btn");
+    //}
+
+    widget_styling(loving_box, curent_screen, "achievement_card");
+    widget_styling(loving_label, curent_screen, "achievement_label_text");
+    widget_styling(loving_desc_label, curent_screen, "achievement_desc_text");
+
+     //if () {
+    widget_styling(btn_4, curent_screen, "complete_btn");
+    //} else {
+        //widget_styling(btn_4, curent_screen, "unfinished_btn");
+    //}
+
+    widget_styling(vicious_box, curent_screen, "achievement_card");
+    widget_styling(vicious_label, curent_screen, "achievement_label_text");
+    widget_styling(vicious_desc_label, curent_screen, "achievement_desc_text");
+
+    //if () {
+    widget_styling(btn_5, curent_screen, "complete_btn");
+    //} else {
+        //widget_styling(btn_5, curent_screen, "unfinished_btn");
+    //}
+
+
+    widget_styling(smart_box, curent_screen, "achievement_card");
+    widget_styling(smart_label, curent_screen, "achievement_label_text");
+    widget_styling(smart_desc_label, curent_screen, "achievement_desc_text");
+
+    //if () {
+    widget_styling(btn_6, curent_screen, "complete_btn");
+    //} else {
+        //widget_styling(btn_6, curent_screen, "unfinished_btn");
+    //}
+
+    widget_styling(mission_impossible_box, curent_screen, "achievement_card");
+    widget_styling(mission_impossible_label, curent_screen, "achievement_label_text");
+    widget_styling(mission_impossible_desc_label, curent_screen, "achievement_desc_text");
+
+    //if () {
+    //widget_styling(btn_7, curent_screen, "complete_btn");
+    //} else {
+        widget_styling(btn_7, curent_screen, "unfinished_btn");
+    //}
 
     widget_styling(second_hbox, curent_screen, "second_hbox");
     widget_styling(loving_box, curent_screen, "achievement_card");

@@ -606,6 +606,52 @@
     transform: scale(1.05);
 }
 
+.achievement_label_text {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 24px;
+    /* identical to box height */
+
+    color: #E6E6FA;
+}
+
+.achievement_desc_text {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+    /* identical to box height */
+
+
+    color: #dfa5ff;
+}
+
+.complete_btn {
+    border-color: transparent;
+    background: none;
+    background-repeat: no-repeat;
+    background-image: url(../../resources/images/complete_btn.png);
+    background-color: transparent;
+    background-position: center;
+    outline-color: transparent;
+    box-shadow: none;
+}
+
+.unfinished_btn {
+    border-color: transparent;
+    background: none;
+    background-repeat: no-repeat;
+    background-image: url(../../resources/images/unfinished_btn.png);
+    background-color: transparent;
+    background-position: center;
+    outline-color: transparent;
+    box-shadow: none;
+
+}
+
 .second_hbox {
     background: #281437;
 }
