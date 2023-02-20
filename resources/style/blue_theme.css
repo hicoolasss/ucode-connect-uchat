@@ -623,14 +623,15 @@
 .settings_grid_for_ico {
     margin: 0px 138px;
     border-radius: 50%;
-    border: 1px solid rgba(122, 162, 247, 0.35);
+    border: 2px solid #7AA2F7;
     background: none;
 }
 
 .settings_grid_with_ico {
     border-radius: 50%;
+    background: none;
     background-repeat: no-repeat;
-    background-image: url(../../resources/images/settings_btn.png);
+    background-image: url(../../resources/images/settings_icon_btn.png);
     background-color: transparent;
     background-position: center;
     outline-color: transparent;

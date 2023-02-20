@@ -27,6 +27,7 @@ GtkWidget *create_color_circle(const gchar *const style) {
 }
 
 void show_settings() {
+    
     GtkWidget *settings_grid_help = create_grid(470, 629, "settings_grid_help");
     GtkWidget *settings_grid_for_ico = create_grid(201, 201, "settings_grid_for_ico");
     GtkWidget *settings_grid_with_ico = create_grid(200, 200, "settings_grid_with_ico");
