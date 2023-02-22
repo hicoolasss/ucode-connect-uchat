@@ -1,6 +1,3 @@
-#ifndef M_PI
-    #define M_PI 3.14159265358979323846
-#endif
 #include <gtk/gtk.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -13,8 +10,6 @@
 #include <pthread.h>
 #include <sys/types.h>
 #include <signal.h>
-#include <cairo.h>
-#include <gdk/gdk.h>
 #include "../../libs/libmx/inc/libmx.h"
 
 #define MAX_CLIENTS 100
@@ -43,7 +38,10 @@ typedef struct {
     GtkWidget *left_menu_bar;
     GtkWidget *your_profile;
     GtkWidget *home;
+
     GtkWidget *search_bar;
+    GtkWidget *entry_for_search;
+
     GtkWidget *mini_groups;
 
     GtkWidget *mini_chats;
@@ -56,8 +54,6 @@ typedef struct {
     GtkWidget *settings;
     GtkWidget *achievements;
 } t_grid;
-
-
 
 
 // load styles
@@ -90,8 +86,18 @@ void show_mini_groups(void);
 void show_mini_chats(void);
 void show_search_bar(void);
 
+//function to create new chat and
+//add it to mini chat grid.
+//As a parametr get number of existed chats,
+// so it can attach it to grit in a right way
+void create_new_chat(const int i,
+                     const char *new_username);
+
 //help func to create grid with needed params
 GtkWidget *create_grid( const gint width,
                         const gint height,
-                        const gchar *const style );
+                        const char *style );
+
+void call_new_chat_and_add_iter(const char *new_username);
+void search_btn_clicked(void);
 

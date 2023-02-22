@@ -534,6 +534,33 @@
 
 /*LOG OUT END*/
 
+/*YOUR PROFILE START*/
+
+.profile_help_box {
+    margin: 18px 268px 24px 268px;
+}
+
+.profile_grid_for_img {
+    border: 1px solid rgba(122, 162, 247, 0.35);
+    border-radius: 50%;
+    margin-right: 138px;
+    margin-left: 138px;
+}
+
+.profile_grid_scale {
+    background: #171722;
+    border-radius: 20px;
+    margin-right: 114px;
+    margin-left: 114px;
+}
+
+.profile_grid_body {
+    border: 1px solid rgba(122, 162, 247, 0.35);
+    border-radius: 20px;
+}
+
+/*YOUR PROFILE END*/
+
 /*ACHIEVEMENTS START*/
 
 .achievements_grid {
@@ -666,14 +693,14 @@
 /*SETTINGS START*/
 
 .settings_main_grid {
-    margin: 46px 0px 47px 0px;
+    margin: 46px 0px 45px 0px;
     background: #171722;
     border: 1px solid rgba(122, 162, 247, 0.35);
     border-radius: 20px;
 }
 
 .settings_grid_help {
-    margin: 29px 266px 18px 266px;
+    margin: 29px 265px 18px 265px;
 }
 
 .settings_grid_for_ico {
