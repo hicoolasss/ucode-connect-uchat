@@ -17,6 +17,14 @@ extern t_grid curent_grid;
 //     gtk_widget_set_size_request(card, width, height);
 // }
 
+static void scrolled_window_styling(GtkWidget *widget, t_screen screen, const char *name_of_css_class) {
+	
+	GtkStyleContext *context = gtk_widget_get_style_context(widget);
+
+    gtk_style_context_add_class(context, name_of_css_class);
+    gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(screen.provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+}
+
 void show_achievements() {
 
 
@@ -121,7 +129,7 @@ void show_achievements() {
     //scrolled_window
     GtkWidget *scrolled_window = gtk_scrolled_window_new();
 
-    GtkWidget *scrollbar = gtk_scrollbar_new(GTK_ORIENTATION_VERTICAL, NULL);
+    //GtkWidget *scrollbar = gtk_scrollbar_new(GTK_ORIENTATION_VERTICAL, NULL);
 
     gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW(scrolled_window), GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
     gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(scrolled_window), achievements_box);
@@ -150,6 +158,9 @@ void show_achievements() {
     // gtk_widget_set_margin_bottom(scrolled_window, 47);
 
     gtk_widget_set_size_request(scrolled_window, 1010, 667);
+
+    GtkWidget *scrollbar = gtk_scrolled_window_get_vscrollbar(GTK_SCROLLED_WINDOW(scrolled_window));
+
 
 
 
@@ -513,6 +524,7 @@ void show_achievements() {
 
     //styling
     widget_styling(achievements_box, curent_screen, "achievements_box");
+    scrolled_window_styling(scrollbar, curent_screen, "scrollbar");
     widget_styling(achievements_icon_btn, curent_screen, "achievements_icon_btn");
     widget_styling(achievements_label_btn, curent_screen, "achievements_label_btn");
     

@@ -1,3 +1,6 @@
+#ifndef M_PI
+    #define M_PI 3.14159265358979323846
+#endif
 #include <gtk/gtk.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -10,6 +13,8 @@
 #include <pthread.h>
 #include <sys/types.h>
 #include <signal.h>
+#include <cairo.h>
+#include <gdk/gdk.h>
 #include "../../libs/libmx/inc/libmx.h"
 
 #define MAX_CLIENTS 100
@@ -51,6 +56,8 @@ typedef struct {
     GtkWidget *settings;
     GtkWidget *achievements;
 } t_grid;
+
+
 
 
 // load styles

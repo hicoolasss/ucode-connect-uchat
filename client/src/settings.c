@@ -15,7 +15,7 @@ void settings_second_scheme_btn_click() {
 
 void settings_third_scheme_btn_click() {
     gtk_css_provider_load_from_path(curent_screen.provider,
-                                    "resources/style/blue_theme.css");
+                                    "resources/style/dark_theme.css");
 }
 
 GtkWidget *create_color_circle(const gchar *const style) {

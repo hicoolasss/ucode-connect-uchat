@@ -545,7 +545,7 @@
 }
 
 .achievements_icon_btn {
-    border-color: #0269A4;
+    border-color: transparent;
     border-radius: 50%;
     background: none;
     background-repeat: no-repeat;
@@ -596,14 +596,12 @@
     background: #341948;
     border: 1px solid #8155BA;
     border-radius: 20px;
-    transition: border-radius cubic-bezier(0.075, 0.82, 0.165, 1) 1s,
-    transform cubic-bezier(0.075, 0.82, 0.165, 1) 1s;
+    transition: all 0.5s;
 }
 
 .achievement_card:hover {
-    border-bottom-right-radius: 50px;
-    border-top-left-radius: 50px;
-    transform: scale(1.05);
+    border-color: #EFDCF9;
+    box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.25);
 }
 
 .achievement_label_text {
@@ -734,7 +732,7 @@
     margin: 10px 10.625px 10px 21.25px;
     border-radius: 50%;
     border: 1px solid #8155BA;
-    background: blue;
+    background: black;
 }
 
 /*SETTINGS END*/
