@@ -9,14 +9,20 @@
 
 .auth_main_box {
     border: none;
-    box-shadow: 0 0 10px 0 #fff, 0 0 20px 0 @my-main-color, 0 0 30px 0 @my-main-color, 0 0 40px @my-main-color, 0 0 70px @my-main-color, 0 0 80px @my-main-color, 0 0 100px @my-main-color;
+    box-shadow:
+    0 0 10px 0 #fff,
+    0 0 20px 0 @my-main-color,
+    0 0 30px 0 @my-main-color,
+    0 0 40px @my-main-color,
+    0 0 70px @my-main-color,
+    0 0 80px @my-main-color,
+    0 0 100px @my-main-color;
     filter: brightness(150%);
     border-radius: 20px;
 }
 
 .auth_entry_field {
     background: #000000;
-
     filter: brightness(150%);
     border-radius: 60px;
     border-style: solid;
@@ -52,26 +58,27 @@
     font-size: 30px;
     line-height: 40px;
     color: #ffffff;
-    text-shadow: 0 0 10px @my-main-color, 0 0 20px @my-main-color, 0 0 30px @my-main-color, 0 0 40px @my-main-color, 0 0 70px @my-main-color, 0 0 80px @my-main-color, 0 0 100px @my-main-color;
+    text-shadow:
+    0 0 10px @my-main-color,
+    0 0 20px @my-main-color,
+    0 0 30px @my-main-color,
+    0 0 40px @my-main-color,
+    0 0 70px @my-main-color,
+    0 0 80px @my-main-color,
+    0 0 100px @my-main-color;
     filter: brightness(150%);
 }
 
 .auth_button {
     color: #fff;
-    /*text-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 30px #0ff, 0 0 40px #0ff, 0 0 70px #0ff, 0 0 80px #0ff, 0 0 100px #0ff;*/
-    /*filter: brightness(150%);*/
-
     background: #000000;
     border-radius: 60px;
     outline: none;
-
-
     font-family: 'JetBrains Mono';
     font-style: normal;
     font-weight: 400;
     font-size: 20px;
     line-height: 26px;
-    /*transition: all 0.3s ease;*/
     outline-color: transparent;
     border-color: transparent;
     box-shadow: none;
@@ -103,9 +110,7 @@
     font-weight: 400;
     font-size: 15px;
     line-height: 20px;
-
     color: #fff;
-
     border-color: transparent;
     background: transparent;
     text-decoration-line: underline;
@@ -129,8 +134,8 @@
 /*HOME START*/
 .home {
     margin: 46px 0px 47px 0px;
-    background: #13131A;
-    border: 1px solid rgba(122, 162, 247, 0.35);
+    background: #000000;
+    border: 1px solid @my-main-color;
     border-radius: 20px;
 }
 
@@ -139,8 +144,8 @@
 /*LEFT MENU BAR START*/
 .left_menu_bar {
     margin: 46px 22px 47px 23px;
-    background: #13131A;
-    border: 1px solid rgba(122, 162, 247, 0.35);
+    background: #000000;
+    border: 1px solid @my-main-color;
     border-radius: 20px;
 }
 
@@ -154,7 +159,7 @@
 
 .profile_avatar_btn:hover {
     border-width: 2px;
-    border-color: #7AA2F7;
+    border-color: @my-main-color;
     transition: 0.5s;
 }
 
@@ -169,21 +174,20 @@
     background: none;
     background-repeat: no-repeat;
     background-image: url(../../resources/images/home_btn.png);
-    background-color: #4A4A66;
+    background-color: #000000;
     background-position: center;
     outline-color: transparent;
     box-shadow: none;
 }
 
 .home_btn:hover {
-    background-color: #4A4A66;
+    background-color: @my-main-color;
+    box-shadow:
+    0 0 5px 0 #fff,
+    0 0 10px @my-main-color,
+    0 0 15px @my-main-color;
     transition: 0.5s;
 }
-
-.home_btn:active {
-    transform: scale(0.7);
-}
-
 
 .chats_btn {
     border: none;
@@ -199,12 +203,12 @@
 }
 
 .chats_btn:hover {
-    background-color: #4A4A66;
+    background-color: @my-main-color;
+    box-shadow:
+    0 0 5px 0 #fff,
+    0 0 10px @my-main-color,
+    0 0 15px @my-main-color;
     transition: 0.5s;
-}
-
-.chats_btn:active {
-    transform: scale(0.7);
 }
 
 .settings_btn {
@@ -221,12 +225,12 @@
 }
 
 .settings_btn:hover {
-    background-color: #4A4A66;
+    background-color: @my-main-color;
+    box-shadow:
+    0 0 5px 0 #fff,
+    0 0 10px @my-main-color,
+    0 0 15px @my-main-color;
     transition: 0.5s;
-}
-
-.settings_btn:active {
-    transform: scale(0.7);
 }
 
 .achievements_btn {
@@ -243,12 +247,12 @@
 }
 
 .achievements_btn:hover {
-    background-color: #4A4A66;
+    background-color: @my-main-color;
+    box-shadow:
+    0 0 5px 0 #fff,
+    0 0 10px @my-main-color,
+    0 0 15px @my-main-color;
     transition: 0.5s;
-}
-
-.achievements_btn:active {
-    transform: scale(0.7);
 }
 
 
@@ -266,13 +270,14 @@
 }
 
 .log_out_btn:hover {
-    background-color: #4A4A66;
+    background-color: @my-main-color;
+    box-shadow:
+    0 0 5px 0 #fff,
+    0 0 10px @my-main-color,
+    0 0 15px @my-main-color;
     transition: 0.5s;
 }
 
-.log_out_btn:active {
-    transform: scale(0.7);
-}
 
 /*LEFT MENU BAR END*/
 
@@ -284,9 +289,14 @@
 }
 
 .mini_groups_grid {
-    background: #13131A;
-    border: 1px solid rgba(122, 162, 247, 0.35);
     border-radius: 20px;
+    background: #000000;
+    border: 1px solid @my-main-color;
+    box-shadow:
+    0 0 5px 0 #fff,
+    0 0 10px 0 @my-main-color,
+    0 0 20px 0 @my-main-color,
+    0 0 35px @my-main-color;
 }
 
 .mini_groups_box {
@@ -294,9 +304,14 @@
 }
 
 .mini_chats {
-    background: #13131A;
-    border: 1px solid rgba(122, 162, 247, 0.35);
     border-radius: 20px;
+    background: #000000;
+    border: 1px solid @my-main-color;
+    box-shadow:
+    0 0 5px 0 #fff,
+    0 0 10px 0 @my-main-color,
+    0 0 20px 0 @my-main-color,
+    0 0 35px @my-main-color;
 }
 
 .chats_list_grid {
@@ -306,7 +321,7 @@
 
 .chat_line {
     border-radius: 20px;
-    border: 1px solid rgba(122, 162, 247, 0.35);
+    border: 1px solid @my-main-color;
 }
 
 .avatar_grid {
@@ -314,14 +329,14 @@
 }
 
 .chat_username {
-    color: #B1BAE6;
+    color: #ffffff;
     font-family: 'Open Sans';
     font-size: 14px;
     line-height: 24px;
 }
 
 .chat_message {
-    color: #B1BAE6;
+    color: #ffffff;
     font-family: 'Open Sans';
     font-size: 12px;
     line-height: 24px;
@@ -333,35 +348,45 @@
 
 
 .chats {
-    background: #171722;
-    border: 1px solid rgba(122, 162, 247, 0.35);
+    background: #000000;
+    border: 1px solid @my-main-color;
     border-radius: 20px;
+    box-shadow:
+    0 0 5px 0 #fff,
+    0 0 10px 0 @my-main-color,
+    0 0 20px 0 @my-main-color,
+    0 0 35px @my-main-color;
 }
 
 .main_box_style_blurred {
-    background: #13131A;
-    border: 1px solid rgba(122, 162, 247, 0.35);
+    background: #000000;
+    border: 1px solid @my-main-color;
     border-radius: 20px;
     filter: blur(5px);
 }
 
 .current_dirrect_message_box {
-    background: #171722;
-    border: 1px solid rgba(122, 162, 247, 0.35);
+    background: #000000;
+    border: 1px solid @my-main-color;
     border-radius: 20px;
 }
 
 .current_dirrect_message_box_blurred {
-    background: #171722;
-    border: 1px solid rgba(122, 162, 247, 0.35);
+    background: #000000;
+    border: 1px solid @my-main-color;
     border-radius: 20px;
     filter: blur(5px);
 }
 
 .search_bar_grid {
-    background: #13131A;
-    border: 1px solid rgba(122, 162, 247, 0.35);
+    background: #000000;
+    border: 1px solid @my-main-color;
     border-radius: 20px;
+    box-shadow:
+    0 0 5px 0 #fff,
+    0 0 10px 0 @my-main-color,
+    0 0 20px 0 @my-main-color,
+    0 0 35px @my-main-color;
 }
 
 .search_bar_box {
@@ -370,8 +395,8 @@
 }
 
 .search_bar_box_blurred {
-    background: #13131A;
-    border: 1px solid rgba(122, 162, 247, 0.35);
+    background: #000000;
+    border: 1px solid @my-main-color;
     border-radius: 20px;
     filter: blur(5px);
 }
@@ -392,7 +417,7 @@
     background-repeat: no-repeat;
     background-position: center;
     outline-color: transparent;
-    border-color: #7AA2F7;
+    border-color: #ffffff;
     box-shadow: none;
     outline: none;
 }
@@ -404,13 +429,17 @@
     font-weight: 400;
     font-size: 16px;
     line-height: 22px;
-    color: #7AA2F7;
     border-color: transparent;
     background: transparent;
     background-repeat: no-repeat;
     outline-color: transparent;
     border-color: transparent;
     box-shadow: none;
+    color: #ffffff;
+    text-shadow:
+    0 0 1px @my-main-color,
+    0 0 2px @my-main-color,
+    0 0 3px @my-main-color;
 }
 
 .group_label {
@@ -419,7 +448,11 @@
     font-weight: 400;
     font-size: 20px;
     line-height: 30px;
-    color: rgba(122, 162, 247, 0.5);
+    color: #ffffff;
+    text-shadow:
+    0 0 1px @my-main-color,
+    0 0 2px @my-main-color,
+    0 0 3px @my-main-color;
 }
 
 .create_new_chat_btn {
@@ -442,39 +475,13 @@
     transform: translateY(-1px);
 }
 
-.lets_start {
-    padding: 10px 20px;
-    border: none;
-    font-size: 17px;
-    color: #fff;
-    border-radius: 7px;
-    letter-spacing: 4px;
-    font-weight: 700;
-    text-transform: uppercase;
-    transition: 0.5s;
-    transition-property: box-shadow;
-    background: #7AA2F7;
-    box-shadow: 0 0 25px #647295;
-}
-
-.lets_start:hover {
-    box-shadow: 0 0 5px #6582C8,
-    0 0 25px #647295,
-    0 0 50px #6582C8,
-    0 0 100px #647295;
-}
-
-.lets_start:active {
-    transform: translateY(-1px);
-}
-
 /*CHATS CONTAINER END*/
 
 /*LOG OUT START*/
 .log_out_box {
-    background: #212130;
-    /*border: 1px solid rgba(122, 162, 247, 0.35);*/
+    background: #000000;
     border-radius: 20px;
+    border: 1px solid @my-main-color;
 }
 
 .log_out_label {
@@ -483,67 +490,41 @@
     font-weight: 400;
     font-size: 30px;
     line-height: 40px;
-    color: #B1BAE6;
+    color: #ffffff;
+    text-shadow:
+    0 0 10px @my-main-color,
+    0 0 20px @my-main-color,
+    0 0 30px @my-main-color,
+    0 0 40px @my-main-color,
+    0 0 70px @my-main-color,
+    0 0 80px @my-main-color,
+    0 0 100px @my-main-color;
 }
 
 .yes_btn {
     font-family: 'JetBrains Mono';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 26px;
-    color: #B1BAE6;
-    border: 2px solid #434461;
-    border-radius: 60px;
-    transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
-    background-color: transparent;
-    background: transparent;
-    outline-color: transparent;
-    outline: none;
-    box-shadow: none;
+    border-radius: 10px;
+    border-color: #FFFFFF;
+    background-color: #000000;
 }
 
 .yes_btn:hover {
-    color: #B1BAE6;
-    background-color: #434461;
-    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
-    transform: translateY(-2px);
+    border-color: @my-main-color;
 }
 
-.yes_btn:active {
-    box-shadow: none;
-    transform: translateY(0);
-}
 
 .no_btn {
     font-family: 'JetBrains Mono';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 26px;
-    color: #B1BAE6;
-    border: 2px solid #13131A;
-    border-radius: 60px;
-    transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
-    background-color: transparent;
-    background: transparent;
-    outline-color: transparent;
-    outline: none;
-    box-shadow: none;
+    border-radius: 10px;
+    border-color: #FFFFFF;
+    background-color: #000000;
 }
 
 
 .no_btn:hover {
-    color: #B1BAE6;
-    background-color: #13131A;
-    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
-    transform: translateY(-2px);
+    border-color: @my-main-color;
 }
 
-.no_btn:active {
-    box-shadow: none;
-    transform: translateY(0);
-}
 
 /*LOG OUT END*/
 
@@ -707,8 +688,8 @@
 
 .settings_main_grid {
     margin: 46px 0px 45px 0px;
-    background: #171722;
-    border: 1px solid rgba(122, 162, 247, 0.35);
+    background: #000000;
+    border: 1px solid @my-main-color;
     border-radius: 20px;
 }
 
@@ -719,69 +700,94 @@
 .settings_grid_for_ico {
     margin: 0px 138px;
     border-radius: 50%;
-    border: 2px solid #7AA2F7;
+    border: 1px solid @my-main-color;
     background: none;
 }
 
 .settings_grid_with_ico {
     border-radius: 50%;
-    background: none;
-    background-repeat: no-repeat;
-    background-image: url(../../resources/images/settings_icon_btn.png);
-    background-color: transparent;
-    background-position: center;
     outline-color: transparent;
     box-shadow: none;
 }
 
 .settings_grid_with_lab {
     margin: 0px 157px;
-    background: #171717;
+    border: 0.5px solid @my-main-color;
+    background: none;
     border-radius: 15px;
 }
 
 .settings_lab {
     margin: 5px 55px;
-    color: #B1BAE6;
+    color: #ffffff;
     font-family: 'Open Sans';
     font-weight: 400;
     line-height: 30px;
     font-size: 1.1em;
+    text-shadow:
+    0 0 1px @my-main-color,
+    0 0 2px @my-main-color,
+    0 0 3px @my-main-color;
+
+}
+
+.settings_lab_nsh {
+    margin-top: 13px;
+    margin-bottom: 1px;
+    margin-right: 10px;
+    color: #ffffff;
+    font-family: 'Open Sans';
+    font-weight: 400;
+    line-height: 30px;
+    font-size: 1.1em;
+    text-shadow:
+    0 0 1px @my-main-color,
+    0 0 2px @my-main-color,
+    0 0 3px @my-main-color;
+}
+
+.settings_lab_nsh_plus {
+    margin-top: 10px;
+    color: #ffffff;
+    background: #000000;
+    border: none;
+    font-family: 'Open Sans';
+    font-weight: 100;
+    line-height: 30px;
+    font-size: 40px;
+    text-shadow:
+    0 0 1px @my-main-color,
+    0 0 2px @my-main-color,
+    0 0 3px @my-main-color;
 }
 
 .settings_grid_with_body {
-    border: 1px solid rgba(122, 162, 247, 0.35);
-    background: #13131A;
+    background: #000000;
+    border: none;
+    box-shadow: 0 0 10px 0 #fff,
+    0 0 5px @my-main-color,
+    0 0 10px @my-main-color,
+    0 0 25px @my-main-color,
+    0 0 35px @my-main-color;
+    filter: brightness(150%);
     border-radius: 20px;
 }
 
 .settings_grid_with_color_scheme {
-    /*margin: 20px 20px;*/
+    margin-top: 20px ;
     border-radius: 20px;
-    border: 1px solid rgba(122, 162, 247, 0.35);
-    margin: 30px 140px 15px 140px;
+    border: 1px solid @my-main-color;
+    margin-left: 20px;
+
 }
 
-.settings_first_scheme_btn {
+.settings_new_scheme_btn {
+    border: none;
     margin: 10px 21.25px 10px 10.625px;
     border-radius: 50%;
-    border: 1px solid rgba(122, 162, 247, 0.35);
-    background: #171722;
+    background: @my-main-color;
 }
 
-.settings_second_scheme_btn {
-    margin: 10px 10.625px 10px 10.625px;
-    border-radius: 50%;
-    border: 1px solid rgba(122, 162, 247, 0.35);
-    background: #341948;
-}
-
-.settings_third_scheme_btn {
-    margin: 10px 10.625px 10px 21.25px;
-    border-radius: 50%;
-    border: 1px solid rgba(122, 162, 247, 0.35);
-    background: black;
-}
 
 /*SETTINGS END*/
 

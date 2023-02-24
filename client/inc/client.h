@@ -60,6 +60,7 @@ typedef struct {
 void loadstyles(void);
 // add style to widget
 void widget_styling(GtkWidget *widget, t_screen screen, const char *name_of_css_class);
+void change_scheme_to_any_color(char *color);
 
 // show login screen
 void show_auth(void);

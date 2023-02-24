@@ -108,6 +108,9 @@ static void app_activate(GApplication *app)
     gtk_window_set_title(GTK_WINDOW(curent_screen.screen), "darkchat");
     gtk_window_set_default_size(GTK_WINDOW(curent_screen.screen), 1200, 760);
 
+    //load default colorscheme
+    change_scheme_to_any_color("#0ff");
+
     loadstyles();
 
     widget_styling(curent_screen.screen, curent_screen, "background");
