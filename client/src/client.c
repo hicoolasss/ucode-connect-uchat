@@ -130,15 +130,15 @@ int main(int argc, char **argv)
 
 	signal(SIGINT, catch_ctrl_c_and_exit);
 
-	printf("Please enter your name: ");
-	fgets(name, 32, stdin);
-	str_trim_lf(name, strlen(name));
+	// printf("Please enter your name: ");
+	// fgets(name, 32, stdin);
+	// str_trim_lf(name, strlen(name));
 
-	if (strlen(name) > 32 || strlen(name) < 2)
-	{
-		printf("Name must be less than 30 and more than 2 characters.\n");
-		return EXIT_FAILURE;
-	}
+	// if (strlen(name) > 32 || strlen(name) < 2)
+	// {
+	// 	printf("Name must be less than 30 and more than 2 characters.\n");
+	// 	return EXIT_FAILURE;
+	// }
 
 	struct sockaddr_in server_addr;
 
