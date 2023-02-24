@@ -1,3 +1,6 @@
+#ifndef M_PI
+    #define M_PI 3.14159265358979323846
+#endif
 #include <gtk/gtk.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -60,7 +63,6 @@ typedef struct {
 void loadstyles(void);
 // add style to widget
 void widget_styling(GtkWidget *widget, t_screen screen, const char *name_of_css_class);
-void change_scheme_to_any_color(char *color);
 
 // show login screen
 void show_auth(void);

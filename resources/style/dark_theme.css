@@ -1,32 +1,30 @@
-/*LOG_IN and REGISTRATION START*/
-
 .background {
-    background-color: #171722;
+    background-color: #000000;
 }
 
 .auth_main_box {
-    background: #212130;
+    background: #18122B;
     border-radius: 20px;
 }
 
 .auth_entry_field {
-    background: #434461;
+    background: #393053;
     border-radius: 60px;
     border-style: solid;
-    border-color: #434461;
+    border-color: #393053;
     outline: none;
     font-family: 'JetBrains Mono';
     font-style: normal;
     font-weight: 400;
     font-size: 20px;
     line-height: 26px;
-    color: #6E78A8;
+    color: #635985;
     transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
     box-shadow: 0px 0px 20px -18px;
 }
 
 .auth_entry_field:hover {
-    border: 2px solid #6E78A8;
+    border: 2px solid #635985;
     box-shadow: 0px 0px 20px -17px;
 }
 
@@ -44,11 +42,11 @@
     font-weight: 400;
     font-size: 30px;
     line-height: 40px;
-    color: #B1BAE6;
+    color: #635985;
 }
 
 .auth_button {
-    background: #13131A;
+    background: #181D31;
     border-radius: 60px;
     outline: none;
     font-family: 'JetBrains Mono';
@@ -56,7 +54,7 @@
     font-weight: 400;
     font-size: 20px;
     line-height: 26px;
-    color: #B1BAE6;
+    color: #635985;
     transition: all 0.3s ease-in-out;
     outline-color: transparent;
     border-color: transparent;
@@ -79,7 +77,7 @@
     font-weight: 400;
     font-size: 15px;
     line-height: 20px;
-    color: #B1BAE6;
+    color: #635985;
 }
 
 .auth_sign_button {
@@ -114,7 +112,7 @@
 /*HOME START*/
 .home {
     margin: 46px 0px 47px 0px;
-    background: #13131A;
+    background: #181D31;
     border: 1px solid rgba(122, 162, 247, 0.35);
     border-radius: 20px;
 }
@@ -126,7 +124,7 @@
 /*LEFT MENU BAR START*/
 .left_menu_bar {
     margin: 46px 22px 47px 23px;
-    background: #13131A;
+    background: #181D31;
     border: 1px solid rgba(122, 162, 247, 0.35);
     border-radius: 20px;
 }
@@ -271,7 +269,7 @@
 }
 
 .mini_groups_grid {
-    background: #13131A;
+    background: #181D31;
     border: 1px solid rgba(122, 162, 247, 0.35);
     border-radius: 20px;
 }
@@ -281,7 +279,7 @@
 }
 
 .mini_chats {
-    background: #13131A;
+    background: #181D31;
     border: 1px solid rgba(122, 162, 247, 0.35);
     border-radius: 20px;
 }
@@ -301,14 +299,14 @@
 }
 
 .chat_username {
-    color: #B1BAE6;
+    color: #635985;
     font-family: 'Open Sans';
     font-size: 14px;
     line-height: 24px;
 }
 
 .chat_message {
-    color: #B1BAE6;
+    color: #635985;
     font-family: 'Open Sans';
     font-size: 12px;
     line-height: 24px;
@@ -320,33 +318,33 @@
 
 
 .chats {
-    background: #171722;
+    background: #000000;
     border: 1px solid rgba(122, 162, 247, 0.35);
     border-radius: 20px;
 }
 
 .main_box_style_blurred {
-    background: #13131A;
+    background: #181D31;
     border: 1px solid rgba(122, 162, 247, 0.35);
     border-radius: 20px;
     filter: blur(5px);
 }
 
 .current_dirrect_message_box {
-    background: #171722;
+    background: #000000;
     border: 1px solid rgba(122, 162, 247, 0.35);
     border-radius: 20px;
 }
 
 .current_dirrect_message_box_blurred {
-    background: #171722;
+    background: #000000;
     border: 1px solid rgba(122, 162, 247, 0.35);
     border-radius: 20px;
     filter: blur(5px);
 }
 
 .search_bar_grid {
-    background: #13131A;
+    background: #181D31;
     border: 1px solid rgba(122, 162, 247, 0.35);
     border-radius: 20px;
 }
@@ -357,7 +355,7 @@
 }
 
 .search_bar_box_blurred {
-    background: #13131A;
+    background: #181D31;
     border: 1px solid rgba(122, 162, 247, 0.35);
     border-radius: 20px;
     filter: blur(5px);
@@ -470,7 +468,7 @@
     font-weight: 400;
     font-size: 30px;
     line-height: 40px;
-    color: #B1BAE6;
+    color: #635985;
 }
 
 .yes_btn {
@@ -479,8 +477,8 @@
     font-weight: 400;
     font-size: 20px;
     line-height: 26px;
-    color: #B1BAE6;
-    border: 2px solid #434461;
+    color: #635985;
+    border: 2px solid #393053;
     border-radius: 60px;
     transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
     background-color: transparent;
@@ -491,8 +489,8 @@
 }
 
 .yes_btn:hover {
-    color: #B1BAE6;
-    background-color: #434461;
+    color: #635985;
+    background-color: #393053;
     box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
     transform: translateY(-2px);
 }
@@ -508,8 +506,8 @@
     font-weight: 400;
     font-size: 20px;
     line-height: 26px;
-    color: #B1BAE6;
-    border: 2px solid #13131A;
+    color: #635985;
+    border: 2px solid #181D31;
     border-radius: 60px;
     transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
     background-color: transparent;
@@ -521,8 +519,8 @@
 
 
 .no_btn:hover {
-    color: #B1BAE6;
-    background-color: #13131A;
+    color: #635985;
+    background-color: #181D31;
     box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
     transform: translateY(-2px);
 }
@@ -534,155 +532,6 @@
 
 /*LOG OUT END*/
 
-/*YOUR PROFILE START*/
-
-.profile_help_box {
-    margin: 18px 268px 24px 268px;
-}
-
-.profile_grid_for_img {
-    border-radius: 50%;
-    margin-right: 138px;
-    margin-left: 138px;
-}
-
-.profile_grid_scale {
-    background: #171722;
-    border-radius: 20px;
-    margin-right: 114px;
-    margin-left: 114px;
-}
-
-.profile_grid_body {
-    border: 1px solid rgba(122, 162, 247, 0.35);
-    border-radius: 20px;
-}
-
-.exp_box {
-    background: #7AA2F7;
-    border-radius: 20px;
-}
-
-.mini_exp_box {
-    background: #7AA2F7;
-    border-radius: 20px;
-}
-
-.exp_count_label {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 15px;
-    line-height: 20px;
-
-
-    color: #4A4A66;
-}
-
-.name_label {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 27px;
-
-    color: #7AA2F7;
-}
-
-.name_entry {
-    background: #13131A;
-    border-radius: 10px;
-    border-style: solid;
-    border-color: #4A4A66;
-    outline: none;
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 22px;
-
-    color: #B1BAE6;
-}
-
-.name_entry:hover {
-    border: 2px solid #7AA2F7;
-    box-shadow: 0px 0px 20px -17px;
-}
-
-.name_entry:active {
-    transform: scale(0.99);
-}
-
-.name_entry:focus {
-    border: 2px solid #7AA2F7;
-}
-
-.bio_label {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 27px;
-
-    color: #7AA2F7;
-}
-
-.bio_box {
-    background: #13131A;
-    border-radius: 10px;
-    border: 1px solid #4A4A66;
-    outline: none;
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 22px;
-}
-
-.bio_box:hover {
-    border: 2px solid #7AA2F7;
-    box-shadow: 0px 0px 20px -17px;
-}
-
-.bio_box:active {
-    transform: scale(0.99);
-}
-
-.bio_box:focus {
-    border: 2px solid #7AA2F7;
-}
-
-
-.bio_entry {
-    background: transparent;
-    border-radius: 10px;
-    border: none;
-    outline: none;
-    box-shadow: none;
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 22px;
-
-    color: #B1BAE6;
-}
-
-.bio_entry:hover {
-    border: none;
-    box-shadow: none;
-}
-
-.bio_entry:active {
-    transform: scale(0.99);
-}
-
-.bio_entry:focus {
-    border: none;
-}
-
-/*YOUR PROFILE END*/
-
 /*ACHIEVEMENTS START*/
 
 .achievements_grid {
@@ -690,7 +539,7 @@
 }
 
 .achievements_box {
-    background: #171722;
+    background: #000000;
     border: 1px solid rgba(122, 162, 247, 0.35);
     border-radius: 20px;
 }
@@ -712,7 +561,7 @@
     font-style: normal;
     font-weight: 400;
     line-height: 30px;
-    color: #B1BAE6;
+    color: #635985;
     font-size: 1.1em;
     background: #171717;
     box-shadow: none;
@@ -740,11 +589,11 @@
 }
 
 .first_hbox {
-    background: #171722;
+    background: #000000;
 }
 
 .achievement_card {
-    background: #13131A;
+    background: #181D31;
     border: 1px solid rgba(122, 162, 247, 0.35);
     border-radius: 20px;
     transition: all 0.5s;
@@ -763,7 +612,7 @@
     line-height: 24px;
     /* identical to box height */
 
-    color: #B1BAE6;
+    color: #635985;
 }
 
 .achievement_desc_text {
@@ -802,12 +651,7 @@
 }
 
 .second_hbox {
-    background: #171722;
-}
-
-.scrollbar {
-    background: #13131A;
-    border-radius: 10px;
+    background: #000000;
 }
 
 /*ACHIEVEMENTS EMD*/
@@ -815,14 +659,14 @@
 /*SETTINGS START*/
 
 .settings_main_grid {
-    margin: 46px 0px 45px 0px;
-    background: #171722;
+    margin: 46px 0px 47px 0px;
+    background: #000000;
     border: 1px solid rgba(122, 162, 247, 0.35);
     border-radius: 20px;
 }
 
 .settings_grid_help {
-    margin: 29px 265px 18px 265px;
+    margin: 29px 266px 18px 266px;
 }
 
 .settings_grid_for_ico {
@@ -851,7 +695,7 @@
 
 .settings_lab {
     margin: 5px 55px;
-    color: #B1BAE6;
+    color: #635985;
     font-family: 'Open Sans';
     font-weight: 400;
     line-height: 30px;
@@ -860,7 +704,7 @@
 
 .settings_grid_with_body {
     border: 1px solid rgba(122, 162, 247, 0.35);
-    background: #13131A;
+    background: #181D31;
     border-radius: 20px;
 }
 
@@ -875,7 +719,7 @@
     margin: 10px 21.25px 10px 10.625px;
     border-radius: 50%;
     border: 1px solid rgba(122, 162, 247, 0.35);
-    background: #171722;
+    background: #000000;
 }
 
 .settings_second_scheme_btn {
@@ -893,20 +737,3 @@
 }
 
 /*SETTINGS END*/
-
-
-.choose_profile_avatar_btn {
-    border-color: transparent;
-    border-radius: 50%;
-    background: none;
-    background-repeat: no-repeat;
-    background-image: url(../../resources/images/choose_profile_avatar_btn.png);
-    background-color: transparent;
-    background-position: center;
-    outline-color: transparent;
-    box-shadow: none;
-}
-
-.level_box {
-    background: #13131A;
-}
