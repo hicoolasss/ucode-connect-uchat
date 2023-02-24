@@ -4,7 +4,10 @@
         "inet.h": "c",
         "client.h": "c",
         "gtk.h": "c",
-        "libmx.h": "c"
+        "libmx.h": "c",
+        "in.h": "c",
+        "ssl.h": "c",
+        "system_error": "c"
     },
     "editor.formatOnSave": true,
     "editor.formatOnSaveTimeout": 1500

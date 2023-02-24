@@ -1,47 +1,45 @@
-#define _POSIX_C_SOURCE 200809L // because strdup() -std=c99 rygaetsa
-#define _GNU_SOURCE//asprintf
-
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <errno.h>
 #include <string.h>
+#include <unistd.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <openssl/ssl.h>
+#include <openssl/err.h>
 #include <pthread.h>
-#include <sys/types.h>
-#include <signal.h>
+#include <strings.h>
 #include "../../libs/libmx/inc/libmx.h"
+#include <sys/stat.h>
+#include <sys/types.h>
+#define PORT 8080
+#define MAX_CLIENTS 5
 
-//db
-#include "sqlite3.h"
-#include <sys/stat.h>//for stract stat
+typedef struct s_client {
+    int serv_fd;
 
-#define MAX_CLIENTS 100
-#define BUFFER_SZ 2048
-#define LENGTH 2048
+    SSL *ssl;// client ssl structure with coneection to server
+    
+    struct sockaddr_in adr;
+    int cl_socket;
 
-/* Client structure */
-typedef struct{
-	struct sockaddr_in address;
-	int sockfd;
-	int uid;
-	char name[32];
-} client_t;
+    int id;
+    char *login;
+    char *passwd;
 
-void sqlite3_create_db();
-//static int callback(void *data, int argc, char **argv, char **azColName);
-void *sqlite3_exec_db(char *query, int type);
-void update_user_name(char *name, int id);
-void update_user_avatar(char *path, int id);
-void update_chat_name(char *name, int id);
-void update_user_surname(char *surname, int id);
-char *get_user_login(int id);
-int get_user_id(char *login);
-int get_chat_id(char *name);
-char  *get_user_avatar(int id);
-void db_delete_message(int m_id);
+} t_client;
 
 
+typedef struct s_chat {
+    
+    char *message;
 
+} t_chat;
+
+extern t_list *users_list;
+extern pthread_mutex_t clients_mutex;
+extern _Atomic unsigned int cli_count;
+t_client *create_new_client(const struct sockaddr_in adr, int client_fd, SSL *ssl);
+void *handle_client(void *args);
+void free_client(t_client **client, t_list **users_list);
+void daemon_server();
+SSL_CTX *SSL_STX_Init();

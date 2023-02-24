@@ -13,6 +13,8 @@
 #include <pthread.h>
 #include <sys/types.h>
 #include <signal.h>
+#include <openssl/ssl.h>
+#include <openssl/err.h>
 #include "../../libs/libmx/inc/libmx.h"
 
 #define MAX_CLIENTS 100
@@ -57,6 +59,38 @@ typedef struct {
     GtkWidget *settings;
     GtkWidget *achievements;
 } t_grid;
+
+typedef struct s_client {
+    int serv_fd;
+
+    SSL *ssl;// client ssl structure with coneection to server
+    
+    struct sockaddr_in adr;
+    int cl_socket;
+
+    int id;
+    char *login;
+    char *passwd;
+
+} t_client;
+
+typedef struct s_main
+{
+    char *ip;
+    int port;
+    SSL_CTX *context;
+    bool is_run;
+    bool connected;
+    bool loaded;
+
+}   t_main;
+
+extern t_client cur_client;
+extern t_main main_client;
+extern pthread_mutex_t cl_mutex;
+
+SSL_CTX* CTX_initialize_client();
+void *rec_func();
 
 
 // load styles

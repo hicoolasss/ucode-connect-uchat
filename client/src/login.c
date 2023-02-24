@@ -97,6 +97,17 @@ void show_login() {
     gtk_widget_set_size_request(sign_up_button_log_in, 63, 20);
 
 
+
+
+
+
+
+
+
+
+    
+
+
     widget_styling(box, curent_screen, "auth_main_box");
     widget_styling(welcome, curent_screen, "auth_welcome_to_the_dark");
     widget_styling(username, curent_screen, "auth_entry_field");

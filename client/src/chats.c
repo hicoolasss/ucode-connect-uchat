@@ -4,10 +4,51 @@ extern t_screen curent_screen;
 extern t_grid curent_grid;
 
 
+
+
+static void send_message(GtkEntry *message_entry, gpointer user_data) {
+
+        GtkEntryBuffer *buffer = gtk_entry_get_buffer(message_entry);
+        const char *buf = gtk_entry_buffer_get_text(buffer);
+        char *temp_buffer = mx_strdup(buf);
+        
+
+        int len = SSL_write(cur_client.ssl, temp_buffer, mx_strlen(temp_buffer));
+
+        if (len < 0)
+        {
+            mx_printstr("Error sending message.\n");
+        }
+
+        memset(temp_buffer, 0, sizeof(*temp_buffer));
+
+        GtkWidget *label = gtk_text_new_with_buffer(buffer);
+        
+        gtk_grid_attach(GTK_GRID(curent_grid.chats), label, 0, 0, 1, 1);
+
+}
+
 void show_chats() {
+
     GtkWidget *chats_container_lab = gtk_label_new("chats");
 
     gtk_grid_attach(GTK_GRID(curent_grid.chats), chats_container_lab, 0, 0, 1, 1);
+
+    GtkWidget *message_entry = gtk_entry_new();
+
+    gtk_grid_attach(GTK_GRID(curent_grid.chats), message_entry, 0, 0, 1, 1);
+
+    //gtk_entry_set_alignment(GTK_ENTRY(first_name_entry), 0.1);
+
+    gtk_widget_set_margin_start(message_entry, 26);
+    gtk_widget_set_margin_end(message_entry, 55);
+    gtk_widget_set_margin_top(message_entry, 613);
+    gtk_widget_set_margin_bottom(message_entry, 14);
+
+    gtk_widget_set_size_request(message_entry, 452, 40);
+
+    g_signal_connect(G_OBJECT(message_entry), "activate", G_CALLBACK(send_message), NULL);
+
 }
 
 void call_new_chat_and_add_iter(const gchar *const new_username){

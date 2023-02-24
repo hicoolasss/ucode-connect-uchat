@@ -10,7 +10,7 @@ OBJS = $(OBJDIR)/*.o
 
 LIBMX_DIR = ../libs/libmx
 LIBMX_NAME = $(LIBMX_DIR)/libmx.a
-LIB_FLAGS = -lmx -L$(LIBMX_DIR) $(LIBMX_NAME)
+LIB_FLAGS = -lmx -lssl -lcrypto -L$(LIBMX_DIR) $(LIBMX_NAME)
 
 all: $(NAMEBIN) clean
 

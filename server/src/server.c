@@ -1,211 +1,64 @@
 #include "../inc/server.h"
 
-client_t *clients[MAX_CLIENTS];
+t_list *users_list;
+pthread_mutex_t clients_mutex;
+_Atomic unsigned int cli_count;
 
-
-static _Atomic unsigned int cli_count = 0;
-static int uid = 10;
-
-pthread_mutex_t clients_mutex = PTHREAD_MUTEX_INITIALIZER;
-
-void str_overwrite_stdout() {
-    printf("\r%s", "> ");
-    fflush(stdout);
-}
-
-void str_trim_lf (char* arr, int length) {
-  int i;
-  for (i = 0; i < length; i++) { // trim \n
-    if (arr[i] == '\n') {
-      arr[i] = '\0';
-      break;
-    }
-  }
-}
-
-void print_client_addr(struct sockaddr_in addr){
-    printf("%d.%d.%d.%d",
-        addr.sin_addr.s_addr & 0xff,
-        (addr.sin_addr.s_addr & 0xff00) >> 8,
-        (addr.sin_addr.s_addr & 0xff0000) >> 16,
-        (addr.sin_addr.s_addr & 0xff000000) >> 24);
-}
-
-/* Add clients to queue */
-void queue_add(client_t *cl){
-	pthread_mutex_lock(&clients_mutex);
-
-	for(int i=0; i < MAX_CLIENTS; ++i){
-		if(!clients[i]){
-			clients[i] = cl;
-			break;
-		}
-	}
-
-	pthread_mutex_unlock(&clients_mutex);
-}
-
-/* Remove clients to queue */
-void queue_remove(int uid){
-	pthread_mutex_lock(&clients_mutex);
-
-	for(int i=0; i < MAX_CLIENTS; ++i){
-		if(clients[i]){
-			if(clients[i]->uid == uid){
-				clients[i] = NULL;
-				break;
-			}
-		}
-	}
-
-	pthread_mutex_unlock(&clients_mutex);
-}
-
-/* Send message to all clients except sender */
-void send_message(char *s, int uid){
-	pthread_mutex_lock(&clients_mutex);
-
-	for(int i=0; i<MAX_CLIENTS; ++i){
-		if(clients[i]){
-			if(clients[i]->uid != uid){
-				if(write(clients[i]->sockfd, s, strlen(s)) < 0){
-					perror("ERROR: write to descriptor failed");
-					break;
-				}
-			}
-		}
-	}
-
-	pthread_mutex_unlock(&clients_mutex);
-}
-
-/* Handle all communication with the client */
-void *handle_client(void *arg){
-	char buff_out[BUFFER_SZ];
-	char name[32];
-	int leave_flag = 0;
-
-	cli_count++;
-	client_t *cli = (client_t *)arg;
-
-	// Name
-	if(recv(cli->sockfd, name, 32, 0) <= 0 || strlen(name) <  2 || strlen(name) >= 32-1){
-		printf("Didn't enter the name.\n");
-		leave_flag = 1;
-	} else{
-		strcpy(cli->name, name);
-		sprintf(buff_out, "%s has joined\n", cli->name);
-		printf("%s", buff_out);
-		send_message(buff_out, cli->uid);
-	}
-
-	// bzero(buff_out, BUFFER_SZ);
-
-	while(1){
-		if (leave_flag) {
-			break;
-		}
-
-		int receive = recv(cli->sockfd, buff_out, BUFFER_SZ, 0);
-		if (receive > 0){
-			if(strlen(buff_out) > 0){
-				send_message(buff_out, cli->uid);
-
-				str_trim_lf(buff_out, strlen(buff_out));
-				printf("%s -> %s\n", buff_out, cli->name);
-			}
-		} else if (receive == 0 || strcmp(buff_out, "exit") == 0){
-			sprintf(buff_out, "%s has left\n", cli->name);
-			printf("%s", buff_out);
-			send_message(buff_out, cli->uid);
-			leave_flag = 1;
-		} else {
-			printf("ERROR: -1\n");
-			leave_flag = 1;
-		}
-
-		// bzero(buff_out, BUFFER_SZ);
-	}
-
-  /* Delete client from queue and yield thread */
-	close(cli->sockfd);
-  queue_remove(cli->uid);
-  free(cli);
-  cli_count--;
-  pthread_detach(pthread_self());
-
-	return NULL;
-}
-
-int main(int argc, char **argv){
-	if(argc != 2){
+int main(int argc, char **argv) {
+    if (argc != 2)
+	{
 		printf("Usage: %s <port>\n", argv[0]);
 		return EXIT_FAILURE;
 	}
-
-	//char *ip = "127.0.0.1";
 	int port = atoi(argv[1]);
-	int option = 1;
-	int listenfd = 0, connfd = 0;
-  struct sockaddr_in serv_addr;
-  struct sockaddr_in cli_addr;
-  pthread_t tid;
+    
+    struct sockaddr_in server_addr;
+    struct sockaddr_in cli_addr;
 
-  /* Socket settings */
-  listenfd = socket(AF_INET, SOCK_STREAM, 0);
-  serv_addr.sin_family = AF_INET;
-  serv_addr.sin_addr.s_addr = INADDR_ANY;
-  serv_addr.sin_port = htons(port);
+    void daemon_server();
 
-  /* Ignore pipe signals */
-	signal(SIGPIPE, SIG_IGN);
+    SSL_CTX *ctx = SSL_STX_Init();
 
-	if(setsockopt(listenfd, SOL_SOCKET,(SO_REUSEADDR),(char*)&option,sizeof(option)) < 0){
-		perror("ERROR: setsockopt failed");
-    return EXIT_FAILURE;
-	}
+    int server_fd = socket(AF_INET, SOCK_STREAM, 0);
+    if (server_fd < 0) {
+        perror("Failed to create socket");
+        exit(EXIT_FAILURE);
+    }
 
-	/* Bind */
-  if(bind(listenfd, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0) {
-    perror("ERROR: Socket binding failed");
-    return EXIT_FAILURE;
-  }
+    memset(&server_addr, 0, sizeof(server_addr));
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(port);
+    server_addr.sin_addr.s_addr = INADDR_ANY;
 
-  /* Listen */
-  if (listen(listenfd, 10) < 0) {
-    perror("ERROR: Socket listening failed");
-    return EXIT_FAILURE;
-	}
+    if (bind(server_fd, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0) {
+        perror("Failed to bind to address");
+        exit(EXIT_FAILURE);
+    }
 
-	printf("=== WELCOME TO THE CHATROOM ===\n");
-	sqlite3_create_db();
+    if (listen(server_fd, MAX_CLIENTS) < 0) {
+        perror("Failed to listen on socket");
+        exit(EXIT_FAILURE);
+    }
+    socklen_t adr_size = sizeof(cli_addr);
+    while (1) {
+        SSL *ssl;
+        int client_fd = accept(server_fd, (struct sockaddr *)&cli_addr, &adr_size);
 
-	while(1){
-		socklen_t clilen = sizeof(cli_addr);
-		connfd = accept(listenfd, (struct sockaddr*)&cli_addr, &clilen);
+        ssl = SSL_new(ctx);
+        SSL_set_fd(ssl, client_fd);
+        SSL_accept(ssl);
 
-		/* Check if max clients is reached */
-		if((cli_count + 1) == MAX_CLIENTS){
-			printf("Max clients reached. Rejected: ");
-			print_client_addr(cli_addr);
-			printf(":%d\n", cli_addr.sin_port);
-			close(connfd);
-			continue;
-		}
-
-		/* Client settings */
-		client_t *cli = (client_t *)malloc(sizeof(client_t));
-		cli->address = cli_addr;
-		cli->sockfd = connfd;
-		cli->uid = uid++;
-
-		/* Add client to the queue and fork thread */
-		queue_add(cli);
-		pthread_create(&tid, NULL, &handle_client, (void*)cli);
-
-		/* Reduce CPU usage */
-		sleep(1);
-	}
-
-	return EXIT_SUCCESS;
+        pthread_t thread;
+        pthread_mutex_init(&clients_mutex, NULL);
+        t_client *new_client = create_new_client(cli_addr, client_fd, ssl);
+        printf("New client connected. His id: %d\n", new_client->id);
+        pthread_create(&thread, NULL, handle_client, new_client);
+        pthread_detach(thread);
+    }
+    SSL_CTX_free(ctx);
+    close(server_fd);
+    pthread_exit(NULL);
+    return 0;
 }
+
+
