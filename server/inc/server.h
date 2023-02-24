@@ -1,5 +1,5 @@
-#define _POSIX_C_SOURCE 200809L // because strdup() -std=c99 rygaetsa
-#define _GNU_SOURCE//asprintf
+//#define _POSIX_C_SOURCE 200809L // because strdup() -std=c99 rygaetsa
+//#define _GNU_SOURCE//asprintf
 
 #include <sys/socket.h>
 #include <netinet/in.h>

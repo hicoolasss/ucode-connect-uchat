@@ -3,19 +3,32 @@
 extern t_screen curent_screen;
 extern t_grid curent_grid;
 
+void change_scheme_to_any_color(char *color) {
+    FILE *css_file = fopen("resources/style/color.css", "w");
+    char our_final_line[1024] = "@define-color my-main-color ";
+    strcat(our_final_line, color);
+    strcat(our_final_line, ";");
+
+    fprintf(css_file, "%s\n", our_final_line);
+    fclose(css_file);
+}
+
 void settings_first_scheme_btn_click() {
+    change_scheme_to_any_color("#0ff");
     gtk_css_provider_load_from_path(curent_screen.provider,
                                     "resources/style/theme.css");
 }
 
 void settings_second_scheme_btn_click() {
+    change_scheme_to_any_color("#ff0000");
     gtk_css_provider_load_from_path(curent_screen.provider,
-                                    "resources/style/purple_theme.css");
+                                    "resources/style/theme.css");
 }
 
 void settings_third_scheme_btn_click() {
+    change_scheme_to_any_color("#0000ff");
     gtk_css_provider_load_from_path(curent_screen.provider,
-                                    "resources/style/dark_theme.css");
+                                    "resources/style/theme.css");
 }
 
 GtkWidget *create_color_circle(const gchar *const style) {
