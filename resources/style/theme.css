@@ -1,32 +1,35 @@
 /*LOG_IN and REGISTRATION START*/
 
+@import url("color.css");
+
+
 .background {
-    background-color: #171722;
+    background-color: @bg-win-col;
 }
 
 .auth_main_box {
-    background: #212130;
+    background: @bg-auth-main-box;
     border-radius: 20px;
 }
 
 .auth_entry_field {
-    background: #434461;
+    background: @auth-input-bg-col;
     border-radius: 60px;
     border-style: solid;
-    border-color: #434461;
+    border-color: @auth-input-border-col;
     outline: none;
     font-family: 'JetBrains Mono';
     font-style: normal;
     font-weight: 400;
     font-size: 20px;
     line-height: 26px;
-    color: #6E78A8;
+    color: @bit-text-col;
     transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
     box-shadow: 0px 0px 20px -18px;
 }
 
 .auth_entry_field:hover {
-    border: 2px solid #6E78A8;
+    border: 2px solid @auth-input-border-col-hover;
     box-shadow: 0px 0px 20px -17px;
 }
 
@@ -35,7 +38,7 @@
 }
 
 .auth_entry_field:focus {
-    border: 2px solid #7AA2F7;
+    border: 2px solid @small-text-col;
 }
 
 .auth_welcome_to_the_dark {
@@ -44,11 +47,12 @@
     font-weight: 400;
     font-size: 30px;
     line-height: 40px;
-    color: #B1BAE6;
+    color: @bit-text-col;
 }
 
 .auth_button {
-    background: #13131A;
+    color: @bit-text-col;
+    background: @big-log-in-button-bg;
     border-radius: 60px;
     outline: none;
     font-family: 'JetBrains Mono';
@@ -56,8 +60,6 @@
     font-weight: 400;
     font-size: 20px;
     line-height: 26px;
-    color: #B1BAE6;
-    transition: all 0.3s ease-in-out;
     outline-color: transparent;
     border-color: transparent;
     box-shadow: none;
@@ -65,12 +67,12 @@
 
 .auth_button:hover {
     transform: translateY(-4px) translateX(-2px);
-    box-shadow: 2px 5px 0 0 #565F89;
+    box-shadow: 2px 5px 0 0 @big-log-in-button-shadow-hover;
 }
 
 .auth_button:active {
     transform: translateY(2px) translateX(1px);
-    box-shadow: 0 0 0 0 #565F89;
+    box-shadow: 0 0 0 0 @big-log-in-button-shadow-active;
 }
 
 .auth_dont_or_have_account {
@@ -79,7 +81,7 @@
     font-weight: 400;
     font-size: 15px;
     line-height: 20px;
-    color: #B1BAE6;
+    color: @bit-text-col;
 }
 
 .auth_sign_button {
@@ -88,12 +90,11 @@
     font-weight: 400;
     font-size: 15px;
     line-height: 20px;
-    color: #565F89;
+    color: @sign-btn-text-col;
     border-color: transparent;
     background: transparent;
     text-decoration-line: underline;
     outline-color: transparent;
-    border-color: transparent;
     box-shadow: none;
 }
 
@@ -101,33 +102,28 @@
     border-color: transparent;
     background: transparent;
     text-decoration-line: underline;
-    color: #0269A4;
+    color: @sign-btn-text-col-hover;
     outline-color: transparent;
-    border-color: transparent;
     box-shadow: none;
 }
 
 /*LOG_IN and REGISTRATION START*/
 
-
-
 /*HOME START*/
 .home {
     margin: 46px 0px 47px 0px;
-    background: #13131A;
-    border: 1px solid rgba(122, 162, 247, 0.35);
+    background: @all-containers-bg;
+    border: 1px solid @all-containers-borders-bg;
     border-radius: 20px;
 }
 
 /*HOME END*/
 
-
-
 /*LEFT MENU BAR START*/
 .left_menu_bar {
     margin: 46px 22px 47px 23px;
-    background: #13131A;
-    border: 1px solid rgba(122, 162, 247, 0.35);
+    background: @all-containers-bg;
+    border: 1px solid @all-containers-borders-bg;
     border-radius: 20px;
 }
 
@@ -141,7 +137,7 @@
 
 .profile_avatar_btn:hover {
     border-width: 2px;
-    border-color: #7AA2F7;
+    border-color: @left-menu-bar-icon-hover;
     transition: 0.5s;
 }
 
@@ -156,21 +152,16 @@
     background: none;
     background-repeat: no-repeat;
     background-image: url(../../resources/images/home_btn.png);
-    background-color: #4A4A66;
+    background-color: @left-menu-bar-icon-background;
     background-position: center;
     outline-color: transparent;
     box-shadow: none;
 }
 
 .home_btn:hover {
-    background-color: #4A4A66;
+    background-color: @left-menu-bar-icon-background;
     transition: 0.5s;
 }
-
-.home_btn:active {
-    transform: scale(0.7);
-}
-
 
 .chats_btn {
     border: none;
@@ -186,12 +177,8 @@
 }
 
 .chats_btn:hover {
-    background-color: #4A4A66;
+    background-color: @left-menu-bar-icon-background;
     transition: 0.5s;
-}
-
-.chats_btn:active {
-    transform: scale(0.7);
 }
 
 .settings_btn {
@@ -208,12 +195,8 @@
 }
 
 .settings_btn:hover {
-    background-color: #4A4A66;
+    background-color: @left-menu-bar-icon-background;
     transition: 0.5s;
-}
-
-.settings_btn:active {
-    transform: scale(0.7);
 }
 
 .achievements_btn {
@@ -230,12 +213,8 @@
 }
 
 .achievements_btn:hover {
-    background-color: #4A4A66;
+    background-color: @left-menu-bar-icon-background;
     transition: 0.5s;
-}
-
-.achievements_btn:active {
-    transform: scale(0.7);
 }
 
 
@@ -253,13 +232,10 @@
 }
 
 .log_out_btn:hover {
-    background-color: #4A4A66;
+    background-color: @left-menu-bar-icon-background;
     transition: 0.5s;
 }
 
-.log_out_btn:active {
-    transform: scale(0.7);
-}
 
 /*LEFT MENU BAR END*/
 
@@ -271,9 +247,9 @@
 }
 
 .mini_groups_grid {
-    background: #13131A;
-    border: 1px solid rgba(122, 162, 247, 0.35);
     border-radius: 20px;
+    background: @all-containers-bg;
+    border: 1px solid @all-containers-borders-bg;
 }
 
 .mini_groups_box {
@@ -281,9 +257,9 @@
 }
 
 .mini_chats {
-    background: #13131A;
-    border: 1px solid rgba(122, 162, 247, 0.35);
     border-radius: 20px;
+    background: @all-containers-bg;
+    border: 1px solid @all-containers-borders-bg;
 }
 
 .chats_list_grid {
@@ -293,7 +269,8 @@
 
 .chat_line {
     border-radius: 20px;
-    border: 1px solid rgba(122, 162, 247, 0.35);
+    border: 1px solid @all-containers-borders-bg;
+
 }
 
 .avatar_grid {
@@ -301,14 +278,14 @@
 }
 
 .chat_username {
-    color: #B1BAE6;
+    color: @small-text-col;
     font-family: 'Open Sans';
     font-size: 14px;
     line-height: 24px;
 }
 
 .chat_message {
-    color: #B1BAE6;
+    color: @bit-text-col;
     font-family: 'Open Sans';
     font-size: 12px;
     line-height: 24px;
@@ -320,34 +297,34 @@
 
 
 .chats {
-    background: #171722;
-    border: 1px solid rgba(122, 162, 247, 0.35);
     border-radius: 20px;
+    background: @right-chat-container-bg;
+    border: 1px solid @all-containers-borders-bg;
 }
 
 .main_box_style_blurred {
-    background: #13131A;
-    border: 1px solid rgba(122, 162, 247, 0.35);
+    background: @all-containers-bg;
+    border: 1px solid @all-containers-borders-bg;
     border-radius: 20px;
     filter: blur(5px);
 }
 
 .current_dirrect_message_box {
-    background: #171722;
-    border: 1px solid rgba(122, 162, 247, 0.35);
+    background: @all-containers-bg;
+    border: 1px solid @all-containers-borders-bg;
     border-radius: 20px;
 }
 
 .current_dirrect_message_box_blurred {
-    background: #171722;
-    border: 1px solid rgba(122, 162, 247, 0.35);
+    background: @all-containers-bg;
+    border: 1px solid @all-containers-borders-bg;
     border-radius: 20px;
     filter: blur(5px);
 }
 
 .search_bar_grid {
-    background: #13131A;
-    border: 1px solid rgba(122, 162, 247, 0.35);
+    background: @all-containers-bg;
+    border: 1px solid @all-containers-borders-bg;
     border-radius: 20px;
 }
 
@@ -357,8 +334,8 @@
 }
 
 .search_bar_box_blurred {
-    background: #13131A;
-    border: 1px solid rgba(122, 162, 247, 0.35);
+    background: @all-containers-bg;
+    border: 1px solid @all-containers-borders-bg;
     border-radius: 20px;
     filter: blur(5px);
 }
@@ -368,7 +345,7 @@
 }
 
 .search_bar_box:focus {
-    border: 2px solid #7AA2F7;
+    border: 2px solid @left-menu-bar-icon-hover;
 }
 
 
@@ -379,7 +356,7 @@
     background-repeat: no-repeat;
     background-position: center;
     outline-color: transparent;
-    border-color: #7AA2F7;
+    border-color: @left-menu-bar-icon-hover;
     box-shadow: none;
     outline: none;
 }
@@ -391,13 +368,13 @@
     font-weight: 400;
     font-size: 16px;
     line-height: 22px;
-    color: #7AA2F7;
     border-color: transparent;
     background: transparent;
     background-repeat: no-repeat;
     outline-color: transparent;
     border-color: transparent;
     box-shadow: none;
+    color: @chat-and-group-label-text-color;
 }
 
 .group_label {
@@ -406,7 +383,7 @@
     font-weight: 400;
     font-size: 20px;
     line-height: 30px;
-    color: rgba(122, 162, 247, 0.5);
+    color: @chat-and-group-label-text-color;
 }
 
 .create_new_chat_btn {
@@ -429,6 +406,7 @@
     transform: translateY(-1px);
 }
 
+
 .lets_start {
     padding: 10px 20px;
     border: none;
@@ -446,9 +424,9 @@
 
 .lets_start:hover {
     box-shadow: 0 0 5px #6582C8,
-        0 0 25px #647295,
-        0 0 50px #6582C8,
-        0 0 100px #647295;
+    0 0 25px #647295,
+    0 0 50px #6582C8,
+    0 0 100px #647295;
 }
 
 .lets_start:active {
@@ -459,9 +437,9 @@
 
 /*LOG OUT START*/
 .log_out_box {
-    background: #212130;
-    /*border: 1px solid rgba(122, 162, 247, 0.35);*/
+    background: @log-out-container-bg;
     border-radius: 20px;
+    border: 1px solid @all-containers-borders-bg;
 }
 
 .log_out_label {
@@ -470,7 +448,7 @@
     font-weight: 400;
     font-size: 30px;
     line-height: 40px;
-    color: #B1BAE6;
+    color: @bit-text-col;
 }
 
 .yes_btn {
@@ -479,8 +457,8 @@
     font-weight: 400;
     font-size: 20px;
     line-height: 26px;
-    color: #B1BAE6;
-    border: 2px solid #434461;
+    color: @bit-text-col;
+    border: 2px solid @log-out-yes-border;
     border-radius: 60px;
     transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
     background-color: transparent;
@@ -490,9 +468,10 @@
     box-shadow: none;
 }
 
+
 .yes_btn:hover {
-    color: #B1BAE6;
-    background-color: #434461;
+    color: @bit-text-col;
+    background-color: @log-out-yes-border;
     box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
     transform: translateY(-2px);
 }
@@ -508,8 +487,8 @@
     font-weight: 400;
     font-size: 20px;
     line-height: 26px;
-    color: #B1BAE6;
-    border: 2px solid #13131A;
+    color: @bit-text-col;
+    border: 2px solid @log-out-no-border;
     border-radius: 60px;
     transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
     background-color: transparent;
@@ -521,8 +500,8 @@
 
 
 .no_btn:hover {
-    color: #B1BAE6;
-    background-color: #13131A;
+    color: @bit-text-col;
+    background-color: @log-out-no-border;
     box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
     transform: translateY(-2px);
 }
@@ -541,30 +520,32 @@
 }
 
 .profile_grid_for_img {
+    border: 1px solid @all-containers-borders-bg;
     border-radius: 50%;
     margin-right: 138px;
     margin-left: 138px;
 }
 
 .profile_grid_scale {
-    background: #171722;
+    background: @right-chat-container-bg;
     border-radius: 20px;
     margin-right: 114px;
     margin-left: 114px;
 }
 
 .profile_grid_body {
-    border: 1px solid rgba(122, 162, 247, 0.35);
+    border: 1px solid @all-containers-borders-bg;
     border-radius: 20px;
 }
 
+
 .exp_box {
-    background: #7AA2F7;
+    background: @small-text-col;
     border-radius: 20px;
 }
 
 .mini_exp_box {
-    background: #7AA2F7;
+    background: @small-text-col;
     border-radius: 20px;
 }
 
@@ -575,8 +556,7 @@
     font-size: 15px;
     line-height: 20px;
 
-
-    color: #4A4A66;
+    color: @left-menu-bar-icon-background;
 }
 
 .name_label {
@@ -586,11 +566,11 @@
     font-size: 20px;
     line-height: 27px;
 
-    color: #7AA2F7;
+    color: @small-text-col;
 }
 
 .name_entry {
-    background: #13131A;
+    background: @all-containers-bg;
     border-radius: 10px;
     border-style: solid;
     border-color: #4A4A66;
@@ -601,11 +581,11 @@
     font-size: 16px;
     line-height: 22px;
 
-    color: #B1BAE6;
+    color: @bit-text-col;
 }
 
 .name_entry:hover {
-    border: 2px solid #7AA2F7;
+    border: 2px solid @small-text-col;
     box-shadow: 0px 0px 20px -17px;
 }
 
@@ -614,7 +594,7 @@
 }
 
 .name_entry:focus {
-    border: 2px solid #7AA2F7;
+    border: 2px solid @small-text-col;
 }
 
 .bio_label {
@@ -624,11 +604,11 @@
     font-size: 20px;
     line-height: 27px;
 
-    color: #7AA2F7;
+    color: @small-text-col;
 }
 
 .bio_box {
-    background: #13131A;
+    background: @all-containers-bg;
     border-radius: 10px;
     border: 1px solid #4A4A66;
     outline: none;
@@ -640,7 +620,7 @@
 }
 
 .bio_box:hover {
-    border: 2px solid #7AA2F7;
+    border: 2px solid @small-text-col;
     box-shadow: 0px 0px 20px -17px;
 }
 
@@ -649,7 +629,7 @@
 }
 
 .bio_box:focus {
-    border: 2px solid #7AA2F7;
+    border: 2px solid @small-text-col;
 }
 
 
@@ -665,7 +645,7 @@
     font-size: 16px;
     line-height: 22px;
 
-    color: #B1BAE6;
+    color: @bit-text-col;
 }
 
 .bio_entry:hover {
@@ -681,6 +661,23 @@
     border: none;
 }
 
+
+/*.choose_profile_avatar_btn {*/
+/*    border-color: transparent;*/
+/*    border-radius: 50%;*/
+/*    background: none;*/
+/*    background-repeat: no-repeat;*/
+/*    background-image: url(../../resources/images/choose_profile_avatar_btn.png);*/
+/*    background-color: transparent;*/
+/*    background-position: center;*/
+/*    outline-color: transparent;*/
+/*    box-shadow: none;*/
+/*}*/
+
+/*.level_box {*/
+/*    background: #13131A;*/
+/*}*/
+
 /*YOUR PROFILE END*/
 
 /*ACHIEVEMENTS START*/
@@ -690,8 +687,8 @@
 }
 
 .achievements_box {
-    background: #171722;
-    border: 1px solid rgba(122, 162, 247, 0.35);
+    background: @right-chat-container-bg;
+    border: 1px solid @all-containers-borders-bg;
     border-radius: 20px;
 }
 
@@ -712,7 +709,7 @@
     font-style: normal;
     font-weight: 400;
     line-height: 30px;
-    color: #B1BAE6;
+    color: @bit-text-col;
     font-size: 1.1em;
     background: #171717;
     box-shadow: none;
@@ -727,16 +724,16 @@
     border-radius: 15px;
     transform: translateY(-10px);
     box-shadow: 0 15px 0 -4px #39a2db,
-        0 16px 10px -3px #39a2db,
-        0 7px 0 -2px #EEEEFF;
+    0 16px 10px -3px #39a2db,
+    0 7px 0 -2px #EEEEFF;
 }
 
 .achievements_label_btn:active {
     transition: all 0.2s;
     transform: translateY(-5px);
     box-shadow: 0 2px 0 -2px #EEEEFF,
-        0 8px 0 -4px #39a2db,
-        0 12px 10px -3px #39a2db;
+    0 8px 0 -4px #39a2db,
+    0 12px 10px -3px #39a2db;
 }
 
 .first_hbox {
@@ -745,7 +742,7 @@
 
 .achievement_card {
     background: #13131A;
-    border: 1px solid rgba(122, 162, 247, 0.35);
+    border: 1px solid @all-containers-borders-bg;
     border-radius: 20px;
     transition: all 0.5s;
 }
@@ -763,7 +760,7 @@
     line-height: 24px;
     /* identical to box height */
 
-    color: #B1BAE6;
+    color: @bit-text-col;
 }
 
 .achievement_desc_text {
@@ -775,7 +772,7 @@
     /* identical to box height */
 
 
-    color: #7AA2F7;
+    color: @small-text-col;
 }
 
 .complete_btn {
@@ -816,8 +813,8 @@
 
 .settings_main_grid {
     margin: 46px 0px 45px 0px;
-    background: #171722;
-    border: 1px solid rgba(122, 162, 247, 0.35);
+    background: @right-chat-container-bg;
+    border: 1px solid @all-containers-borders-bg;
     border-radius: 20px;
 }
 
@@ -828,85 +825,81 @@
 .settings_grid_for_ico {
     margin: 0px 138px;
     border-radius: 50%;
-    border: 2px solid #7AA2F7;
+    border: 1px solid @all-containers-borders-bg;
     background: none;
 }
 
 .settings_grid_with_ico {
     border-radius: 50%;
-    background: none;
-    background-repeat: no-repeat;
-    background-image: url(../../resources/images/settings_icon_btn.png);
-    background-color: transparent;
-    background-position: center;
     outline-color: transparent;
     box-shadow: none;
 }
 
 .settings_grid_with_lab {
     margin: 0px 157px;
-    background: #171717;
+    border: 1px solid @all-containers-borders-bg;
+    background: @all-containers-bg;
     border-radius: 15px;
 }
 
 .settings_lab {
     margin: 5px 55px;
-    color: #B1BAE6;
+    color: @bit-text-col;
     font-family: 'Open Sans';
     font-weight: 400;
     line-height: 30px;
     font-size: 1.1em;
 }
 
+.settings_lab_nsh {
+    margin-top: 13px;
+    margin-bottom: 1px;
+    margin-right: 10px;
+    color: @small-text-col;
+    font-family: 'Open Sans';
+    font-weight: 400;
+    line-height: 30px;
+    font-size: 1.1em;
+}
+
+
 .settings_grid_with_body {
-    border: 1px solid rgba(122, 162, 247, 0.35);
-    background: #13131A;
+    background: @all-containers-bg;
+    border: 1px solid @all-containers-borders-bg;
     border-radius: 20px;
 }
 
 .settings_grid_with_color_scheme {
-    /*margin: 20px 20px;*/
+    margin-top: 20px ;
     border-radius: 20px;
-    border: 1px solid rgba(122, 162, 247, 0.35);
-    margin: 30px 140px 15px 140px;
+    border: 1px solid @all-containers-borders-bg;
+    margin-left: 20px;
+
 }
 
-.settings_first_scheme_btn {
+.settings_default_scheme_btn {
+    border: none;
     margin: 10px 21.25px 10px 10.625px;
     border-radius: 50%;
-    border: 1px solid rgba(122, 162, 247, 0.35);
     background: #171722;
 }
 
-.settings_second_scheme_btn {
-    margin: 10px 10.625px 10px 10.625px;
+
+.settings_purple_scheme_btn {
+    border: none;
+    margin: 10px 21.25px 10px 10.625px;
     border-radius: 50%;
-    border: 1px solid rgba(122, 162, 247, 0.35);
-    background: #341948;
+    background: #9475cf;
 }
 
-.settings_third_scheme_btn {
-    margin: 10px 10.625px 10px 21.25px;
+
+.settings_dark_scheme_btn {
+    border: none;
+    margin: 10px 21.25px 10px 10.625px;
     border-radius: 50%;
-    border: 1px solid rgba(122, 162, 247, 0.35);
-    background: black;
+    background: green;
 }
+
 
 /*SETTINGS END*/
 
-
-.choose_profile_avatar_btn {
-    border-color: transparent;
-    border-radius: 50%;
-    background: none;
-    background-repeat: no-repeat;
-    background-image: url(../../resources/images/choose_profile_avatar_btn.png);
-    background-color: transparent;
-    background-position: center;
-    outline-color: transparent;
-    box-shadow: none;
-}
-
-.level_box {
-    background: #13131A;
-}

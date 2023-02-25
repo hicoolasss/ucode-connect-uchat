@@ -26,6 +26,28 @@ static void app_activate(GApplication *app)
 
     gtk_window_set_title(GTK_WINDOW(curent_screen.screen), "darkchat");
     gtk_window_set_default_size(GTK_WINDOW(curent_screen.screen), 1200, 760);
+    //load default colorscheme
+    change_scheme_to_any_color("#171722",
+                               "#212130",
+                               "#B1BAE6",
+                               "#7AA2F7",
+                               "#434461",
+                               "#434461",
+                               "#6E78A8",
+                               "#13131A",
+                               "#565F89",
+                               "#565F89",
+                               "#565F89",
+                               "#0269A4",
+                               "#13131A",
+                               "#171722",
+                               "rgba(122, 162, 247, 0.35)",
+                               "#4A4A66",
+                               "#7AA2F7",
+                               "rgba(122, 162, 247, 0.5)",
+                               "#212130",
+                               "#434461",
+                               "#13131A");
 
     loadstyles();
 

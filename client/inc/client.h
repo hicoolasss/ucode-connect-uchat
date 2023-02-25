@@ -97,6 +97,27 @@ void *rec_func();
 void loadstyles(void);
 // add style to widget
 void widget_styling(GtkWidget *widget, t_screen screen, const char *name_of_css_class);
+void change_scheme_to_any_color(char *bg_win_col,
+                                char *bg_auth_main_box,
+                                char *bit_text_col,
+                                char *small_text_col,
+                                char *auth_input_bg_col,
+                                char *auth_input_border_col,
+                                char *auth_input_border_col_hover,
+                                char *big_log_in_button_bg,
+                                char *big_log_in_button_shadow_hover,
+                                char *big_log_in_button_shadow_active,
+                                char *sign_btn_text_col,
+                                char *sign_btn_text_col_hover,
+                                char *all_containers_bg,
+                                char *right_chat_container_bg,
+                                char *all_containers_borders_bg,
+                                char *left_menu_bar_icon_background,
+                                char *left_menu_bar_icon_hover,
+                                char *chat_and_group_label_text_color,
+                                char *log_out_container_bg,
+                                char *log_out_yes_border,
+                                char *log_out_no_border);
 
 // show login screen
 void show_auth(void);
