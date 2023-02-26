@@ -1,0 +1,5 @@
+# USER 
+id -> int UNIQUE
+login -> char* UNIQUE
+password ->     char*
+ssl ->          char*
