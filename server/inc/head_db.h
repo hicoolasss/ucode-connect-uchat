@@ -8,7 +8,7 @@
 #include <openssl/err.h>
 #include <pthread.h>
 #include <strings.h>
-#include "../libs/libmx/inc/libmx.h"
+#include "../../libs/libmx/inc/libmx.h"
 #include <sys/stat.h>
 #include <sys/types.h>
 
@@ -17,6 +17,7 @@
 int sql_open_db (sqlite3 **db);
 void sql_create_db ();
 char *join(const char* s1, const char* s2);
+void ent_sys(char* login,char* password,SSL *ssl);
 
 //To find one variable
 char* sql_get(char* find_var, char* seek_var, char *value_seek_var, int table);

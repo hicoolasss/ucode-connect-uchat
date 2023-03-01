@@ -1,8 +1,8 @@
-#include "head_db.h"
+#include "../inc/head_db.h"
 
 int sql_open_db (sqlite3 **db){
 
-    int rc = sqlite3_open("data_base/chat.db", db);
+    int rc = sqlite3_open("server/src/chat.db", db);
     
     if (rc != SQLITE_OK) {
         
@@ -75,7 +75,7 @@ char* sql_get(char* find_var, char* seek_var, char *value_seek_var, int table) {
     sql = join(sql, " = \"");
     sql = join(sql, value_seek_var);
     sql = join(sql, "\"");
-    int rc = sqlite3_prepare_v2(db, sql, -1, &res, 0);
+    int rc = sqlite3_prepare_v2(db, sql, -1, &res, 0);//запрос в виде текстовой строки необходимо скомпилировать в байт-код//https://codeby.net/threads/asm-rabota-s-bazami-sqlite-chast-2-chitaem-cookies-brauzerov.77691/
     
     if (rc == SQLITE_OK) {
         sqlite3_bind_int(res, 1, 3);

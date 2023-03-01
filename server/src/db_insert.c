@@ -1,4 +1,4 @@
- #include "head_db.h"
+ #include "../inc/head_db.h"
 
 
 int sql_set_user (char* login, char* password, char* sslkey){
@@ -6,14 +6,14 @@ int sql_set_user (char* login, char* password, char* sslkey){
     char *err_msg = 0;
     
     sql_open_db(&db);
-    char *sql = "INSERT INTO User(login, password) VALUES (\"";
+    char *sql = "INSERT INTO User(login, password, sslkey) VALUES (\"";
     sql = join(sql, login);
     sql = join(sql, "\", \"");
     sql = join(sql, password);
     sql = join(sql, "\", \"");
     sql = join(sql, sslkey);
-    sql = join(sql, ");");
-    
+    sql = join(sql, "\");");
+
     int rc = sqlite3_exec(db, sql, 0, 0, &err_msg);
 
     if (rc != SQLITE_OK ) {
