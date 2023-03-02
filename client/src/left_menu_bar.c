@@ -6,31 +6,35 @@ extern t_grid curent_grid;
 
 void your_profile_clicked () {
     set_unvisible_all();
+    gtk_widget_set_visible(GTK_WIDGET(curent_grid.left_menu_bar), TRUE);
     gtk_widget_set_visible(GTK_WIDGET(curent_grid.your_profile), TRUE);
 }
 
 void home_clicked () {
     set_unvisible_all();
+    gtk_widget_set_visible(GTK_WIDGET(curent_grid.left_menu_bar), TRUE);
     gtk_widget_set_visible(GTK_WIDGET(curent_grid.home), TRUE);
 }
 
 void chats_clicked () {
     set_unvisible_all();
+    gtk_widget_set_visible(GTK_WIDGET(curent_grid.left_menu_bar), TRUE);
     gtk_widget_set_visible(GTK_WIDGET(curent_grid.chats_container), TRUE);
 }
 
 void settings_clicked () {
     set_unvisible_all();
+    gtk_widget_set_visible(GTK_WIDGET(curent_grid.left_menu_bar), TRUE);
     gtk_widget_set_visible(GTK_WIDGET(curent_grid.settings), TRUE);
 }
 
 void achievements_clicked () {
     set_unvisible_all();
+    gtk_widget_set_visible(GTK_WIDGET(curent_grid.left_menu_bar), TRUE);
     gtk_widget_set_visible(GTK_WIDGET(curent_grid.achievements), TRUE);
 }
 
-void log_out_clicked (GtkWidget *box) {
-    gtk_widget_unparent(box);
+void log_out_clicked () {
     show_log_out();
 }
 

@@ -8,7 +8,6 @@ void search_btn_clicked() {
     const char *text;
 
     text = gtk_editable_get_text (GTK_EDITABLE (curent_grid.entry_for_search));
-
     call_new_chat_and_add_iter(text);
 }
 

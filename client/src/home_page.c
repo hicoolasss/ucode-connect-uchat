@@ -5,7 +5,8 @@ extern t_grid curent_grid;
 
 void show_home(void) {
     //main box
-    curent_grid.main_grid = create_grid(1200, 760, NULL);
+//    curent_grid.main_grid = create_grid(1200, 760, NULL);
+    curent_grid.intro_grid = create_grid(1200, 760, NULL);
 
     //help containers
     curent_grid.chats_container = create_grid(1010, 667, "chats_container");
@@ -22,6 +23,12 @@ void show_home(void) {
     curent_grid.settings = create_grid(1010, 667, "settings_main_grid");
     curent_grid.achievements = create_grid(1010, 667, "achievements_grid");
 
+    //the children of the intro main grid
+    curent_grid.first_intro_screen = create_grid(1200, 760, "intro_main_box");
+    curent_grid.second_intro_screen = create_grid(1200, 760, "intro_flash_light");
+    curent_grid.third_intro_screen = create_grid(586, 544, NULL);
+
+
     //fill all grids
     show_left_menu_bar();
     show_chats();
@@ -32,6 +39,17 @@ void show_home(void) {
     show_search_bar();
     show_mini_groups();
     show_mini_chats();
+
+    //fill intro grids
+    first_intro_screen();
+    second_intro_screen();
+    third_intro_screen();
+
+    //create the structure of the intro screen
+    gtk_grid_attach(GTK_GRID(curent_grid.main_grid), curent_grid.intro_grid, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(curent_grid.intro_grid), curent_grid.first_intro_screen, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(curent_grid.intro_grid), curent_grid.second_intro_screen, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(curent_grid.intro_grid), curent_grid.third_intro_screen, 0, 0, 1, 1);
 
     //create the structure of chat main screen
     gtk_grid_attach(GTK_GRID(curent_grid.main_grid), curent_grid.left_menu_bar, 0, 0, 1, 1);
@@ -53,15 +71,28 @@ void show_home(void) {
 
     //set unvisible all
     set_unvisible_all();
+    //show intro
+    if(curent_grid.is_log_in_clicked){
+        gtk_widget_set_visible(GTK_WIDGET(curent_grid.intro_grid), TRUE);
+        set_first_intro_screen_visible();
+    } else {
+        gtk_widget_set_visible(GTK_WIDGET(curent_grid.left_menu_bar), TRUE);
+        gtk_widget_set_visible(GTK_WIDGET(curent_grid.home), TRUE);
+    }
 
-    //by default at first show home grid
-    gtk_widget_set_visible(GTK_WIDGET(curent_grid.home), TRUE);
+//    //by default at first show home grid
+//    gtk_widget_set_visible(GTK_WIDGET(curent_grid.home), TRUE);
 
     //set main grid as a chlid to a widow
     gtk_window_set_child(GTK_WINDOW(curent_screen.screen), curent_grid.main_grid);
 }
 
 void set_unvisible_all() {
+    gtk_widget_set_visible(GTK_WIDGET(curent_grid.log_in_conrainer), FALSE);
+    gtk_widget_set_visible(GTK_WIDGET(curent_grid.registration_container), FALSE);
+    gtk_widget_set_visible(GTK_WIDGET(curent_grid.intro_grid), FALSE);
+
+    gtk_widget_set_visible(GTK_WIDGET(curent_grid.left_menu_bar), FALSE);
     gtk_widget_set_visible(GTK_WIDGET(curent_grid.chats_container), FALSE);
 
     gtk_widget_set_visible(GTK_WIDGET(curent_grid.your_profile), FALSE);

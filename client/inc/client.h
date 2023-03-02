@@ -1,5 +1,5 @@
 #ifndef M_PI
-    #define M_PI 3.14159265358979323846
+#define M_PI 3.14159265358979323846
 #endif
 #include <gtk/gtk.h>
 #include <sys/socket.h>
@@ -33,9 +33,15 @@ typedef struct {
     GtkWidget *main_grid;
     GtkWidget *chats_container;
     //auth grids
-    GtkWidget *auth_grid;
     GtkWidget *log_in_conrainer;
     GtkWidget *registration_container;
+
+    //intro grid
+    GtkWidget *intro_grid;
+    GtkWidget *first_intro_screen;
+    GtkWidget *second_intro_screen;
+    GtkWidget *third_intro_screen;
+    bool is_log_in_clicked;
 
     //container to grout searchbar ghats ang groups
     GtkWidget *three_rows_container;
@@ -58,13 +64,14 @@ typedef struct {
     GtkWidget *chats;
     GtkWidget *settings;
     GtkWidget *achievements;
+    GtkWidget *dialog_with_blur;
 } t_grid;
 
 typedef struct s_client {
     int serv_fd;
 
     SSL *ssl;// client ssl structure with coneection to server
-    
+
     struct sockaddr_in adr;
     int cl_socket;
 
@@ -125,12 +132,22 @@ void show_login(void);
 // show registration screen
 void show_registration(void);
 
+void log_in_btn_clicked(GtkWidget *box);
+//show intro screens
+void first_intro_screen();
+void second_intro_screen();
+void third_intro_screen();
+void set_first_intro_screen_visible(void);
+void set_second_intro_screen_visible(void);
+void set_third_intro_screen_visible(void);
+
 void show_home(void);
 
 
 //unvisible grids
 void set_unvisible_all(void);
 void set_unvisible_auth(void);
+void set_unvisible_intro(void);
 
 void show_left_menu_bar(void);
 void show_your_profile(void);

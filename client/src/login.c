@@ -6,13 +6,12 @@ extern t_grid curent_grid;
 static void donthaveaccountbtn_clicked() {
     set_unvisible_auth();
     gtk_widget_set_visible(GTK_WIDGET(curent_grid.registration_container), TRUE);
-
 }
 
-static void log_in_btn_clicked(GtkWidget *box) {
-    gtk_widget_unparent(box);
+void log_in_btn_clicked() {
+    curent_grid.is_log_in_clicked = TRUE;
+    set_unvisible_auth();
     show_home();
-
 }
 
 
@@ -105,7 +104,7 @@ void show_login() {
 
 
 
-    
+
 
 
     widget_styling(box, curent_screen, "auth_main_box");

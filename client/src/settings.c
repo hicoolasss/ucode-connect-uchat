@@ -133,9 +133,9 @@ void settings_first_scheme_btn_click() {
 }
 
 void settings_second_scheme_btn_click() {
-    change_scheme_to_any_color("#282a36",
+    change_scheme_to_any_color("#383a59",
                                "#21222c",
-                               "#383a59",
+                               "#ffffff",
                                "#bd93f9",
                                "#282a36",
                                "#6272a4",
@@ -145,13 +145,13 @@ void settings_second_scheme_btn_click() {
                                "#bd93f9",
                                "#565F89",
                                "#8be9fd",
-                               "#21222c",
-                               "#323543",
+                               "#383a59",
+                               "#50527f",
                                "#bd93f9",
                                "#44475a",
-                               "#44475a",
+                               "#575a72",
                                "#bd93f9",
-                               "#282a36",
+                               "#383a59",
                                "#bd93f9",
                                "#5e343d");
     gtk_css_provider_load_from_path(curent_screen.provider,
@@ -200,10 +200,17 @@ void show_settings() {
     GtkWidget *settings_grid_with_ico = create_grid(200, 200, "settings_grid_with_ico");
     GtkWidget *settings_grid_with_lab = create_grid(160, 35, "settings_grid_with_lab");
     GtkWidget *settings_grid_with_body = create_grid(470, 340, "settings_grid_with_body");
-    GtkWidget *settings_grid_with_color_scheme = create_grid(190, 85, "settings_grid_with_color_scheme");
+    GtkWidget *settings_grid_with_color_scheme = create_grid(190, 85, "settings_grid_with_in_body");
+    GtkWidget *settings_grid_with_chp = create_grid(190, 55, NULL);
+    GtkWidget *settings_grid_with_da = create_grid(190, 55, NULL);
+    GtkWidget *settings_grid_with_chp_for_btn = create_grid(190, 55, "settings_grid_with_in_body");
+    GtkWidget *settings_grid_with_da_for_btn = create_grid(190, 55, "settings_grid_with_in_body");
+    GtkWidget *settings_grid_with_chp_ico = create_grid(35, 35, NULL);
+    GtkWidget *settings_grid_with_da_ico = create_grid(35, 35, NULL);
+    GtkWidget *settings_grid_with_chp_lab = create_grid(120, 55, NULL);
+    GtkWidget *settings_grid_with_da_lab = create_grid(120, 55, NULL);
     GtkWidget *settings_grid_for_new_lab = create_grid(190, 35, NULL);
     GtkWidget *settings_grid_with_color_scheme_list = create_grid(190, 55, NULL);
-    GtkWidget *settings_grid_with_color_choser = create_grid(190, 85, "settings_grid_with_color_scheme");
 
     GtkWidget *color_scheme_grid_scrolled = gtk_scrolled_window_new();
     gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(color_scheme_grid_scrolled), settings_grid_with_color_scheme_list);
@@ -211,7 +218,17 @@ void show_settings() {
 
     GtkWidget *settings_lab = gtk_label_new("Settings");
     GtkWidget *settings_lab_nsh = gtk_label_new("Choose your theme");
+    GtkWidget *settings_lab_chp = gtk_label_new("Change password");
+    GtkWidget *settings_lab_da = gtk_label_new("Delete account");
+    GtkWidget *settings_button_chp = gtk_button_new();
+    GtkWidget *settings_button_da = gtk_button_new();
 
+    gtk_widget_set_halign(settings_lab, GTK_ALIGN_CENTER);
+    gtk_widget_set_halign(settings_lab_nsh, GTK_ALIGN_CENTER);
+    gtk_widget_set_halign(settings_lab_chp, GTK_ALIGN_CENTER);
+
+    gtk_widget_set_size_request(settings_button_chp, 190, 55);
+    gtk_widget_set_size_request(settings_button_da, 190, 55);
 
     GtkWidget *settings_first_scheme_btn = create_color_circle("settings_default_scheme_btn");
     GtkWidget *settings_second_scheme_btn = create_color_circle("settings_purple_scheme_btn");
@@ -227,16 +244,33 @@ void show_settings() {
     gtk_widget_set_size_request(settings_lab_nsh, 180, 30);
 
     widget_styling(settings_lab, curent_screen, "settings_lab");
-    widget_styling(settings_lab_nsh, curent_screen, "settings_lab_nsh");
+    widget_styling(settings_lab_nsh, curent_screen, "settings_lab_in_body");
+    widget_styling(settings_lab_chp, curent_screen, "settings_lab_in_body");
+    widget_styling(settings_lab_da, curent_screen, "settings_lab_in_body");
+    widget_styling(settings_button_chp, curent_screen, "settings_grid_with_in_body_btn");
+    widget_styling(settings_button_da, curent_screen, "settings_grid_with_in_body_btn");
 
     gtk_grid_attach(GTK_GRID(settings_grid_with_lab), settings_lab, 0, 0, 1, 1);
 
     gtk_grid_attach(GTK_GRID(settings_grid_with_body), settings_grid_with_color_scheme, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(settings_grid_with_body), settings_grid_with_color_choser, 1, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(settings_grid_with_color_scheme), settings_grid_for_new_lab, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(settings_grid_with_color_scheme), color_scheme_grid_scrolled, 0, 1, 1, 1);
-
     gtk_grid_attach(GTK_GRID(settings_grid_for_new_lab), settings_lab_nsh, 0, 0, 1, 1);
+
+    gtk_grid_attach(GTK_GRID(settings_grid_with_body), settings_grid_with_chp_for_btn, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(settings_grid_with_chp_for_btn), settings_button_chp, 0, 1, 1, 1);
+    gtk_button_set_child(GTK_BUTTON(settings_button_chp), settings_grid_with_chp);
+    gtk_grid_attach(GTK_GRID(settings_grid_with_chp), settings_grid_with_chp_ico, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(settings_grid_with_chp), settings_grid_with_chp_lab, 1, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(settings_grid_with_chp_lab), settings_lab_chp, 0, 0, 1, 1);
+
+    gtk_grid_attach(GTK_GRID(settings_grid_with_body), settings_grid_with_da_for_btn, 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(settings_grid_with_da_for_btn), settings_button_da, 0, 1, 1, 1);
+    gtk_button_set_child(GTK_BUTTON(settings_button_da), settings_grid_with_da);
+    gtk_grid_attach(GTK_GRID(settings_grid_with_da), settings_grid_with_da_ico, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(settings_grid_with_da), settings_grid_with_da_lab, 1, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(settings_grid_with_da_lab), settings_lab_da, 0, 0, 1, 1);
+
 
     gtk_grid_attach(GTK_GRID(settings_grid_with_color_scheme_list), settings_first_scheme_btn, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(settings_grid_with_color_scheme_list), settings_second_scheme_btn, 1, 0, 1, 1);
