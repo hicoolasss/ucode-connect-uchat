@@ -1,7 +1,7 @@
 #include "../inc/client.h"
 
 extern t_screen curent_screen;
-t_grid curent_grid;
+extern t_grid curent_grid;
 
 void set_unvisible_intro() {
     gtk_widget_set_visible(GTK_WIDGET(curent_grid.first_intro_screen), FALSE);

@@ -1,7 +1,7 @@
 #include "../inc/client.h"
 
 extern t_screen curent_screen;
-t_grid curent_grid;
+extern t_grid curent_grid;
 
 void show_auth() {
     //main auth

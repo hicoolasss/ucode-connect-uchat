@@ -3,6 +3,7 @@
 t_screen curent_screen;
 t_main main_client;
 t_client cur_client;
+t_grid curent_grid;
 
 void loadstyles() {
 
