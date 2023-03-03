@@ -1,34 +1,29 @@
-NAME = libcjson.a
-
-SRC_DIR = src
-OBJ_DIR = obj
-INC_DIR = inc
-
-SRC_FILES = $(wildcard $(SRC_DIR)/*.c)
-OBJ_FILES = $(addprefix $(OBJ_DIR)/, $(notdir $(SRC_FILES:%.c=%.o)))
-INC_FILES = $(wildcard $(INC_DIR)/*.h)
-
+TARGET_LIB = cjson.a
 CC = clang
 CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic -gdwarf-4
 
-all: $(NAME)
+MKDIR = mkdir -p
+RM = rm -rf
+AR = ar rcs
 
-$(NAME): $(OBJ_FILES)
-	ar rcs $@ $^
+SRCS = *.c
+OBJS = *.o
+OBJS_D = obj
 
-$(OBJ_FILES): | $(OBJ_DIR)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_FILES)
-	$(CC) $(CFLAGS) -c $< -o $@ -I $(INC_DIR)
+all: MINILIBMX clean
 
-$(OBJ_DIR):
-	mkdir -p $@
+MINILIBMX:
+	@$(MKDIR) $(OBJS_D)
+	@$(CC) $(CFLAGS) -c $(addprefix src/, $(SRCS))
+	@mv $(OBJS) $(OBJS_D)
+	@$(AR) $(TARGET_LIB) $(addprefix obj/,$(OBJS))
 
 clean:
-	rm -rf $(OBJ_DIR)
+	@$(RM) $(OBJS_D)
 
 uninstall:
-	rm -rf $(OBJ_DIR)
-	rm -rf $(NAME)
+	@$(RM) $(OBJS_D)
+	@$(RM) $(TARGET_LIB)
 
 reinstall: uninstall all

@@ -10,7 +10,6 @@ SRCS = *.c
 OBJS = *.o
 OBJS_D = obj
 
-
 all: MINILIBMX clean
 
 MINILIBMX:

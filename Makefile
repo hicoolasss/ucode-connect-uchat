@@ -13,11 +13,15 @@ CJSON = $(CJSON_DIR)/cjson.a
 SRC = $(SRCDIR)/*.c
 OBJS = $(OBJDIR)/*.o
 
-all: $(LIBMX) $(SERVER) $(CLIENT) $(CJSON) reinstall
+all: $(LIBMX) $(CJSON) $(SERVER) $(CLIENT) reinstall
 
 $(LIBMX): 
 	$(info $@ compiling...)
 	@make -sC $(LIBMX_DIR)
+
+$(CJSON):
+	$(info $@ compiling...)
+	@make -sC $(CJSON_DIR)
 
 $(SERVER): 
 	$(info $@ compiling...)
@@ -27,9 +31,6 @@ $(CLIENT):
 	$(info $@ compiling...)
 	@make -sC $(CLIENT_DIR)
 
-$(CJSON):
-	$(info $@ compiling...)
-	@make -sC $(CJSON_DIR)
 
 clean:
 	@rm -rf $(SERVER)

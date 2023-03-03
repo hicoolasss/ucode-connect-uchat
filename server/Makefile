@@ -12,7 +12,7 @@ LIBMX_DIR = ../libs/libmx
 LIBMX_NAME = $(LIBMX_DIR)/libmx.a
 
 CJSON_DIR = ../libs/cjson
-CJSON_NAME = $(CJSON_DIR)/libcjson.a
+CJSON_NAME = $(CJSON_DIR)/cjson.a
 
 SSL_DIR = ../libs/openssl
 SSL_FILES:= ../local_lib/lib
