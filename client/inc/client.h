@@ -16,6 +16,9 @@
 #include <openssl/ssl.h>
 #include <openssl/err.h>
 #include "../../libs/libmx/inc/libmx.h"
+#include "../../libs/cjson/inc/cJSON.h"
+#include "../../libs/openssl/openssl/ssl.h"
+#include <openssl/err.h>
 
 #define MAX_CLIENTS 100
 #define BUFFER_SZ 2048
@@ -97,8 +100,9 @@ extern t_main main_client;
 extern pthread_mutex_t cl_mutex;
 
 SSL_CTX* CTX_initialize_client();
-void *rec_func();
-
+int recv_all();
+int send_all(char *buffer);
+char *convert_to_json(char *buffer);
 
 // load styles
 void loadstyles(void);

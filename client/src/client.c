@@ -114,26 +114,104 @@ int main(int argc, char **argv)
     g_signal_connect(app, "activate", G_CALLBACK(app_activate), NULL);
     stat = g_application_run(G_APPLICATION(app), FALSE, NULL);
 
-    // char buffer[1024];
-    // while (1)
+    char *json_str;
+    char buffer[2048];
+
+    mx_printstr("Enter your name: ");
+    fgets(buffer, sizeof(buffer), stdin);
+    buffer[strcspn(buffer, "\n")] = '\0';
+    cur_client.login = mx_strdup(buffer);
+    memset(buffer, 0, sizeof(buffer));
+
+    mx_printstr("Enter your password: ");
+    fgets(buffer, sizeof(buffer), stdin);
+    buffer[strcspn(buffer, "\n")] = '\0';
+    cur_client.passwd = mx_strdup(buffer);
+    memset(buffer, 0, sizeof(buffer));
+
+    // pthread_t recv;
+    // pthread_create(&recv, NULL, &recv_message, NULL);
+    // pthread_detach(recv);
+
+    // pthread_t send;
+    // pthread_create(&send, NULL, &sends_message, NULL);
+    // pthread_detach(send);
+    
+    // char *json_str = registration();
+    // send_all(json_str);
+    // memset(json_str, 0, mx_strlen(json_str));
+    
+    // int recv = SSL_read(cur_client.ssl, buffer, sizeof(buffer));
+    // if (recv == -1)
     // {
-    //     mx_printstr("Enter message: ");
-    //     fgets(buffer, sizeof(buffer), stdin);
-
-    //     int len = SSL_write(cur_client.ssl, buffer, mx_strlen(buffer));
-
-    //     if (len < 0)
-    //     {
-    //         mx_printstr("Error sending message.\n");
-    //         break;
-    //     }
-    //     memset(buffer, 0, sizeof(buffer));
-
+    //     printf("Error receiving message\n");
     // }
+    // else if(mx_strcmp(buffer, "Registered") == 0) {
+    //     mx_printstr("Registered\n");
+    //     registered = true;
+    // }
+    // memset(buffer, 0 , sizeof(buffer));
+    while (1)
+    {
+        mx_printstr("Enter message: ");
+        fgets(buffer, sizeof(buffer), stdin);
+        buffer[strcspn(buffer, "\n")] = '\0';
+        json_str = convert_to_json(buffer);
+        if(json_str != NULL)
+            send_all(json_str);
+        memset(json_str, 0, mx_strlen(json_str));
+        memset(buffer, 0, sizeof(buffer));
 
-    SSL_shutdown(cur_client.ssl);
-    SSL_free(cur_client.ssl);
+        recv_all();
+    }
+    SSL_shutdown(ssl);
+    SSL_free(ssl);
     SSL_CTX_free(ctx);
     close(server_fd);
+    pthread_exit(NULL);
     return 0;
 }
+
+int send_all(char *buffer)
+{
+    int len = SSL_write(cur_client.ssl, buffer, mx_strlen(buffer));
+
+    if (len < 0)
+    {
+        mx_printstr("Error sending message.\n");
+        return 1;
+    }
+    memset(buffer, 0, mx_strlen(buffer));
+    return 0;
+}
+
+int recv_all()
+{
+    char temp[2048];
+    int recv = SSL_read(cur_client.ssl, temp, sizeof(temp));
+    if (recv == -1)
+    {
+        printf("Error receiving message\n");
+    }
+    else
+    {
+        mx_printstr("Received message: ");
+        mx_printstr(temp);
+        mx_printchar('\n');
+    }
+    memset(temp, 0, sizeof(temp));
+    return 0;
+}
+
+char *convert_to_json(char *buffer)
+{
+    cJSON *json = cJSON_CreateObject();
+    cJSON_AddStringToObject(json, "name", cur_client.login);
+    // cJSON_AddStringToObject(json, "password", cur_client.passwd);
+    cJSON_AddStringToObject(json, "message", buffer);
+
+    char *json_str = cJSON_Print(json);
+    cJSON_Delete(json);
+    return (json_str);
+}
+

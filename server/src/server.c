@@ -57,7 +57,7 @@ int main(int argc, char **argv) {
         t_client *new_client = create_new_client(cli_addr, client_fd, ssl);
         printf("New client connected. His id: %d\n", new_client->id);
 
-       ent_sys(login,password,ssl);//registration and enter db
+    //    ent_sys(login,password,ssl);//registration and enter db
 
 
         // sql_create_db();

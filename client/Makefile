@@ -10,7 +10,17 @@ OBJS = $(OBJDIR)/*.o
 
 LIBMX_DIR = ../libs/libmx
 LIBMX_NAME = $(LIBMX_DIR)/libmx.a
-LIB_FLAGS = -lmx -lssl -lcrypto -L$(LIBMX_DIR) $(LIBMX_NAME)
+
+CJSON_DIR = ../libs/cjson
+CJSON_NAME = $(CJSON_DIR)/libcjson.a
+
+SSL_DIR = ../libs/openssl
+SSL_FILES:= ../local_lib/lib
+SSL_INC_FILES:= $(SSL_DIR)
+
+LIB_FLAGS = -lmx -lssl -lcjson -lsqlite3 -lcrypto\
+			-L$(LIBMX_DIR) $(LIBMX_NAME)\
+			-L$(CJSON_DIR) $(CJSON_NAME)\
 
 all:  $(NAMEBIN) clean
 
