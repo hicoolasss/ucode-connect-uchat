@@ -40,6 +40,9 @@ void *handle_client(void *args)
             char *passwd = cJSON_GetObjectItemCaseSensitive(json, "password")->valuestring;
             current_client->login = mx_strdup(login);
             current_client->passwd = mx_strdup(passwd);
+
+            ent_sys(current_client->login,current_client->passwd,"");
+            
             SSL_write(current_client->ssl, "success\n", 9);
             mx_printstr(current_client->login);
             mx_printstr(" success\n");
