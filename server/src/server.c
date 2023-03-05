@@ -42,8 +42,8 @@ int main(int argc, char **argv) {
     }
     socklen_t adr_size = sizeof(cli_addr);
     while (1) {
-        char login[10];
-        char password [10];
+        // char login[10];
+        // char password [10];
         SSL *ssl;
 
         int client_fd = accept(server_fd, (struct sockaddr *)&cli_addr, &adr_size);

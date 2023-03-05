@@ -13,12 +13,10 @@
 #include <pthread.h>
 #include <sys/types.h>
 #include <signal.h>
-#include <openssl/ssl.h>
 #include <openssl/err.h>
+#include <openssl/ssl.h>
 #include "../../libs/libmx/inc/libmx.h"
 #include "../../libs/cjson/inc/cJSON.h"
-#include "../../libs/openssl/openssl/ssl.h"
-#include <openssl/err.h>
 
 #define MAX_CLIENTS 100
 #define BUFFER_SZ 2048
@@ -98,11 +96,13 @@ typedef struct s_main
 extern t_client cur_client;
 extern t_main main_client;
 extern pthread_mutex_t cl_mutex;
+extern _Atomic bool registered;
 
 SSL_CTX* CTX_initialize_client();
-int recv_all();
-int send_all(char *buffer);
+int send_message_to_server(char *buffer);
 char *convert_to_json(char *buffer);
+void *recv_func();
+char *registration();
 
 // load styles
 void loadstyles(void);

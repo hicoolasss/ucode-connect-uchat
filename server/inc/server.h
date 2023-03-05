@@ -32,7 +32,9 @@ typedef struct s_client {
 
 } t_client;
 
-
+typedef struct s_main {
+    bool registered;
+} t_main;
 typedef struct s_chat {
     
     char *message;

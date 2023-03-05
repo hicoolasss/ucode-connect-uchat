@@ -7,7 +7,15 @@
         "libmx.h": "c",
         "in.h": "c",
         "ssl.h": "c",
-        "system_error": "c"
+        "system_error": "c",
+        "socket.h": "c",
+        "gtkcss.h": "c",
+        "gdk.h": "c",
+        "glib.h": "c",
+        "galloca.h": "c",
+        "gatomic.h": "c",
+        "gtypes.h": "c",
+        "typeinfo": "c"
     },
     "editor.formatOnSave": true,
     "editor.formatOnSaveTimeout": 1500
