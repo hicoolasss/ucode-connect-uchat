@@ -36,17 +36,21 @@ void *handle_client(void *args)
                 break;
             }
             // Извлечение данных из JSON-объекта
+            
             char *login = cJSON_GetObjectItemCaseSensitive(json, "login")->valuestring;
             char *passwd = cJSON_GetObjectItemCaseSensitive(json, "password")->valuestring;
             current_client->login = mx_strdup(login);
             current_client->passwd = mx_strdup(passwd);
 
-             if (ent_sys(current_client->login, current_client->passwd, current_client->ssl) == 1)
-            {
-                SSL_write(current_client->ssl, "incorrect password\n", 20);
-            }
-            else
-            {
+            ////////////////
+            // if(check_correct_login(current_client->login) == 1) printf("incorrect log\n");
+            // else if(check_correct_password(current_client->passwd) == 1) printf("incorrect pas\n");
+            // else{
+
+
+            if (ent_sys(current_client->login, current_client->passwd, current_client->ssl) == 1){
+               SSL_write(current_client->ssl, "incorrect password\n", 20);
+            } else {
                 SSL_write(current_client->ssl, "success\n", 9);
                 mx_printstr(current_client->login);
                 mx_printstr(" success\n");
@@ -54,6 +58,7 @@ void *handle_client(void *args)
                 memset(passwd, 0, mx_strlen(passwd));
                 main_client.registered = true;
             }
+            //}
         }
     }
     while (main_client.registered == true)

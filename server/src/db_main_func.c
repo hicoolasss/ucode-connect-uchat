@@ -22,6 +22,7 @@ int ent_sys(char *login, char *password, SSL *ssl)
         }
         else {
             printf("incorrect pass or login!\n\n");
+            return 1;
         }
     }
     else if ((log_id_check != NULL) && (pass_id_check == NULL))
