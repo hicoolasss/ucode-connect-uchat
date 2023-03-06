@@ -42,13 +42,10 @@ void *handle_client(void *args)
             current_client->login = mx_strdup(login);
             current_client->passwd = mx_strdup(passwd);
 
-            ////////////////
-            // if(check_correct_login(current_client->login) == 1) printf("incorrect log\n");
-            // else if(check_correct_password(current_client->passwd) == 1) printf("incorrect pas\n");
-            // else{
+           
 
-
-            if (ent_sys(current_client->login, current_client->passwd, current_client->ssl) == 1){
+            //other func db_regestr_to_serv();
+            if (db_log_to_serv(current_client->login, current_client->passwd, current_client->ssl) == 1){
                SSL_write(current_client->ssl, "incorrect password\n", 20);
             } else {
                 SSL_write(current_client->ssl, "success\n", 9);
@@ -58,7 +55,6 @@ void *handle_client(void *args)
                 memset(passwd, 0, mx_strlen(passwd));
                 main_client.registered = true;
             }
-            //}
         }
     }
     while (main_client.registered == true)

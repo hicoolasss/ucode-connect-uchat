@@ -1,13 +1,8 @@
 #include "../inc/head_db.h"
 
-int ent_sys(char *login, char *password, SSL *ssl)
+int db_log_to_serv(char *login, char *password, SSL *ssl)
 {
     sql_create_db();
-    // printf("Enter login...\n");
-    // scanf("%10s[^\n]", login);
-    // printf("Enter pass...\n");
-    // scanf("%10s[^\n]", password);
-    //"*" - поля таблицы которые хотим получить
     char *log_id_check = sql_get("id", "login", login, 1);
     char *pass_id_check = sql_get("id", "password", password, 1);
 
@@ -30,10 +25,14 @@ int ent_sys(char *login, char *password, SSL *ssl)
         printf("incorrect password...\n\n");
         return 1;
     }
-    else
-    {
-        sql_set_user(login, password, ssl);
-        printf("You was regestered :-)\n\n");
-    }
     return 0;
+}
+
+
+int db_regestr_to_serv(char *login, char *password, SSL *ssl){
+        sql_create_db();
+        if(sql_set_user(login, password, ssl) == 1) printf("this user already exist\n");
+        else
+        printf("You was regestered :-)\n\n");
+        return 0;
 }
