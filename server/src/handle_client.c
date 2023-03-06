@@ -41,14 +41,19 @@ void *handle_client(void *args)
             current_client->login = mx_strdup(login);
             current_client->passwd = mx_strdup(passwd);
 
-            ent_sys(current_client->login,current_client->passwd,"");
-            
-            SSL_write(current_client->ssl, "success\n", 9);
-            mx_printstr(current_client->login);
-            mx_printstr(" success\n");
-            memset(login, 0, mx_strlen(login));
-            memset(passwd, 0, mx_strlen(passwd));
-            main_client.registered = true;
+             if (ent_sys(current_client->login, current_client->passwd, current_client->ssl) == 1)
+            {
+                SSL_write(current_client->ssl, "incorrect password\n", 20);
+            }
+            else
+            {
+                SSL_write(current_client->ssl, "success\n", 9);
+                mx_printstr(current_client->login);
+                mx_printstr(" success\n");
+                memset(login, 0, mx_strlen(login));
+                memset(passwd, 0, mx_strlen(passwd));
+                main_client.registered = true;
+            }
         }
     }
     while (main_client.registered == true)

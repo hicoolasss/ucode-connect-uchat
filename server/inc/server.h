@@ -10,6 +10,7 @@
 #include "../../libs/libmx/inc/libmx.h"
 #include "../../libs/cjson/inc/cJSON.h"
 #include "../../libs/openssl/openssl/ssl.h"
+#include "../inc/head_db.h"
 #include <openssl/err.h>
 #include <sys/stat.h>
 #include <sys/types.h>

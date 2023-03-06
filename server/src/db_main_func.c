@@ -1,6 +1,6 @@
 #include "../inc/head_db.h"
 
-void ent_sys(char *login, char *password, SSL *ssl)
+int ent_sys(char *login, char *password, SSL *ssl)
 {
     sql_create_db();
     // printf("Enter login...\n");

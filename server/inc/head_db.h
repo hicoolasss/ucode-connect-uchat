@@ -17,7 +17,7 @@
 int sql_open_db (sqlite3 **db);
 void sql_create_db ();
 char *join(const char* s1, const char* s2);
-void ent_sys(char* login,char* password,SSL *ssl);
+int ent_sys(char *login, char *password, SSL *ssl);
 
 //To find one variable
 char* sql_get(char* find_var, char* seek_var, char *value_seek_var, int table);

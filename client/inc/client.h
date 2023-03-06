@@ -103,6 +103,8 @@ int send_message_to_server(char *buffer);
 char *convert_to_json(char *buffer);
 void *recv_func();
 char *registration();
+int recv_all(SSL *sockfd, char *buf, int len);
+int send_all(SSL *sockfd, char *buf, int len);
 
 // load styles
 void loadstyles(void);
