@@ -78,7 +78,7 @@ typedef struct s_client {
 
     int id;
     char *login;
-    char *passwd;
+    const char *password;
 
 } t_client;
 

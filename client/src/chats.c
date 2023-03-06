@@ -3,9 +3,6 @@
 extern t_screen curent_screen;
 extern t_grid curent_grid;
 
-
-
-
 static void send_message(GtkEntry *message_entry, gpointer user_data) {
 
         GtkEntryBuffer *buffer = gtk_entry_get_buffer(message_entry);

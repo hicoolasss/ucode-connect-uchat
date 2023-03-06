@@ -2,18 +2,50 @@
 
 extern t_screen curent_screen;
 extern t_grid curent_grid;
+extern t_client cur_client;
+
 
 static void sign_inbtn_clicked() {
     set_unvisible_auth();
     gtk_widget_set_visible(GTK_WIDGET(curent_grid.log_in_conrainer), TRUE);
 }
 
-
-static void sign_up_btn_clicked() {
+static void sign_up_btn_clicked(GtkWidget *widget, gpointer data) {
     //we can log in after registration
     set_unvisible_auth();
     gtk_widget_set_visible(GTK_WIDGET(curent_grid.log_in_conrainer), TRUE);
+
+    GtkWidget **entry_data = data;
+    GtkEntryBuffer *username = gtk_entry_get_buffer(GTK_ENTRY (entry_data[0]));
+    GtkEntryBuffer *password1 = gtk_entry_get_buffer(GTK_ENTRY (entry_data[1]));
+    GtkEntryBuffer *password2 = gtk_entry_get_buffer(GTK_ENTRY (entry_data[2]));\
+
+    cur_client.login = mx_strdup(gtk_entry_buffer_get_text(username));
+    const char *password_str_1 = gtk_entry_buffer_get_text(password1);
+    const char *password_str_2 = gtk_entry_buffer_get_text(password2);
+
+
+    cur_client.password = mx_strdup(password_str_1);
+
 }
+
+
+// void get_username(GtkEntry *username_entry) {
+
+//     GtkEntryBuffer *buffer = gtk_entry_get_buffer(username_entry);
+//     const char *buf = gtk_entry_buffer_get_text(buffer);
+//     cur_client.login = mx_strdup(buf);
+
+// }
+
+// void get_password(GtkEntry *pasword_entry) {
+
+//     GtkEntryBuffer *buffer = gtk_entry_get_buffer(pasword_entry);
+//     const char *buf = gtk_entry_buffer_get_text(buffer);
+//     cur_client.password = mx_strdup(buf);
+    
+// }
+
 
 void show_registration() {
     
@@ -107,6 +139,11 @@ void show_registration() {
 
     gtk_widget_set_size_request(sign_in_button, 63, 20);
 
+    // get_username(GTK_ENTRY(username));
+    // get_password(GTK_ENTRY(password));
+
+
+
 
     widget_styling(box, curent_screen, "auth_main_box");
     widget_styling(welcome, curent_screen, "auth_welcome_to_the_dark");
@@ -118,7 +155,13 @@ void show_registration() {
     widget_styling(have_account, curent_screen, "auth_dont_or_have_account");
 
     g_signal_connect(sign_in_button, "clicked", G_CALLBACK(sign_inbtn_clicked), NULL);
-    g_signal_connect(sign_up_button_registration, "clicked", G_CALLBACK(sign_up_btn_clicked), NULL);
+
+    GtkWidget **entry_arr = (GtkWidget **)malloc(3 * sizeof(GtkWidget *));//{LOGIN_entry_field1, LOGIN_entry_field2};
+    entry_arr[0] = username;
+    entry_arr[1] = password;
+    entry_arr[2] = confirm_password;
+
+    g_signal_connect(sign_up_button_registration, "clicked", G_CALLBACK(sign_up_btn_clicked), entry_arr);
 
     gtk_window_present(GTK_WINDOW(curent_screen.screen));
 

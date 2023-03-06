@@ -14,7 +14,6 @@ void log_in_btn_clicked() {
     show_home();
 }
 
-
 void show_login() {
 
     GtkWidget *box, *username, *password;

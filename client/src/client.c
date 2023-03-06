@@ -121,6 +121,7 @@ int main(int argc, char **argv)
     g_signal_connect(app, "activate", G_CALLBACK(app_activate), NULL);
     stat = g_application_run(G_APPLICATION(app), FALSE, NULL);
 
+    mx_printstr(cur_client.password);
     char *json_str;
     char buffer[2048];
 
@@ -185,7 +186,7 @@ char *convert_to_json(char *buffer)
 {
     cJSON *json = cJSON_CreateObject();
     cJSON_AddStringToObject(json, "name", cur_client.login);
-    // cJSON_AddStringToObject(json, "password", cur_client.passwd);
+    // cJSON_AddStringToObject(json, "password", cur_client.password);
     cJSON_AddStringToObject(json, "message", buffer);
 
     char *json_str = cJSON_Print(json);
@@ -205,12 +206,12 @@ char *registration()
     mx_printstr("Enter your password: ");
     fgets(buffer, sizeof(buffer), stdin);
     buffer[strcspn(buffer, "\n")] = '\0';
-    cur_client.passwd = mx_strdup(buffer);
+    cur_client.password = mx_strdup(buffer);
     memset(buffer, 0, sizeof(buffer));
 
     cJSON *json = cJSON_CreateObject();
     cJSON_AddStringToObject(json, "login", cur_client.login);
-    cJSON_AddStringToObject(json, "password", cur_client.passwd);
+    cJSON_AddStringToObject(json, "password", cur_client.password);
 
     char *json_str = cJSON_Print(json);
     cJSON_Delete(json);
