@@ -8,10 +8,25 @@ static void donthaveaccountbtn_clicked() {
     gtk_widget_set_visible(GTK_WIDGET(curent_grid.registration_container), TRUE);
 }
 
-void log_in_btn_clicked() {
+void log_in_btn_clicked(GtkWidget *widget, gpointer data) {
+
     curent_grid.is_log_in_clicked = TRUE;
+
+    GtkWidget **entry_data = data;
+    GtkEntryBuffer *username = gtk_entry_get_buffer(GTK_ENTRY(entry_data[0]));
+    GtkEntryBuffer *password = gtk_entry_get_buffer(GTK_ENTRY(entry_data[1]));
+
+    cur_client.login = mx_strdup(gtk_entry_buffer_get_text(username));
+    const char *temp_password = gtk_entry_buffer_get_text(password);
+    cur_client.password = mx_strdup(temp_password);
+    
+    char *json_str;
+    json_str = registration();
+    send_message_to_server(json_str);
+
     set_unvisible_auth();
     show_home();
+
 }
 
 void show_login() {
@@ -114,7 +129,11 @@ void show_login() {
     widget_styling(dont_have_account, curent_screen, "auth_dont_or_have_account");
     widget_styling(sign_up_button_log_in, curent_screen, "auth_sign_button");
 
-    //g_signal_connect(sign_up_button_log_in, "clicked", G_CALLBACK(donthaveaccountbtn_clicked), NULL);
+    GtkWidget **entry_arr = (GtkWidget **)malloc(2 * sizeof(GtkWidget *)); //{LOGIN_entry_field1, LOGIN_entry_field2};
+    entry_arr[0] = username;
+    entry_arr[1] = password;
+
     g_signal_connect(sign_up_button_log_in, "clicked", G_CALLBACK(donthaveaccountbtn_clicked), NULL);
-    g_signal_connect(log_in_button, "clicked", G_CALLBACK(log_in_btn_clicked), NULL);
+
+    g_signal_connect(log_in_button, "clicked", G_CALLBACK(log_in_btn_clicked), entry_arr);
 }

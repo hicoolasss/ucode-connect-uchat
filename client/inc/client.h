@@ -138,7 +138,7 @@ void show_login(void);
 // show registration screen
 void show_registration(void);
 
-void log_in_btn_clicked(GtkWidget *box);
+void log_in_btn_clicked(GtkWidget *widget, gpointer data);
 //show intro screens
 void first_intro_screen();
 void second_intro_screen();
