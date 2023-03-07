@@ -20,4 +20,5 @@ int check_correct_password (char *password) {
         else return 1;
     }
     return 0;
+
 }
