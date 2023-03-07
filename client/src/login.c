@@ -6,6 +6,7 @@ extern t_grid curent_grid;
 static void donthaveaccountbtn_clicked() {
     set_unvisible_auth();
     gtk_widget_set_visible(GTK_WIDGET(curent_grid.registration_container), TRUE);
+
 }
 
 void log_in_btn_clicked(GtkWidget *widget, gpointer data) {
@@ -17,18 +18,40 @@ void log_in_btn_clicked(GtkWidget *widget, gpointer data) {
     GtkEntryBuffer *password = gtk_entry_get_buffer(GTK_ENTRY(entry_data[1]));
 
     cur_client.login = mx_strdup(gtk_entry_buffer_get_text(username));
-    const char *temp_password = gtk_entry_buffer_get_text(password);
-    cur_client.password = mx_strdup(temp_password);
+    cur_client.password = mx_strdup(gtk_entry_buffer_get_text(password));
     
-    char *json_str;
-    json_str = registration();
-    send_message_to_server(json_str);
-    // if () {
-    //     return;
-    // }
+    if (mx_strlen(cur_client.login) == 0) {
+        //erro
+        return;
+    }
 
-    set_unvisible_auth();
-    show_home();
+    if (mx_strlen(cur_client.password) == 0) {
+        //erro
+        return;
+    }
+    
+    // char *json_str;
+    // json_str = registration();
+    // send_message_to_server(json_str);
+   
+    // char *buf = NULL;
+    
+    // int len = SSL_read(cur_client.ssl, buf, mx_strlen(buf));
+       
+    // if (len < 0) {
+
+    //     printf("Error: Unable to receive data from server\n");
+        
+    // } else if (mx_strcmp(buf, "incorrect password\n") == 0) {
+            
+    //     return;
+
+    // } else if (mx_strcmp(buf, "success\n") == 0) {
+            
+        set_unvisible_auth();
+        show_home();
+        
+    //}
 
 }
 

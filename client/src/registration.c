@@ -5,6 +5,57 @@ extern t_grid curent_grid;
 extern t_client cur_client;
 t_registration cur_registration;
 
+
+
+static int get_username_status(void) {
+
+    if (mx_strlen(cur_client.login) < 4) return -1;
+    if (mx_strlen(cur_client.login) > 10) return -2;
+
+    const char *forbidden_symbols = "$&=+<>,_`- ";
+    
+    for (int i = 0; i < mx_strlen(cur_client.login); i++) {
+        
+        for (int j = 0; j < 9; j++) {
+            
+            if (cur_client.login[i] == forbidden_symbols[j]) {
+                
+                return -3;
+            
+            }
+        
+        }
+    
+    }
+    return 0;
+}
+
+static int get_password_status (const char *confirm_password) {
+
+    if (mx_strlen(cur_client.password) < 4) return -1;
+    if (mx_strlen(cur_client.password) > 10) return -2;
+
+    const char *forbidden_symbols = "$&=+<>,_`- ";
+    
+    for (int i = 0; i < mx_strlen(cur_client.password); i++) {
+        
+        for (int j = 0; j < 9; j++) {
+            
+            if (cur_client.password[i] == forbidden_symbols[j]) {
+                
+                return -3;
+            
+            }
+        
+        }
+    
+    }
+
+    if (mx_strcmp(cur_client.password, confirm_password) != 0) return -4;
+
+    return 0;
+}
+
 static void sign_inbtn_clicked()
 {
     set_unvisible_auth();
@@ -13,6 +64,7 @@ static void sign_inbtn_clicked()
 
 static void sign_up_btn_clicked(GtkWidget *widget, gpointer entries_array)
 {
+    bool is_registration_success = true;
 
     GtkWidget **entry_data = entries_array;
 
@@ -21,76 +73,153 @@ static void sign_up_btn_clicked(GtkWidget *widget, gpointer entries_array)
     GtkEntryBuffer *password2 = gtk_entry_get_buffer(GTK_ENTRY(entry_data[2]));
 
     cur_client.login = mx_strdup(gtk_entry_buffer_get_text(username));
-    const char *password = gtk_entry_buffer_get_text(password1);
+    cur_client.password = mx_strdup(gtk_entry_buffer_get_text(password1));
     const char *confirm_password = gtk_entry_buffer_get_text(password2);
 
-    if (mx_strlen(cur_client.login) < 4) {
 
-        gtk_label_set_text(GTK_LABEL(cur_registration.username_error_label), "Username is too short");
+    int username_status = get_username_status();
 
-        widget_restyling(cur_registration.username_error_label, curent_screen, "hide_label", "password_error_label");
-
-        widget_styling(entry_data[0], curent_screen, "wrong_auth_entry_field");
-
-        return;
-
-    } else if (mx_strlen(cur_client.login) > 10) {
-
-        gtk_label_set_text(GTK_LABEL(cur_registration.username_error_label), "Username is too long");
-
-        widget_restyling(cur_registration.username_error_label, curent_screen, "hide_label", "password_error_label");
-
-        widget_styling(entry_data[0], curent_screen, "wrong_auth_entry_field");
-
-        return;
-
-    }
-
-    for (int i = 0; i < mx_strlen(cur_client.login); i++) {
+    switch (username_status) {
         
-        if (mx_isalpha(cur_client.login[i]) || mx_isdigit(cur_client.login[i]) || cur_client.login[i] == '_') {
+        case 0: {
             
-            continue;
-        
-        } else {
-            
-            gtk_label_set_text(GTK_LABEL(cur_registration.username_error_label), "Username contain forbidden symbols!");
+            widget_restyling(cur_registration.username_error_label, curent_screen, "error_label", "hide_label");
 
-            widget_restyling(cur_registration.username_error_label, curent_screen, "hide_label", "password_error_label");
+            widget_restyling(entry_data[0], curent_screen, "wrong_auth_entry_field", "auth_entry_field");
+            
+            break;
+
+        }
+
+        case -1: {
+            
+            gtk_label_set_text(GTK_LABEL(cur_registration.username_error_label), "Username is too short");
+
+            widget_restyling(cur_registration.username_error_label, curent_screen, "hide_label", "error_label");
 
             widget_styling(entry_data[0], curent_screen, "wrong_auth_entry_field");
+
+            is_registration_success = false;
 
             return;
         
         }
+
+        case -2: {
+
+            gtk_label_set_text(GTK_LABEL(cur_registration.username_error_label), "Username is too long");
+
+            widget_restyling(cur_registration.username_error_label, curent_screen, "hide_label", "error_label");
+
+            widget_styling(entry_data[0], curent_screen, "wrong_auth_entry_field");
+
+            is_registration_success = false;
+
+            return;
+
+        }
+
+        case -3: {
+
+            gtk_label_set_text(GTK_LABEL(cur_registration.username_error_label), "Username contain forbidden symbols!");
+
+            widget_restyling(cur_registration.username_error_label, curent_screen, "hide_label", "error_label");
+
+            widget_styling(entry_data[0], curent_screen, "wrong_auth_entry_field");
+
+            is_registration_success = false;
+
+            return;
+
+        }
+
+
     }
 
+    int password_status = get_password_status(confirm_password);
 
-    if (mx_strcmp(password, confirm_password) == 0) {
+    switch (password_status) {
         
-        cur_client.password = mx_strdup(password);
-    
-    } else if (mx_strcmp(password, confirm_password) != 0) {
+        case 0: {
 
-        gtk_label_set_text(GTK_LABEL(cur_registration.password_error_label), "Passwords missmatch!");
-        gtk_label_set_text(GTK_LABEL(cur_registration.confirm_password_error_label), "Passwords missmatch!");
+            widget_restyling(cur_registration.password_error_label, curent_screen, "error_label", "hide_label");
+            widget_restyling(cur_registration.confirm_password_error_label, curent_screen, "error_label", "hide_label");
 
-        widget_styling(entry_data[1], curent_screen, "wrong_auth_entry_field");
-        widget_styling(entry_data[2], curent_screen, "wrong_auth_entry_field");
+            widget_restyling(entry_data[1], curent_screen, "wrong_auth_entry_field", "auth_entry_field");
+            widget_restyling(entry_data[2], curent_screen, "wrong_auth_entry_field", "auth_entry_field");
+        
+        }
+        case -1: {
+            
+            gtk_label_set_text(GTK_LABEL(cur_registration.password_error_label), "Password is too short");
 
-        widget_restyling(cur_registration.password_error_label, curent_screen, "hide_label", "password_error_label");
-        widget_restyling(cur_registration.confirm_password_error_label, curent_screen, "hide_label", "password_error_label");
+            widget_restyling(cur_registration.password_error_label, curent_screen, "hide_label", "error_label");
 
-        return;
+            widget_styling(entry_data[1], curent_screen, "wrong_auth_entry_field");
 
+            is_registration_success = false;
+
+            return;
+        
+        }
+
+        case -2: {
+
+            gtk_label_set_text(GTK_LABEL(cur_registration.password_error_label), "Password is too long");
+
+            widget_restyling(cur_registration.password_error_label, curent_screen, "hide_label", "error_label");
+
+            widget_styling(entry_data[1], curent_screen, "wrong_auth_entry_field");
+
+            is_registration_success = false;
+
+            return;
+
+        }
+
+        case -3: {
+
+            gtk_label_set_text(GTK_LABEL(cur_registration.password_error_label), "Password contain forbidden symbols!");
+
+            widget_restyling(cur_registration.password_error_label, curent_screen, "hide_label", "error_label");
+
+            widget_styling(entry_data[1], curent_screen, "wrong_auth_entry_field");
+
+            is_registration_success = false;
+
+            return;
+
+        }
+
+
+        case -4: {
+
+            gtk_label_set_text(GTK_LABEL(cur_registration.password_error_label), "Passwords missmatch!");
+            gtk_label_set_text(GTK_LABEL(cur_registration.confirm_password_error_label), "Passwords missmatch!");
+
+            widget_styling(entry_data[1], curent_screen, "wrong_auth_entry_field");
+            widget_styling(entry_data[2], curent_screen, "wrong_auth_entry_field");
+
+            widget_restyling(cur_registration.password_error_label, curent_screen, "hide_label", "error_label");
+            widget_restyling(cur_registration.confirm_password_error_label, curent_screen, "hide_label", "error_label");
+
+            is_registration_success = false;
+
+            return;
+
+        }
     }
 
     char *json_str;
     json_str = registration();
     send_message_to_server(json_str);
 
-    set_unvisible_auth();
-    gtk_widget_set_visible(GTK_WIDGET(curent_grid.log_in_conrainer), TRUE);
+    if (is_registration_success) {
+        
+        set_unvisible_auth();
+        gtk_widget_set_visible(GTK_WIDGET(curent_grid.log_in_conrainer), TRUE);
+    }
+
 }
 
 void show_registration()

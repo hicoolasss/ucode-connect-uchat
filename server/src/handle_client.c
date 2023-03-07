@@ -46,7 +46,9 @@ void *handle_client(void *args)
 
             //other func db_regestr_to_serv();
             if (db_log_to_serv(current_client->login, current_client->passwd, current_client->ssl) == 1) {
+               
                SSL_write(current_client->ssl, "incorrect password\n", 20);
+            
             } else {
                 SSL_write(current_client->ssl, "success\n", 9);
                 mx_printstr(current_client->login);
@@ -57,42 +59,42 @@ void *handle_client(void *args)
             }
         }
     }
-    while (main_client.registered == true)
-    {
-        int len = SSL_read(current_client->ssl, buf, sizeof(buf) - 1);
-        if (len < 0)
-        {
-            printf("Error: Unable to receive data from server\n");
-            break;
-        }
-        else if (len == 0)
-        {
-            mx_printstr(current_client->login);
-            cli_count--;
-            printf(" disconnected\n");
-            break;
-        }
-        else
-        {
-            // buf[len] = '\0';
-            printf("Data received from server: %s\n", buf);
+    // while (main_client.registered == true)
+    // {
+    //     int len = SSL_read(current_client->ssl, buf, sizeof(buf) - 1);
+    //     if (len < 0)
+    //     {
+    //         printf("Error: Unable to receive data from server\n");
+    //         break;
+    //     }
+    //     else if (len == 0)
+    //     {
+    //         mx_printstr(current_client->login);
+    //         cli_count--;
+    //         printf(" disconnected\n");
+    //         break;
+    //     }
+    //     else
+    //     {
+    //         // buf[len] = '\0';
+    //         printf("Data received from server: %s\n", buf);
 
-            // Преобразование строки в JSON-объект
-            cJSON *json_obj = cJSON_Parse(buf);
-            if (!json_obj)
-            {
-                printf("Error: Invalid JSON data received from server\n");
-                break;
-            }
-            // Извлечение данных из JSON-объекта
-            char *message = cJSON_GetObjectItemCaseSensitive(json_obj, "message")->valuestring;
-            char *login = cJSON_GetObjectItemCaseSensitive(json_obj, "name")->valuestring;
-            print_message(login, message);
-            send_message_to_all_clients(message, current_client->cl_socket);
-            // mx_printstr(message);
-            cJSON_Delete(json_obj);
-        }
-    }
+    //         // Преобразование строки в JSON-объект
+    //         cJSON *json_obj = cJSON_Parse(buf);
+    //         if (!json_obj)
+    //         {
+    //             printf("Error: Invalid JSON data received from server\n");
+    //             break;
+    //         }
+    //         // Извлечение данных из JSON-объекта
+    //         char *message = cJSON_GetObjectItemCaseSensitive(json_obj, "message")->valuestring;
+    //         char *login = cJSON_GetObjectItemCaseSensitive(json_obj, "name")->valuestring;
+    //         print_message(login, message);
+    //         send_message_to_all_clients(message, current_client->cl_socket);
+    //         // mx_printstr(message);
+    //         cJSON_Delete(json_obj);
+    //     }
+    // }
     return NULL;
 }
 
