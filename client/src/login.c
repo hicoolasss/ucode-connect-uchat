@@ -23,6 +23,9 @@ void log_in_btn_clicked(GtkWidget *widget, gpointer data) {
     char *json_str;
     json_str = registration();
     send_message_to_server(json_str);
+    // if () {
+    //     return;
+    // }
 
     set_unvisible_auth();
     show_home();

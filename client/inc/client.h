@@ -23,11 +23,30 @@
 #define LENGTH 2048
 
 // gtk windows structure
-typedef struct
-{
+typedef struct {
     GtkWidget *screen;
     GtkCssProvider *provider;
 } t_screen;
+
+typedef struct s_registration {
+
+    GtkWidget *welcome;
+    GtkWidget *box;
+
+    GtkWidget *username;
+    GtkWidget *username_error_label;
+
+    GtkWidget *password;
+    GtkWidget *password_error_label;
+
+    GtkWidget *confirm_password;
+    GtkWidget *confirm_password_error_label;
+
+    GtkWidget *sign_up_btn;
+    GtkWidget *have_account;
+    GtkWidget *sign_in_btn;
+
+} t_registration;
 
 typedef struct {
     //containers for easier display
@@ -110,6 +129,7 @@ int send_all(SSL *sockfd, char *buf, int len);
 void loadstyles(void);
 // add style to widget
 void widget_styling(GtkWidget *widget, t_screen screen, const char *name_of_css_class);
+void widget_restyling(GtkWidget *widget, t_screen screen, const char *name_of_removed_css_class, const char *name_of_css_class);
 void change_scheme_to_any_color(char *bg_win_col,
                                 char *bg_auth_main_box,
                                 char *bit_text_col,

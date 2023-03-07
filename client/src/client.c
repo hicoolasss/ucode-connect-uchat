@@ -26,6 +26,16 @@ void widget_styling(GtkWidget *widget, t_screen screen, const char *name_of_css_
     gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(screen.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
 }
 
+void widget_restyling(GtkWidget *widget, t_screen screen, const char *name_of_removed_css_class, const char *name_of_css_class)
+{
+
+    GtkStyleContext *context = gtk_widget_get_style_context(widget);
+
+    gtk_style_context_remove_class(context, name_of_removed_css_class);
+    gtk_style_context_add_class(context, name_of_css_class);
+    gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(screen.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
+}
+
 static void app_activate(GApplication *app)
 {
 

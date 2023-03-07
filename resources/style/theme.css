@@ -5,6 +5,8 @@
 
 .background {
     background-color: @bg-win-col;
+    border-style: solid;
+    border-color: blue;
 }
 
 .auth_main_box {
@@ -38,6 +40,37 @@
 }
 
 .auth_entry_field:focus {
+    border: 2px solid @small-text-col;
+}
+
+
+
+.wrong_auth_entry_field {
+    background: @auth-input-bg-col;
+    border-radius: 60px;
+    border-style: solid;
+    border-color: #FF2929;
+    outline: none;
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 26px;
+    color: @bit-text-col;
+    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    box-shadow: 0px 0px 20px -18px;
+}
+
+.wrong_auth_entry_field:hover {
+    border: 2px solid #FF2929;
+    box-shadow: 0px 0px 20px -17px;
+}
+
+.wrong_auth_entry_field:active {
+    transform: scale(0.99);
+}
+
+.wrong_auth_entry_field:focus {
     border: 2px solid @small-text-col;
 }
 
@@ -107,6 +140,25 @@
     box-shadow: none;
 }
 
+.password_error_label {
+    
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 20px;
+    /* identical to box height */
+
+
+    color: #FF2929;
+
+}
+.hide_label {
+
+    color: transparent;
+
+}
+
 /*LOG_IN and REGISTRATION START*/
 
 /*INTRO START*/
@@ -122,11 +174,13 @@
 }
 
 @keyframes fadeout {
-    from{
+    from {
         background-color: @bg-auth-main-box;
-    } to{
-          background-color: rgba(255,255,255,0);
-      }
+    }
+
+    to {
+        background-color: rgba(255, 255, 255, 0);
+    }
 }
 
 .intro_welcome_to_the_dark {
@@ -140,11 +194,13 @@
     animation-duration: 2s;
     animation-fill-mode: forwards;
 }
+
 @keyframes grow {
     0% {
         font-size: 30px;
         transform: translateY(0px);
     }
+
     100% {
         font-size: 40px;
         transform: translateY(150px);
@@ -577,9 +633,9 @@
 
 .lets_start:hover {
     box-shadow: 0 0 5px #6582C8,
-    0 0 25px #647295,
-    0 0 50px #6582C8,
-    0 0 100px #647295;
+        0 0 25px #647295,
+        0 0 50px #6582C8,
+        0 0 100px #647295;
 }
 
 .lets_start:active {
@@ -817,16 +873,16 @@
     border-radius: 15px;
     transform: translateY(-10px);
     box-shadow: 0 15px 0 -4px #39a2db,
-    0 16px 10px -3px #39a2db,
-    0 7px 0 -2px #EEEEFF;
+        0 16px 10px -3px #39a2db,
+        0 7px 0 -2px #EEEEFF;
 }
 
 .achievements_label_btn:active {
     transition: all 0.2s;
     transform: translateY(-5px);
     box-shadow: 0 2px 0 -2px #EEEEFF,
-    0 8px 0 -4px #39a2db,
-    0 12px 10px -3px #39a2db;
+        0 8px 0 -4px #39a2db,
+        0 12px 10px -3px #39a2db;
 }
 
 .first_hbox {
@@ -988,7 +1044,7 @@
     font-size: 1.1em;
 }
 
-settings_grid_with_in_body_btn:hover{
+settings_grid_with_in_body_btn:hover {
     color: @bit-text-col;
     background-color: @log-out-no-border;
     box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
@@ -1049,5 +1105,5 @@ settings_dark_scheme_btn:hover {
 .settings_dark_scheme_btn:active {
     transform: translateY(-1px);
 }
-/*SETTINGS END*/
 
+/*SETTINGS END*/

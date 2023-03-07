@@ -41,12 +41,9 @@ void *handle_client(void *args)
             current_client->login = mx_strdup(login);
             current_client->passwd = mx_strdup(passwd);
 
-             if (ent_sys(current_client->login, current_client->passwd, current_client->ssl) == 1)
-            {
-                SSL_write(current_client->ssl, "incorrect password\n", 20);
-            }
-            else
-            {
+            if (ent_sys(current_client->login, current_client->passwd, current_client->ssl) == 1) {
+               SSL_write(current_client->ssl, "incorrect password\n", 20);
+            } else {
                 SSL_write(current_client->ssl, "success\n", 9);
                 mx_printstr(current_client->login);
                 mx_printstr(" success\n");
