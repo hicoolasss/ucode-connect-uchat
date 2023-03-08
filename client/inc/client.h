@@ -1,6 +1,11 @@
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
 #endif
+
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE 1
+#endif
+
 #include <gtk/gtk.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -15,6 +20,12 @@
 #include <signal.h>
 #include <openssl/err.h>
 #include <openssl/ssl.h>
+
+//не дай бог кто-то это удалит, будка будет набита!!!!
+#include <curl/curl.h>
+#include <jansson.h>
+//
+
 #include "../../libs/libmx/inc/libmx.h"
 #include "../../libs/cjson/inc/cJSON.h"
 
@@ -47,6 +58,14 @@ typedef struct s_registration {
     GtkWidget *sign_in_btn;
 
 } t_registration;
+
+typedef struct s_home {
+
+    GtkWidget *chat_gpt_entry;
+    GtkWidget *chat_gpt_response;
+
+} t_home;
+
 
 typedef struct {
     //containers for easier display

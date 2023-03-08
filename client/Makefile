@@ -28,7 +28,7 @@ $(NAMEBIN):
 	mkdir -p $(OBJDIR)
 	$(CC) $(CFLAGS) `pkg-config --cflags gtk4` -c $(SRC_FILES)
 	mv *.o $(OBJDIR)
-	$(CC) $(CFLAGS) `pkg-config --cflags gtk4` -o $(NAMEBIN) $(OBJS) $(LIB_FLAGS) `pkg-config --libs gtk4`
+	$(CC) $(CFLAGS) `pkg-config --cflags gtk4` -o $(NAMEBIN) $(OBJS) $(LIB_FLAGS) -lcurl `pkg-config --libs gtk4`
 
 clean:
 	rm -f $(OBJS)

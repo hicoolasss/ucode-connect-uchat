@@ -18,7 +18,8 @@
         "typeinfo": "c",
         "array": "c",
         "string": "c",
-        "string_view": "c"
+        "string_view": "c",
+        "jansson.h": "c"
     },
     "editor.formatOnSave": true,
     "editor.formatOnSaveTimeout": 1500

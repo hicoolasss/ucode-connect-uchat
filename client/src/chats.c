@@ -61,6 +61,7 @@ static void create_new_chat_clicked() {
 }
 
 void show_mini_chats() {
+    
     GtkWidget *chats_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     GtkWidget *chats_label = gtk_label_new("Chats");
     GtkWidget *create_new_chat_btn = gtk_button_new();
@@ -101,6 +102,7 @@ void show_mini_chats() {
 }
 
 void show_mini_groups() {
+    
     GtkWidget *groups_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     GtkWidget *groups_label = gtk_label_new("Groups");
     GtkWidget *create_new_group_btn = gtk_button_new();
