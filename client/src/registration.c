@@ -76,12 +76,11 @@ static void sign_up_btn_clicked(GtkWidget *widget, gpointer entries_array)
     cur_client.password = mx_strdup(gtk_entry_buffer_get_text(password1));
     const char *confirm_password = gtk_entry_buffer_get_text(password2);
 
-
     int username_status = get_username_status();
 
     switch (username_status) {
         
-        case 0: {
+        case 0: { 
             
             widget_restyling(cur_registration.username_error_label, curent_screen, "error_label", "hide_label");
 
@@ -147,8 +146,11 @@ static void sign_up_btn_clicked(GtkWidget *widget, gpointer entries_array)
 
             widget_restyling(entry_data[1], curent_screen, "wrong_auth_entry_field", "auth_entry_field");
             widget_restyling(entry_data[2], curent_screen, "wrong_auth_entry_field", "auth_entry_field");
+
+            break;
         
         }
+
         case -1: {
             
             gtk_label_set_text(GTK_LABEL(cur_registration.password_error_label), "Password is too short");
@@ -272,7 +274,7 @@ void show_registration()
     gtk_box_append(GTK_BOX(cur_registration.box), cur_registration.welcome);
 
     gtk_box_append(GTK_BOX(cur_registration.box), cur_registration.username);
-     gtk_box_append(GTK_BOX(cur_registration.box), cur_registration.username_error_label);
+    gtk_box_append(GTK_BOX(cur_registration.box), cur_registration.username_error_label);
 
     gtk_box_append(GTK_BOX(cur_registration.box), cur_registration.password);
     gtk_box_append(GTK_BOX(cur_registration.box), cur_registration.password_error_label);
@@ -284,63 +286,42 @@ void show_registration()
     gtk_box_append(GTK_BOX(cur_registration.box), cur_registration.have_account);
     gtk_box_append(GTK_BOX(cur_registration.box), cur_registration.sign_in_btn);
 
-    gtk_widget_set_margin_start(cur_registration.welcome, 103);
-    gtk_widget_set_margin_end(cur_registration.welcome, 99);
+    gtk_widget_set_halign(cur_registration.welcome, GTK_ALIGN_CENTER);
     gtk_widget_set_margin_top(cur_registration.welcome, 60);
 
-    gtk_widget_set_size_request(cur_registration.welcome, 384, 35);
-
-    gtk_widget_set_margin_start(cur_registration.username, 81);
-    gtk_widget_set_margin_end(cur_registration.username, 81);
+    gtk_widget_set_halign(cur_registration.username, GTK_ALIGN_CENTER);
     gtk_widget_set_margin_top(cur_registration.username, 48);
-
     gtk_widget_set_size_request(cur_registration.username, 423, 63);
 
-    gtk_widget_set_margin_start(cur_registration.username_error_label, 103);
-    //gtk_widget_set_margin_end(cur_registration.username_error_label, 303);
+    gtk_widget_set_halign(cur_registration.username_error_label, GTK_ALIGN_CENTER);
 
-    gtk_widget_set_margin_start(cur_registration.password, 81);
-    gtk_widget_set_margin_end(cur_registration.password, 81);
+
+    gtk_widget_set_halign(cur_registration.password, GTK_ALIGN_CENTER);
     gtk_widget_set_margin_top(cur_registration.password, 5);
-
     gtk_widget_set_size_request(cur_registration.password, 423, 63);
 
-
-    gtk_widget_set_margin_start(cur_registration.password_error_label, 103);
-    gtk_widget_set_margin_end(cur_registration.password_error_label, 303);
+    gtk_widget_set_halign(cur_registration.password_error_label, GTK_ALIGN_CENTER);
 
 
-    gtk_widget_set_margin_start(cur_registration.confirm_password, 81);
-    gtk_widget_set_margin_end(cur_registration.confirm_password, 81);
+    gtk_widget_set_halign(cur_registration.confirm_password, GTK_ALIGN_CENTER);
     gtk_widget_set_margin_top(cur_registration.confirm_password, 5);
-
     gtk_widget_set_size_request(cur_registration.confirm_password, 423, 63);
 
-
-    gtk_widget_set_margin_start(cur_registration.confirm_password_error_label, 103);
-    gtk_widget_set_margin_end(cur_registration.confirm_password_error_label, 303);
+    gtk_widget_set_halign(cur_registration.confirm_password_error_label, GTK_ALIGN_CENTER);
 
 
-    gtk_widget_set_margin_start(cur_registration.sign_up_btn, 81);
-    gtk_widget_set_margin_end(cur_registration.sign_up_btn, 81);
+    gtk_widget_set_halign(cur_registration.sign_up_btn, GTK_ALIGN_CENTER);
     gtk_widget_set_margin_top(cur_registration.sign_up_btn, 5);
-
     gtk_widget_set_size_request(cur_registration.sign_up_btn, 423, 53);
 
-    gtk_widget_set_margin_start(cur_registration.have_account, 163);
-    gtk_widget_set_margin_end(cur_registration.have_account, 163);
+    gtk_widget_set_halign(cur_registration.have_account, GTK_ALIGN_CENTER);
     gtk_widget_set_margin_top(cur_registration.have_account, 12);
-
     gtk_widget_set_size_request(cur_registration.have_account, 260, 23);
 
-    gtk_widget_set_margin_start(cur_registration.sign_in_btn, 262);
-    gtk_widget_set_margin_end(cur_registration.sign_in_btn, 261);
+    gtk_widget_set_halign(cur_registration.sign_in_btn, GTK_ALIGN_CENTER);
     gtk_widget_set_margin_top(cur_registration.sign_in_btn, 0);
-
     gtk_widget_set_size_request(cur_registration.sign_in_btn, 63, 20);
 
-    // get_username(GTK_ENTRY(username));
-    // get_password(GTK_ENTRY(password));
 
     widget_styling(cur_registration.box, curent_screen, "auth_main_box");
     widget_styling(cur_registration.welcome, curent_screen, "auth_welcome_to_the_dark");

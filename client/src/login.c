@@ -71,10 +71,6 @@ void show_login() {
 
     gtk_grid_attach(GTK_GRID(curent_grid.log_in_conrainer), box, 0, 0, 1, 1);
 
-
-    gtk_widget_set_halign(box, GTK_ALIGN_CENTER);
-    gtk_widget_set_valign(box, GTK_ALIGN_CENTER);
-
     gtk_widget_set_margin_start(box, 307);
     gtk_widget_set_margin_end(box, 307);
     gtk_widget_set_margin_top(box, 108);
@@ -99,52 +95,33 @@ void show_login() {
     gtk_box_append(GTK_BOX(box), dont_have_account);
     gtk_box_append(GTK_BOX(box), sign_up_button_log_in);
 
-    gtk_widget_set_margin_start(welcome, 103);
-    gtk_widget_set_margin_end(welcome, 99);
+    gtk_widget_set_halign(welcome, GTK_ALIGN_CENTER);
     gtk_widget_set_margin_top(welcome, 60);
 
-    gtk_widget_set_size_request(welcome, 384, 35);
 
-    gtk_widget_set_margin_start(username, 81);
-    gtk_widget_set_margin_end(username, 81);
+    gtk_widget_set_halign(username, GTK_ALIGN_CENTER);
     gtk_widget_set_margin_top(username, 48);
-
     gtk_widget_set_size_request(username, 423, 63);
 
-    gtk_widget_set_margin_start(password, 81);
-    gtk_widget_set_margin_end(password, 81);
-    gtk_widget_set_margin_top(password, 25);
 
+    gtk_widget_set_halign(password, GTK_ALIGN_CENTER);
+    gtk_widget_set_margin_top(password, 25);
     gtk_widget_set_size_request(password, 423, 63);
 
-    gtk_widget_set_margin_start(log_in_button, 81);
-    gtk_widget_set_margin_end(log_in_button, 81);
-    gtk_widget_set_margin_top(log_in_button, 37);
 
+    gtk_widget_set_halign(log_in_button, GTK_ALIGN_CENTER);
+    gtk_widget_set_margin_top(log_in_button, 37);
     gtk_widget_set_size_request(log_in_button, 423, 53);
 
-    gtk_widget_set_margin_start(dont_have_account, 163);
-    gtk_widget_set_margin_end(dont_have_account, 163);
-    gtk_widget_set_margin_top(dont_have_account, 25);
 
+    gtk_widget_set_halign(dont_have_account, GTK_ALIGN_CENTER);
+    gtk_widget_set_margin_top(dont_have_account, 25);
     gtk_widget_set_size_request(dont_have_account, 260, 23);
 
-    gtk_widget_set_margin_start(sign_up_button_log_in, 261);
-    gtk_widget_set_margin_end(sign_up_button_log_in, 262);
+
+    gtk_widget_set_halign(sign_up_button_log_in, GTK_ALIGN_CENTER);
     gtk_widget_set_margin_top(sign_up_button_log_in, 0);
-
     gtk_widget_set_size_request(sign_up_button_log_in, 63, 20);
-
-
-
-
-
-
-
-
-
-
-
 
 
     widget_styling(box, curent_screen, "auth_main_box");
