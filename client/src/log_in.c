@@ -3,7 +3,7 @@
 extern t_screen curent_screen;
 extern t_grid curent_grid;
 
-static void donthaveaccountbtn_clicked() {
+static void dont_have_account_btn_clicked() {
     set_unvisible_auth();
     gtk_widget_set_visible(GTK_WIDGET(curent_grid.registration_container), TRUE);
 
@@ -55,7 +55,7 @@ static void log_in_btn_clicked(GtkWidget *widget, gpointer data) {
 
 }
 
-void show_login() {
+void show_log_in() {
 
     GtkWidget *box, *username, *password;
 
@@ -136,7 +136,7 @@ void show_login() {
     entry_arr[0] = username;
     entry_arr[1] = password;
 
-    g_signal_connect(sign_up_button_log_in, "clicked", G_CALLBACK(donthaveaccountbtn_clicked), NULL);
+    g_signal_connect(sign_up_button_log_in, "clicked", G_CALLBACK(dont_have_account_btn_clicked), NULL);
 
     g_signal_connect(log_in_button, "clicked", G_CALLBACK(log_in_btn_clicked), entry_arr);
 }

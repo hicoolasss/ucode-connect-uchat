@@ -9,7 +9,8 @@ t_registration cur_registration;
 static void log_in_btn_clicked(void) {
 
     set_unvisible_auth();
-    show_home();
+    gtk_widget_set_visible(GTK_WIDGET(curent_grid.log_in_conrainer), TRUE);
+    show_log_in();
 
 }
 
@@ -60,16 +61,17 @@ static int get_password_status (const char *confirm_password) {
     if (mx_strcmp(cur_client.password, confirm_password) != 0) return -4;
 
     return 0;
+
 }
 
-static void sign_inbtn_clicked()
-{
+static void sign_inbtn_clicked() {
+    
     set_unvisible_auth();
     gtk_widget_set_visible(GTK_WIDGET(curent_grid.log_in_conrainer), TRUE);
+
 }
 
-static void sign_up_btn_clicked(GtkWidget *widget, gpointer entries_array)
-{
+static void sign_up_btn_clicked(GtkWidget *widget, gpointer entries_array) {
     bool is_registration_success = true;
 
     GtkWidget **entry_data = entries_array;
@@ -253,9 +255,6 @@ void show_registration()
 
     gtk_grid_attach(GTK_GRID(curent_grid.registration_container), cur_registration.box, 0, 0, 1, 1);
 
-    // gtk_widget_set_halign(cur_registration.box, GTK_ALIGN_CENTER);
-    // gtk_widget_set_valign(cur_registration.box, GTK_ALIGN_CENTER);
-
     gtk_widget_set_margin_start(cur_registration.box, 307);
     gtk_widget_set_margin_end(cur_registration.box, 307);
     gtk_widget_set_margin_top(cur_registration.box, 108);
@@ -275,8 +274,6 @@ void show_registration()
     gtk_entry_set_placeholder_text(GTK_ENTRY(cur_registration.password), " Password");
     gtk_entry_set_placeholder_text(GTK_ENTRY(cur_registration.confirm_password), "  Confirm Password");
     
-    // gtk_entry_set_visibility(GTK_ENTRY(cur_registration.password), FALSE);
-    // gtk_entry_set_visibility(GTK_ENTRY(cur_registration.confirm_password),FALSE);
 
     gtk_box_append(GTK_BOX(cur_registration.box), cur_registration.welcome);
 

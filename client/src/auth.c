@@ -13,7 +13,7 @@ void show_auth() {
     curent_grid.registration_success_container = create_grid(586, 544, NULL);
 
     //fill auth grids
-    show_login();
+    show_log_in();
     show_registration();
     show_success_registration();
 

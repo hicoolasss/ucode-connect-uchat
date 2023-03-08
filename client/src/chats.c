@@ -3,7 +3,7 @@
 extern t_screen curent_screen;
 extern t_grid curent_grid;
 
-static void send_message(GtkEntry *message_entry, gpointer user_data) {
+static void send_message(GtkEntry *message_entry) {
 
         GtkEntryBuffer *buffer = gtk_entry_get_buffer(message_entry);
         const char *buf = gtk_entry_buffer_get_text(buffer);
@@ -75,8 +75,6 @@ void show_mini_chats() {
     //scroll
     GtkWidget *chats_list_grid_scrolled = gtk_scrolled_window_new();
     gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(chats_list_grid_scrolled), curent_grid.chats_list_grid_child);
-//    gtk_scrolled_window_set_propagate_natural_height (GTK_SCROLLED_WINDOW(chats_list_grid_scrolled),false);
-//    gtk_scrolled_window_set_propagate_natural_width (GTK_SCROLLED_WINDOW(chats_list_grid_scrolled),true);
 
     gtk_widget_set_size_request(chats_list_grid_scrolled, 400, 166);
 

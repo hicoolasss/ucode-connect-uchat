@@ -155,7 +155,7 @@ void change_scheme_to_any_color(char *bg_win_col,
 
 // show login screen
 void show_auth(void);
-void show_login(void);
+void show_log_in(void);
 // show registration screen
 void show_registration(void);
 void show_success_registration(void);
