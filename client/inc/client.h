@@ -55,6 +55,7 @@ typedef struct {
     //auth grids
     GtkWidget *log_in_conrainer;
     GtkWidget *registration_container;
+    GtkWidget *registration_success_container;
 
     //intro grid
     GtkWidget *intro_grid;
@@ -157,8 +158,9 @@ void show_auth(void);
 void show_login(void);
 // show registration screen
 void show_registration(void);
+void show_success_registration(void);
 
-void log_in_btn_clicked(GtkWidget *widget, gpointer data);
+// void log_in_btn_clicked(GtkWidget *widget, gpointer data);
 //show intro screens
 void first_intro_screen();
 void second_intro_screen();

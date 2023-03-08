@@ -139,6 +139,16 @@
     outline-color: transparent;
     box-shadow: none;
 }
+.registration_success_label {
+
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 40px;
+
+    color: #B1BAE6;
+}
 
 .error_label {
     

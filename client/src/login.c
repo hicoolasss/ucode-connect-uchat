@@ -9,7 +9,7 @@ static void donthaveaccountbtn_clicked() {
 
 }
 
-void log_in_btn_clicked(GtkWidget *widget, gpointer data) {
+static void log_in_btn_clicked(GtkWidget *widget, gpointer data) {
 
     curent_grid.is_log_in_clicked = TRUE;
 
@@ -63,7 +63,7 @@ void show_login() {
 
     GtkWidget *welcome = gtk_label_new_with_mnemonic ("Welcome to the dark!");
 
-    GtkWidget *log_in_button = gtk_button_new_with_mnemonic("Login");
+    GtkWidget *log_in_button = gtk_button_new_with_mnemonic("Log in");
 
     GtkWidget *dont_have_account = gtk_label_new_with_mnemonic("Don’t have an account?");
 

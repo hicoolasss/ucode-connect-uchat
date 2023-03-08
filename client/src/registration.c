@@ -6,6 +6,12 @@ extern t_client cur_client;
 t_registration cur_registration;
 
 
+static void log_in_btn_clicked(void) {
+
+    set_unvisible_auth();
+    show_home();
+
+}
 
 static int get_username_status(void) {
 
@@ -219,7 +225,8 @@ static void sign_up_btn_clicked(GtkWidget *widget, gpointer entries_array)
     if (is_registration_success) {
         
         set_unvisible_auth();
-        gtk_widget_set_visible(GTK_WIDGET(curent_grid.log_in_conrainer), TRUE);
+        gtk_widget_set_visible(GTK_WIDGET(curent_grid.registration_success_container), TRUE);
+    
     }
 
 }
@@ -246,8 +253,8 @@ void show_registration()
 
     gtk_grid_attach(GTK_GRID(curent_grid.registration_container), cur_registration.box, 0, 0, 1, 1);
 
-    gtk_widget_set_halign(cur_registration.box, GTK_ALIGN_CENTER);
-    gtk_widget_set_valign(cur_registration.box, GTK_ALIGN_CENTER);
+    // gtk_widget_set_halign(cur_registration.box, GTK_ALIGN_CENTER);
+    // gtk_widget_set_valign(cur_registration.box, GTK_ALIGN_CENTER);
 
     gtk_widget_set_margin_start(cur_registration.box, 307);
     gtk_widget_set_margin_end(cur_registration.box, 307);
@@ -346,4 +353,45 @@ void show_registration()
     g_signal_connect(cur_registration.sign_up_btn, "clicked", G_CALLBACK(sign_up_btn_clicked), entry_arr);
 
     gtk_window_present(GTK_WINDOW(curent_screen.screen));
+
+}
+
+
+void show_success_registration(void) {
+
+    GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+
+    GtkWidget *registration_success_label = gtk_label_new("Registration completed successfully!");
+
+    GtkWidget *log_in_button = gtk_button_new_with_mnemonic("Log in");
+
+    gtk_grid_attach(GTK_GRID(curent_grid.registration_success_container), box, 0, 0, 1, 1);
+
+    gtk_widget_set_margin_start(box, 307);
+    gtk_widget_set_margin_end(box, 307);
+    gtk_widget_set_margin_top(box, 108);
+    gtk_widget_set_margin_bottom(box, 108);
+
+    gtk_widget_set_size_request(box, 586, 544);
+
+    gtk_box_append(GTK_BOX(box), registration_success_label);
+    gtk_box_append(GTK_BOX(box), log_in_button);
+
+    gtk_widget_set_halign(registration_success_label, GTK_ALIGN_CENTER);
+    gtk_widget_set_margin_top(registration_success_label, 155);
+    
+    gtk_label_set_wrap(GTK_LABEL(registration_success_label), TRUE);
+    gtk_label_set_max_width_chars(GTK_LABEL(registration_success_label), 22);
+    gtk_label_set_justify(GTK_LABEL(registration_success_label), GTK_JUSTIFY_CENTER);
+
+    gtk_widget_set_halign(log_in_button, GTK_ALIGN_CENTER);
+    gtk_widget_set_margin_top(log_in_button, 40);
+    gtk_widget_set_size_request(log_in_button, 423, 53);
+
+    widget_styling(log_in_button, curent_screen, "auth_button");
+    widget_styling(registration_success_label, curent_screen, "registration_success_label");
+
+    g_signal_connect(log_in_button, "clicked", G_CALLBACK(log_in_btn_clicked), NULL);
+
+
 }
