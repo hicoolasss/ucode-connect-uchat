@@ -22,6 +22,7 @@
 #include <openssl/ssl.h>
 
 //не дай бог кто-то это удалит, будка будет набита!!!!
+//почему эта хуйня подсвечивается крассным, а уебище
 #include <curl/curl.h>
 #include <jansson.h>
 //
@@ -141,7 +142,7 @@ SSL_CTX* CTX_initialize_client();
 int send_message_to_server(char *buffer);
 char *convert_to_json(char *buffer);
 void *recv_func();
-char *registration();
+char *registration(int status);
 int recv_all(SSL *sockfd, char *buf, int len);
 int send_all(SSL *sockfd, char *buf, int len);
 

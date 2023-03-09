@@ -3,13 +3,14 @@
 extern t_screen curent_screen;
 extern t_grid curent_grid;
 
-static void dont_have_account_btn_clicked() {
+static void dont_have_account_btn_clicked()
+{
     set_unvisible_auth();
     gtk_widget_set_visible(GTK_WIDGET(curent_grid.registration_container), TRUE);
-
 }
 
-static void log_in_btn_clicked(GtkWidget *widget, gpointer data) {
+static void log_in_btn_clicked(GtkWidget *widget, gpointer data)
+{
 
     curent_grid.is_log_in_clicked = TRUE;
 
@@ -19,49 +20,53 @@ static void log_in_btn_clicked(GtkWidget *widget, gpointer data) {
 
     cur_client.login = mx_strdup(gtk_entry_buffer_get_text(username));
     cur_client.password = mx_strdup(gtk_entry_buffer_get_text(password));
-    
-    if (mx_strlen(cur_client.login) == 0) {
-        //erro
+
+    if (mx_strlen(cur_client.login) == 0)
+    {
+        // erro
         return;
     }
 
-    if (mx_strlen(cur_client.password) == 0) {
-        //erro
+    if (mx_strlen(cur_client.password) == 0)
+    {
+        // erro
         return;
     }
-    
-    // char *json_str;
-    // json_str = registration();
-    // send_message_to_server(json_str);
-   
-    // char *buf = NULL;
-    
-    // int len = SSL_read(cur_client.ssl, buf, mx_strlen(buf));
-       
-    // if (len < 0) {
 
-    //     printf("Error: Unable to receive data from server\n");
-        
-    // } else if (mx_strcmp(buf, "incorrect password\n") == 0) {
-            
-    //     return;
+    char *json_str;
+    json_str = registration(0);
+    send_message_to_server(json_str);
+    char buf[256];
+    while (main_client.connected == false)
+    {
+        int len = SSL_read(cur_client.ssl, buf, sizeof(buf));
+        if (len < 0)
+        {
 
-    // } else if (mx_strcmp(buf, "success\n") == 0) {
-            
-        set_unvisible_auth();
-        show_home();
-        
-    //}
+            printf("Error: Unable to receive data from server\n");
+        }
+        else if (mx_strcmp(buf, "incorrect password\n") == 0)
+        {
 
+            return;
+        }
+        else if (mx_strcmp(buf, "success\n") == 0)
+        {
+            main_client.connected = true;
+            set_unvisible_auth();
+            show_home();
+        }
+    }
 }
 
-void show_log_in() {
+void show_log_in()
+{
 
     GtkWidget *box, *username, *password;
 
     box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
-    GtkWidget *welcome = gtk_label_new_with_mnemonic ("Welcome to the dark!");
+    GtkWidget *welcome = gtk_label_new_with_mnemonic("Welcome to the dark!");
 
     GtkWidget *log_in_button = gtk_button_new_with_mnemonic("Log in");
 
@@ -85,8 +90,7 @@ void show_log_in() {
     gtk_entry_set_alignment(GTK_ENTRY(password), 0.1);
     gtk_entry_set_placeholder_text(GTK_ENTRY(username), " Username");
     gtk_entry_set_placeholder_text(GTK_ENTRY(password), " Password");
-    gtk_entry_set_visibility(GTK_ENTRY(password),FALSE);
-
+    gtk_entry_set_visibility(GTK_ENTRY(password), FALSE);
 
     gtk_box_append(GTK_BOX(box), welcome);
     gtk_box_append(GTK_BOX(box), username);
@@ -98,31 +102,25 @@ void show_log_in() {
     gtk_widget_set_halign(welcome, GTK_ALIGN_CENTER);
     gtk_widget_set_margin_top(welcome, 60);
 
-
     gtk_widget_set_halign(username, GTK_ALIGN_CENTER);
     gtk_widget_set_margin_top(username, 48);
     gtk_widget_set_size_request(username, 423, 63);
-
 
     gtk_widget_set_halign(password, GTK_ALIGN_CENTER);
     gtk_widget_set_margin_top(password, 25);
     gtk_widget_set_size_request(password, 423, 63);
 
-
     gtk_widget_set_halign(log_in_button, GTK_ALIGN_CENTER);
     gtk_widget_set_margin_top(log_in_button, 37);
     gtk_widget_set_size_request(log_in_button, 423, 53);
-
 
     gtk_widget_set_halign(dont_have_account, GTK_ALIGN_CENTER);
     gtk_widget_set_margin_top(dont_have_account, 25);
     gtk_widget_set_size_request(dont_have_account, 260, 23);
 
-
     gtk_widget_set_halign(sign_up_button_log_in, GTK_ALIGN_CENTER);
     gtk_widget_set_margin_top(sign_up_button_log_in, 0);
     gtk_widget_set_size_request(sign_up_button_log_in, 63, 20);
-
 
     widget_styling(box, curent_screen, "auth_main_box");
     widget_styling(welcome, curent_screen, "auth_welcome_to_the_dark");

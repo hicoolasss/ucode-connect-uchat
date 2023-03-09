@@ -14,6 +14,7 @@ int db_log_to_serv(char *login, char *password, SSL *ssl)
         if (log_check == pass_check)
         {
             printf("You are in chat(entered)!\n\n");
+            return 0;
         }
         else {
             printf("incorrect pass or login!\n\n");
@@ -25,7 +26,7 @@ int db_log_to_serv(char *login, char *password, SSL *ssl)
         printf("incorrect password...\n\n");
         return 1;
     }
-    return 0;
+    return 2;
 }
 
 

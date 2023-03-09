@@ -25,9 +25,10 @@ char *convert_to_json(char *buffer)
     return (json_str);
 }
 
-char *registration()
+char *registration(int status)
 {
     cJSON *json = cJSON_CreateObject();
+    cJSON_AddStringToObject(json, "status", mx_itoa(status));
     cJSON_AddStringToObject(json, "login", cur_client.login);
     cJSON_AddStringToObject(json, "password", cur_client.password);
 

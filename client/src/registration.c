@@ -82,7 +82,7 @@ static void sign_up_btn_clicked(GtkWidget *widget, gpointer entries_array) {
 
     cur_client.login = mx_strdup(gtk_entry_buffer_get_text(username));
     cur_client.password = mx_strdup(gtk_entry_buffer_get_text(password1));
-    const char *confirm_password = gtk_entry_buffer_get_text(password2);
+    const char *confirm_password = mx_strdup(gtk_entry_buffer_get_text(password2));
 
     int username_status = get_username_status();
 
@@ -221,15 +221,30 @@ static void sign_up_btn_clicked(GtkWidget *widget, gpointer entries_array) {
     }
 
     char *json_str;
-    json_str = registration();
+    json_str = registration(1);
     send_message_to_server(json_str);
-
-    if (is_registration_success) {
-        
-        set_unvisible_auth();
-        gtk_widget_set_visible(GTK_WIDGET(curent_grid.registration_success_container), TRUE);
-    
+    char buf[256];
+    while (1)
+    {
+        int len = SSL_read(cur_client.ssl, buf, sizeof(buf));
+        if (len < 0)
+        {
+            printf("Error: Unable to receive data from server\n");
+        }
+        else if (mx_strcmp(buf, "registered\n") == 0)
+        {
+            set_unvisible_auth();
+            gtk_widget_set_visible(GTK_WIDGET(curent_grid.registration_success_container), TRUE);
+            break;
+        }
     }
+
+    // if (is_registration_success) {
+        
+    //     set_unvisible_auth();
+    //     gtk_widget_set_visible(GTK_WIDGET(curent_grid.registration_success_container), TRUE);
+    
+    // }
 
 }
 
