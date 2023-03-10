@@ -231,6 +231,10 @@ static void sign_up_btn_clicked(GtkWidget *widget, gpointer entries_array) {
         {
             printf("Error: Unable to receive data from server\n");
         }
+        else if(mx_strcmp(buf, "this user already exist\n") == 0) {
+            mx_printstr("this user already exist\n");
+            break;
+        }
         else if (mx_strcmp(buf, "registered\n") == 0)
         {
             set_unvisible_auth();
@@ -238,7 +242,6 @@ static void sign_up_btn_clicked(GtkWidget *widget, gpointer entries_array) {
             break;
         }
     }
-
     // if (is_registration_success) {
         
     //     set_unvisible_auth();
