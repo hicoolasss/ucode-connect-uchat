@@ -36,26 +36,46 @@ void *handle_client(void *args)
                 break;
             }
             // Извлечение данных из JSON-объекта
-            
+
             char *login = cJSON_GetObjectItemCaseSensitive(json, "login")->valuestring;
             char *passwd = cJSON_GetObjectItemCaseSensitive(json, "password")->valuestring;
-            current_client->login = mx_strdup(login);
-            current_client->passwd = mx_strdup(passwd);
+            char *status = cJSON_GetObjectItemCaseSensitive(json, "status")->valuestring;
+            // current_client->login = mx_strdup(login);
+            // current_client->passwd = mx_strdup(passwd);
 
-           
+            // other func db_regestr_to_serv();
+            if (mx_atoi(status) == 0)
+            {
+                int db_log = db_log_to_serv(login, passwd, current_client->ssl);
+                if (db_log == 1)
+                {
 
-            //other func db_regestr_to_serv();
-            if (db_log_to_serv(current_client->login, current_client->passwd, current_client->ssl) == 1) {
-               
-               SSL_write(current_client->ssl, "incorrect password\n", 20);
-            
-            } else {
-                SSL_write(current_client->ssl, "success\n", 9);
-                mx_printstr(current_client->login);
-                mx_printstr(" success\n");
-                memset(login, 0, mx_strlen(login));
-                memset(passwd, 0, mx_strlen(passwd));
-                main_client.registered = true;
+                    SSL_write(current_client->ssl, "incorrect password\n", 20);
+                }
+                else if (db_log == 0)
+                {
+                    SSL_write(current_client->ssl, "success\n", 9);
+                    mx_printstr(login);
+                    mx_printstr(" success\n");
+                    memset(login, 0, mx_strlen(login));
+                    memset(passwd, 0, mx_strlen(passwd));
+                }
+            }
+            else if(mx_atoi(status) == 1) {
+                int db_reg = db_regestr_to_serv(login, passwd, current_client->ssl);
+                if (db_reg == 1)
+                {
+
+                    SSL_write(current_client->ssl, "incorrect password\n", 20);
+                }
+                else if (db_reg == 0)
+                {
+                    SSL_write(current_client->ssl, "registered\n", 12);
+                    mx_printstr(login);
+                    mx_printstr(" registered\n");
+                    memset(login, 0, mx_strlen(login));
+                    memset(passwd, 0, mx_strlen(passwd));
+                }
             }
         }
     }
@@ -102,7 +122,8 @@ void print_message(char *login, char *message)
 {
     mx_printstr(login);
     mx_printstr(" -> ");
-    mx_printstr(message);current_client->login = mx_strdup(login);
+    mx_printstr(message);
+    current_client->login = mx_strdup(login);
     mx_printchar('\n');
 }
 
