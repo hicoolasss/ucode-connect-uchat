@@ -41,15 +41,15 @@ void show_home(void) {
     show_mini_chats();
 
     //fill intro grids
-    first_intro_screen();
-    second_intro_screen();
-    third_intro_screen();
+    // first_intro_screen();
+    // second_intro_screen();
+    // third_intro_screen();
 
-    //create the structure of the intro screen
-    gtk_grid_attach(GTK_GRID(curent_grid.main_grid), curent_grid.intro_grid, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(curent_grid.intro_grid), curent_grid.first_intro_screen, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(curent_grid.intro_grid), curent_grid.second_intro_screen, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(curent_grid.intro_grid), curent_grid.third_intro_screen, 0, 0, 1, 1);
+    // //create the structure of the intro screen
+    // gtk_grid_attach(GTK_GRID(curent_grid.main_grid), curent_grid.intro_grid, 0, 0, 1, 1);
+    // gtk_grid_attach(GTK_GRID(curent_grid.intro_grid), curent_grid.first_intro_screen, 0, 0, 1, 1);
+    // gtk_grid_attach(GTK_GRID(curent_grid.intro_grid), curent_grid.second_intro_screen, 0, 0, 1, 1);
+    // gtk_grid_attach(GTK_GRID(curent_grid.intro_grid), curent_grid.third_intro_screen, 0, 0, 1, 1);
 
     //create the structure of chat main screen
     gtk_grid_attach(GTK_GRID(curent_grid.main_grid), curent_grid.left_menu_bar, 0, 0, 1, 1);
@@ -73,11 +73,13 @@ void show_home(void) {
     set_unvisible_all();
     //show intro
     if(curent_grid.is_log_in_clicked){
-        gtk_widget_set_visible(GTK_WIDGET(curent_grid.intro_grid), TRUE);
-        set_first_intro_screen_visible();
-    } else {
+        //gtk_widget_set_visible(GTK_WIDGET(curent_grid.intro_grid), TRUE);
+        //set_first_intro_screen_visible();
         gtk_widget_set_visible(GTK_WIDGET(curent_grid.left_menu_bar), TRUE);
         gtk_widget_set_visible(GTK_WIDGET(curent_grid.home), TRUE);
+    } else {
+        // gtk_widget_set_visible(GTK_WIDGET(curent_grid.left_menu_bar), TRUE);
+        // gtk_widget_set_visible(GTK_WIDGET(curent_grid.home), TRUE);
     }
 
 //    //by default at first show home grid

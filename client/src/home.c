@@ -94,21 +94,28 @@ char *get_chatgpt_response(const char *message, const char *api_key) {
 
 
 char* extract_text_from_response(char* response) {
+    
     char* text_start = strstr(response, "\"text\":");
+    
     if (text_start == NULL) {
         return NULL;
     }
+    
     text_start += strlen("\"text\":") + 5; // учитываем символ кавычки после :
+    
     char* text_end = strchr(text_start, '"');
+    
     if (text_end == NULL) {
         return NULL;
     }
+    
     int text_len = text_end - text_start;
     char* text = (char*)malloc(text_len + 1);
     strncpy(text, text_start, text_len);
     text[text_len] = '\0';
 
     return text;
+
 }
 
 static void user_data_to_chat_gpt(gpointer chat_gpt_entry) {
@@ -118,7 +125,6 @@ static void user_data_to_chat_gpt(gpointer chat_gpt_entry) {
     const char *question = gtk_entry_buffer_get_text(user_data);
     
     const char* api_key = "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";
-    //const char* message = "Hello, ChatGPT!";
 
     char* response = get_chatgpt_response(question, api_key);
     char* text = extract_text_from_response(response);
@@ -141,8 +147,8 @@ void show_home_grid() {
 
     curent_home.chat_gpt_response = gtk_label_new("ChatGPT response:");
 
-    gtk_grid_attach(GTK_GRID(curent_grid.home), curent_home.chat_gpt_entry, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(curent_grid.home), curent_home.chat_gpt_response, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(curent_grid.home), curent_home.chat_gpt_response, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(curent_grid.home), curent_home.chat_gpt_entry, 0, 1, 1, 1);
 
     g_signal_connect(G_OBJECT(curent_home.chat_gpt_entry), "activate", G_CALLBACK(user_data_to_chat_gpt), curent_home.chat_gpt_entry);
 
