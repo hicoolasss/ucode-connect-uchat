@@ -16,7 +16,8 @@ int db_log_to_serv(char *login, char *password, SSL *ssl)
             printf("You are in chat(entered)!\n\n");
             return 0;
         }
-        else {
+        else
+        {
             printf("incorrect pass or login!\n\n");
             return 1;
         }
@@ -28,6 +29,8 @@ int db_log_to_serv(char *login, char *password, SSL *ssl)
     }
     return 2;
 }
+
+
 
 
 int db_regestr_to_serv(char *login, char *password, SSL *ssl)
@@ -43,4 +46,7 @@ int db_regestr_to_serv(char *login, char *password, SSL *ssl)
         printf("You was regestered :-)\n\n");
         return 0;
     }
+
+
 }
+
