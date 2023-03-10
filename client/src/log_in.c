@@ -42,13 +42,12 @@ static void log_in_btn_clicked(GtkWidget *widget, gpointer data)
         int len = SSL_read(cur_client.ssl, buf, sizeof(buf));
         if (len < 0)
         {
-
             printf("Error: Unable to receive data from server\n");
         }
         else if (mx_strcmp(buf, "incorrect password\n") == 0)
         {
-
-            return;
+            mx_printstr("incorrect password or login\n");
+            break;
         }
         else if (mx_strcmp(buf, "success\n") == 0)
         {

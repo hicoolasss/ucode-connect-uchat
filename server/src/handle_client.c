@@ -20,7 +20,7 @@ void *handle_client(void *args)
 
     while (main_client.registered == false)
     {
-        int len = SSL_read(current_client->ssl, buf, sizeof(buf) - 1);
+        int len = SSL_read(current_client->ssl, buf, sizeof(buf));
         if (len < 0)
         {
             printf("Error: Unable to receive data from server\n");

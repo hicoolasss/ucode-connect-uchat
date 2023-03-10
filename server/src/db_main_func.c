@@ -13,21 +13,25 @@ int db_log_to_serv(char *login, char *password, SSL *ssl)
 
         if (log_check == pass_check)
         {
-            printf("You are in chat(entered)!\n\n");
+            mx_printstr("You are in chat(entered)!\n\n");
             return 0;
         }
         else
         {
-            printf("incorrect pass or login!\n\n");
-            return 1;
+            mx_printstr("incorrect pass or login!\n\n");
+            // return 1;
         }
     }
     else if ((log_id_check != NULL) && (pass_id_check == NULL))
     {
-        printf("incorrect password...\n\n");
-        return 1;
+        mx_printstr("incorrect password...\n\n");
+        // return 1;
     }
-    return 2;
+    else if ((log_id_check == NULL) && (pass_id_check == NULL)) {
+        mx_printstr("user not found\n\n");
+        // return 1;
+    }
+    return 1;
 }
 
 
