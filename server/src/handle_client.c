@@ -59,6 +59,7 @@ void *handle_client(void *args)
                     mx_printstr(" success\n");
                     memset(login, 0, mx_strlen(login));
                     memset(passwd, 0, mx_strlen(passwd));
+                    main_client.registered = true;
                 }
             }
             else if(mx_atoi(status) == 1) {
@@ -66,7 +67,7 @@ void *handle_client(void *args)
                 if (db_reg == 1)
                 {
 
-                    SSL_write(current_client->ssl, "incorrect password\n", 20);
+                    SSL_write(current_client->ssl, "this user already exist\n", 25);
                 }
                 else if (db_reg == 0)
                 {

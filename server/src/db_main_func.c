@@ -30,10 +30,17 @@ int db_log_to_serv(char *login, char *password, SSL *ssl)
 }
 
 
-int db_regestr_to_serv(char *login, char *password, SSL *ssl){
-        sql_create_db();
-        if(sql_set_user(login, password, ssl) == 1) printf("this user already exist\n");
-        else
+int db_regestr_to_serv(char *login, char *password, SSL *ssl)
+{
+    sql_create_db();
+    if (sql_set_user(login, password, ssl) == 1)
+    {
+        printf("this user already exist\n");
+        return 1;
+    }
+    else
+    {
         printf("You was regestered :-)\n\n");
         return 0;
+    }
 }
