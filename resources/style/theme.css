@@ -286,10 +286,37 @@
     font-family: 'Inter';
     font-style: normal;
     font-weight: 500;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 15px;
 
     color: #B6B6E1;
+
+    padding: 0;
+    margin: 0;
+    border: none;
+    background-color: transparent;
+    text-shadow: none;
+    -gtk-icon-source: none;
+    -gtk-icon-shadow: none;
+}
+
+.chat_gpt_response > .view {
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 15px;
+
+    color: #B6B6E1;
+
+    padding: 0;
+    margin: 0;
+    border: none;
+    background-color: transparent;
+    text-shadow: none;
+    -gtk-icon-source: none;
+    -gtk-icon-shadow: none;
 }
 
 .chat_gpt_entry_box {
@@ -307,12 +334,9 @@
 }
 
 .chat_gpt_entry {
-    border-color: transparent;
-    background: transparent;
-    background-repeat: no-repeat;
-    outline-color: transparent;
-    border-color: transparent;
-    box-shadow: none;
+    border: none;
+    background-color: transparent;
+    background: none;
 }
 
 /*HOME END*/

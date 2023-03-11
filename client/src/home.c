@@ -129,9 +129,13 @@ static void user_data_to_chat_gpt(gpointer chat_gpt_entry) {
     char* response = get_chatgpt_response(question, api_key);
     char* text = extract_text_from_response(response);
 
-    gtk_label_set_label(GTK_LABEL(current_home.chat_gpt_response), text);
-    gtk_label_set_max_width_chars(GTK_LABEL(current_home.chat_gpt_response), 76);
-    gtk_label_set_justify(GTK_LABEL(current_home.chat_gpt_response), GTK_JUSTIFY_CENTER);
+    GtkTextBuffer *buffer = gtk_text_buffer_new(NULL);
+
+    gtk_text_buffer_set_text(buffer, text, -1);
+
+    gtk_text_view_set_buffer(GTK_TEXT_VIEW(current_home.chat_gpt_response), buffer);
+
+    gtk_text_view_set_wrap_mode(GTK_TEXT_VIEW(current_home.chat_gpt_response), GTK_WRAP_WORD_CHAR);
 
     mx_printstr(response);
     
@@ -147,7 +151,36 @@ void show_home_grid() {
 
     current_home.chat_gpt_desc_label = gtk_label_new("This thing needs no introduction.");
 
-    current_home.chat_gpt_response = gtk_label_new("ChatGPT response:");
+    current_home.chat_gpt_response = gtk_text_view_new();
+
+//     GtkCssProvider *provider = gtk_css_provider_new();
+    
+//     gtk_css_provider_load_from_data(provider,
+//     "textview {
+//     padding: 0;
+//     margin: 0;
+//     border: none;
+//     background-color: transparent;
+//     font: inherit;
+//     color: inherit;
+//     text-shadow: none;
+//     -gtk-icon-source: none;
+//     -gtk-icon-shadow: none;
+// }"
+//     "textview > .view { border: none; background-color: transparent; }",
+//     -1);
+    
+//     GtkStyleContext *context = gtk_widget_get_style_context(current_home.chat_gpt_response);
+    
+//     gtk_style_context_add_provider(context,
+//         GTK_STYLE_PROVIDER(provider),
+//         GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+    
+    GtkTextBuffer *buffer = gtk_text_buffer_new(NULL);
+
+    gtk_text_buffer_set_text(buffer, "ChatGPT response:", -1);
+
+    gtk_text_view_set_buffer(GTK_TEXT_VIEW(current_home.chat_gpt_response), buffer);
 
     current_home.chat_gpt_entry_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 
@@ -185,6 +218,13 @@ void show_home_grid() {
     gtk_widget_set_margin_end(current_home.chat_gpt_response, 365);
     gtk_widget_set_margin_top(current_home.chat_gpt_response, 13);
     gtk_widget_set_margin_bottom(current_home.chat_gpt_response, 460);
+
+    gtk_text_view_set_editable(GTK_TEXT_VIEW(current_home.chat_gpt_response), false);
+
+    gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(current_home.chat_gpt_response), false);
+
+    // gtk_label_set_max_width_chars(GTK_LABEL(current_home.chat_gpt_response), 76);
+    // gtk_label_set_justify(GTK_LABEL(current_home.chat_gpt_response), GTK_JUSTIFY_CENTER);
 
 
 

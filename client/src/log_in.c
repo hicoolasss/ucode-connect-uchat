@@ -11,6 +11,10 @@ static void dont_have_account_btn_clicked(void)
 }
 
 static int get_username_status(void) {
+
+    
+    if (mx_strlen(current_client.login) == 0) return -3;
+    if (mx_strlen(current_client.password) == 0) return -4;
     
     char *json_str;
     json_str = registration(0);
@@ -19,6 +23,7 @@ static int get_username_status(void) {
     while (main_client.connected == false) {
         
         int len = SSL_read(current_client.ssl, buf, sizeof(buf));
+
         
         if (len < 0) {
             
@@ -115,6 +120,34 @@ static void log_in_btn_clicked(GtkWidget *widget, gpointer data) {
             widget_restyling(current_log_in.username_error_label, current_screen, "hide_label", "error_label");
 
             widget_styling(entry_data[0], current_screen, "wrong_auth_entry_field");
+
+            is_log_in_success = false;
+
+            return;
+
+        }
+
+        case -3: {
+
+            gtk_label_set_text(GTK_LABEL(current_log_in.username_error_label), "Please enter username!");
+
+            widget_restyling(current_log_in.username_error_label, current_screen, "hide_label", "error_label");
+
+            widget_styling(entry_data[0], current_screen, "wrong_auth_entry_field");
+
+            is_log_in_success = false;
+
+            return;
+
+        }
+
+        case -4: {
+
+            gtk_label_set_text(GTK_LABEL(current_log_in.password_error_label), "Please enter password!");
+
+            widget_restyling(current_log_in.password_error_label, current_screen, "hide_label", "error_label");
+
+            widget_styling(entry_data[1], current_screen, "wrong_auth_entry_field");
 
             is_log_in_success = false;
 

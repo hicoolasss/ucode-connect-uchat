@@ -41,6 +41,10 @@ typedef struct {
 } t_screen;
 
 typedef struct s_log_in {
+
+    bool is_username_correct;
+
+    bool is_password_correct;
     
     GtkWidget *box;
 
