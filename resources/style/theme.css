@@ -139,6 +139,7 @@
     outline-color: transparent;
     box-shadow: none;
 }
+
 .registration_success_label {
 
     font-family: 'JetBrains Mono';
@@ -151,7 +152,7 @@
 }
 
 .error_label {
-    
+
     font-family: 'JetBrains Mono';
     font-style: normal;
     font-weight: 400;
@@ -163,6 +164,7 @@
     color: #FF2929;
 
 }
+
 .hide_label {
 
     color: transparent;
@@ -250,6 +252,67 @@
     background: @all-containers-bg;
     border: 1px solid @all-containers-borders-bg;
     border-radius: 20px;
+}
+
+.chat_gpt_box_for_label {
+    background: #212121;
+    border-radius: 10px;
+}
+
+.chat_gpt_label {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+
+    color: #7AA2F7;
+}
+
+.chat_gpt_desc_label {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+
+    color: #4A4A66;
+
+}
+
+
+.chat_gpt_response {
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 15px;
+
+    color: #B6B6E1;
+}
+
+.chat_gpt_entry_box {
+
+    background: #212121;
+    border-radius: 10px;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 15px;
+
+    color: #B6B6E1;
+}
+
+.chat_gpt_entry {
+    border-color: transparent;
+    background: transparent;
+    background-repeat: no-repeat;
+    outline-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
 }
 
 /*HOME END*/

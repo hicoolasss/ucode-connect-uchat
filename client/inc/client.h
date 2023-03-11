@@ -62,8 +62,13 @@ typedef struct s_registration {
 
 typedef struct s_home {
 
-    GtkWidget *chat_gpt_entry;
+    GtkWidget *chat_gpt_box_for_label;
+    GtkWidget *chat_gpt_label;
+    GtkWidget *chat_gpt_desc_label;
     GtkWidget *chat_gpt_response;
+    GtkWidget *chat_gpt_entry_box;
+    GtkWidget *chat_gpt_send_btn;
+    GtkWidget *chat_gpt_entry;
 
 } t_home;
 

@@ -3,14 +3,92 @@
 extern t_screen curent_screen;
 extern t_grid curent_grid;
 
-static void dont_have_account_btn_clicked()
+static void dont_have_account_btn_clicked(void)
 {
     set_unvisible_auth();
     gtk_widget_set_visible(GTK_WIDGET(curent_grid.registration_container), TRUE);
 }
 
-static void log_in_btn_clicked(GtkWidget *widget, gpointer data)
-{
+// static int get_username_status(void) {
+
+//     if (mx_strlen(cur_client.login) < 4) return -1;
+//     if (mx_strlen(cur_client.login) > 10) return -2;
+
+//     const char *forbidden_symbols = "$&=+<>,_`- ";
+    
+//     for (int i = 0; i < mx_strlen(cur_client.login); i++) {
+        
+//         for (int j = 0; j < 9; j++) {
+            
+//             if (cur_client.login[i] == forbidden_symbols[j]) {
+                
+//                 return -3;
+            
+//             }
+        
+//         }
+    
+//     }
+
+//     char *json_str;
+//     json_str = registration(1);
+//     send_message_to_server(json_str);
+//     char buf[256];
+    
+//     while (1) {
+        
+//         int len = SSL_read(cur_client.ssl, buf, sizeof(buf));
+       
+//         if (len < 0) {
+            
+//             //printf("Error: Unable to receive data from server\n");
+//             return -4;
+        
+//         } else if (mx_strcmp(buf, "incorrect password\n") == 0) {
+           
+//             mx_printstr("incorrect password or login\n");
+//             return -5;
+        
+//         } else if (mx_strcmp(buf, "registered\n") == 0) {
+            
+//             return 0;
+        
+//         }
+//     }
+
+//     return 0;
+// }
+
+// static int get_password_status (const char *confirm_password) {
+
+//     if (mx_strlen(cur_client.password) < 4) return -1;
+//     if (mx_strlen(cur_client.password) > 10) return -2;
+
+//     const char *forbidden_symbols = "$&=+<>,_`- ";
+    
+//     for (int i = 0; i < mx_strlen(cur_client.password); i++) {
+        
+//         for (int j = 0; j < 9; j++) {
+            
+//             if (cur_client.password[i] == forbidden_symbols[j]) {
+                
+//                 return -3;
+            
+//             }
+        
+//         }
+    
+//     }
+
+//     if (mx_strcmp(cur_client.password, confirm_password) != 0) return -4;
+
+//     return 0;
+
+// }
+
+static void log_in_btn_clicked(GtkWidget *widget, gpointer data) {
+
+    bool is_log_in_success = true;
 
     curent_grid.is_log_in_clicked = TRUE;
 
@@ -32,6 +110,8 @@ static void log_in_btn_clicked(GtkWidget *widget, gpointer data)
         // erro
         return;
     }
+    
+
 
     char *json_str;
     json_str = registration(0);

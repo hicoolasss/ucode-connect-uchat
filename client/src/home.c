@@ -140,15 +140,81 @@ static void user_data_to_chat_gpt(gpointer chat_gpt_entry) {
 }
 
 void show_home_grid() {
-    
-    curent_home.chat_gpt_entry = gtk_entry_new();
-    
-    gtk_entry_set_placeholder_text(GTK_ENTRY(curent_home.chat_gpt_entry), "Write your question...");
+
+    curent_home.chat_gpt_box_for_label = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+
+    curent_home.chat_gpt_label = gtk_label_new("ChatGPT");
+
+    curent_home.chat_gpt_desc_label = gtk_label_new("This thing needs no introduction.");
 
     curent_home.chat_gpt_response = gtk_label_new("ChatGPT response:");
 
-    gtk_grid_attach(GTK_GRID(curent_grid.home), curent_home.chat_gpt_response, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(curent_grid.home), curent_home.chat_gpt_entry, 0, 1, 1, 1);
+    curent_home.chat_gpt_entry_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+
+    curent_home.chat_gpt_entry = gtk_entry_new();
+
+    gtk_entry_set_placeholder_text(GTK_ENTRY(curent_home.chat_gpt_entry), "Write your question...");
+
+    curent_home.chat_gpt_send_btn = gtk_button_new();
+
+
+    gtk_grid_attach(GTK_GRID(curent_grid.home), curent_home.chat_gpt_box_for_label, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(curent_grid.home), curent_home.chat_gpt_desc_label, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(curent_grid.home), curent_home.chat_gpt_response, 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(curent_grid.home), curent_home.chat_gpt_entry_box, 0, 3, 1, 1);
+
+    gtk_box_append(GTK_BOX(curent_home.chat_gpt_box_for_label), curent_home.chat_gpt_label);
+    
+    gtk_widget_set_size_request(curent_home.chat_gpt_box_for_label, 250, 60);
+    gtk_widget_set_margin_start(curent_home.chat_gpt_box_for_label, 380);
+    gtk_widget_set_margin_end(curent_home.chat_gpt_box_for_label, 380);
+    gtk_widget_set_margin_top(curent_home.chat_gpt_box_for_label, 17);
+    
+    
+    gtk_widget_set_margin_start(curent_home.chat_gpt_label, 73);
+    gtk_widget_set_margin_end(curent_home.chat_gpt_label, 73);
+    gtk_widget_set_margin_top(curent_home.chat_gpt_label, 15);
+    gtk_widget_set_margin_bottom(curent_home.chat_gpt_label, 16);
+
+    gtk_widget_set_margin_start(curent_home.chat_gpt_desc_label, 350);
+    gtk_widget_set_margin_end(curent_home.chat_gpt_desc_label, 350);
+    gtk_widget_set_margin_top(curent_home.chat_gpt_desc_label, 23);
+    gtk_widget_set_margin_bottom(curent_home.chat_gpt_desc_label, 24);
+
+    gtk_widget_set_margin_start(curent_home.chat_gpt_response, 155);
+    gtk_widget_set_margin_end(curent_home.chat_gpt_response, 365);
+    gtk_widget_set_margin_top(curent_home.chat_gpt_response, 13);
+    gtk_widget_set_margin_bottom(curent_home.chat_gpt_response, 460);
+
+
+
+
+
+
+    gtk_box_append(GTK_BOX(curent_home.chat_gpt_entry_box), curent_home.chat_gpt_entry);
+    gtk_box_append(GTK_BOX(curent_home.chat_gpt_entry_box), curent_home.chat_gpt_send_btn);
+
+    gtk_widget_set_size_request(curent_home.chat_gpt_entry_box, 700, 40);
+    gtk_widget_set_margin_start(curent_home.chat_gpt_entry_box, 155);
+    gtk_widget_set_margin_end(curent_home.chat_gpt_entry_box, 155);
+    gtk_widget_set_margin_bottom(curent_home.chat_gpt_entry_box, 15);
+
+
+    gtk_widget_set_margin_start(curent_home.chat_gpt_entry, 29);
+    gtk_widget_set_valign(curent_home.chat_gpt_entry, GTK_ALIGN_CENTER);
+    gtk_widget_set_size_request(curent_home.chat_gpt_entry, 627, 15);
+
+    gtk_widget_set_margin_start(curent_home.chat_gpt_send_btn, 6);
+    gtk_widget_set_valign(curent_home.chat_gpt_send_btn, GTK_ALIGN_CENTER);
+    gtk_widget_set_size_request(curent_home.chat_gpt_send_btn, 24, 24);
+
+
+    widget_styling(curent_home.chat_gpt_box_for_label, curent_screen, "chat_gpt_box_for_label");
+    widget_styling(curent_home.chat_gpt_label, curent_screen, "chat_gpt_label");
+    widget_styling(curent_home.chat_gpt_desc_label, curent_screen, "chat_gpt_desc_label");
+    widget_styling(curent_home.chat_gpt_response, curent_screen, "chat_gpt_response");
+    widget_styling(curent_home.chat_gpt_entry_box, curent_screen, "chat_gpt_entry_box");
+    widget_styling(curent_home.chat_gpt_entry, curent_screen, "chat_gpt_entry");
 
     g_signal_connect(G_OBJECT(curent_home.chat_gpt_entry), "activate", G_CALLBACK(user_data_to_chat_gpt), curent_home.chat_gpt_entry);
 

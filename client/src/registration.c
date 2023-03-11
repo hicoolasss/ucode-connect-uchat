@@ -34,6 +34,33 @@ static int get_username_status(void) {
         }
     
     }
+
+    char *json_str;
+    json_str = registration(1);
+    send_message_to_server(json_str);
+    char buf[256];
+    
+    while (1) {
+        
+        int len = SSL_read(cur_client.ssl, buf, sizeof(buf));
+       
+        if (len < 0) {
+            
+            //printf("Error: Unable to receive data from server\n");
+            return -4;
+        
+        } else if (mx_strcmp(buf, "this user already exist\n") == 0) {
+
+            //mx_printstr("this user already exist\n");
+            return -5;
+        
+        } else if (mx_strcmp(buf, "registered\n") == 0) {
+            
+            return 0;
+        
+        }
+    }
+
     return 0;
 }
 
@@ -72,6 +99,7 @@ static void sign_inbtn_clicked() {
 }
 
 static void sign_up_btn_clicked(GtkWidget *widget, gpointer entries_array) {
+    
     bool is_registration_success = true;
 
     GtkWidget **entry_data = entries_array;
@@ -129,6 +157,34 @@ static void sign_up_btn_clicked(GtkWidget *widget, gpointer entries_array) {
         case -3: {
 
             gtk_label_set_text(GTK_LABEL(cur_registration.username_error_label), "Username contain forbidden symbols!");
+
+            widget_restyling(cur_registration.username_error_label, curent_screen, "hide_label", "error_label");
+
+            widget_styling(entry_data[0], curent_screen, "wrong_auth_entry_field");
+
+            is_registration_success = false;
+
+            return;
+
+        }
+
+        case -4: {
+
+            gtk_label_set_text(GTK_LABEL(cur_registration.username_error_label), "Unable to receive data from server!");
+
+            widget_restyling(cur_registration.username_error_label, curent_screen, "hide_label", "error_label");
+
+            widget_styling(entry_data[0], curent_screen, "wrong_auth_entry_field");
+
+            is_registration_success = false;
+
+            return;
+
+        }
+
+        case -5: {
+
+            gtk_label_set_text(GTK_LABEL(cur_registration.username_error_label), "This account already exist!");
 
             widget_restyling(cur_registration.username_error_label, curent_screen, "hide_label", "error_label");
 
@@ -220,37 +276,12 @@ static void sign_up_btn_clicked(GtkWidget *widget, gpointer entries_array) {
         }
     }
 
-    char *json_str;
-    json_str = registration(1);
-    send_message_to_server(json_str);
-    char buf[256];
-    while (1)
-    {
-        int len = SSL_read(cur_client.ssl, buf, sizeof(buf));
-        if (len < 0)
-        {
-            printf("Error: Unable to receive data from server\n");
-        }
-
-
-        else if(mx_strcmp(buf, "this user already exist\n") == 0) {
-
-            mx_printstr("this user already exist\n");
-            break;
-        }
-        else if (mx_strcmp(buf, "registered\n") == 0)
-        {
-            set_unvisible_auth();
-            gtk_widget_set_visible(GTK_WIDGET(curent_grid.registration_success_container), TRUE);
-            break;
-        }
-    }
-    // if (is_registration_success) {
+    if (is_registration_success) {
         
-    //     set_unvisible_auth();
-    //     gtk_widget_set_visible(GTK_WIDGET(curent_grid.registration_success_container), TRUE);
+        set_unvisible_auth();
+        gtk_widget_set_visible(GTK_WIDGET(curent_grid.registration_success_container), TRUE);
     
-    // }
+    }
 
 }
 
