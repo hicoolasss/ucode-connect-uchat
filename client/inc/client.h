@@ -40,6 +40,26 @@ typedef struct {
     GtkCssProvider *provider;
 } t_screen;
 
+typedef struct s_log_in {
+    
+    GtkWidget *box;
+
+    GtkWidget *welcome;
+
+    GtkWidget *username;
+    GtkWidget *username_error_label;
+
+    GtkWidget *password;
+    GtkWidget *password_error_label;
+
+    GtkWidget *log_in_button;
+
+    GtkWidget *dont_have_account;
+
+    GtkWidget *sign_up_button_log_in;
+
+} t_log_in;
+
 typedef struct s_registration {
 
     GtkWidget *welcome;
@@ -138,7 +158,7 @@ typedef struct s_main
 
 }   t_main;
 
-extern t_client cur_client;
+extern t_client current_client;
 extern t_main main_client;
 extern pthread_mutex_t cl_mutex;
 extern _Atomic bool registered;

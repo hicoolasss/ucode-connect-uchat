@@ -1,9 +1,9 @@
 #include "../inc/client.h"
 
-t_screen curent_screen;
+t_screen current_screen;
 t_main main_client;
-t_client cur_client;
-t_grid curent_grid;
+t_client current_client;
+t_grid current_grid;
 pthread_mutex_t cl_mutex;
 _Atomic bool registered;
 int send_all(SSL *sockfd, char *buf, int len);
@@ -12,8 +12,8 @@ int recv_all(SSL *sockfd, char *buf, int len);
 void loadstyles()
 {
 
-    curent_screen.provider = gtk_css_provider_new();
-    gtk_css_provider_load_from_path(curent_screen.provider,
+    current_screen.provider = gtk_css_provider_new();
+    gtk_css_provider_load_from_path(current_screen.provider,
                                     "resources/style/theme.css");
 }
 
@@ -39,10 +39,10 @@ void widget_restyling(GtkWidget *widget, t_screen screen, const char *name_of_re
 static void app_activate(GApplication *app)
 {
 
-    curent_screen.screen = gtk_application_window_new(GTK_APPLICATION(app));
+    current_screen.screen = gtk_application_window_new(GTK_APPLICATION(app));
 
-    gtk_window_set_title(GTK_WINDOW(curent_screen.screen), "darkchat");
-    gtk_window_set_default_size(GTK_WINDOW(curent_screen.screen), 1200, 760);
+    gtk_window_set_title(GTK_WINDOW(current_screen.screen), "darkchat");
+    gtk_window_set_default_size(GTK_WINDOW(current_screen.screen), 1200, 760);
     // load default colorscheme
     change_scheme_to_any_color("#171722",
                                "#212130",
@@ -68,11 +68,11 @@ static void app_activate(GApplication *app)
 
     loadstyles();
 
-    widget_styling(curent_screen.screen, curent_screen, "background");
+    widget_styling(current_screen.screen, current_screen, "background");
 
     show_auth();
 
-    gtk_window_present(GTK_WINDOW(curent_screen.screen));
+    gtk_window_present(GTK_WINDOW(current_screen.screen));
 }
 
 int main(int argc, char **argv)
@@ -122,8 +122,8 @@ int main(int argc, char **argv)
         ERR_print_errors_fp(stderr);
         exit(EXIT_FAILURE);
     }
-    cur_client.ssl = ssl;
-    cur_client.serv_fd = server_fd;
+    current_client.ssl = ssl;
+    current_client.serv_fd = server_fd;
     GtkApplication *app;
     int stat = 0;
 
@@ -134,18 +134,18 @@ int main(int argc, char **argv)
     // char *json_str;
     // char buffer[2048];
 
-    // cur_client.login = "kali";
-    // cur_client.password = "kali";
+    // current_client.login = "kali";
+    // current_client.password = "kali";
     // json_str = registration();
     // send_message_to_server(json_str);
 
     // pthread_t rec_th;
     // pthread_mutex_init(&cl_mutex, NULL);
-    // pthread_create(&rec_th, NULL, recv_func, &cur_client.serv_fd);
+    // pthread_create(&rec_th, NULL, recv_func, &current_client.serv_fd);
 
     // while (main_client.connected == false)
     // {
-    //     int len = SSL_read(cur_client.ssl, buffer, sizeof(buffer) - 1);
+    //     int len = SSL_read(current_client.ssl, buffer, sizeof(buffer) - 1);
     //     if (len == -1)
     //     {
     //         printf("Error receiving message\n");

@@ -1,7 +1,7 @@
 #include "../inc/client.h"
 
-extern t_screen curent_screen;
-extern t_grid curent_grid;
+extern t_screen current_screen;
+extern t_grid current_grid;
 
 static void scrolled_window_styling(GtkWidget *widget, t_screen screen, const char *name_of_css_class) {
 	
@@ -117,7 +117,7 @@ void show_achievements() {
     gtk_scrolled_window_set_propagate_natural_width (GTK_SCROLLED_WINDOW(scrolled_window),true);
 
     //attach your main box to mygrid
-    gtk_grid_attach(GTK_GRID(curent_grid.achievements), scrolled_window, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(current_grid.achievements), scrolled_window, 0, 0, 1, 1);
 
     gtk_widget_set_halign(scrolled_window, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(scrolled_window, GTK_ALIGN_CENTER);
@@ -471,97 +471,97 @@ void show_achievements() {
     gtk_widget_set_size_request(btn_7, 50, 50);
 
     //styling
-    widget_styling(achievements_box, curent_screen, "achievements_box");
-    scrolled_window_styling(scrollbar, curent_screen, "scrollbar");
-    widget_styling(achievements_icon_btn, curent_screen, "achievements_icon_btn");
-    widget_styling(achievements_label_btn, curent_screen, "achievements_label_btn");
+    widget_styling(achievements_box, current_screen, "achievements_box");
+    scrolled_window_styling(scrollbar, current_screen, "scrollbar");
+    widget_styling(achievements_icon_btn, current_screen, "achievements_icon_btn");
+    widget_styling(achievements_label_btn, current_screen, "achievements_label_btn");
     
-    widget_styling(first_hbox, curent_screen, "first_hbox");
+    widget_styling(first_hbox, current_screen, "first_hbox");
     
-    widget_styling(first_step_box, curent_screen, "achievement_card");
-    widget_styling(first_step_label, curent_screen, "achievement_label_text");
-    widget_styling(first_step_desc_label, curent_screen, "achievement_desc_text");
+    widget_styling(first_step_box, current_screen, "achievement_card");
+    widget_styling(first_step_label, current_screen, "achievement_label_text");
+    widget_styling(first_step_desc_label, current_screen, "achievement_desc_text");
 
     //if () {
-    widget_styling(btn_0, curent_screen, "complete_btn");
+    widget_styling(btn_0, current_screen, "complete_btn");
     //} else {
-        //widget_styling(btn_0, curent_screen, "unfinished_btn");
+        //widget_styling(btn_0, current_screen, "unfinished_btn");
     //}
 
-    widget_styling(explorer_box, curent_screen, "achievement_card");
-    widget_styling(explorer_label, curent_screen, "achievement_label_text");
-    widget_styling(explorer_desc_label, curent_screen, "achievement_desc_text");
+    widget_styling(explorer_box, current_screen, "achievement_card");
+    widget_styling(explorer_label, current_screen, "achievement_label_text");
+    widget_styling(explorer_desc_label, current_screen, "achievement_desc_text");
 
      //if () {
-    widget_styling(btn_1, curent_screen, "complete_btn");
+    widget_styling(btn_1, current_screen, "complete_btn");
     //} else {
-        //widget_styling(btn_1, curent_screen, "unfinished_btn");
+        //widget_styling(btn_1, current_screen, "unfinished_btn");
     //}
 
-    widget_styling(fickle_box, curent_screen, "achievement_card");
-    widget_styling(fickle_label, curent_screen, "achievement_label_text");
-    widget_styling(fickle_desc_label, curent_screen, "achievement_desc_text");
+    widget_styling(fickle_box, current_screen, "achievement_card");
+    widget_styling(fickle_label, current_screen, "achievement_label_text");
+    widget_styling(fickle_desc_label, current_screen, "achievement_desc_text");
 
      //if () {
-    widget_styling(btn_2, curent_screen, "complete_btn");
+    widget_styling(btn_2, current_screen, "complete_btn");
     //} else {
-        //widget_styling(btn_2, curent_screen, "unfinished_btn");
+        //widget_styling(btn_2, current_screen, "unfinished_btn");
     //}
 
 
-    widget_styling(argument_with_a_women_box, curent_screen, "achievement_card");
-    widget_styling(argument_with_a_women_label, curent_screen, "achievement_label_text");
-    widget_styling(argument_with_a_women_desc_label, curent_screen, "achievement_desc_text");
+    widget_styling(argument_with_a_women_box, current_screen, "achievement_card");
+    widget_styling(argument_with_a_women_label, current_screen, "achievement_label_text");
+    widget_styling(argument_with_a_women_desc_label, current_screen, "achievement_desc_text");
 
      //if () {
-    widget_styling(btn_3, curent_screen, "complete_btn");
+    widget_styling(btn_3, current_screen, "complete_btn");
     //} else {
-        //widget_styling(btn_3, curent_screen, "unfinished_btn");
+        //widget_styling(btn_3, current_screen, "unfinished_btn");
     //}
 
-    widget_styling(loving_box, curent_screen, "achievement_card");
-    widget_styling(loving_label, curent_screen, "achievement_label_text");
-    widget_styling(loving_desc_label, curent_screen, "achievement_desc_text");
+    widget_styling(loving_box, current_screen, "achievement_card");
+    widget_styling(loving_label, current_screen, "achievement_label_text");
+    widget_styling(loving_desc_label, current_screen, "achievement_desc_text");
 
      //if () {
-    widget_styling(btn_4, curent_screen, "complete_btn");
+    widget_styling(btn_4, current_screen, "complete_btn");
     //} else {
-        //widget_styling(btn_4, curent_screen, "unfinished_btn");
+        //widget_styling(btn_4, current_screen, "unfinished_btn");
     //}
 
-    widget_styling(vicious_box, curent_screen, "achievement_card");
-    widget_styling(vicious_label, curent_screen, "achievement_label_text");
-    widget_styling(vicious_desc_label, curent_screen, "achievement_desc_text");
+    widget_styling(vicious_box, current_screen, "achievement_card");
+    widget_styling(vicious_label, current_screen, "achievement_label_text");
+    widget_styling(vicious_desc_label, current_screen, "achievement_desc_text");
 
     //if () {
-    widget_styling(btn_5, curent_screen, "complete_btn");
+    widget_styling(btn_5, current_screen, "complete_btn");
     //} else {
-        //widget_styling(btn_5, curent_screen, "unfinished_btn");
+        //widget_styling(btn_5, current_screen, "unfinished_btn");
     //}
 
 
-    widget_styling(smart_box, curent_screen, "achievement_card");
-    widget_styling(smart_label, curent_screen, "achievement_label_text");
-    widget_styling(smart_desc_label, curent_screen, "achievement_desc_text");
+    widget_styling(smart_box, current_screen, "achievement_card");
+    widget_styling(smart_label, current_screen, "achievement_label_text");
+    widget_styling(smart_desc_label, current_screen, "achievement_desc_text");
 
     //if () {
-    widget_styling(btn_6, curent_screen, "complete_btn");
+    widget_styling(btn_6, current_screen, "complete_btn");
     //} else {
-        //widget_styling(btn_6, curent_screen, "unfinished_btn");
+        //widget_styling(btn_6, current_screen, "unfinished_btn");
     //}
 
-    widget_styling(mission_impossible_box, curent_screen, "achievement_card");
-    widget_styling(mission_impossible_label, curent_screen, "achievement_label_text");
-    widget_styling(mission_impossible_desc_label, curent_screen, "achievement_desc_text");
+    widget_styling(mission_impossible_box, current_screen, "achievement_card");
+    widget_styling(mission_impossible_label, current_screen, "achievement_label_text");
+    widget_styling(mission_impossible_desc_label, current_screen, "achievement_desc_text");
 
     //if () {
-    //widget_styling(btn_7, curent_screen, "complete_btn");
+    //widget_styling(btn_7, current_screen, "complete_btn");
     //} else {
-        widget_styling(btn_7, curent_screen, "unfinished_btn");
+        widget_styling(btn_7, current_screen, "unfinished_btn");
     //}
 
-    widget_styling(second_hbox, curent_screen, "second_hbox");
-    widget_styling(loving_box, curent_screen, "achievement_card");
+    widget_styling(second_hbox, current_screen, "second_hbox");
+    widget_styling(loving_box, current_screen, "achievement_card");
 
 
 

@@ -1,7 +1,7 @@
 #include "../inc/client.h"
 
-extern t_screen curent_screen;
-extern t_grid curent_grid;
+extern t_screen current_screen;
+extern t_grid current_grid;
 
 //function to create grid containers
 GtkWidget *create_grid( const gint width,
@@ -10,7 +10,7 @@ GtkWidget *create_grid( const gint width,
     GtkWidget *child = gtk_grid_new();
     gtk_widget_set_size_request(child, width, height);
     if (style != NULL)
-        widget_styling(child, curent_screen, style);
+        widget_styling(child, current_screen, style);
 
     return child;
 }

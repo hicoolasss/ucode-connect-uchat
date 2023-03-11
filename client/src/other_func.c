@@ -2,7 +2,7 @@
 
 int send_message_to_server(char *buffer)
 {
-    int len = send_all(cur_client.ssl, buffer, mx_strlen(buffer));
+    int len = send_all(current_client.ssl, buffer, mx_strlen(buffer));
 
     if (len < 0)
     {
@@ -16,8 +16,8 @@ int send_message_to_server(char *buffer)
 char *convert_to_json(char *buffer)
 {
     cJSON *json = cJSON_CreateObject();
-    cJSON_AddStringToObject(json, "name", cur_client.login);
-    // cJSON_AddStringToObject(json, "password", cur_client.password);
+    cJSON_AddStringToObject(json, "name", current_client.login);
+    // cJSON_AddStringToObject(json, "password", current_client.password);
     cJSON_AddStringToObject(json, "message", buffer);
 
     char *json_str = cJSON_Print(json);
@@ -29,8 +29,8 @@ char *registration(int status)
 {
     cJSON *json = cJSON_CreateObject();
     cJSON_AddStringToObject(json, "status", mx_itoa(status));
-    cJSON_AddStringToObject(json, "login", cur_client.login);
-    cJSON_AddStringToObject(json, "password", cur_client.password);
+    cJSON_AddStringToObject(json, "login", current_client.login);
+    cJSON_AddStringToObject(json, "password", current_client.password);
 
     char *json_str = cJSON_Print(json);
     cJSON_Delete(json);

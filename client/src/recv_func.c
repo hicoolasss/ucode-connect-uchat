@@ -6,7 +6,7 @@ void *recv_func()
     char temp[2048];
     // while (main_client.connected == false)
     // {
-    //     int len = SSL_read(cur_client.ssl, temp, sizeof(temp) - 1);
+    //     int len = SSL_read(current_client.ssl, temp, sizeof(temp) - 1);
     //     if (len == -1)
     //     {
     //         printf("Error receiving message\n");
@@ -21,7 +21,7 @@ void *recv_func()
     // }
     while (1)
     {
-        int len = SSL_read(cur_client.ssl, temp, sizeof(temp) - 1);
+        int len = SSL_read(current_client.ssl, temp, sizeof(temp) - 1);
         if (len == -1)
         {
             printf("Error receiving message\n");

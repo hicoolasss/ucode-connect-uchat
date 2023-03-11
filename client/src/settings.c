@@ -1,7 +1,7 @@
 #include "../inc/client.h"
 
-extern t_screen curent_screen;
-extern t_grid curent_grid;
+extern t_screen current_screen;
+extern t_grid current_grid;
 
 void change_scheme_to_any_color(char *bg_win_col,
                                 char *bg_auth_main_box,
@@ -128,7 +128,7 @@ void settings_first_scheme_btn_click() {
                                "#212130",
                                "#434461",
                                "#13131A");
-    gtk_css_provider_load_from_path(curent_screen.provider,
+    gtk_css_provider_load_from_path(current_screen.provider,
                                     "resources/style/theme.css");
 }
 
@@ -154,7 +154,7 @@ void settings_second_scheme_btn_click() {
                                "#383a59",
                                "#bd93f9",
                                "#5e343d");
-    gtk_css_provider_load_from_path(curent_screen.provider,
+    gtk_css_provider_load_from_path(current_screen.provider,
                                     "resources/style/theme.css");
 }
 
@@ -180,7 +180,7 @@ void settings_third_scheme_btn_click() {
                                "#212130",
                                "#434461",
                                "#13131A");
-    gtk_css_provider_load_from_path(curent_screen.provider,
+    gtk_css_provider_load_from_path(current_screen.provider,
                                     "resources/style/theme.css");
 }
 
@@ -188,7 +188,7 @@ GtkWidget *create_color_circle(const gchar *const style) {
     GtkWidget *circle = gtk_button_new();
     gtk_widget_set_size_request(circle, 35, 35);
 
-    widget_styling(circle, curent_screen, style);
+    widget_styling(circle, current_screen, style);
 
     return circle;
 }
@@ -234,7 +234,7 @@ void show_settings() {
     GtkWidget *settings_second_scheme_btn = create_color_circle("settings_purple_scheme_btn");
     GtkWidget *settings_third_scheme_btn = create_color_circle("settings_dark_scheme_btn");
 
-    gtk_grid_attach(GTK_GRID(curent_grid.settings), settings_grid_help, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(current_grid.settings), settings_grid_help, 0, 0, 1, 1);
     gtk_grid_set_row_spacing(GTK_GRID(settings_grid_help), 19);
     gtk_grid_attach(GTK_GRID(settings_grid_help), settings_grid_for_ico, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(settings_grid_for_ico), settings_grid_with_ico, 0, 0, 1, 1);
@@ -243,12 +243,12 @@ void show_settings() {
 
     gtk_widget_set_size_request(settings_lab_nsh, 180, 30);
 
-    widget_styling(settings_lab, curent_screen, "settings_lab");
-    widget_styling(settings_lab_nsh, curent_screen, "settings_lab_in_body");
-    widget_styling(settings_lab_chp, curent_screen, "settings_lab_in_body");
-    widget_styling(settings_lab_da, curent_screen, "settings_lab_in_body");
-    widget_styling(settings_button_chp, curent_screen, "settings_grid_with_in_body_btn");
-    widget_styling(settings_button_da, curent_screen, "settings_grid_with_in_body_btn");
+    widget_styling(settings_lab, current_screen, "settings_lab");
+    widget_styling(settings_lab_nsh, current_screen, "settings_lab_in_body");
+    widget_styling(settings_lab_chp, current_screen, "settings_lab_in_body");
+    widget_styling(settings_lab_da, current_screen, "settings_lab_in_body");
+    widget_styling(settings_button_chp, current_screen, "settings_grid_with_in_body_btn");
+    widget_styling(settings_button_da, current_screen, "settings_grid_with_in_body_btn");
 
     gtk_grid_attach(GTK_GRID(settings_grid_with_lab), settings_lab, 0, 0, 1, 1);
 

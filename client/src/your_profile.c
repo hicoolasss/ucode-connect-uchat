@@ -1,7 +1,7 @@
 #include "../inc/client.h"
 
-extern t_screen curent_screen;
-extern t_grid curent_grid;
+extern t_screen current_screen;
+extern t_grid current_grid;
 
 //static void
 //on_open_response (GtkDialog *dialog, int response) {
@@ -59,7 +59,7 @@ void show_your_profile() {
    GtkWidget *profile_grid_scale = create_grid(251, 20, "profile_grid_scale");
    GtkWidget *profile_grid_body = create_grid(474, 385, "profile_grid_body");
 
-   gtk_grid_attach(GTK_GRID(curent_grid.your_profile), profile_help_grid, 0, 0, 1, 1);
+   gtk_grid_attach(GTK_GRID(current_grid.your_profile), profile_help_grid, 0, 0, 1, 1);
    gtk_grid_set_row_spacing(GTK_GRID(profile_help_grid), 10);
    gtk_grid_attach(GTK_GRID(profile_help_grid), profile_grid_for_img, 0, 0, 1, 1);
    gtk_grid_attach(GTK_GRID(profile_help_grid), profile_grid_scale, 0, 1, 1, 1);
@@ -224,14 +224,14 @@ void show_your_profile() {
 
 
 
-   widget_styling(choose_profile_avatar_btn, curent_screen, "choose_profile_avatar_btn");
-   widget_styling(mini_exp_box, curent_screen, "mini_exp_box");
-   widget_styling(exp_count_label, curent_screen, "exp_count_label");
-   widget_styling(name_label, curent_screen, "name_label");
-   widget_styling(first_name_entry, curent_screen, "name_entry");
-   widget_styling(last_name_entry, curent_screen, "name_entry");
-   widget_styling(bio_label, curent_screen, "bio_label");
-   widget_styling(bio_box, curent_screen, "bio_box");
-   widget_styling(bio_entry, curent_screen, "bio_entry");
+   widget_styling(choose_profile_avatar_btn, current_screen, "choose_profile_avatar_btn");
+   widget_styling(mini_exp_box, current_screen, "mini_exp_box");
+   widget_styling(exp_count_label, current_screen, "exp_count_label");
+   widget_styling(name_label, current_screen, "name_label");
+   widget_styling(first_name_entry, current_screen, "name_entry");
+   widget_styling(last_name_entry, current_screen, "name_entry");
+   widget_styling(bio_label, current_screen, "bio_label");
+   widget_styling(bio_box, current_screen, "bio_box");
+   widget_styling(bio_entry, current_screen, "bio_entry");
 
 }

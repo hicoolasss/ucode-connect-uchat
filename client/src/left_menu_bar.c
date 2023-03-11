@@ -1,37 +1,37 @@
 #include "../inc/client.h"
 
-extern t_screen curent_screen;
-extern t_grid curent_grid;
+extern t_screen current_screen;
+extern t_grid current_grid;
 
 
 void your_profile_clicked () {
     set_unvisible_all();
-    gtk_widget_set_visible(GTK_WIDGET(curent_grid.left_menu_bar), TRUE);
-    gtk_widget_set_visible(GTK_WIDGET(curent_grid.your_profile), TRUE);
+    gtk_widget_set_visible(GTK_WIDGET(current_grid.left_menu_bar), TRUE);
+    gtk_widget_set_visible(GTK_WIDGET(current_grid.your_profile), TRUE);
 }
 
 void home_clicked () {
     set_unvisible_all();
-    gtk_widget_set_visible(GTK_WIDGET(curent_grid.left_menu_bar), TRUE);
-    gtk_widget_set_visible(GTK_WIDGET(curent_grid.home), TRUE);
+    gtk_widget_set_visible(GTK_WIDGET(current_grid.left_menu_bar), TRUE);
+    gtk_widget_set_visible(GTK_WIDGET(current_grid.home), TRUE);
 }
 
 void chats_clicked () {
     set_unvisible_all();
-    gtk_widget_set_visible(GTK_WIDGET(curent_grid.left_menu_bar), TRUE);
-    gtk_widget_set_visible(GTK_WIDGET(curent_grid.chats_container), TRUE);
+    gtk_widget_set_visible(GTK_WIDGET(current_grid.left_menu_bar), TRUE);
+    gtk_widget_set_visible(GTK_WIDGET(current_grid.chats_container), TRUE);
 }
 
 void settings_clicked () {
     set_unvisible_all();
-    gtk_widget_set_visible(GTK_WIDGET(curent_grid.left_menu_bar), TRUE);
-    gtk_widget_set_visible(GTK_WIDGET(curent_grid.settings), TRUE);
+    gtk_widget_set_visible(GTK_WIDGET(current_grid.left_menu_bar), TRUE);
+    gtk_widget_set_visible(GTK_WIDGET(current_grid.settings), TRUE);
 }
 
 void achievements_clicked () {
     set_unvisible_all();
-    gtk_widget_set_visible(GTK_WIDGET(curent_grid.left_menu_bar), TRUE);
-    gtk_widget_set_visible(GTK_WIDGET(curent_grid.achievements), TRUE);
+    gtk_widget_set_visible(GTK_WIDGET(current_grid.left_menu_bar), TRUE);
+    gtk_widget_set_visible(GTK_WIDGET(current_grid.achievements), TRUE);
 }
 
 void log_out_clicked () {
@@ -49,12 +49,12 @@ void show_left_menu_bar() {
     GtkWidget *log_out_btn = gtk_button_new();
 
     //attach to side
-    gtk_grid_attach(GTK_GRID(curent_grid.left_menu_bar), profile_avatar_btn, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(curent_grid.left_menu_bar), home_btn, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(curent_grid.left_menu_bar), chats_btn, 0, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(curent_grid.left_menu_bar), settings_btn, 0, 3, 1, 1);
-    gtk_grid_attach(GTK_GRID(curent_grid.left_menu_bar), achievements_btn, 0, 4, 1, 1);
-    gtk_grid_attach(GTK_GRID(curent_grid.left_menu_bar), log_out_btn, 0, 5, 1, 1);
+    gtk_grid_attach(GTK_GRID(current_grid.left_menu_bar), profile_avatar_btn, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(current_grid.left_menu_bar), home_btn, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(current_grid.left_menu_bar), chats_btn, 0, 2, 1, 1);
+    gtk_grid_attach(GTK_GRID(current_grid.left_menu_bar), settings_btn, 0, 3, 1, 1);
+    gtk_grid_attach(GTK_GRID(current_grid.left_menu_bar), achievements_btn, 0, 4, 1, 1);
+    gtk_grid_attach(GTK_GRID(current_grid.left_menu_bar), log_out_btn, 0, 5, 1, 1);
 
     //profile_avatar_btn
     gtk_widget_set_margin_start(profile_avatar_btn, 29);
@@ -99,14 +99,14 @@ void show_left_menu_bar() {
     gtk_widget_set_size_request(log_out_btn, 62, 62);
 
     //styling
-//    widget_styling(main_menu_box, curent_screen, "main_box_style");
-    widget_styling(curent_grid.left_menu_bar, curent_screen, "main_box_style");
-    widget_styling(profile_avatar_btn, curent_screen, "profile_avatar_btn");
-    widget_styling(home_btn, curent_screen, "home_btn");
-    widget_styling(chats_btn, curent_screen, "chats_btn");
-    widget_styling(settings_btn, curent_screen, "settings_btn");
-    widget_styling(achievements_btn, curent_screen, "achievements_btn");
-    widget_styling(log_out_btn, curent_screen, "log_out_btn");
+//    widget_styling(main_menu_box, current_screen, "main_box_style");
+    widget_styling(current_grid.left_menu_bar, current_screen, "main_box_style");
+    widget_styling(profile_avatar_btn, current_screen, "profile_avatar_btn");
+    widget_styling(home_btn, current_screen, "home_btn");
+    widget_styling(chats_btn, current_screen, "chats_btn");
+    widget_styling(settings_btn, current_screen, "settings_btn");
+    widget_styling(achievements_btn, current_screen, "achievements_btn");
+    widget_styling(log_out_btn, current_screen, "log_out_btn");
 
 
     //signals
