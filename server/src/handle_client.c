@@ -52,7 +52,8 @@ void *handle_client(void *args)
                 {
                     SSL_write(current_client->ssl, "user not found\n", 20);
                 }
-                else if(db_log == 2) {
+                else if (db_log == 2)
+                {
                     SSL_write(current_client->ssl, "incorrect password\n", 20);
                 }
                 else if (db_log == 0)
@@ -65,11 +66,11 @@ void *handle_client(void *args)
                     main_client.registered = true;
                 }
             }
-            else if(mx_atoi(status)  == 1) {
+            else if (mx_atoi(status) == 1)
+            {
                 int db_reg = db_regestr_to_serv(login, passwd, current_client->ssl);
                 if (db_reg == 1)
                 {
-
                     SSL_write(current_client->ssl, "this user already exist\n", 25);
                 }
                 else if (db_reg == 0)
@@ -83,52 +84,47 @@ void *handle_client(void *args)
             }
         }
     }
-    // while (main_client.registered == true)
-    // {
-    //     int len = SSL_read(current_client->ssl, buf, sizeof(buf) - 1);
-    //     if (len < 0)
-    //     {
-    //         printf("Error: Unable to receive data from server\n");
-    //         break;
-    //     }
-    //     else if (len == 0)
-    //     {
-    //         mx_printstr(current_client->login);
-    //         cli_count--;
-    //         printf(" disconnected\n");
-    //         break;
-    //     }
-    //     else
-    //     {
-    //         // buf[len] = '\0';
-    //         printf("Data received from server: %s\n", buf);
+    while (main_client.registered == true)
+    {
 
-    //         // Преобразование строки в JSON-объект
-    //         cJSON *json_obj = cJSON_Parse(buf);
-    //         if (!json_obj)
-    //         {
-    //             printf("Error: Invalid JSON data received from server\n");
-    //             break;
-    //         }
-    //         // Извлечение данных из JSON-объекта
-    //         char *message = cJSON_GetObjectItemCaseSensitive(json_obj, "message")->valuestring;
-    //         char *login = cJSON_GetObjectItemCaseSensitive(json_obj, "name")->valuestring;
-    //         print_message(login, message);
-    //         send_message_to_all_clients(message, current_client->cl_socket);
-    //         // mx_printstr(message);
-    //         cJSON_Delete(json_obj);
-    //     }
-    // }
-    remove_client(current_client->cl_socket);
+        memset(buf, 0, sizeof(buf));
+        int len = SSL_read(current_client->ssl, buf, sizeof(buf));
+        if (len < 0)
+        {
+            printf("Error: Unable to receive data from server\n");
+            break;
+        }
+        else
+        {
+            // Преобразование строки в JSON-объект
+            cJSON *json = cJSON_Parse(buf);
+            
+            if (!json)
+            {
+                printf("Error: Invalid JSON data received from server\n");
+                break;
+            }
+
+            char *login = cJSON_GetObjectItemCaseSensitive(json, "login")->valuestring;
+            char *command = cJSON_GetObjectItemCaseSensitive(json, "command")->valuestring;
+
+            if (mx_strcmp(command, "<logout>") == 0)
+            {
+                print_message(login, "logout\n");
+                remove_client(current_client->cl_socket);
+                cli_count--;
+                SSL_write(current_client->ssl, "success\n", 9);
+                main_client.registered = false;
+            }
+        }
+    }
     return NULL;
 }
-
 void print_message(char *login, char *message)
 {
     mx_printstr(login);
     mx_printstr(" -> ");
     mx_printstr(message);
-    current_client->login = mx_strdup(login);
     mx_printchar('\n');
 }
 
