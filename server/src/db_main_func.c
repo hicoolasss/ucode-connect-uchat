@@ -16,22 +16,17 @@ int db_log_to_serv(char *login, char *password, SSL *ssl)
             mx_printstr("You are in chat(entered)!\n\n");
             return 0;
         }
-        else
-        {
-            mx_printstr("incorrect pass or login!\n\n");
-            return 1;
-        }
-    }
-    else if ((log_id_check != NULL) && (pass_id_check == NULL))
-    {
-        mx_printstr("incorrect password...\n\n");
-        return 1;
     }
     else if ((log_id_check == NULL) && (pass_id_check == NULL)) {
         mx_printstr("user not found\n\n");
         return 1;
     }
-    return 1;
+    else if ((log_id_check != NULL) && (pass_id_check == NULL))
+    {
+        mx_printstr("incorrect password\n\n");
+        return 2;
+    }
+    return 3;
 }
 
 

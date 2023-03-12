@@ -12,13 +12,13 @@ static void dont_have_account_btn_clicked(void)
 
 static int get_username_status(void) {
 
-    
     if (mx_strlen(current_client.login) == 0) return -3;
     if (mx_strlen(current_client.password) == 0) return -4;
     
     char *json_str;
     json_str = registration(0);
     send_message_to_server(json_str);
+    mx_printstr(json_str);
     char buf[256];
     while (main_client.connected == false) {
         
@@ -29,17 +29,19 @@ static int get_username_status(void) {
             
             return -1;
         
-        } else if (mx_strcmp(buf, "incorrect password\n") == 0) {
+        } else if (mx_strcmp(buf, "user not found\n") == 0) { 
             
             return -2;
+
+        } else if (mx_strcmp(buf, "incorrect password\n") == 0) {
+            
+            return -3;
         
         } else if (mx_strcmp(buf, "success\n") == 0) {
             
             main_client.connected = true;
             return 0;
-        
         }
-    
     }
 
     return 0;
@@ -81,6 +83,11 @@ static void log_in_btn_clicked(GtkWidget *widget, gpointer data) {
     GtkWidget **entry_data = data;
     GtkEntryBuffer *username = gtk_entry_get_buffer(GTK_ENTRY(entry_data[0]));
     GtkEntryBuffer *password = gtk_entry_get_buffer(GTK_ENTRY(entry_data[1]));
+
+    if(current_client.login != NULL && current_client.password != NULL) {
+        memset(current_client.login, 0, mx_strlen(current_client.login));
+        memset(current_client.password, 0, mx_strlen(current_client.password));
+    }
 
     current_client.login = mx_strdup(gtk_entry_buffer_get_text(username));
     current_client.password = mx_strdup(gtk_entry_buffer_get_text(password));

@@ -20,6 +20,7 @@ void *handle_client(void *args)
 
     while (main_client.registered == false)
     {
+        memset(buf, 0, sizeof(buf));
         int len = SSL_read(current_client->ssl, buf, sizeof(buf));
         if (len < 0)
         {
@@ -49,6 +50,9 @@ void *handle_client(void *args)
                 int db_log = db_log_to_serv(login, passwd, current_client->ssl);
                 if (db_log == 1)
                 {
+                    SSL_write(current_client->ssl, "user not found\n", 20);
+                }
+                else if(db_log == 2) {
                     SSL_write(current_client->ssl, "incorrect password\n", 20);
                 }
                 else if (db_log == 0)
@@ -115,6 +119,7 @@ void *handle_client(void *args)
     //         cJSON_Delete(json_obj);
     //     }
     // }
+    remove_client(current_client->cl_socket);
     return NULL;
 }
 
