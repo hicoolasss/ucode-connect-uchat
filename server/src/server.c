@@ -42,8 +42,6 @@ int main(int argc, char **argv) {
     }
     socklen_t adr_size = sizeof(cli_addr);
     while (1) {
-        // char login[10];
-        // char password [10];
         SSL *ssl;
 
         int client_fd = accept(server_fd, (struct sockaddr *)&cli_addr, &adr_size);
@@ -59,28 +57,6 @@ int main(int argc, char **argv) {
 
     //    ent_sys(login,password,ssl);//registration and enter db
 
-
-        // sql_create_db();
-
-        // printf("Enter login...\n");
-        // scanf("%10s[^\n]", login);
-        // printf("Enter pass...\n");
-        // scanf("%10s[^\n]", password);
-        // //"*" - поля таблицы которые хотим получить
-        // char *log_id_check = sql_get("id","login",login,1);
-        // char *pass_id_check = sql_get("id","password",password,1);
-
-        // if((log_id_check != NULL) && (pass_id_check != NULL)){
-        //     int log_check = mx_atoi(log_id_check);
-        //     int pass_check = mx_atoi(pass_id_check);
-        //     if(log_check == pass_check){printf("You are in chat(entered)!\n");}
-        // }else if((log_id_check != NULL) &&(pass_id_check == NULL))
-        // {
-        //     printf("incorrect password...\n");}
-        // else{
-        //     sql_set_user(login,password,ssl);
-        //     printf("You was regestered :-)\n");
-        // }
         
 
         pthread_create(&thread, NULL, handle_client, new_client);

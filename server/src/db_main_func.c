@@ -49,3 +49,52 @@ int db_regestr_to_serv(char *login, char *password, SSL *ssl)
 
 }
 
+// t_list *get_login_list() {
+//     sqlite3 *db;
+//     sqlite3_stmt *stmt;
+//     int result;
+//     t_list *head = NULL;
+//     t_list *current = NULL;
+//     sql_open_db(&db);
+
+//     if (sqlite3_prepare_v2(db, "SELECT login FROM User", -1, &stmt, NULL) != SQLITE_OK) {
+//         fprintf(stderr, "Error sql in text %s\n", sqlite3_errmsg(db));
+//         sqlite3_close(db);
+//         return NULL;
+//     }
+
+//     while ((result = sqlite3_step(stmt)) == SQLITE_ROW) {
+//         char *login = strdup((const char *) sqlite3_column_text(stmt, 0));
+//         t_list *node = malloc(sizeof(t_list));
+//         node->data = login;
+//         node->next = NULL;
+
+//         if (head == NULL) {
+//             head = node;
+//             current = head;
+//         } else {
+//             current->next = node;
+//             current = current->next;
+//         }
+//     }
+
+//     if (result != SQLITE_DONE) {
+//         fprintf(stderr, "Ошибка выполнения SQL-запроса: %s\n", sqlite3_errmsg(db));
+//         sqlite3_finalize(stmt);
+//         sqlite3_close(db);
+//         return NULL;
+//     }
+
+//     sqlite3_finalize(stmt);
+//     sqlite3_close(db);
+//     return head;
+// }
+
+// void print_login_list(t_list *head) {
+//     t_list *current = head;
+
+//     while (current != NULL) {
+//         printf("%c\n", current->data);
+//         current = current->next;
+//     }
+// }
