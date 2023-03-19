@@ -121,6 +121,7 @@ typedef struct {
     GtkWidget *home;
 
     GtkWidget *search_bar;
+    GtkWidget *search_btn;
     GtkWidget *entry_for_search;
 
     GtkWidget *mini_groups;
@@ -128,10 +129,17 @@ typedef struct {
     GtkWidget *mini_chats;
     //chats list
     GtkWidget *chats_list_grid_child;
+    GtkWidget *goups_list_grid_child;
     //count num of chats in chats list
     int chat_pos_count;
+    int group_pos_count;
+    bool chat_search;
+    bool group_search;
 
     GtkWidget *chats;
+    GtkWidget *chats_scrolled;
+
+
     GtkWidget *settings;
     GtkWidget *achievements;
     GtkWidget *dialog_with_blur;
@@ -245,11 +253,19 @@ void show_search_bar(void);
 void create_new_chat(const int i,
                      const char *new_username);
 
+void create_new_group(const int i,
+                      const char *new_groupname);
 //help func to create grid with needed params
 GtkWidget *create_grid( const gint width,
                         const gint height,
                         const char *style );
 
 void call_new_chat_and_add_iter(const char *new_username);
-void search_btn_clicked(void);
+void search_btn_clicked_chat(void);
+void search_btn_clicked_group(void);
+
+void call_new_group_and_add_iter(const gchar *const new_username);
+
+void search_btn_clicked_chat(void);
+void search_btn_clicked_group(void);
 
