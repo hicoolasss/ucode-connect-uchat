@@ -20,6 +20,8 @@
 #include <signal.h>
 #include <openssl/err.h>
 #include <openssl/ssl.h>
+#include <pango/pangocairo.h>
+#include <pango/pango.h>
 
 //не дай бог кто-то это удалит, будка будет набита!!!!
 //почему эта хуйня подсвечивается крассным, а уебище
@@ -166,6 +168,8 @@ extern t_client current_client;
 extern t_main main_client;
 extern pthread_mutex_t cl_mutex;
 extern _Atomic bool registered;
+
+void load_custom_font(const char* font_path, GtkWidget* widget);
 
 SSL_CTX* CTX_initialize_client();
 int send_message_to_server(char *buffer);

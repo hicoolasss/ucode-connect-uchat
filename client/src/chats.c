@@ -122,3 +122,8 @@ void show_mini_groups() {
 
     gtk_grid_attach(GTK_GRID(current_grid.mini_groups), groups_box, 0, 0, 1, 1);
 }
+
+
+search(const char *search) {
+    
+}
