@@ -2,7 +2,56 @@
 
 extern t_screen current_screen;
 extern t_grid current_grid;
+extern t_avatar current_avatar;
+extern t_scaled_avatar current_scaled_avatar;
 
+void get_scaled_image() {
+   
+   //GdkPixbuf *source_pixbuf = gdk_pixbuf_new_from_file(current_avatar.avatar, NULL);
+    if (!current_avatar.avatar) {
+        g_print("Ошибка при загрузке изображения.\n");
+        return;
+    }
+
+    // Масштабирование исходного изображения до размера аватара
+    GdkPixbuf *scaled_pixbuf = gdk_pixbuf_scale_simple(current_avatar.avatar, 67, 67, GDK_INTERP_BILINEAR);
+    //g_object_unref(current_avatar.avatar);
+
+    // Создание поверхности Cairo для рисования
+    cairo_surface_t *surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, 67, 67);
+    cairo_t *cr = cairo_create(surface);
+
+    // Создание круглой области
+    cairo_arc(cr, 67 / 2.0, 67 / 2.0, 67 / 2.0, 0, 2 * G_PI);
+    cairo_clip(cr);
+    gdk_cairo_set_source_pixbuf(cr, scaled_pixbuf, 0, 0);
+    cairo_paint(cr);
+
+    GdkPixbuf *circle_pixbuf = gdk_pixbuf_get_from_surface(surface, 0, 0, 67, 67);
+
+    current_scaled_avatar.scaled_avatar = circle_pixbuf;
+    
+}
+
+static void draw_round_mask(cairo_t *cr, double x, double y, double radius) {
+   cairo_new_path(cr);
+   cairo_arc(cr, x + radius, y + radius, radius, 0, 2 * M_PI);
+   cairo_close_path(cr);
+}
+
+static void draw_image(GtkDrawingArea *area,
+              cairo_t        *cr,
+              int             width,
+              int             height,
+              gpointer        data) {
+
+   cairo_surface_t *image_surface = (cairo_surface_t *)data;
+   cairo_surface_t *mask_surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
+   draw_round_mask(cr, 0, 0, width/2);
+   cairo_set_source_surface(cr, image_surface, 0, 0);
+   cairo_mask_surface(cr, mask_surface, 0, 0);
+   cairo_paint(cr);
+}
 
 void your_profile_clicked () {
     set_unvisible_all();
@@ -20,6 +69,7 @@ void chats_clicked () {
     set_unvisible_all();
     gtk_widget_set_visible(GTK_WIDGET(current_grid.left_menu_bar), TRUE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chats_container), TRUE);
+    gtk_widget_set_visible(GTK_WIDGET(current_grid.chats), FALSE);
 }
 
 void settings_clicked () {
@@ -40,8 +90,19 @@ void log_out_clicked () {
 
 void show_left_menu_bar() {
 
-    //left box(home,settings,profile,etc..)
+    current_avatar.avatar = gdk_pixbuf_new_from_file("/home/criops/ucode-connect-uchat/avatar1.png", NULL);
+
+    get_scaled_image();
+
+    GtkWidget *profile_avatar_icon = gtk_image_new_from_pixbuf(current_scaled_avatar.scaled_avatar);
     GtkWidget *profile_avatar_btn = gtk_button_new();
+    gtk_widget_set_margin_start(profile_avatar_icon, 0);
+    gtk_widget_set_margin_end(profile_avatar_icon, 0);
+    gtk_widget_set_margin_top(profile_avatar_icon, 0);
+    gtk_widget_set_margin_bottom(profile_avatar_icon, 0);
+    gtk_button_set_child(GTK_BUTTON(profile_avatar_btn), profile_avatar_icon);
+
+
     GtkWidget *home_btn = gtk_button_new();
     GtkWidget *chats_btn = gtk_button_new();
     GtkWidget *settings_btn = gtk_button_new();

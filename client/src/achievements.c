@@ -20,7 +20,6 @@ void show_achievements() {
     GtkWidget *second_hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 
 
-
     GtkWidget *achievements_icon_btn = gtk_button_new();
 
     GtkWidget *achievements_label_btn = gtk_button_new_with_label("Achievements");
@@ -562,17 +561,6 @@ void show_achievements() {
 
     widget_styling(second_hbox, current_screen, "second_hbox");
     widget_styling(loving_box, current_screen, "achievement_card");
-
-
-
-
-
-
-
-
-
-
-
 
 
 

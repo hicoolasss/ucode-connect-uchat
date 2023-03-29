@@ -20,9 +20,19 @@ char *join(const char* s1, const char* s2);
 int db_log_to_serv(char *login, char *password, SSL *ssl);
 int db_regestr_to_serv(char *login, char *password, SSL *ssl);
 
+
 //check_data
 int check_correct_login (char *login);
 int check_correct_password (char *password);
+
+//t_list *get_login_list();
+//void print_login_list(t_list *head);
+
+//callback_for_list
+static int callback(void *answ, int argc, char **argv, char **azColName);
+
+//to find list_of_varible
+t_list* sql_get_plural(char* find_var, int table);
 
 //To find one variable
 char* sql_get(char* find_var, char* seek_var, char *value_seek_var, int table);

@@ -21,6 +21,7 @@ SSL_INC_FILES:= $(SSL_DIR)
 LIB_FLAGS = -lmx -lssl -lcjson -lsqlite3 -lcrypto\
 			-L$(LIBMX_DIR) $(LIBMX_NAME)\
 			-L$(CJSON_DIR) $(CJSON_NAME)\
+			-lm\
 
 all:  $(NAMEBIN) clean
 

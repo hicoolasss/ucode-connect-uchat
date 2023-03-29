@@ -84,7 +84,7 @@ static int get_username_status(void) {
 
         } else if (mx_strcmp(buf, "incorrect password\n") == 0) {
             
-            return -3;
+            return -5;
         
         } else if (mx_strcmp(buf, "success\n") == 0) {
             
@@ -211,13 +211,21 @@ static void log_in_btn_clicked(GtkWidget *widget, gpointer data) {
 
         }
 
+        case -5: {
+
+            gtk_label_set_text(GTK_LABEL(current_log_in.password_error_label), "incorrect password!");
+
+            widget_restyling(current_log_in.password_error_label, current_screen, "hide_label", "error_label");
+
+            widget_styling(entry_data[1], current_screen, "wrong_auth_entry_field");
+
+            is_log_in_success = false;
+
+            return;
+
+        }
+
     }
-
-
-
-
-
-
 
     if (is_log_in_success) {
         

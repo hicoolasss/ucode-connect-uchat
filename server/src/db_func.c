@@ -103,16 +103,54 @@ char* sql_get(char* find_var, char* seek_var, char *value_seek_var, int table) {
         return NULL;
     }
 }
-//for_mes
-// static int callback(void *answ, int argc, char **argv, char **azColName){
-//    int i;
-//    azColName = 0;
-//    for(i = 0; i<argc; i++){
-//        char *value = strdup(argv[i]);
-//       mx_push_back((t_list**)answ, (void*)value);
-//    }
-//    return 0;
+//for_mes_too
+static int callback(void *answ, int argc, char **argv, char **azColName){
+   int i;
+   azColName = 0;
+   for(i = 0; i<argc; i++){
+       char *value = strdup(argv[i]);
+      mx_push_back((t_list**)answ, (void*)value);
+   }
+   return 0;
+}
+// static int callback(void *data, int argc, char **argv, char **azColName) {
+//     t_list **linkids = (t_list **)data;
+//     t_list *new_link = (t_list *)malloc(sizeof(t_list));
+//     new_link->data = strdup(argv[0]);
+//     new_link->next = *linkids;
+//     *linkids = new_link;
+//     return 0;
 // }
+
+
+t_list* sql_get_plural(char* find_var, int table) {
+   sqlite3 *db;
+   char *errMsg = 0;
+   int rc;
+    t_list *answ = NULL;
+   sql_open_db(&db);
+
+   /* Create SQL statement */
+    char *sql = "SELECT ";
+    sql = join(sql, find_var);
+    switch (table)
+    {
+    case 1:
+        sql = join(sql, " FROM User");
+        break;
+    default:
+        break;
+    }
+   /* Execute SQL statement */
+   rc = sqlite3_exec(db, sql, callback, (void*)&answ, &errMsg);
+
+   if( rc != SQLITE_OK ) {
+      fprintf(stderr, "SQL error: %s\n", errMsg);
+      sqlite3_free(errMsg);
+   }
+   sqlite3_close(db);
+   return answ;
+}
 
 
 int sql_update(char *update_var, char *value_update_var, char *seek_var, char *value_seek_var, int table) {

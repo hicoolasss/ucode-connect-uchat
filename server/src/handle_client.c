@@ -31,6 +31,7 @@ void *handle_client(void *args)
         {
             // Преобразование строки в JSON-объект
             cJSON *json = cJSON_Parse(buf);
+            mx_printstr(buf);
             if (!json)
             {
                 printf("Error: Invalid JSON data received from server\n");
@@ -41,8 +42,9 @@ void *handle_client(void *args)
             char *login = cJSON_GetObjectItemCaseSensitive(json, "login")->valuestring;
             char *passwd = cJSON_GetObjectItemCaseSensitive(json, "password")->valuestring;
             char *status = cJSON_GetObjectItemCaseSensitive(json, "status")->valuestring;
-            // current_client->login = mx_strdup(login);
-            // current_client->passwd = mx_strdup(passwd);
+           ///////////////////////++++++++++++++++++++++++++++++++++=
+
+
 
             // other func db_regestr_to_serv();
             if (mx_atoi(status) == 0)

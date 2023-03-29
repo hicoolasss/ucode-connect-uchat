@@ -352,9 +352,11 @@
 
 .profile_avatar_btn {
     border-radius: 50%;
-    background-position: 100% 100%;
-    background-repeat: no-repeat;
-    background-image: url(../../resources/images/test_avatar1.jpg);
+    border-color: transparent;
+    background: transparent;
+    padding: 0px;
+    border-width: 0px;
+    box-shadow: none;
 }
 
 
@@ -578,6 +580,11 @@
     border-radius: 20px;
     border: 1px solid @all-containers-borders-bg;
 
+    background-color: transparent;
+    background: transparent;
+    outline-color: transparent;
+    outline: none;
+    box-shadow: none;
 }
 
 .avatar_grid {
@@ -767,7 +774,7 @@
 }
 
 .profile_grid_for_img {
-    border: 1px solid @all-containers-borders-bg;
+    /* border: 1px solid @all-containers-borders-bg; */
     border-radius: 50%;
     margin-right: 138px;
     margin-left: 138px;
@@ -909,21 +916,39 @@
 }
 
 
-/*.choose_profile_avatar_btn {*/
-/*    border-color: transparent;*/
-/*    border-radius: 50%;*/
-/*    background: none;*/
-/*    background-repeat: no-repeat;*/
-/*    background-image: url(../../resources/images/choose_profile_avatar_btn.png);*/
-/*    background-color: transparent;*/
-/*    background-position: center;*/
-/*    outline-color: transparent;*/
-/*    box-shadow: none;*/
-/*}*/
+.avatar_img {
+    border-radius: 50%;
+    border-color: transparent;
+    background: black;
+    padding: 0px;
+    border-width: 0px;
+    box-shadow: none;
+    /* background-repeat: no-repeat;
+    background-image: url(../../resources/images/choose_profile_avatar_btn.png); */
+}
 
-/*.level_box {*/
-/*    background: #13131A;*/
-/*}*/
+.avatar_img:hover {
+    border-width: 2px;
+    border-color: @left-menu-bar-icon-hover;
+    transition: 0.5s;
+}
+
+.avatar_img:active {
+    transform: scale(0.9);
+}
+
+.choose_profile_avatar_btn {
+    border-radius: 50%;
+    border-color: transparent;
+    background: black;
+    padding: 0px;
+    border-width: 0px;
+    box-shadow: none;
+}
+
+/* .level_box {
+   background: #13131A;
+}  */
 
 /*YOUR PROFILE END*/
 
@@ -934,7 +959,7 @@
 }
 
 .achievements_box {
-    background: @right-chat-container-bg;
+    background: #13131A;
     border: 1px solid @all-containers-borders-bg;
     border-radius: 20px;
 }
@@ -984,11 +1009,11 @@
 }
 
 .first_hbox {
-    background: #171722;
+    background: transparent;
 }
 
 .achievement_card {
-    background: #13131A;
+    background: @right-chat-container-bg;
     border: 1px solid @all-containers-borders-bg;
     border-radius: 20px;
     transition: all 0.5s;
@@ -1046,7 +1071,7 @@
 }
 
 .second_hbox {
-    background: #171722;
+    background: transparent;
 }
 
 .scrollbar {
