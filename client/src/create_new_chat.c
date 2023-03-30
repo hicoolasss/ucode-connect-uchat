@@ -4,7 +4,7 @@ extern t_screen current_screen;
 extern t_grid current_grid;
 
 static void show_chats_clicked() {
-    gtk_widget_set_visible(GTK_WIDGET(current_grid.chats), TRUE);
+    //gtk_widget_set_visible(GTK_WIDGET(current_grid.chats), TRUE);
 }
 
 void create_new_chat(const int i,
@@ -49,37 +49,43 @@ void create_new_chat(const int i,
 
 void show_create_new_chat_with_someone() {
 
-    current_grid.create_new_chat_with_someone = create_grid(533, 627, "chats_list_grid");
-
     GtkWidget *create_new_chat_with_someone_label = gtk_label_new("Create new chat...");
 
-    GtkWidget *search_user = gtk_search_bar_new();
+    //GtkWidget *search_user = gtk_search_bar_new();
 
     GtkWidget *entry_for_search = gtk_entry_new();
 
     gtk_entry_set_placeholder_text(GTK_ENTRY(entry_for_search), "Add new chat");
 
-    gtk_search_bar_connect_entry(GTK_SEARCH_BAR(search_user), GTK_EDITABLE(entry_for_search));
+    //gtk_search_bar_connect_entry(GTK_SEARCH_BAR(search_user), GTK_EDITABLE(entry_for_search));
 
-    gtk_grid_attach(GTK_GRID(current_grid.chats), current_grid.create_new_chat_with_someone, 0, 0, 1, 1);
 
-    gtk_grid_attach(GTK_GRID(current_grid.create_new_chat_with_someone), create_new_chat_with_someone_label, 0, 0, 1, 1);
 
-    gtk_grid_attach(GTK_GRID(current_grid.create_new_chat_with_someone), search_user, 0, 1, 1, 1);
+    gtk_grid_attach(GTK_GRID(current_grid.chats), create_new_chat_with_someone_label, 0, 0, 1, 1);
+
+    gtk_grid_attach(GTK_GRID(current_grid.chats), entry_for_search, 0, 1, 1, 1);
 
 
     gtk_widget_set_margin_start(create_new_chat_with_someone_label, 16);
     gtk_widget_set_margin_end(create_new_chat_with_someone_label, 316);
     gtk_widget_set_margin_top(create_new_chat_with_someone_label, 9);
-    gtk_widget_set_margin_bottom(create_new_chat_with_someone_label, 625);
 
     gtk_widget_set_size_request(create_new_chat_with_someone_label, 225, 33);
 
-    gtk_widget_set_margin_start(search_user, 164);
-    gtk_widget_set_margin_end(search_user, 163);
-    gtk_widget_set_margin_top(search_user, 342);
-    gtk_widget_set_margin_bottom(search_user, 280);
+    gtk_widget_set_margin_start(entry_for_search, 164);
+    gtk_widget_set_margin_end(entry_for_search, 163);
+    gtk_widget_set_margin_top(entry_for_search, 300);
 
-    gtk_widget_set_size_request(search_user, 230, 45);
+    gtk_widget_set_size_request(entry_for_search, 230, 45);
+
+
+    widget_styling(create_new_chat_with_someone_label, current_screen, "create_new_chat_with_someone_label");
+    widget_styling(entry_for_search, current_screen, "chat_gpt_entry_box");
+
+    //gtk_search_bar_set_key_capture_widget (GTK_SEARCH_BAR (search_user), current_screen.screen);
+
+    //widget_styling(entry_for_search, current_screen, "auth_main_box");
+
 
 }
+

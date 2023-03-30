@@ -45,17 +45,33 @@ void show_log_out()
     GtkWidget *dialog = gtk_dialog_new();
     GtkWidget *log_out_label = gtk_label_new("Log out?");
     GtkWidget *container;
+    gtk_window_set_default_size(GTK_WINDOW(dialog), 400, 250);
     gtk_window_set_transient_for(GTK_WINDOW(dialog), GTK_WINDOW(current_screen.screen));
     gtk_window_set_modal(GTK_WINDOW(dialog), TRUE);
     gtk_window_set_decorated(GTK_WINDOW(dialog), FALSE);
-    gtk_widget_set_size_request(dialog, 400, 250);
 
     container = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
     gtk_box_append(GTK_BOX(container), log_out_label);
+    
     GtkWidget *yes_btn = gtk_dialog_add_button(GTK_DIALOG(dialog), "Yes", 1);
     GtkWidget *no_btn = gtk_dialog_add_button(GTK_DIALOG(dialog), "No", 2);
 
-    gtk_widget_show(dialog);
+    gtk_widget_set_halign(log_out_label, GTK_ALIGN_CENTER);
+    gtk_widget_set_margin_top(log_out_label, 50);
+
+    gtk_widget_set_margin_start(yes_btn, 14);
+    gtk_widget_set_margin_top(yes_btn, 60);
+    gtk_widget_set_margin_bottom(yes_btn, 47);
+
+    gtk_widget_set_size_request(yes_btn, 172, 55);
+
+    gtk_widget_set_margin_start(no_btn, 28);
+    gtk_widget_set_margin_end(no_btn, 14);
+    gtk_widget_set_margin_top(no_btn, 60);
+    gtk_widget_set_margin_bottom(no_btn, 47);
+
+    gtk_widget_set_size_request(no_btn, 172, 55);
+
 
     widget_styling(dialog, current_screen, "log_out_dialog");
     widget_styling(container, current_screen, "log_out_container");
@@ -69,8 +85,9 @@ void show_log_out()
                              dialog);
     g_signal_connect(yes_btn, "clicked", G_CALLBACK(yes_btn_clicked), NULL);
     g_signal_connect(no_btn, "clicked", G_CALLBACK(no_btn_clicked), NULL);
+    
+    gtk_window_present(GTK_WINDOW(dialog));
 
-    //    gtk_dialog_run(GTK_DIALOG(dialog));
     //    //main box
     //    GtkWidget *main_grid = gtk_grid_new();
     //

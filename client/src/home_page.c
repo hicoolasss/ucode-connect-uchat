@@ -19,7 +19,7 @@ void show_home(void) {
     current_grid.search_bar = create_grid(427, 59, "search_bar_grid");
     current_grid.mini_groups = create_grid(427, 318, "mini_groups_grid");
     current_grid.mini_chats = create_grid(427, 246, "mini_chats");
-    current_grid.chats = create_grid(557, 667, "chats");
+    current_grid.chats = create_grid(557, 667, "chats_list_grid");
     current_grid.settings = create_grid(1010, 667, "settings_main_grid");
     current_grid.achievements = create_grid(1010, 667, "achievements_grid");
 
@@ -31,7 +31,7 @@ void show_home(void) {
 
     //fill all grids
     show_left_menu_bar();
-    show_chats();
+    show_create_new_chat_with_someone();
     show_achievements();
     show_your_profile();
     show_home_grid();
@@ -60,7 +60,7 @@ void show_home(void) {
     gtk_grid_attach(GTK_GRID(current_grid.three_rows_container), current_grid.search_bar, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(current_grid.three_rows_container), current_grid.mini_groups, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(current_grid.three_rows_container), current_grid.mini_chats, 0, 2, 1, 1);
-    gtk_grid_set_column_spacing(GTK_GRID(current_grid.chats_container), 26);
+    gtk_grid_set_column_spacing(GTK_GRID(current_grid.chats_container), 21);
     gtk_grid_attach(GTK_GRID(current_grid.chats_container), current_grid.chats, 1, 0, 1, 1);
 
     gtk_grid_attach(GTK_GRID(current_grid.main_grid), current_grid.your_profile, 1, 0, 1, 1);
@@ -68,6 +68,9 @@ void show_home(void) {
 
     gtk_grid_attach(GTK_GRID(current_grid.main_grid), current_grid.settings, 1, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(current_grid.main_grid), current_grid.achievements, 1, 0, 1, 1);
+
+    //gtk_widget_set_margin_start(current_grid.home, 23);
+    gtk_widget_set_margin_end(current_grid.home, 21);
 
     //set unvisible all
     set_unvisible_all();

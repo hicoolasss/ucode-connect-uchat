@@ -8,8 +8,15 @@ int db_log_to_serv(char *login, char *password, SSL *ssl)
 
     if ((log_id_check != NULL) && (pass_id_check != NULL))
     {
-        mx_printstr("You are in chat(entered)!\n\n");
-        return 0;
+
+        int log_check = atoi(log_id_check);
+        int pass_check = atoi(pass_id_check);
+
+        if (log_check == pass_check)
+        {
+            mx_printstr("You are in chat(entered)!\n\n");
+            return 0;
+        }
     
     }
     else if ((log_id_check == NULL) && (pass_id_check == NULL)) {

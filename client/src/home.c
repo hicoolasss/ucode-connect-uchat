@@ -199,20 +199,24 @@ void show_home_grid() {
     gtk_box_append(GTK_BOX(current_home.chat_gpt_box_for_label), current_home.chat_gpt_label);
     
     gtk_widget_set_size_request(current_home.chat_gpt_box_for_label, 250, 60);
-    gtk_widget_set_margin_start(current_home.chat_gpt_box_for_label, 380);
-    gtk_widget_set_margin_end(current_home.chat_gpt_box_for_label, 380);
+
+    // gtk_widget_set_margin_start(current_home.chat_gpt_box_for_label, 380);
+    // gtk_widget_set_margin_end(current_home.chat_gpt_box_for_label, 380);
+    gtk_widget_set_halign(current_home.chat_gpt_box_for_label, GTK_ALIGN_CENTER);
     gtk_widget_set_margin_top(current_home.chat_gpt_box_for_label, 17);
     
     
-    gtk_widget_set_margin_start(current_home.chat_gpt_label, 73);
-    gtk_widget_set_margin_end(current_home.chat_gpt_label, 73);
+    gtk_widget_set_halign(current_home.chat_gpt_label, GTK_ALIGN_CENTER);
+    
     gtk_widget_set_margin_top(current_home.chat_gpt_label, 15);
     gtk_widget_set_margin_bottom(current_home.chat_gpt_label, 16);
 
-    gtk_widget_set_margin_start(current_home.chat_gpt_desc_label, 350);
-    gtk_widget_set_margin_end(current_home.chat_gpt_desc_label, 350);
+    gtk_widget_set_size_request(current_home.chat_gpt_label, 104, 29);
+
+    gtk_widget_set_halign(current_home.chat_gpt_desc_label, GTK_ALIGN_CENTER);
+    
     gtk_widget_set_margin_top(current_home.chat_gpt_desc_label, 23);
-    gtk_widget_set_margin_bottom(current_home.chat_gpt_desc_label, 24);
+    //gtk_widget_set_margin_bottom(current_home.chat_gpt_desc_label, 24);
 
     gtk_widget_set_margin_start(current_home.chat_gpt_response, 155);
     gtk_widget_set_margin_end(current_home.chat_gpt_response, 365);
@@ -235,6 +239,7 @@ void show_home_grid() {
     gtk_box_append(GTK_BOX(current_home.chat_gpt_entry_box), current_home.chat_gpt_send_btn);
 
     gtk_widget_set_size_request(current_home.chat_gpt_entry_box, 700, 40);
+
     gtk_widget_set_margin_start(current_home.chat_gpt_entry_box, 155);
     gtk_widget_set_margin_end(current_home.chat_gpt_entry_box, 155);
     gtk_widget_set_margin_bottom(current_home.chat_gpt_entry_box, 15);

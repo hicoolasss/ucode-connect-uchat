@@ -4,7 +4,7 @@ extern t_screen current_screen;
 extern t_grid current_grid;
 
 static void show_chats_clicked() {
-    gtk_widget_set_visible(GTK_WIDGET(current_grid.chats), TRUE);
+    //gtk_widget_set_visible(GTK_WIDGET(current_grid.chats), TRUE);
 }
 
 void create_new_group(const int i,

@@ -33,10 +33,11 @@ void call_new_chat_and_add_iter(const gchar *const new_username){
 }
 
 static void create_new_chat_clicked() {
-    show_create_new_chat_with_someone();
-    gtk_entry_set_activates_default(GTK_ENTRY(current_grid.entry_for_search), TRUE);
-    gtk_entry_set_placeholder_text(GTK_ENTRY(current_grid.entry_for_search), "New chat name");
-    g_signal_connect(current_grid.search_btn, "clicked", G_CALLBACK(search_btn_clicked_chat), NULL);
+    //show_create_new_chat_with_someone();
+    gtk_widget_set_visible(GTK_WIDGET(current_grid.chats), TRUE);
+    // gtk_entry_set_activates_default(GTK_ENTRY(current_grid.entry_for_search), TRUE);
+    // gtk_entry_set_placeholder_text(GTK_ENTRY(current_grid.entry_for_search), "New chat name");
+    // g_signal_connect(current_grid.search_btn, "clicked", G_CALLBACK(search_btn_clicked_chat), NULL);
     //search_btn_clicked_chat();
 //    call_new_chat_and_add_iter();
 }
@@ -78,4 +79,5 @@ void show_mini_chats() {
     gtk_grid_attach(GTK_GRID(current_grid.mini_chats), chats_list_grid, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(chats_list_grid), chats_list_grid_scrolled, 0, 0, 1, 1);
 }
+
 

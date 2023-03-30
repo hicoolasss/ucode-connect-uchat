@@ -66,7 +66,7 @@ void choose_profile_avatar_btn_clicked(GtkButton *button)
   GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
 
   dialog = gtk_file_chooser_dialog_new("Open File", NULL, action, ("_Cancel"), GTK_RESPONSE_CANCEL, ("_Open"), GTK_RESPONSE_ACCEPT, NULL);
-
+  gtk_window_set_transient_for(GTK_WINDOW(dialog), GTK_WINDOW(current_screen.screen));
   gtk_window_present(GTK_WINDOW(dialog));
 
   // Добавить фильтр изображений
@@ -84,14 +84,14 @@ void show_your_profile()
 
   GtkWidget *profile_help_grid = create_grid(474, 602, "profile_help_box");
   GtkWidget *profile_grid_for_img = create_grid(200, 200, "profile_grid_for_img");
-  GtkWidget *profile_grid_scale = create_grid(251, 20, "profile_grid_scale");
+  //GtkWidget *profile_grid_scale = create_grid(251, 20, "profile_grid_scale");
   GtkWidget *profile_grid_body = create_grid(474, 385, "profile_grid_body");
 
   gtk_grid_attach(GTK_GRID(current_grid.your_profile), profile_help_grid, 0, 0, 1, 1);
   gtk_grid_set_row_spacing(GTK_GRID(profile_help_grid), 10);
   gtk_grid_attach(GTK_GRID(profile_help_grid), profile_grid_for_img, 0, 0, 1, 1);
-  gtk_grid_attach(GTK_GRID(profile_help_grid), profile_grid_scale, 0, 1, 1, 1);
-  gtk_grid_attach(GTK_GRID(profile_help_grid), profile_grid_body, 0, 2, 1, 1);
+ // gtk_grid_attach(GTK_GRID(profile_help_grid), profile_grid_scale, 0, 1, 1, 1);
+  gtk_grid_attach(GTK_GRID(profile_help_grid), profile_grid_body, 0, 1, 1, 1);
 
   // GtkWidget *profile_avatar_icon = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
   //  get_your_profile_avatar();
@@ -104,11 +104,11 @@ void show_your_profile()
 
   gtk_button_set_child(GTK_BUTTON(choose_profile_avatar_btn), avatar_img);
 
-  GtkWidget *exp_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+  // GtkWidget *exp_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 
-  GtkWidget *mini_exp_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+  // GtkWidget *mini_exp_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 
-  GtkWidget *exp_count_label = gtk_label_new("50/100 EXP");
+  // GtkWidget *exp_count_label = gtk_label_new("50/100 EXP");
 
   GtkWidget *profile_grid_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
@@ -134,17 +134,17 @@ void show_your_profile()
 
   gtk_widget_set_size_request(choose_profile_avatar_btn, 200, 200);
 
-  gtk_grid_attach(GTK_GRID(profile_grid_scale), exp_box, 0, 0, 1, 1);
+  //gtk_grid_attach(GTK_GRID(profile_grid_scale), exp_box, 0, 0, 1, 1);
 
-  gtk_widget_set_size_request(exp_box, 250, 20);
+  //gtk_widget_set_size_request(exp_box, 250, 20);
 
-  gtk_box_append(GTK_BOX(exp_box), mini_exp_box);
+  //gtk_box_append(GTK_BOX(exp_box), mini_exp_box);
 
-  gtk_widget_set_size_request(mini_exp_box, 125, 20);
+  //gtk_widget_set_size_request(mini_exp_box, 125, 20);
 
-  gtk_widget_set_halign(exp_count_label, GTK_ALIGN_CENTER);
+  //gtk_widget_set_halign(exp_count_label, GTK_ALIGN_CENTER);
 
-  gtk_grid_attach(GTK_GRID(profile_grid_scale), exp_count_label, 0, 0, 1, 1);
+  //gtk_grid_attach(GTK_GRID(profile_grid_scale), exp_count_label, 0, 0, 1, 1);
 
   gtk_grid_attach(GTK_GRID(profile_grid_body), profile_grid_vbox, 0, 0, 1, 1);
 
@@ -160,8 +160,8 @@ void show_your_profile()
 
   // gtk_entry_set_alignment(GTK_ENTRY(first_name_entry), 0.1);
 
-  gtk_widget_set_margin_start(first_name_entry, 122);
-  gtk_widget_set_margin_end(first_name_entry, 122);
+  gtk_widget_set_halign(first_name_entry, GTK_ALIGN_CENTER);
+
   gtk_widget_set_margin_top(first_name_entry, 6);
 
   gtk_widget_set_size_request(first_name_entry, 230, 45);
@@ -170,8 +170,8 @@ void show_your_profile()
 
   // gtk_entry_set_alignment(GTK_ENTRY(last_name_entry), 0.1);
 
-  gtk_widget_set_margin_start(last_name_entry, 122);
-  gtk_widget_set_margin_end(last_name_entry, 122);
+  gtk_widget_set_halign(last_name_entry, GTK_ALIGN_CENTER);
+
   gtk_widget_set_margin_top(last_name_entry, 12);
 
   gtk_widget_set_size_request(last_name_entry, 230, 45);
@@ -209,8 +209,8 @@ void show_your_profile()
 
   widget_styling(choose_profile_avatar_btn, current_screen, "choose_profile_avatar_btn");
   //widget_styling(avatar_img, current_screen, "avatar_img");
-  widget_styling(mini_exp_box, current_screen, "mini_exp_box");
-  widget_styling(exp_count_label, current_screen, "exp_count_label");
+  //widget_styling(mini_exp_box, current_screen, "mini_exp_box");
+  //widget_styling(exp_count_label, current_screen, "exp_count_label");
   widget_styling(name_label, current_screen, "name_label");
   widget_styling(first_name_entry, current_screen, "name_entry");
   widget_styling(last_name_entry, current_screen, "name_entry");

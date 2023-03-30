@@ -249,9 +249,11 @@
 
 /*HOME START*/
 .home {
-    margin: 46px 0px 47px 0px;
+    /* margin: 46px 0px 47px 0px; */
+    margin: 47px 0px 48px 0px;
     background: @all-containers-bg;
-    border: 1px solid @all-containers-borders-bg;
+    /* border: 1px solid @all-containers-borders-bg; */
+    border: 1px solid green;
     border-radius: 20px;
 }
 
@@ -264,7 +266,7 @@
     font-family: 'Inter';
     font-style: normal;
     font-weight: 500;
-    font-size: 24px;
+    font-size: 22px;
     line-height: 29px;
 
     color: #7AA2F7;
@@ -470,13 +472,14 @@
 
 .log_out_dialog {
     border-radius: 20px;
-    background-color: transparent;
-    outline-color: transparent;
-    border: 1px solid @all-containers-borders-bg;
+    background-color: #212130;
+    outline-color: none;
+    /* border: 1px solid @all-containers-borders-bg; */
 }
 
 .log_out_container {
-    background: @log-out-container-bg;
+    background: #212130;
+    outline-color: none;
 }
 
 
@@ -495,9 +498,9 @@
     outline-color: transparent;
     outline: none;
     box-shadow: none;
-    margin-top: 100px;
+    /* margin-top: 100px;
     margin-bottom: 20px;
-    margin-right: 100px;
+    margin-right: 100px; */
 }
 
 
@@ -529,9 +532,9 @@
     outline: none;
     box-shadow: none;
     /*margin: 100px 50px 20px 80px;*/
-    margin-top: 100px;
+    /* margin-top: 100px;
     margin-bottom: 20px;
-    margin-right: 85px;
+    margin-right: 85px; */
 }
 
 
@@ -555,6 +558,16 @@
     margin: 46px 0px 47px 0px;
 }
 
+.create_new_chat_with_someone_label {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+
+    color: #7AA2F7;
+}
+
 .mini_groups_grid {
     border-radius: 20px;
     background: @all-containers-bg;
@@ -572,8 +585,8 @@
 }
 
 .chats_list_grid {
-    /*border: 1px solid green;*/
-    margin: 0px 20px 10px 20px;
+    border: 1px solid green;
+    /* margin: 0px 20px 10px 20px; */
 }
 
 .chat_line {
