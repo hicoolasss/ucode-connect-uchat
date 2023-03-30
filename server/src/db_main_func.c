@@ -1,102 +1,135 @@
-#include "../inc/head_db.h"
+#include "../inc/server.h"
 
-int db_log_to_serv(char *login, char *password, SSL *ssl)
+int authenticate_user(sqlite3 *db, const char *username, const char *password)
 {
-    sql_create_db();
-    char *log_id_check = sql_get("id", "login", login, 1);
-    char *pass_id_check = sql_get("id", "password", password, 1);
+    int rc;
+    sqlite3_stmt *stmt;
+    const char *sql = "SELECT * FROM users WHERE username=?;";
 
-    if ((log_id_check != NULL) && (pass_id_check != NULL))
+    rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+
+    if (rc != SQLITE_OK)
     {
-
-        int log_check = atoi(log_id_check);
-        int pass_check = atoi(pass_id_check);
-
-        if (log_check == pass_check)
-        {
-            mx_printstr("You are in chat(entered)!\n\n");
-            return 0;
-        }
-    
-    }
-    else if ((log_id_check == NULL) && (pass_id_check == NULL)) {
-        mx_printstr("user not found\n\n");
+        fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(db));
+        sqlite3_finalize(stmt);
         return 1;
     }
-    else if ((log_id_check != NULL) && (pass_id_check == NULL))
+
+    sqlite3_bind_text(stmt, 1, username, -1, SQLITE_STATIC);
+
+    rc = sqlite3_step(stmt);
+
+    if (rc == SQLITE_ROW)
     {
-        mx_printstr("incorrect password\n\n");
-        return 2;
+        const unsigned char *db_password = sqlite3_column_text(stmt, 2);
+
+        if (strcmp((char *)db_password, password) == 0)
+        {
+            printf("Authentication successful\n");
+            sqlite3_finalize(stmt);
+            return 0;
+        }
+        else
+        {
+            printf("Incorrect password\n");
+            sqlite3_finalize(stmt);
+            return 2;
+        }
     }
-    return 3;
+    else
+    {
+        printf("User not found\n");
+        sqlite3_finalize(stmt);
+        return 1;
+    }
 }
 
-
-
-
-int db_regestr_to_serv(char *login, char *password, SSL *ssl)
+int register_user(sqlite3 *db, const char *username, const char *password)
 {
-    sql_create_db();
-    if (sql_set_user(login, password, ssl) == 1)
+
+    char *zErrMsg = 0;
+    int rc;
+    const char *sql_template = "INSERT INTO users (username, password) VALUES ('%s', '%s');";
+    char *sql = sqlite3_mprintf(sql_template, username, password);
+
+    rc = sqlite3_exec(db, sql, 0, 0, &zErrMsg);
+
+    if (rc != SQLITE_OK)
     {
-        printf("this user already exist\n");
+        fprintf(stderr, "SQL error: %s\n", zErrMsg);
+        sqlite3_free(zErrMsg);
+        sqlite3_free(sql);
         return 1;
     }
     else
     {
-        printf("You was regestered :-)\n\n");
+        printf("User registered successfully\n");
+    }
+
+    sqlite3_free(sql);
+    return 0;
+}
+
+t_list *get_clients(sqlite3 *db) {
+    int rc;
+    sqlite3_stmt *stmt;
+    const char *sql = "SELECT username FROM users;";
+    t_list *head = NULL;
+    rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+
+    if (rc != SQLITE_OK) {
+        fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(db));
+        return NULL;
+    }
+
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+        const unsigned char *db_username = sqlite3_column_text(stmt, 0);
+        t_list *clients = (t_list*)malloc(sizeof(t_list));
+        clients->data = (char *)malloc(strlen((char *)db_username) + 1);
+        // mx_strcpy(clients->data, (const char *)db_username);
+        clients->data = mx_strdup((const char *)db_username);
+        clients->next = NULL;
+
+        // Добавление нового элемента в список
+        if (head == NULL) {
+            head = clients;
+        } else {
+            t_list *temp = head;
+            while (temp->next != NULL) {
+                temp = temp->next;
+            }
+            temp->next = clients;
+        }
+    }
+    sqlite3_finalize(stmt);
+    return head;
+}
+
+int add_friend(sqlite3 *db, const char *username, const char *friend_username) {
+    int rc;
+    sqlite3_stmt *stmt;
+    const char *sql = "INSERT INTO friends (user_id, friend_id) "
+                      "VALUES ((SELECT id FROM users WHERE username = ?), "
+                      "(SELECT id FROM users WHERE username = ?));";
+
+    rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+
+    if (rc != SQLITE_OK) {
+        fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(db));
         return 0;
     }
 
+    sqlite3_bind_text(stmt, 1, username, -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(stmt, 2, friend_username, -1, SQLITE_TRANSIENT);
 
+    rc = sqlite3_step(stmt);
+
+    if (rc != SQLITE_DONE) {
+        fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(db));
+        sqlite3_finalize(stmt);
+        return 0;
+    }
+
+    sqlite3_finalize(stmt);
+    return 1;
 }
-
-// t_list *get_login_list() {
-//     sqlite3 *db;
-//     sqlite3_stmt *stmt;
-//     int result;
-//     t_list *head = NULL;
-//     t_list *current = NULL;
-//     sql_open_db(&db);
-
-//     if (sqlite3_prepare_v2(db, "SELECT login FROM User", -1, &stmt, NULL) != SQLITE_OK) {
-//         fprintf(stderr, "Error sql in text %s\n", sqlite3_errmsg(db));
-//         sqlite3_close(db);
-//         return NULL;
-//     }
-
-//     while ((result = sqlite3_step(stmt)) == SQLITE_ROW) {
-//         char *login = strdup((const char *) sqlite3_column_text(stmt, 0));
-//         t_list *node = malloc(sizeof(t_list));
-//         node->data = login;
-//         node->next = NULL;
-
-//         if (head == NULL) {
-//             head = node;
-//             current = head;
-//         } else {
-//             current->next = node;
-//             current = current->next;
-//         }
-//     }
-
-//     if (result != SQLITE_DONE) {
-//         fprintf(stderr, "Ошибка выполнения SQL-запроса: %s\n", sqlite3_errmsg(db));
-//         sqlite3_finalize(stmt);
-//         sqlite3_close(db);
-//         return NULL;
-//     }
-
-//     sqlite3_finalize(stmt);
-//     sqlite3_close(db);
-//     return head;
-// }
-
-// void print_login_list(t_list *head) {
-//     t_list *current = head;
-
-//     while (current != NULL) {
-//         printf("%c\n", current->data);
-//         current = current->next;
-//     }
-// }

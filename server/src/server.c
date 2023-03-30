@@ -1,10 +1,9 @@
 #include "../inc/server.h"
-#include"../inc/head_db.h"
 
 t_list *users_list;
 pthread_mutex_t clients_mutex;
 _Atomic unsigned int cli_count;
-
+t_list *user_id;
 int main(int argc, char **argv) {
     if (argc != 2)
 	{
@@ -53,12 +52,7 @@ int main(int argc, char **argv) {
         pthread_t thread;
         pthread_mutex_init(&clients_mutex, NULL);
         t_client *new_client = create_new_client(cli_addr, client_fd, ssl);
-        printf("New client connected. His id: %d\n", new_client->id);
-
-    //    ent_sys(login,password,ssl);//registration and enter db
-
-        
-
+        printf("New client connected\n");
         pthread_create(&thread, NULL, handle_client, new_client);
         pthread_detach(thread);
     }
@@ -67,5 +61,3 @@ int main(int argc, char **argv) {
     pthread_exit(NULL);
     return 0;
 }
-
-
