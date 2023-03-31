@@ -53,6 +53,8 @@ void show_create_new_chat_with_someone() {
 
     //GtkWidget *search_user = gtk_search_bar_new();
 
+    
+
     GtkWidget *entry_for_search = gtk_entry_new();
 
     gtk_entry_set_placeholder_text(GTK_ENTRY(entry_for_search), "Add new chat");

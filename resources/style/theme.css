@@ -473,13 +473,14 @@
 .log_out_dialog {
     border-radius: 20px;
     background-color: #212130;
-    outline-color: none;
+    outline-color: transparent;
+    background: #212130;
     /* border: 1px solid @all-containers-borders-bg; */
 }
 
 .log_out_container {
     background: #212130;
-    outline-color: none;
+    outline-color: transparent;
 }
 
 
