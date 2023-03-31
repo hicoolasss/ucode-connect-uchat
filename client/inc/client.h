@@ -215,7 +215,8 @@ void *recv_func();
 char *registration(int status);
 int recv_all(SSL *sockfd, char *buf, int len);
 int send_all(SSL *sockfd, char *buf, int len);
-
+t_list *receive_list(SSL *ssl);
+t_list *deserialize_name_list(const char *json_str);
 // load styles
 void loadstyles(void);
 // add style to widget

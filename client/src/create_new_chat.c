@@ -49,6 +49,17 @@ void create_new_chat(const int i,
 
 void show_create_new_chat_with_someone() {
 
+    cJSON *json = cJSON_CreateObject();
+    cJSON_AddStringToObject(json, "login", current_client.login);
+    cJSON_AddStringToObject(json, "command", "<user_list>");
+
+    char *json_str = cJSON_Print(json);
+    cJSON_Delete(json);
+
+    send_message_to_server(json_str);
+
+    t_list *user_list = receive_list(current_client.ssl);
+    
     GtkWidget *create_new_chat_with_someone_label = gtk_label_new("Create new chat...");
 
     //GtkWidget *search_user = gtk_search_bar_new();

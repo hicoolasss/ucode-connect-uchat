@@ -132,15 +132,15 @@ void *handle_client(void *args)
                     fprintf(stderr, "Failed to get clients\n");
                     break;
                 }
-                int cmd = SSL_write(current_client->ssl, "<user_list>", 12);
-                if (cmd < 0)
-                {
-                    printf("I can't send command to %s\n, check his connection", current_client->login);
-                }
-                else
-                {
-                    printf("Success sending command to %s\n", current_client->login);
-                }
+                // int cmd = SSL_write(current_client->ssl, "<user_list>", 12);
+                // if (cmd < 0)
+                // {
+                //     printf("I can't send command to %s\n, check his connection", current_client->login);
+                // }
+                // else
+                // {
+                //     printf("Success sending command to %s\n", current_client->login);
+                // }
 
                 int result = send_list(current_client->ssl, clients);
                 if (result > 0)
