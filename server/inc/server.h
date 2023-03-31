@@ -69,7 +69,10 @@ void sql_create_db();
 t_list *get_clients(sqlite3 *db);
 //добавление в друзья по логину
 int add_friend(sqlite3 *db, const char *username, const char *friend_username);
-
+//проверка есть ли этот пользователь уже в друзьях или нет
+int is_friend(sqlite3 *db, int user_id, int friend_id);
+//получает поле айди из поля логина
+int get_user_id(sqlite3 *db, const char *login);
 /*функции для операций над списками и JSON*/
 
 //односвязный список в JSON

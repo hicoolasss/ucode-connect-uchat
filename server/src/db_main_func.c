@@ -105,31 +105,44 @@ t_list *get_clients(sqlite3 *db) {
     return head;
 }
 
-int add_friend(sqlite3 *db, const char *username, const char *friend_username) {
-    int rc;
-    sqlite3_stmt *stmt;
-    const char *sql = "INSERT INTO friends (user_id, friend_id) "
-                      "VALUES ((SELECT id FROM users WHERE username = ?), "
-                      "(SELECT id FROM users WHERE username = ?));";
-
-    rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
-
-    if (rc != SQLITE_OK) {
-        fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(db));
+int add_friend(sqlite3 *db, const char *username, const char *friend_username)
+{
+    if (mx_strcmp(username, friend_username) == 0)
+    {
+        printf("Error: cannot add yourself as a friend.\n");
         return 0;
     }
 
-    sqlite3_bind_text(stmt, 1, username, -1, SQLITE_TRANSIENT);
-    sqlite3_bind_text(stmt, 2, friend_username, -1, SQLITE_TRANSIENT);
+    int user_id = get_user_id(db, username);
+    int friend_id = get_user_id(db, friend_username);
 
-    rc = sqlite3_step(stmt);
+    if (is_friend(db, user_id, friend_id))
+    {
+        printf("Error: %s is already your friend.\n", friend_username);
+        return 0;
+    }
 
-    if (rc != SQLITE_DONE) {
-        fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(db));
+    sqlite3_stmt *stmt;
+    char *sql = "INSERT INTO friends (user_id, friend_id) VALUES (?, ?);";
+    int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+    if (result != SQLITE_OK)
+    {
+        fprintf(stderr, "Error: %s\n", sqlite3_errmsg(db));
+        return 0;
+    }
+
+    sqlite3_bind_int(stmt, 1, user_id);
+    sqlite3_bind_int(stmt, 2, friend_id);
+
+    result = sqlite3_step(stmt);
+    if (result != SQLITE_DONE)
+    {
+        fprintf(stderr, "Error: %s\n", sqlite3_errmsg(db));
         sqlite3_finalize(stmt);
         return 0;
     }
 
     sqlite3_finalize(stmt);
+    printf("%s added to friends.\n", friend_username);
     return 1;
 }
