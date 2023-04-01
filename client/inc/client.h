@@ -141,6 +141,8 @@ typedef struct {
     bool group_search;
 
     GtkWidget *chats;
+    GtkWidget *user_list;
+    GtkWidget *empty_chat;
     GtkWidget *chats_scrolled;
 
     GtkWidget *create_new_chat_with_someone;
@@ -284,8 +286,7 @@ void show_search_bar(void);
 //add it to mini chat grid.
 //As a parametr get number of existed chats,
 // so it can attach it to grit in a right way
-void create_new_chat(const int i,
-                     const char *new_username);
+void create_new_chat(GtkToggleButton *toggle_button, gpointer user_data);
 
 void create_new_group(const int i,
                       const char *new_groupname);
