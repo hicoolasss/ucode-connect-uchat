@@ -35,16 +35,21 @@ typedef struct s_client {
     bool connected;
 } t_client;
 
-typedef struct s_chat {
+// typedef struct s_chat {
     
-    char *message;
+//     char *message;
 
-} t_chat;
+// } t_chat;
 
-typedef struct s_users {
+typedef struct s_user {
     char *username;
-    struct Client *next;
-} t_users;
+    // char *firstname;
+    // char *lastname;
+
+    // char *avatarname;
+    // char *avatardata;
+    // int avatarsize;
+} t_user;
 
 extern t_list *users_list;
 extern t_list *user_id;
@@ -67,18 +72,24 @@ sqlite3 *db_open();
 void sql_create_db();
 //получение списка всех пользователей
 t_list *get_clients(sqlite3 *db);
+//получение списка друзей пользователя
+t_list *get_friends(sqlite3 *db, int user_id);
 //добавление в друзья по логину
 int add_friend(sqlite3 *db, const char *username, const char *friend_username);
 //проверка есть ли этот пользователь уже в друзьях или нет
 int is_friend(sqlite3 *db, int user_id, int friend_id);
 //получает поле айди из поля логина
 int get_user_id(sqlite3 *db, const char *login);
+//получает поле айди из названия чата
+int get_group_id(sqlite3 *db, const char *chatname);
+//запись чата
+int create_chat_record(sqlite3 *db, int chat_id, int sender_id, int recipient_id, const char *message);
+//создание нового чата
+int sql_create_new_group(sqlite3 *db, const char *chatname, const char *avatarname, const char *avatarblob, int avatarsize);
 /*функции для операций над списками и JSON*/
 
 //односвязный список в JSON
 char* serialize_list(t_list* head);
-//удаление клиента из списка клиентов
-void remove_client(int socket_fd);
 //отправка сообщений всем клиентам кроме текущего
 void send_message_to_all_clients(char *message, int current_socket, char *login);
 //конвертация сообщения в JSON
@@ -87,7 +98,4 @@ char *convert_to_json(char *buffer, char *login);
 int send_list(SSL *ssl, t_list *head);
 
 /*generate id*/
-//generate new user id
-int generate_user_id();
-//find user by his own id
-t_list* find_user(int id);
+char *generate_uuid();

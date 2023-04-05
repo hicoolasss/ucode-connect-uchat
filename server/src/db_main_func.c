@@ -70,41 +70,6 @@ int register_user(sqlite3 *db, const char *username, const char *password)
     return 0;
 }
 
-t_list *get_clients(sqlite3 *db) {
-    int rc;
-    sqlite3_stmt *stmt;
-    const char *sql = "SELECT username FROM users;";
-    t_list *head = NULL;
-    rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
-
-    if (rc != SQLITE_OK) {
-        fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(db));
-        return NULL;
-    }
-
-    while (sqlite3_step(stmt) == SQLITE_ROW) {
-        const unsigned char *db_username = sqlite3_column_text(stmt, 0);
-        t_list *clients = (t_list*)malloc(sizeof(t_list));
-        clients->data = (char *)malloc(strlen((char *)db_username) + 1);
-        // mx_strcpy(clients->data, (const char *)db_username);
-        clients->data = mx_strdup((const char *)db_username);
-        clients->next = NULL;
-
-        // Добавление нового элемента в список
-        if (head == NULL) {
-            head = clients;
-        } else {
-            t_list *temp = head;
-            while (temp->next != NULL) {
-                temp = temp->next;
-            }
-            temp->next = clients;
-        }
-    }
-    sqlite3_finalize(stmt);
-    return head;
-}
-
 int add_friend(sqlite3 *db, const char *username, const char *friend_username)
 {
     if (mx_strcmp(username, friend_username) == 0)
@@ -125,6 +90,7 @@ int add_friend(sqlite3 *db, const char *username, const char *friend_username)
     sqlite3_stmt *stmt;
     char *sql = "INSERT INTO friends (user_id, friend_id) VALUES (?, ?);";
     int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+
     if (result != SQLITE_OK)
     {
         fprintf(stderr, "Error: %s\n", sqlite3_errmsg(db));
@@ -145,4 +111,117 @@ int add_friend(sqlite3 *db, const char *username, const char *friend_username)
     sqlite3_finalize(stmt);
     printf("%s added to friends.\n", friend_username);
     return 1;
+}
+
+int create_chat_record(sqlite3 *db, int chat_id, int sender_id, int recipient_id, const char *message)
+{
+    int rc;
+    sqlite3_stmt *stmt;
+    char *sql = "INSERT INTO chats (chat_id, sender_id, recipient_id, message) VALUES (?, ?, ?, ?);";
+
+    rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+
+    if (rc != SQLITE_OK)
+    {
+        fprintf(stderr, "Cannot prepare statement: %s\n", sqlite3_errmsg(db));
+        return rc;
+    }
+
+    sqlite3_bind_int(stmt, 1, chat_id);
+    sqlite3_bind_int(stmt, 2, sender_id);
+    sqlite3_bind_int(stmt, 3, recipient_id);
+    sqlite3_bind_text(stmt, 4, message, -1, SQLITE_TRANSIENT);
+
+    rc = sqlite3_step(stmt);
+
+    if (rc != SQLITE_DONE)
+    {
+        fprintf(stderr, "Execution failed: %s\n", sqlite3_errmsg(db));
+        sqlite3_finalize(stmt);
+        return rc;
+    }
+
+    sqlite3_finalize(stmt);
+    return SQLITE_OK;
+}
+
+int sql_create_new_group(sqlite3 *db, const char *groupname, const char *avatarname, const char *avatarblob, int avatarsize)
+{
+    int rc;
+    sqlite3_stmt *stmt;
+
+    if (mx_strcmp(avatarname, "null") == 0 && mx_strcmp(avatarblob, "null") == 0 && avatarsize == 0)
+    {
+        char *sql = "INSERT INTO newgroups (groupname) VALUES (?);";
+        rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+
+        if (rc != SQLITE_OK)
+        {
+            fprintf(stderr, "Cannot prepare statement: %s\n", sqlite3_errmsg(db));
+            return rc;
+        }
+
+        sqlite3_bind_text(stmt, 1, groupname, -1, SQLITE_TRANSIENT);
+
+        rc = sqlite3_step(stmt);
+
+        if (rc != SQLITE_DONE)
+        {
+            fprintf(stderr, "Execution failed: %s\n", sqlite3_errmsg(db));
+            sqlite3_finalize(stmt);
+            return rc;
+        }
+        sqlite3_finalize(stmt);
+    }
+    else
+    {
+        char *sql = "INSERT INTO newgroups (groupname, avatarname, avatardata VALUES (?, ?, ?);";
+        rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+        if (rc != SQLITE_OK)
+        {
+            fprintf(stderr, "Cannot prepare statement: %s\n", sqlite3_errmsg(db));
+            return rc;
+        }
+        sqlite3_bind_text(stmt, 1, groupname, -1, SQLITE_TRANSIENT);
+        sqlite3_bind_text(stmt, 1, avatarname, mx_strlen(avatarname), SQLITE_TRANSIENT);
+        sqlite3_bind_blob(stmt, 2, avatarblob, avatarsize, SQLITE_TRANSIENT);
+
+        rc = sqlite3_step(stmt);
+
+        if (rc != SQLITE_DONE)
+        {
+            fprintf(stderr, "Execution failed: %s\n", sqlite3_errmsg(db));
+            sqlite3_finalize(stmt);
+            return rc;
+        }
+    }
+    return SQLITE_OK;
+}
+
+int add_user_to_chat(sqlite3 *db, int group_id, int user_id)
+{
+    int rc;
+    sqlite3_stmt *stmt;
+    char insert_participant_sql[] = "INSERT INTO group_users (group_id, user_id) VALUES (?, ?);";
+    rc = sqlite3_prepare_v2(db, insert_participant_sql, -1, &stmt, NULL);
+
+    if (rc != SQLITE_OK)
+    {
+        fprintf(stderr, "Cannot prepare statement: %s\n", sqlite3_errmsg(db));
+        return rc;
+    }
+
+    sqlite3_bind_int(stmt, 1, group_id);
+    sqlite3_bind_int(stmt, 2, user_id);
+
+    rc = sqlite3_step(stmt);
+    if (rc != SQLITE_DONE)
+    {
+        fprintf(stderr, "Execution failed: %s\n", sqlite3_errmsg(db));
+        sqlite3_finalize(stmt);
+        return rc;
+    }
+
+    sqlite3_finalize(stmt);
+    return SQLITE_OK;
 }

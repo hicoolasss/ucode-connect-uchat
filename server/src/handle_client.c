@@ -132,15 +132,6 @@ void *handle_client(void *args)
                     fprintf(stderr, "Failed to get clients\n");
                     break;
                 }
-                // int cmd = SSL_write(current_client->ssl, "<user_list>", 12);
-                // if (cmd < 0)
-                // {
-                //     printf("I can't send command to %s\n, check his connection", current_client->login);
-                // }
-                // else
-                // {
-                //     printf("Success sending command to %s\n", current_client->login);
-                // }
 
                 int result = send_list(current_client->ssl, clients);
                 if (result > 0)
@@ -156,6 +147,31 @@ void *handle_client(void *args)
                 {
                     t_list *temp = clients;
                     clients = clients->next;
+                    free(temp->data);
+                    free(temp);
+                }
+            }
+            else if (mx_strcmp(command, "<friend_list>") == 0)
+            {
+                int user_id = get_user_id(db, current_client->login);
+                t_list *friends_list = get_friends(db, user_id);
+
+                if (friends_list == NULL)
+                    printf("User has no friends.\n");
+
+                int result = send_list(current_client->ssl, friends_list);
+                if (result > 0)
+                {
+                    printf("List sent successfully to %s\n", current_client->login);
+                }
+                else
+                {
+                    printf("Error sending list to %s\n", current_client->login);
+                }
+                while (friends_list != NULL)
+                {
+                    t_list *temp = friends_list;
+                    friends_list = friends_list->next;
                     free(temp->data);
                     free(temp);
                 }

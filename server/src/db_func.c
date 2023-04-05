@@ -18,20 +18,21 @@ void sql_create_db()
     char *err_msg = 0;
     int rc;
 
-    const char *sql_1 = "CREATE TABLE IF NOT EXISTS users ("
-                        "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                        "username TEXT NOT NULL UNIQUE,"
-                        "password TEXT NOT NULL"
-                        ");";
+    const char *sql_users = "CREATE TABLE IF NOT EXISTS users ("
+                            "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                            "username TEXT NOT NULL UNIQUE,"
+                            "password TEXT NOT NULL,"
+                            "avatarname TEXT,"
+                            "avatardata BLOB);";
 
-    rc = sqlite3_exec(db, sql_1, 0, 0, &err_msg);
+    rc = sqlite3_exec(db, sql_users, 0, 0, &err_msg);
 
     if (rc != SQLITE_OK)
     {
         fprintf(stderr, "SQL error: %s\n", err_msg);
         sqlite3_free(err_msg);
         sqlite3_close(db);
-        return;
+        exit(rc);
     }
 
     const char *sql_friends = "CREATE TABLE IF NOT EXISTS friends ("
@@ -48,8 +49,61 @@ void sql_create_db()
         fprintf(stderr, "SQL error: %s\n", err_msg);
         sqlite3_free(err_msg);
         sqlite3_close(db);
-        return;
+        exit(rc);
     }
+
+    char *sql_create_new_chat = "CREATE TABLE IF NOT EXISTS newgroups ("
+                                "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                                "groupname TEXT NOT NULL,"
+                                "avatarname TEXT,"
+                                "avatardata BLOB);";
+
+    rc = sqlite3_exec(db, sql_create_new_chat, 0, 0, &err_msg);
+
+    if (rc != SQLITE_OK)
+    {
+        fprintf(stderr, "SQL error: %s\n", err_msg);
+        sqlite3_free(err_msg);
+        sqlite3_close(db);
+        exit(rc);
+    }
+
+    char *sql_groups = "CREATE TABLE IF NOT EXISTS groups ("
+                       "message_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                       "group_id INTEGER NOT NULL,"
+                       "sendler_id INTEGER NOT NULL,"
+                       "message TEXT NOT NULL,"
+                       "timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,"
+                       "FOREIGN KEY(group_id) REFERENCES newgroups(id),"
+                       "FOREIGN KEY(sendler_id) REFERENCES users(id));";
+
+    rc = sqlite3_exec(db, sql_groups, 0, 0, &err_msg);
+
+    if (rc != SQLITE_OK)
+    {
+        fprintf(stderr, "SQL error: %s\n", err_msg);
+        sqlite3_free(err_msg);
+        sqlite3_close(db);
+        exit(rc);
+    }
+
+    char *sql_group_info = "CREATE TABLE IF NOT EXISTS group_users ("
+                           "group_id INTEGER NOT NULL,"
+                           "user_id INTEGER NOT NULL,"
+                           "PRIMARY KEY(group_id, user_id),"
+                           "FOREIGN KEY(group_id) REFERENCES newgroups(id),"
+                           "FOREIGN KEY(user_id) REFERENCES users(id));";
+
+    rc = sqlite3_exec(db, sql_group_info, 0, 0, &err_msg);
+
+    if (rc != SQLITE_OK)
+    {
+        fprintf(stderr, "SQL error: %s\n", err_msg);
+        sqlite3_free(err_msg);
+        sqlite3_close(db);
+        exit(rc);
+    }
+
     sqlite3_close(db);
 }
 
@@ -66,7 +120,7 @@ int is_friend(sqlite3 *db, int user_id, int friend_id)
 
     sqlite3_bind_int(stmt, 1, user_id);
     sqlite3_bind_int(stmt, 2, friend_id);
-    
+
     result = sqlite3_step(stmt);
     if (result == SQLITE_ROW)
     {
@@ -101,4 +155,29 @@ int get_user_id(sqlite3 *db, const char *login)
 
     sqlite3_finalize(stmt);
     return user_id;
+}
+
+int get_group_id(sqlite3 *db, const char *groupname)
+{
+    sqlite3_stmt *stmt;
+    char *sql = "SELECT id FROM newgroups WHERE groupname = ?";
+    int chat_id = -1;
+
+    int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+    if (result != SQLITE_OK)
+    {
+        fprintf(stderr, "Error: %s\n", sqlite3_errmsg(db));
+        return chat_id;
+    }
+
+    sqlite3_bind_text(stmt, 1, groupname, -1, SQLITE_TRANSIENT);
+
+    result = sqlite3_step(stmt);
+    if (result == SQLITE_ROW)
+    {
+        chat_id = sqlite3_column_int(stmt, 0);
+    }
+
+    sqlite3_finalize(stmt);
+    return chat_id;
 }
