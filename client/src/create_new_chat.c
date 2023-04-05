@@ -115,7 +115,10 @@ static void show_user_list_scrolled() {
 
         g_signal_connect_data(checkbox_btn, "toggled", G_CALLBACK(create_new_chat), current_grid.chats_list_grid_child, NULL, 0);
 
-        widget_styling(user_info_box, current_screen, "chats_list_grid");
+        
+
+        widget_styling(user_info_box, current_screen, "user_info_box");
+
     }
 
 
@@ -143,6 +146,8 @@ void create_new_chat(GtkToggleButton *toggle_button, gpointer user_data) {
     gtk_widget_set_margin_bottom(user_info_box, 0);
 
     gtk_button_set_child(GTK_BUTTON(user_box_btn), user_info_box);
+    
+    gtk_widget_set_size_request(user_box_btn, 400, 55);
 
     gtk_widget_set_margin_top(user_box_btn, 5);
     gtk_widget_set_margin_bottom(user_box_btn, 10);
@@ -158,10 +163,18 @@ void create_new_chat(GtkToggleButton *toggle_button, gpointer user_data) {
 
     gtk_widget_set_size_request(current_grid.chats_list_grid_child, 427, 246);
 
+
     gtk_widget_set_hexpand(current_grid.chats_list_grid_child, FALSE);
 
     gtk_grid_attach(GTK_GRID(current_grid.chats_list_grid_child), user_box_btn, 0, count, 1, 1);
     count++;
+
+    GtkStyleContext *context = gtk_widget_get_style_context(user_info_box);
+
+    gtk_style_context_remove_class(context, "user_info_box");
+
+
+    widget_styling(user_box_btn, current_screen, "user_box_btn");
 
 }
 
@@ -225,10 +238,6 @@ void show_create_new_chat_with_someone() {
     widget_styling(entry_for_search, current_screen, "entry_for_search_user");
 
     show_user_list_scrolled();
-
-    //gtk_search_bar_set_key_capture_widget (GTK_SEARCH_BAR (search_user), current_screen.screen);
-
-    //widget_styling(entry_for_search, current_screen, "auth_main_box");
 
 
 }

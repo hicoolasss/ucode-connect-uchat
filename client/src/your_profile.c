@@ -36,6 +36,7 @@ static void get_your_profile_avatar()
   current_avatar.avatar = current_your_profile_avatar.avatar;
 
   // cairo_surface_write_to_png(surface, "avatar1.png");
+
 }
 
 void on_open_response(GtkDialog *dialog, int response)
@@ -198,13 +199,6 @@ void show_your_profile()
   gtk_widget_set_margin_bottom(bio_entry, 135);
 
   gtk_widget_set_size_request(bio_entry, 216, 22);
-
-
-
-
-
-
-
 
 
   widget_styling(choose_profile_avatar_btn, current_screen, "choose_profile_avatar_btn");

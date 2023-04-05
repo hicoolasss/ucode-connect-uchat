@@ -75,7 +75,7 @@ void show_mini_chats() {
     widget_styling(chats_box, current_screen, "mini_groups_box");
     widget_styling(chats_label, current_screen, "group_label");
     widget_styling(create_new_chat_btn, current_screen, "create_new_chat_btn");
-    widget_styling(chats_list_grid_scrolled, current_screen, "chats_list_grid");
+    //widget_styling(chats_list_grid_scrolled, current_screen, "chats_list_grid");
 
     gtk_box_append(GTK_BOX(chats_box), chats_label);
     gtk_box_append(GTK_BOX(chats_box), create_new_chat_btn);
