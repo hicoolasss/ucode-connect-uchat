@@ -133,6 +133,14 @@ void *handle_client(void *args)
                     break;
                 }
 
+                t_list *ccc = clients;
+
+                while (ccc != NULL)
+                {
+                    printf("Username: %s\n", ((t_user *)ccc->data)->username);
+                    ccc = ccc->next;
+                }
+                
                 int result = send_list(current_client->ssl, clients);
                 if (result > 0)
                 {

@@ -78,8 +78,7 @@ t_list *deserialize_name_list(const char *json_str)
         return NULL;
     }
 
-    t_list *head = NULL;
-    t_list *tail = NULL;
+    t_list *user_list = NULL;
 
     cJSON *json_node = NULL;
     cJSON_ArrayForEach(json_node, json_list)
@@ -87,37 +86,29 @@ t_list *deserialize_name_list(const char *json_str)
         cJSON *json_name = cJSON_GetObjectItem(json_node, "name");
         if (cJSON_IsString(json_name))
         {
-            t_list *new_node = (t_list *)malloc(sizeof(t_list));
-            new_node->data = mx_strdup(json_name->valuestring);
-            new_node->next = NULL;
-
-            if (head == NULL)
+            t_user *user = (t_user *)malloc(sizeof(t_user));
+            user->username = mx_strdup(json_name->valuestring);
+            if (user != NULL)
             {
-                head = new_node;
-                tail = head;
-            }
-            else
-            {
-                tail->next = new_node;
-                tail = tail->next;
+                mx_push_back(&user_list, user);
             }
         }
     }
     cJSON_Delete(json_list);
-    return head;
+    return user_list;
 }
 
 t_list *receive_list(SSL *ssl)
 {
-    const int buffer_size = 4096;
-    char buffer[buffer_size];
+    const int temp_size = 4096;
+    char temp[temp_size];
 
-    int bytes_received = SSL_read(ssl, buffer, buffer_size - 1);
+    int bytes_received = SSL_read(ssl, temp, temp_size - 1);
     if (bytes_received <= 0)
     {
         return NULL;
     }
 
-    buffer[bytes_received] = '\0';
-    return deserialize_name_list(buffer);
+    temp[bytes_received] = '\0';
+    return deserialize_name_list(temp);
 }

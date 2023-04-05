@@ -12,7 +12,7 @@ char* serialize_list(t_list* head) {
     
     while (head != NULL) {
         cJSON *json_node = cJSON_CreateObject();
-        cJSON_AddStringToObject(json_node, "name", (char *)head->data);
+        cJSON_AddStringToObject(json_node, "name", ((t_user *)head->data)->username);
         cJSON_AddItemToArray(json_list, json_node);
         head = head->next;
     }
