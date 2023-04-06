@@ -47,7 +47,10 @@ static void get_scaled_image_chats() {
 static void show_user_list_scrolled() {
     
     //t_list *head = NULL;
-    //t_list *current = NULL;
+    user_list = receive_list(current_client.ssl);
+    
+    t_list *current = NULL;
+
     int pos = 0;
 
     t_list *current = user_list;
@@ -189,8 +192,6 @@ void show_create_new_chat_with_someone() {
     cJSON_Delete(json);
 
     send_message_to_server(json_str);
-
-    user_list = receive_list(current_client.ssl);
 
     //const char *str = user_list->data;
 
