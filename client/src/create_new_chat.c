@@ -47,9 +47,8 @@ static void get_scaled_image_chats() {
 static void show_user_list_scrolled() {
     
     //t_list *head = NULL;
-    user_list = receive_list(current_client.ssl);
     
-    t_list *current = NULL;
+   // t_list *current = NULL;
 
     int pos = 0;
 
@@ -114,13 +113,11 @@ static void show_user_list_scrolled() {
 
         gtk_grid_attach(GTK_GRID(user_list_grid), user_info_box, 0, pos, 1, 1);
 
-        current = current->next;
-
         g_signal_connect_data(checkbox_btn, "toggled", G_CALLBACK(create_new_chat), current_grid.chats_list_grid_child, NULL, 0);
 
-        
-
         widget_styling(user_info_box, current_screen, "user_info_box");
+
+        current = current->next;
 
     }
 
@@ -128,6 +125,9 @@ static void show_user_list_scrolled() {
 }
 
 void create_new_chat(GtkToggleButton *toggle_button, gpointer user_data) {
+
+
+
 
     GtkWidget *new_grid = GTK_WIDGET(user_data);
 
@@ -192,6 +192,8 @@ void show_create_new_chat_with_someone() {
     cJSON_Delete(json);
 
     send_message_to_server(json_str);
+
+    user_list = receive_list(current_client.ssl);
 
     //const char *str = user_list->data;
 
