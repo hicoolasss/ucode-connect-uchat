@@ -32,8 +32,6 @@ void show_home(void) {
 
     //fill all grids
     show_left_menu_bar();
-    show_create_new_chat_with_someone();
-    show_empty_chat();
     show_achievements();
     show_your_profile();
     show_home_grid();
@@ -41,6 +39,8 @@ void show_home(void) {
     show_search_bar();
     show_mini_groups();
     show_mini_chats();
+    show_empty_chat();
+    show_create_new_chat_with_someone();
 
     //fill intro grids
     // first_intro_screen();

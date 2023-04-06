@@ -153,6 +153,8 @@ typedef struct {
     GtkWidget *chats;
     GtkWidget *user_list;
     GtkWidget *empty_chat;
+    GtkWidget *chat_with_friend;
+
     GtkWidget *chats_scrolled;
 
     GtkWidget *create_new_chat_with_someone;
@@ -212,15 +214,6 @@ typedef struct s_your_profile_avatar {
     GdkPixbuf *avatar;
 
 } t_your_profile_avatar;
-typedef struct s_user {
-    char *username;
-    // char *firstname;
-    // char *lastname;
-
-    // char *avatarname;
-    // char *avatardata;
-    // int avatarsize;
-} t_user;
 extern t_client current_client;
 extern t_main main_client;
 extern pthread_mutex_t cl_mutex;

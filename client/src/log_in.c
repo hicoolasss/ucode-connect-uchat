@@ -133,11 +133,6 @@ static void log_in_btn_clicked(GtkWidget *widget, gpointer data) {
     GtkEntryBuffer *username = gtk_entry_get_buffer(GTK_ENTRY(entry_data[0]));
     GtkEntryBuffer *password = gtk_entry_get_buffer(GTK_ENTRY(entry_data[1]));
 
-    // if(current_client.login != NULL && current_client.password != NULL) {
-    //     memset(current_client.login, 0, mx_strlen(current_client.login));
-    //     memset(current_client.password, 0, mx_strlen(current_client.password));
-    // }
-
     current_client.login = mx_strdup(gtk_entry_buffer_get_text(username));
     current_client.password = mx_strdup(gtk_entry_buffer_get_text(password));
 
