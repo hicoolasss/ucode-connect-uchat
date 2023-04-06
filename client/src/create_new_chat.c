@@ -47,10 +47,10 @@ static void get_scaled_image_chats() {
 static void show_user_list_scrolled() {
     
     //t_list *head = NULL;
-    t_list *current = NULL;
+    //t_list *current = NULL;
     int pos = 0;
 
-    current = user_list;
+    t_list *current = user_list;
     get_scaled_image_chats();
 
     while (current != NULL)
@@ -61,7 +61,7 @@ static void show_user_list_scrolled() {
 
         GtkWidget *user_avatar = gtk_image_new_from_pixbuf(scaled_avatar);
 
-        GtkWidget *username_label = gtk_label_new((const char *)current->data);
+        GtkWidget *username_label = gtk_label_new(((t_user *)current->data)->username);
 
         GtkWidget *checkbox_btn = gtk_check_button_new();
 

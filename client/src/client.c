@@ -155,51 +155,6 @@ int main(int argc, char **argv)
     g_signal_connect(app, "activate", G_CALLBACK(app_activate), NULL);
     stat = g_application_run(G_APPLICATION(app), FALSE, NULL);
 
-    // char *json_str;
-    // char buffer[2048];
-
-    // current_client.login = "kali";
-    // current_client.password = "kali";
-    // json_str = registration();
-    // send_message_to_server(json_str);
-
-    // pthread_t rec_th;
-    // pthread_mutex_init(&cl_mutex, NULL);
-    // pthread_create(&rec_th, NULL, recv_func, &current_client.serv_fd);
-
-    // while (main_client.connected == false)
-    // {
-    //     int len = SSL_read(current_client.ssl, buffer, sizeof(buffer) - 1);
-    //     if (len == -1)
-    //     {
-    //         printf("Error receiving message\n");
-    //         // break;
-    //     }
-    //     if (mx_strcmp(buffer, "success\n") == 0)
-    //     {
-    //         mx_printstr(buffer);
-    //         main_client.connected = true;
-    //         break;
-    //     }
-    //     else {
-    //         mx_printstr(buffer);
-    //         break;
-    //         // json_str = registration();
-    //         // send_message_to_server(json_str);
-    //     }
-    // }
-
-    // while (main_client.connected == true)
-    // {
-    //     mx_printstr("Enter message: ");
-    //     fgets(buffer, sizeof(buffer), stdin);
-    //     buffer[strcspn(buffer, "\n")] = '\0';
-    //     json_str = convert_to_json(buffer);
-    //     if (json_str != NULL)
-    //         send_message_to_server(json_str);
-    //     memset(json_str, 0, mx_strlen(json_str));
-    //     memset(buffer, 0, sizeof(buffer));
-    // }
     SSL_shutdown(ssl);
     SSL_free(ssl);
     SSL_CTX_free(ctx);

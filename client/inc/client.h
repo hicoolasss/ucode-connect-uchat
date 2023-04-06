@@ -44,6 +44,16 @@ typedef struct {
     GtkCssProvider *provider;
 } t_screen;
 
+typedef struct s_user {
+    const char *username;
+    // char *firstname;
+    // char *lastname;
+
+    // char *avatarname;
+    // char *avatardata;
+    // int avatarsize;
+} t_user;
+
 typedef struct s_log_in {
 
     bool is_username_correct;
