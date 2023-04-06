@@ -136,13 +136,23 @@ void *handle_client(void *args)
                     break;
                 }
 
-                t_list *ccc = clients;
+                // t_list *ccc = clients;
 
-                while (ccc != NULL)
+                int command = SSL_write(current_client->ssl, "<user_list>", 12);
+                if (command < 0)
                 {
-                    printf("Username: %s\n", ((t_user *)ccc->data)->username);
-                    ccc = ccc->next;
+                    printf("I can't send command to %s\n, check his connection", current_client->login);
                 }
+                else
+                {
+                    printf("Success sending command to %s\n", current_client->login);
+                }
+
+                // while (ccc != NULL)
+                // {
+                //     printf("Username: %s\n", ((t_user *)ccc->data)->username);
+                //     ccc = ccc->next;
+                // }
                 
                 int result = send_list(current_client->ssl, clients);
                 if (result > 0)
@@ -164,6 +174,15 @@ void *handle_client(void *args)
             }
             else if (mx_strcmp(command, "<friend_list>") == 0)
             {
+                int cmd = SSL_write(current_client->ssl, command, mx_strlen(command));
+                if (cmd < 0)
+                {
+                    printf("I can't send command to %s\n, check his connection", current_client->login);
+                }
+                else
+                {
+                    printf("Success sending command to %s\n", current_client->login);
+                }
                 int user_id = get_user_id(db, current_client->login);
                 t_list *friends_list = get_friends(db, user_id);
 
