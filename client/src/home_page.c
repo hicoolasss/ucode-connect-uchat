@@ -40,7 +40,7 @@ void show_home(void) {
     show_mini_groups();
     show_mini_chats();
     show_empty_chat();
-    show_create_new_chat_with_someone();
+    //show_create_new_chat_with_someone();
 
     //fill intro grids
     // first_intro_screen();

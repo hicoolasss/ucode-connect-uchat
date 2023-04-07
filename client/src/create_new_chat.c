@@ -295,31 +295,9 @@ void show_chats_with_added_friends(const char *username1) {
 
 }
 
-void show_create_new_chat_with_someone()
+void show_create_new_chat_with_someone(t_list *user_list_temp)
 {
-
-    cJSON *json = cJSON_CreateObject();
-    cJSON_AddStringToObject(json, "login", current_client.login);
-    cJSON_AddStringToObject(json, "command", "<user_list>");
-
-    char *json_str = cJSON_Print(json);
-    cJSON_Delete(json);
-
-    send_message_to_server(json_str);
-
-    //user_list = receive_list(current_client.ssl);
-
-
-    // cJSON *json1 = cJSON_CreateObject();
-    // cJSON_AddStringToObject(json1, "login", current_client.login);
-    // cJSON_AddStringToObject(json1, "command", "<friend_list>");
-
-    // char *json_str1 = cJSON_Print(json1);
-    // cJSON_Delete(json1);
-
-    // send_message_to_server(json_str1);
-
-    // friend_list = receive_list(current_client.ssl);
+    user_list = user_list_temp;
 
     user_list_grid = create_grid(451, 227, "mini_chats");
 

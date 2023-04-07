@@ -33,7 +33,16 @@ void call_new_chat_and_add_iter(const gchar *const new_username){
 }
 
 static void create_new_chat_clicked() {
-    //show_create_new_chat_with_someone();
+
+    cJSON *json = cJSON_CreateObject();
+    cJSON_AddStringToObject(json, "login", current_client.login);
+    cJSON_AddStringToObject(json, "command", "<user_list>");
+
+    char *json_str = cJSON_Print(json);
+    cJSON_Delete(json);
+
+    send_message_to_server(json_str);
+    
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chats), TRUE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.empty_chat), FALSE);
     // gtk_entry_set_activates_default(GTK_ENTRY(current_grid.entry_for_search), TRUE);

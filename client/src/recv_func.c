@@ -38,12 +38,7 @@ void *recv_func()
 
             t_list *ccc = user_list;
 
-            //enter your front here dolboeb
-            // while (ccc != NULL)
-            // {
-            //     printf("Username: %s\n", ((t_user *)ccc->data)->username);
-            //     ccc = ccc->next;
-            // }
+            show_create_new_chat_with_someone(user_list);
 
             while (user_list != NULL)
             {
