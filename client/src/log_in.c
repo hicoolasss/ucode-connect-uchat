@@ -4,90 +4,48 @@ extern t_screen current_screen;
 extern t_grid current_grid;
 t_log_in current_log_in;
 
-// void load_custom_font(const char* font_path) {
-//     PangoFontFamily* font_family;
-//     PangoFontMap* font_map;
-//     PangoFontDescription* font_description;
-//     char* font_name;
-//     GdkDisplay* display = gdk_display_get_default();
-
-//     font_map = pango_font_map_get_default();
-//     font_family = pango_font_family_new();
-//     font_description = pango_font_description_new();
-//     font_name = pango_font_family_get_name(font_family);
-//     g_free(font_name);
-//     font_name = g_path_get_basename(font_path);
-//     pango_font_description_set_family(font_description, font_name);
-//     pango_font_description_set_weight(font_description, PANGO_WEIGHT_NORMAL);
-//     pango_font_description_set_style(font_description, PANGO_STYLE_NORMAL);
-//     pango_font_map_load_font(font_map, gdk_display_get_default(), font_description);
-//     g_free(font_name);
-//     g_object_unref(font_map);
-// }
-
-// void load_font(const char* font_path) {
-//     PangoFontFamily* font_family;
-//     PangoContext* context;
-//     PangoFontMap* font_map;
-//     PangoFontDescription* font_description;
-//     char* font_name;
-
-//     font_map = pango_cairo_font_map_get_default();
-//     context = pango_font_map_create_context(font_map);
-//     font_family = pango_font_family_new_from_name("Custom Font");
-//     font_description = pango_font_description_new();
-//     font_name = pango_font_family_get_name(font_family);
-//     pango_font_description_set_family(font_description, font_name);
-//     pango_font_description_set_weight(font_description, PANGO_WEIGHT_NORMAL);
-//     pango_font_description_set_style(font_description, PANGO_STYLE_NORMAL);
-//     PangoFont* font = pango_font_map_load_font(font_map, context, font_description);
-//     g_free(font_name);
-//     g_object_unref(font_map);
-//     g_object_unref(context);
-//     g_object_unref(font);
-// }
-
-// void set_font(GtkWidget *widget, const gchar *font_path) {
-//   PangoFontDescription *desc = pango_font_description_from_string(font_path);
-//   gtk_widget_override_font(widget, desc);
-//   pango_font_description_free(desc);
-// }
-
 static void dont_have_account_btn_clicked(void)
 {
     set_unvisible_auth();
     gtk_widget_set_visible(GTK_WIDGET(current_grid.registration_container), TRUE);
 }
 
-static int get_username_status(void) {
+static int get_username_status(void)
+{
 
-    if (mx_strlen(current_client.login) == 0) return -3;
-    if (mx_strlen(current_client.password) == 0) return -4;
-    
+    if (mx_strlen(current_client.login) == 0)
+        return -3;
+    if (mx_strlen(current_client.password) == 0)
+        return -4;
+
     char *json_str;
     json_str = registration(0);
     send_message_to_server(json_str);
     mx_printstr(json_str);
     char buf[256];
-    while (main_client.connected == false) {
-        
+    while (main_client.connected == false)
+    {
+
         int len = SSL_read(current_client.ssl, buf, sizeof(buf));
 
-        
-        if (len < 0) {
-            
-            return -1;
-        
-        } else if (mx_strcmp(buf, "user not found\n") == 0) { 
-            
-            return -2;
+        if (len < 0)
+        {
 
-        } else if (mx_strcmp(buf, "incorrect password\n") == 0) {
-            
+            return -1;
+        }
+        else if (mx_strcmp(buf, "user not found\n") == 0)
+        {
+
+            return -2;
+        }
+        else if (mx_strcmp(buf, "incorrect password\n") == 0)
+        {
+
             return -5;
-        
-        } else if (mx_strcmp(buf, "success\n") == 0) {
-            
+        }
+        else if (mx_strcmp(buf, "success\n") == 0)
+        {
+
             main_client.connected = true;
             return 0;
         }
@@ -102,19 +60,19 @@ static int get_username_status(void) {
 //     if (mx_strlen(current_client.password) > 10) return -2;
 
 //     const char *forbidden_symbols = "$&=+<>,_`- ";
-    
+
 //     for (int i = 0; i < mx_strlen(current_client.password); i++) {
-        
+
 //         for (int j = 0; j < 9; j++) {
-            
+
 //             if (current_client.password[i] == forbidden_symbols[j]) {
-                
+
 //                 return -3;
-            
+
 //             }
-        
+
 //         }
-    
+
 //     }
 
 //     if (mx_strcmp(current_client.password, confirm_password) != 0) return -4;
@@ -123,8 +81,9 @@ static int get_username_status(void) {
 
 // }
 
-static void log_in_btn_clicked(GtkWidget *widget, gpointer data) {
-
+static void log_in_btn_clicked(GtkWidget *widget, gpointer data)
+{
+    pthread_mutex_lock(&mutex1);
     bool is_log_in_success = true;
 
     current_grid.is_log_in_clicked = TRUE;
@@ -136,101 +95,102 @@ static void log_in_btn_clicked(GtkWidget *widget, gpointer data) {
     current_client.login = mx_strdup(gtk_entry_buffer_get_text(username));
     current_client.password = mx_strdup(gtk_entry_buffer_get_text(password));
 
-    int username_status = get_username_status();
+    int username_status = 0;
+    if (!main_client.connected)
+    {
+        username_status = get_username_status();
+    }
+    switch (username_status)
+    {
 
-    switch (username_status) {
+    case 0:
+    {
 
-        case 0: {
-            
-            widget_restyling(current_log_in.username_error_label, current_screen, "error_label", "hide_label");
+        widget_restyling(current_log_in.username_error_label, current_screen, "error_label", "hide_label");
 
-            widget_restyling(entry_data[0], current_screen, "wrong_auth_entry_field", "auth_entry_field");
-            
-            break;
-        
-        }
+        widget_restyling(entry_data[0], current_screen, "wrong_auth_entry_field", "auth_entry_field");
 
-        case -1: {
-
-            gtk_label_set_text(GTK_LABEL(current_log_in.username_error_label), "Unable to receive data from server!");
-
-            widget_restyling(current_log_in.username_error_label, current_screen, "hide_label", "error_label");
-
-            widget_styling(entry_data[0], current_screen, "wrong_auth_entry_field");
-
-            is_log_in_success = false;
-
-            return;
-
-        }
-
-        case -2: {
-
-            gtk_label_set_text(GTK_LABEL(current_log_in.username_error_label), "Incorrect username or password!");
-
-            widget_restyling(current_log_in.username_error_label, current_screen, "hide_label", "error_label");
-
-            widget_styling(entry_data[0], current_screen, "wrong_auth_entry_field");
-
-            is_log_in_success = false;
-
-            return;
-
-        }
-
-        case -3: {
-
-            gtk_label_set_text(GTK_LABEL(current_log_in.username_error_label), "Please enter username!");
-
-            widget_restyling(current_log_in.username_error_label, current_screen, "hide_label", "error_label");
-
-            widget_styling(entry_data[0], current_screen, "wrong_auth_entry_field");
-
-            is_log_in_success = false;
-
-            return;
-
-        }
-
-        case -4: {
-
-            gtk_label_set_text(GTK_LABEL(current_log_in.password_error_label), "Please enter password!");
-
-            widget_restyling(current_log_in.password_error_label, current_screen, "hide_label", "error_label");
-
-            widget_styling(entry_data[1], current_screen, "wrong_auth_entry_field");
-
-            is_log_in_success = false;
-
-            return;
-
-        }
-
-        case -5: {
-
-            gtk_label_set_text(GTK_LABEL(current_log_in.password_error_label), "incorrect password!");
-
-            widget_restyling(current_log_in.password_error_label, current_screen, "hide_label", "error_label");
-
-            widget_styling(entry_data[1], current_screen, "wrong_auth_entry_field");
-
-            is_log_in_success = false;
-
-            return;
-
-        }
-
+        break;
     }
 
-    if (is_log_in_success) {
-        
+    case -1:
+    {
+
+        gtk_label_set_text(GTK_LABEL(current_log_in.username_error_label), "Unable to receive data from server!");
+
+        widget_restyling(current_log_in.username_error_label, current_screen, "hide_label", "error_label");
+
+        widget_styling(entry_data[0], current_screen, "wrong_auth_entry_field");
+
+        is_log_in_success = false;
+
+        return;
+    }
+
+    case -2:
+    {
+
+        gtk_label_set_text(GTK_LABEL(current_log_in.username_error_label), "Incorrect username or password!");
+
+        widget_restyling(current_log_in.username_error_label, current_screen, "hide_label", "error_label");
+
+        widget_styling(entry_data[0], current_screen, "wrong_auth_entry_field");
+
+        is_log_in_success = false;
+
+        return;
+    }
+
+    case -3:
+    {
+
+        gtk_label_set_text(GTK_LABEL(current_log_in.username_error_label), "Please enter username!");
+
+        widget_restyling(current_log_in.username_error_label, current_screen, "hide_label", "error_label");
+
+        widget_styling(entry_data[0], current_screen, "wrong_auth_entry_field");
+
+        is_log_in_success = false;
+
+        return;
+    }
+
+    case -4:
+    {
+
+        gtk_label_set_text(GTK_LABEL(current_log_in.password_error_label), "Please enter password!");
+
+        widget_restyling(current_log_in.password_error_label, current_screen, "hide_label", "error_label");
+
+        widget_styling(entry_data[1], current_screen, "wrong_auth_entry_field");
+
+        is_log_in_success = false;
+
+        return;
+    }
+
+    case -5:
+    {
+
+        gtk_label_set_text(GTK_LABEL(current_log_in.password_error_label), "incorrect password!");
+
+        widget_restyling(current_log_in.password_error_label, current_screen, "hide_label", "error_label");
+
+        widget_styling(entry_data[1], current_screen, "wrong_auth_entry_field");
+
+        is_log_in_success = false;
+
+        return;
+    }
+    }
+
+    if (is_log_in_success)
+    {
         main_client.connected = true;
         set_unvisible_auth();
         show_home();
-    
+        pthread_mutex_unlock(&mutex1);
     }
-    
-
 
     // char *json_str;
     // json_str = registration(0);
@@ -255,9 +215,11 @@ static void log_in_btn_clicked(GtkWidget *widget, gpointer data) {
     //         show_home();
     //     }
     // }
+    // pthread_mutex_unlock(&mutex1);
 }
 
-void show_log_in(void) {
+void show_log_in(void)
+{
 
     current_log_in.box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
@@ -272,7 +234,7 @@ void show_log_in(void) {
     // PangoFontDescription *font_desc = pango_font_description_from_string("MyFont 12");
 
     // gtk_widget_override_font(current_log_in.welcome, font_desc);
-    //set_font(current_log_in.welcome, "../../resources/fonts/JetBrains_Mono/static/JetBrainsMono-Regular.ttf");
+    // set_font(current_log_in.welcome, "../../resources/fonts/JetBrains_Mono/static/JetBrainsMono-Regular.ttf");
 
     gtk_grid_attach(GTK_GRID(current_grid.log_in_conrainer), current_log_in.box, 0, 0, 1, 1);
 
@@ -296,13 +258,13 @@ void show_log_in(void) {
     gtk_entry_set_visibility(GTK_ENTRY(current_log_in.password), FALSE);
 
     gtk_box_append(GTK_BOX(current_log_in.box), current_log_in.welcome);
-    
+
     gtk_box_append(GTK_BOX(current_log_in.box), current_log_in.username);
     gtk_box_append(GTK_BOX(current_log_in.box), current_log_in.username_error_label);
-    
+
     gtk_box_append(GTK_BOX(current_log_in.box), current_log_in.password);
     gtk_box_append(GTK_BOX(current_log_in.box), current_log_in.password_error_label);
-    
+
     gtk_box_append(GTK_BOX(current_log_in.box), current_log_in.log_in_button);
     gtk_box_append(GTK_BOX(current_log_in.box), current_log_in.dont_have_account);
     gtk_box_append(GTK_BOX(current_log_in.box), current_log_in.sign_up_button_log_in);

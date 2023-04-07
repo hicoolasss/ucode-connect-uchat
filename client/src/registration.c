@@ -99,7 +99,7 @@ static void sign_inbtn_clicked() {
 }
 
 static void sign_up_btn_clicked(GtkWidget *widget, gpointer entries_array) {
-    
+    pthread_mutex_lock(&mutex1);
     bool is_registration_success = true;
 
     GtkWidget **entry_data = entries_array;
@@ -280,9 +280,10 @@ static void sign_up_btn_clicked(GtkWidget *widget, gpointer entries_array) {
         
         set_unvisible_auth();
         gtk_widget_set_visible(GTK_WIDGET(current_grid.registration_success_container), TRUE);
+        pthread_mutex_unlock(&mutex1);
     
     }
-
+    // pthread_mutex_unlock(&mutex1);
 }
 
 void show_registration()

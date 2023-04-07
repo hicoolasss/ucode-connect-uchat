@@ -12,16 +12,22 @@ void *recv_func()
     //         printf("Error receiving message\n");
     //     }
     //     if(mx_strcmp(temp, "success\n") == 0) {
-    //         pthread_mutex_lock(&cl_mutex);
     //         main_client.connected = true;
-    //         registered = true;
-    //         pthread_mutex_unlock(&cl_mutex);
     //         break;
     //     }
     // }
-    while (1)
+    // mx_printint(main_client.connected);
+    while (!main_client.connected) {
+        int i = 0;
+        i++;
+        // mx_printint(main_client.connected);
+        // sleep(60);
+    }
+    while (main_client.connected)
     {
+        pthread_mutex_lock(&mutex1);
         int len = SSL_read(current_client.ssl, temp, sizeof(temp) - 1);
+        pthread_mutex_unlock(&mutex1);
         if (len == -1)
         {
             printf("Error receiving message\n");
@@ -106,6 +112,7 @@ void *recv_func()
             cJSON_Delete(json_obj);
         }
     }
+    pthread_mutex_unlock(&mutex2);
     pthread_detach(pthread_self());
     return NULL;
 }
