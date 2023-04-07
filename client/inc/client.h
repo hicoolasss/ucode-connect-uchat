@@ -216,7 +216,9 @@ typedef struct s_your_profile_avatar {
 } t_your_profile_avatar;
 extern t_client current_client;
 extern t_main main_client;
-extern pthread_mutex_t cl_mutex;
+// extern pthread_mutex_t cl_mutex;
+extern pthread_mutex_t mutex1;
+extern pthread_mutex_t mutex2;
 extern _Atomic bool registered;
 
 void load_custom_font(const char* font_path, GtkWidget* widget);
