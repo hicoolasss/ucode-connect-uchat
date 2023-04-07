@@ -4,55 +4,6 @@ extern t_screen current_screen;
 extern t_grid current_grid;
 t_log_in current_log_in;
 
-// void load_custom_font(const char* font_path) {
-//     PangoFontFamily* font_family;
-//     PangoFontMap* font_map;
-//     PangoFontDescription* font_description;
-//     char* font_name;
-//     GdkDisplay* display = gdk_display_get_default();
-
-//     font_map = pango_font_map_get_default();
-//     font_family = pango_font_family_new();
-//     font_description = pango_font_description_new();
-//     font_name = pango_font_family_get_name(font_family);
-//     g_free(font_name);
-//     font_name = g_path_get_basename(font_path);
-//     pango_font_description_set_family(font_description, font_name);
-//     pango_font_description_set_weight(font_description, PANGO_WEIGHT_NORMAL);
-//     pango_font_description_set_style(font_description, PANGO_STYLE_NORMAL);
-//     pango_font_map_load_font(font_map, gdk_display_get_default(), font_description);
-//     g_free(font_name);
-//     g_object_unref(font_map);
-// }
-
-// void load_font(const char* font_path) {
-//     PangoFontFamily* font_family;
-//     PangoContext* context;
-//     PangoFontMap* font_map;
-//     PangoFontDescription* font_description;
-//     char* font_name;
-
-//     font_map = pango_cairo_font_map_get_default();
-//     context = pango_font_map_create_context(font_map);
-//     font_family = pango_font_family_new_from_name("Custom Font");
-//     font_description = pango_font_description_new();
-//     font_name = pango_font_family_get_name(font_family);
-//     pango_font_description_set_family(font_description, font_name);
-//     pango_font_description_set_weight(font_description, PANGO_WEIGHT_NORMAL);
-//     pango_font_description_set_style(font_description, PANGO_STYLE_NORMAL);
-//     PangoFont* font = pango_font_map_load_font(font_map, context, font_description);
-//     g_free(font_name);
-//     g_object_unref(font_map);
-//     g_object_unref(context);
-//     g_object_unref(font);
-// }
-
-// void set_font(GtkWidget *widget, const gchar *font_path) {
-//   PangoFontDescription *desc = pango_font_description_from_string(font_path);
-//   gtk_widget_override_font(widget, desc);
-//   pango_font_description_free(desc);
-// }
-
 static void dont_have_account_btn_clicked(void)
 {
     set_unvisible_auth();
