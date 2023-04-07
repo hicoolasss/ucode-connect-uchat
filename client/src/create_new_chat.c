@@ -57,6 +57,7 @@ static void on_entry_activate(GtkEntry *entry, gpointer data) {
     printf("Entry text: %s\n", text_copy);
 
     // Не забудьте освободить память, выделенную для text_copy, когда она вам больше не понадобится
+
 }
 
 void show_chat_with_friend(gpointer username) {
