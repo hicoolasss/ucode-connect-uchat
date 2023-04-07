@@ -177,18 +177,11 @@ static void show_user_list_scrolled()
 
 void create_new_chat(GtkToggleButton *toggle_button, gpointer user_data)
 {
-    mx_printstr("\n1\n\n");
     cJSON *json = cJSON_CreateObject();
     cJSON_AddStringToObject(json, "login", current_client.login);
-    mx_printstr("\n2\n\n");
     cJSON_AddStringToObject(json, "command", "<add_friend>");
-    mx_printstr("\n3\n\n");
-    mx_printstr(((t_user *)user_data)->username);
-    mx_printstr("\n4\n\n");
     char *friend = mx_strdup(((t_user *)user_data)->username);
-    mx_printstr("\n5\n\n");
     cJSON_AddStringToObject(json, "friend", friend);
-    mx_printstr("\n6\n\n");
     char *json_str = cJSON_Print(json);
     cJSON_Delete(json);
 
