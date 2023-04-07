@@ -51,15 +51,14 @@ void *recv_func()
         {
             t_list *friend_list = receive_list(current_client.ssl);
 
-            t_list *ccc = friend_list;
-
-            //enter your front here dolboeb
-
-            // while (ccc != NULL)
-            // {
-            //     printf("Friend: %s\n", ((t_user *)ccc->data)->username);
-            //     ccc = ccc->next;
-            // }
+            t_list *current = friend_list;
+    
+            while (current) {
+                show_chats_with_added_friends(((t_user *)current->data)->username);
+                mx_printstr(((t_user *)current->data)->username);
+                mx_printstr("\n");
+                current = current->next;
+            }
 
             while (friend_list != NULL)
             {

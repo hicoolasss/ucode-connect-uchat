@@ -307,7 +307,7 @@ void show_create_new_chat_with_someone()
 
     send_message_to_server(json_str);
 
-    user_list = receive_list(current_client.ssl);
+    //user_list = receive_list(current_client.ssl);
 
 
     // cJSON *json1 = cJSON_CreateObject();
@@ -369,13 +369,13 @@ void show_create_new_chat_with_someone()
     show_user_list_scrolled();
 
     //g_print("georjngjiroegnero[ig]: %p\n", (void *)current_grid.chats_list_grid_child);
-    t_list *current = friend_list;
+    // t_list *current = friend_list;
     
-    while (current) {
-        show_chats_with_added_friends(((t_user *)current->data)->username);
-        mx_printstr(((t_user *)current->data)->username);
-        mx_printstr("\n");
-        current = current->next;
-    }
+    // while (current) {
+    //     show_chats_with_added_friends(((t_user *)current->data)->username);
+    //     mx_printstr(((t_user *)current->data)->username);
+    //     mx_printstr("\n");
+    //     current = current->next;
+    // }
 
 }

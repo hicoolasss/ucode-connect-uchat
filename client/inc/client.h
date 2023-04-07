@@ -320,3 +320,5 @@ void get_scaled_image();
 void show_create_new_chat_with_someone();
 void show_empty_chat();
 
+void show_chats_with_added_friends(const char *username1);
+
