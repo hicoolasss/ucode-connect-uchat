@@ -26,6 +26,70 @@ void *recv_func()
         {
             printf("Error receiving message\n");
         }
+        if (mx_strcmp(temp, "<user_list>") == 0)
+        {
+            t_list *user_list = receive_list(current_client.ssl);
+
+            t_list *ccc = user_list;
+
+            //enter your front here dolboeb
+            // while (ccc != NULL)
+            // {
+            //     printf("Username: %s\n", ((t_user *)ccc->data)->username);
+            //     ccc = ccc->next;
+            // }
+
+            while (user_list != NULL)
+            {
+                t_list *tmp = user_list;
+                user_list = user_list->next;
+                free(tmp->data);
+                free(tmp);
+            }
+        }
+        else if (mx_strcmp(temp, "<friend_list>") == 0)
+        {
+            t_list *friend_list = receive_list(current_client.ssl);
+
+            t_list *ccc = friend_list;
+
+            //enter your front here dolboeb
+
+            // while (ccc != NULL)
+            // {
+            //     printf("Friend: %s\n", ((t_user *)ccc->data)->username);
+            //     ccc = ccc->next;
+            // }
+
+            while (friend_list != NULL)
+            {
+                t_list *tmp = friend_list;
+                friend_list = friend_list->next;
+                free(tmp->data);
+                free(tmp);
+            }
+        }
+        else if (mx_strcmp(temp, "<add_friend>") == 0)
+        {
+            mx_printstr("Enter friend's login: ");
+
+            int rec = SSL_read(current_client.ssl, temp, sizeof(temp) - 1);
+            if (rec == -1)
+            {
+                printf("Error receiving message\n");
+            }
+
+            if (mx_strcmp(temp, "User not found, write friend's login correct") == 0)
+            {
+                mx_printstr("User not found, write friend's login correct");
+                break;
+            }
+            else
+            {
+                mx_printstr(temp);
+                mx_printstr("\n\n");
+            }
+        }
         else
         {
             // Преобразование строки в JSON-объект

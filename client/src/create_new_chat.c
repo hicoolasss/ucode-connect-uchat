@@ -310,16 +310,16 @@ void show_create_new_chat_with_someone()
     user_list = receive_list(current_client.ssl);
 
 
-    cJSON *json1 = cJSON_CreateObject();
-    cJSON_AddStringToObject(json1, "login", current_client.login);
-    cJSON_AddStringToObject(json1, "command", "<friend_list>");
+    // cJSON *json1 = cJSON_CreateObject();
+    // cJSON_AddStringToObject(json1, "login", current_client.login);
+    // cJSON_AddStringToObject(json1, "command", "<friend_list>");
 
-    char *json_str1 = cJSON_Print(json1);
-    cJSON_Delete(json1);
+    // char *json_str1 = cJSON_Print(json1);
+    // cJSON_Delete(json1);
 
-    send_message_to_server(json_str1);
+    // send_message_to_server(json_str1);
 
-    friend_list = receive_list(current_client.ssl);
+    // friend_list = receive_list(current_client.ssl);
 
     user_list_grid = create_grid(451, 227, "mini_chats");
 

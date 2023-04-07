@@ -13,16 +13,16 @@ int recv_all(SSL *sockfd, char *buf, int len);
 //     PangoFontMap* font_map = pango_cairo_font_map_get_default();
 //     PangoFontDescription* font_description = pango_font_description_new();
 //     char* font_name = g_path_get_basename(font_path);
-    
+
 //     pango_font_description_set_family(font_description, font_name);
 //     pango_font_description_set_weight(font_description, PANGO_WEIGHT_NORMAL);
 //     pango_font_description_set_style(font_description, PANGO_STYLE_NORMAL);
-    
+
 //     PangoContext* context = gtk_widget_create_pango_context(widget);
 //     const char* font_name = "JetBrainsMono";
 //     PangoFontFamily* font_family = pango_font_family_new_from_name(font_name);
 //     pango_font_map_load_font(font_map, context, font_description);
-    
+
 //     g_object_unref(context);
 //     g_object_unref(font_map);
 //     pango_font_description_free(font_description);
@@ -63,8 +63,8 @@ static void app_activate(GApplication *app)
 
     gtk_window_set_title(GTK_WINDOW(current_screen.screen), "darkchat");
     gtk_window_set_default_size(GTK_WINDOW(current_screen.screen), 1200, 760);
-    //gtk_window_set_resizable(GTK_WINDOW(current_screen.screen), TRUE);
-    // load default colorscheme
+    // gtk_window_set_resizable(GTK_WINDOW(current_screen.screen), TRUE);
+    //  load default colorscheme
     change_scheme_to_any_color("#171722",
                                "#212130",
                                "#B1BAE6",
@@ -87,7 +87,6 @@ static void app_activate(GApplication *app)
                                "#434461",
                                "#13131A");
 
-                               
     // load_custom_font("../../resources/fonts/JetBrains_Mono/static/JetBrainsMono-Regular.ttf");
     // load_custom_font("../../resources/fonts/Inter/static/Inter-Regular.ttf");
     loadstyles();
@@ -150,6 +149,10 @@ int main(int argc, char **argv)
     current_client.serv_fd = server_fd;
     GtkApplication *app;
     int stat = 0;
+
+    pthread_t rec_th;
+    pthread_mutex_init(&cl_mutex, NULL);
+    pthread_create(&rec_th, NULL, recv_func, &current_client.serv_fd);
 
     app = gtk_application_new("com.github.darkchat", G_APPLICATION_DEFAULT_FLAGS);
     g_signal_connect(app, "activate", G_CALLBACK(app_activate), NULL);
