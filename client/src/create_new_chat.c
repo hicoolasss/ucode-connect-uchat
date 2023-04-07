@@ -142,7 +142,6 @@ static void show_user_list_scrolled()
 
         if (current->next == NULL)
         {
-
             gtk_widget_set_margin_bottom(user_info_box, 20);
         }
 
@@ -178,45 +177,34 @@ static void show_user_list_scrolled()
 
 void create_new_chat(GtkToggleButton *toggle_button, gpointer user_data)
 {
-    
+    mx_printstr("\n1\n\n");
     cJSON *json = cJSON_CreateObject();
     cJSON_AddStringToObject(json, "login", current_client.login);
+    mx_printstr("\n2\n\n");
     cJSON_AddStringToObject(json, "command", "<add_friend>");
-
+    mx_printstr("\n3\n\n");
+    mx_printstr(((t_user *)user_data)->username);
+    mx_printstr("\n4\n\n");
+    char *friend = mx_strdup(((t_user *)user_data)->username);
+    mx_printstr("\n5\n\n");
+    cJSON_AddStringToObject(json, "friend", friend);
+    mx_printstr("\n6\n\n");
     char *json_str = cJSON_Print(json);
     cJSON_Delete(json);
 
     send_message_to_server(json_str);
 
-    int command = SSL_write(current_client.ssl, ((t_user *)user_data)->username, mx_strlen(((t_user *)user_data)->username));
+    // int command = SSL_write(current_client.ssl, ((t_user *)user_data)->username, mx_strlen(((t_user *)user_data)->username));
 
-    if (command < 0)
-    {
-        return;
-    }
-    else
-    {
-        mx_printstr(((t_user *)user_data)->username);
-        mx_printchar('\n');
-    }
-
-    char temp[256];
-    int rec = SSL_read(current_client.ssl, temp, sizeof(temp) - 1);
-    if (rec == -1)
-    {
-        printf("Error receiving message\n");
-    }
-
-    if (mx_strcmp(temp, "User not found, write friend's login correct") == 0)
-    {
-        mx_printstr("User not found, write friend's login correct");
-        return;
-    }
-    else
-    {
-        mx_printstr(temp);
-        mx_printstr("\n\n");
-    }
+    // if (command < 0)
+    // {
+    //     return;
+    // }
+    // else
+    // {
+    //     mx_printstr(((t_user *)user_data)->username);
+    //     mx_printchar('\n');
+    // }
 
     GtkWidget *user_info_box_temp = gtk_widget_get_parent(GTK_WIDGET(toggle_button));
 

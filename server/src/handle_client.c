@@ -104,7 +104,6 @@ void *handle_client(void *args)
         else
         {
             // Преобразование строки в JSON-объект
-
             mx_printstr(buf);
             mx_printchar('\n');
             cJSON *json = cJSON_Parse(buf);
@@ -208,8 +207,7 @@ void *handle_client(void *args)
             }
             else if (mx_strcmp(command, "<add_friend>") == 0)
             {
-                char friendname[32];
-                int len = SSL_read(current_client->ssl, friendname, sizeof(friendname));
+                char *friendname = cJSON_GetObjectItemCaseSensitive(json, "friend")->valuestring;
 
                 mx_printchar('\n');
                 if (len < 0)
@@ -217,23 +215,16 @@ void *handle_client(void *args)
                     mx_printstr("Error: Unable to receive data from server\n");
                     break;
                 }
-                // cJSON *cjson_add_friend = cJSON_Parse(buf);
-                
-                // if (!cjson_add_friend)
-                // {
-                //     printf("Error: Invalid JSON data received from server\n");
-                //     break;
-                // }
-                // char *friendname = cJSON_GetObjectItemCaseSensitive(cjson_add_friend, "message")->valuestring;
 
                 if (add_friend(db, current_client->login, friendname) == 0)
                 {
-                    SSL_write(current_client->ssl, "User not found, write friend's login correct", 45);
+                    mx_printstr("User not found, write friend's login correct");
+                    // SSL_write(current_client->ssl, "User not found, write friend's login correct", 45);
                 }
-                else
-                {
-                    SSL_write(current_client->ssl, "friend add", 11);
-                }
+                // else
+                // {
+                //     SSL_write(current_client->ssl, "friend add", 11);
+                // }
                 // cJSON_Delete(cjson_add_friend);
             }
             cJSON_Delete(json);

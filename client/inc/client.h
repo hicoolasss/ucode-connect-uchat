@@ -319,7 +319,7 @@ void search_btn_clicked_group(void);
 
 void get_scaled_image();
 
-void show_create_new_chat_with_someone(t_list *user_list_temp);
+void show_create_new_chat_with_someone(t_list *ccc);
 void show_empty_chat();
 
 void show_chats_with_added_friends(const char *username1);

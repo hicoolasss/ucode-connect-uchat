@@ -17,7 +17,8 @@ void *recv_func()
     //     }
     // }
     // mx_printint(main_client.connected);
-    while (!main_client.connected) {
+    while (!main_client.connected)
+    {
         int i = 0;
         i++;
         // mx_printint(main_client.connected);
@@ -34,27 +35,27 @@ void *recv_func()
         }
         if (mx_strcmp(temp, "<user_list>") == 0)
         {
-            t_list *user_list = receive_list(current_client.ssl);
 
-            t_list *ccc = user_list;
+            t_list *ccc = receive_list(current_client.ssl);
 
-            show_create_new_chat_with_someone(user_list);
+            show_create_new_chat_with_someone(ccc);
 
-            while (user_list != NULL)
-            {
-                t_list *tmp = user_list;
-                user_list = user_list->next;
-                free(tmp->data);
-                free(tmp);
-            }
+            // while (ccc != NULL)
+            // {
+            //     t_list *tmp = ccc;
+            //     ccc = ccc->next;
+            //     free(tmp->data);
+            //     free(tmp);
+            // }
         }
         else if (mx_strcmp(temp, "<friend_list>") == 0)
         {
             t_list *friend_list = receive_list(current_client.ssl);
 
             t_list *current = friend_list;
-    
-            while (current) {
+
+            while (current)
+            {
                 show_chats_with_added_friends(((t_user *)current->data)->username);
                 mx_printstr(((t_user *)current->data)->username);
                 mx_printstr("\n");
@@ -71,23 +72,17 @@ void *recv_func()
         }
         else if (mx_strcmp(temp, "<add_friend>") == 0)
         {
-            mx_printstr("Enter friend's login: ");
-
-            int rec = SSL_read(current_client.ssl, temp, sizeof(temp) - 1);
+            char friendname[32];
+            int rec = SSL_read(current_client.ssl, friendname, sizeof(temp) - 1);
             if (rec == -1)
             {
                 printf("Error receiving message\n");
             }
 
-            if (mx_strcmp(temp, "User not found, write friend's login correct") == 0)
+            if (mx_strcmp(friendname, "User not found, write friend's login correct") == 0)
             {
                 mx_printstr("User not found, write friend's login correct");
                 break;
-            }
-            else
-            {
-                mx_printstr(temp);
-                mx_printstr("\n\n");
             }
         }
         else
