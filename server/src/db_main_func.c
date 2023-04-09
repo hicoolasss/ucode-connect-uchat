@@ -228,25 +228,21 @@ int add_user_to_chat(sqlite3 *db, int group_id, int user_id)
 
 int sql_record_message(sqlite3 *db, char *username, char *friendname, const char *message_text) {
     sqlite3_stmt *stmt;
-    const char *sql = "INSERT INTO dialogs (user_id, friend_id, message_text) VALUES (?, ?, ?);";
-
+    const char *sql = "INSERT INTO dialogs (user_id, friend_id, message) VALUES (?, ?, ?);";
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK) {
         printf("Ошибка подготовки SQL: %s\n", sqlite3_errmsg(db));
         return -1;
     }
-
     int user_id = get_user_id(db, username);
     int friend_id = get_user_id(db, friendname);
     sqlite3_bind_int(stmt, 1, user_id);
     sqlite3_bind_int(stmt, 2, friend_id);
     sqlite3_bind_text(stmt, 3, message_text, -1, SQLITE_STATIC);
-
     if (sqlite3_step(stmt) != SQLITE_DONE) {
         printf("Ошибка выполнения SQL: %s\n", sqlite3_errmsg(db));
         sqlite3_finalize(stmt);
         return -1;
     }
-
     sqlite3_finalize(stmt);
     return 0;
 }

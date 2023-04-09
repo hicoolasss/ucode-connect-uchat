@@ -115,11 +115,11 @@ void *handle_client(void *args)
                 break;
             }
 
-            char *login = cJSON_GetObjectItemCaseSensitive(json, "login")->valuestring;
             char *command = cJSON_GetObjectItemCaseSensitive(json, "command")->valuestring;
 
             if (mx_strcmp(command, "<logout>") == 0)
             {
+                char *login = cJSON_GetObjectItemCaseSensitive(json, "login")->valuestring;
                 print_message(login, "logout\n");
                 remove_client(current_client->cl_socket);
                 cli_count--;
@@ -230,21 +230,22 @@ void *handle_client(void *args)
             }
             else if (mx_strcmp(command, "<send_message_to>") == 0)
             {
-                int cmd = SSL_write(current_client->ssl, command, mx_strlen(command));
-                if (cmd < 0)
-                {
-                    printf("I can't send command to %s\n, check his connection", current_client->login);
-                }
-                else
-                {
-                    printf("Success sending command to %s\n", current_client->login);
-                }
+                // int cmd = SSL_write(current_client->ssl, command, mx_strlen(command));
+                // if (cmd < 0)
+                // {
+                //     printf("I can't send command to %s\n, check his connection", current_client->login);
+                // }
+                // else
+                // {
+                //     printf("Success sending command to %s\n", current_client->login);
+                // }
                 // char *sender = cJSON_GetObjectItemCaseSensitive(json, "sender")->valuestring;
                 char *friendname = cJSON_GetObjectItemCaseSensitive(json, "friend")->valuestring;
                 char *message = cJSON_GetObjectItemCaseSensitive(json, "message")->valuestring;
 
-                sql_record_message(db, current_client->login, friendname, message);
-
+                if(sql_record_message(db, current_client->login, friendname, message) == 0) {
+                    mx_printstr("Success recording\n");
+                }
                 char *json_str = convert_to_json(message, current_client->login);
                 t_list *current = users_list;
                 while (current != NULL)
@@ -277,8 +278,11 @@ void *handle_client(void *args)
                 t_list *chat_history = get_message_history(db, user_id, friend_id);
 
                 if (chat_history == NULL)
+                {
                     printf("chat empty\n");
-
+                    SSL_write(current_client->ssl, "chat empty", 11);
+                    break;
+                }
                 char *serialized_list = serialize_historylist(chat_history);
                 int result = SSL_write(current_client->ssl, serialized_list, strlen(serialized_list));
                 free(serialized_list);

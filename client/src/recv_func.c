@@ -17,6 +17,7 @@ void *recv_func()
         if (len == -1)
         {
             printf("Error receiving message\n");
+            break;
         }
         if (mx_strcmp(command, "<user_list>") == 0)
         {

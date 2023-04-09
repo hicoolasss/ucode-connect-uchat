@@ -189,15 +189,25 @@ static void on_entry_activate(GtkEntry *entry, gpointer data)
     const char *message = g_strdup(gtk_entry_buffer_get_text(text));
     // Теперь переменная text_copy содержит текст из виджета GtkEntry
     // Вы можете использовать text_copy для дальнейших действий, например, отправки сообщения
-    printf("Username: %s\n", username);
-    printf("Entry text: %s\n", message);
+    // printf("Username: %s\n", username);
+    // printf("Entry text: %s\n", message);
+    printf("%s -> %s\n", username, message);
+    cJSON *json = cJSON_CreateObject();
+    cJSON_AddStringToObject(json, "login", current_client.login);
+    cJSON_AddStringToObject(json, "command", "<send_message_to>");
+    cJSON_AddStringToObject(json, "friend", username);
+    cJSON_AddStringToObject(json, "message", message);
+    char *json_str = cJSON_Print(json);
+    cJSON_Delete(json);
+
+    send_message_to_server(json_str);
 
     // Не забудьте освободить память, выделенную для text_copy, когда она вам больше не понадобится
 }
 
 void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
 {
-
+    
     GtkWidget *child_username = gtk_widget_get_last_child(btn);
 
     const gchar *g_text = gtk_label_get_text(GTK_LABEL(child_username));
