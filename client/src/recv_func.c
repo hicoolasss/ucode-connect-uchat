@@ -117,6 +117,7 @@ void *recv_func()
                 mx_printstr(((t_chat *)current->data)->message);
                 mx_printstr(" | ");
                 mx_printstr(((t_chat *)current->data)->timestamp);
+                mx_printchar('\n');
                 current = current->next;
             }
 

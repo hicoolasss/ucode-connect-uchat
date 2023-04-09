@@ -193,7 +193,6 @@ static void on_entry_activate(GtkEntry *entry, gpointer data)
     // printf("Entry text: %s\n", message);
     printf("%s -> %s\n", username, message);
     cJSON *json = cJSON_CreateObject();
-    cJSON_AddStringToObject(json, "login", current_client.login);
     cJSON_AddStringToObject(json, "command", "<send_message_to>");
     cJSON_AddStringToObject(json, "friend", username);
     cJSON_AddStringToObject(json, "message", message);
@@ -207,12 +206,19 @@ static void on_entry_activate(GtkEntry *entry, gpointer data)
 
 void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
 {
-    
     GtkWidget *child_username = gtk_widget_get_last_child(btn);
 
     const gchar *g_text = gtk_label_get_text(GTK_LABEL(child_username));
 
     const char *text = (const char *)g_text;
+
+    cJSON *json = cJSON_CreateObject();
+    cJSON_AddStringToObject(json, "command", "<show_history>");
+    cJSON_AddStringToObject(json, "friend", text);
+    char *json_str = cJSON_Print(json);
+    cJSON_Delete(json);
+
+    send_message_to_server(json_str);
 
     GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
