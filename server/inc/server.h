@@ -35,11 +35,14 @@ typedef struct s_client {
     bool connected;
 } t_client;
 
-// typedef struct s_chat {
+typedef struct s_chat {
     
-//     char *message;
+    char *sender;
+    // char *recipient;
+    char *message;
+    char *timestamp;
 
-// } t_chat;
+} t_chat;
 
 typedef struct s_user {
     char *username;
@@ -52,7 +55,7 @@ typedef struct s_user {
 } t_user;
 
 extern t_list *users_list;
-extern t_list *user_id;
+// extern t_list *user_id;
 extern pthread_mutex_t clients_mutex;
 extern _Atomic unsigned int cli_count;
 t_client *create_new_client(const struct sockaddr_in adr, int client_fd, SSL *ssl);
@@ -82,20 +85,29 @@ int is_friend(sqlite3 *db, int user_id, int friend_id);
 int get_user_id(sqlite3 *db, const char *login);
 //получает поле айди из названия чата
 int get_group_id(sqlite3 *db, const char *chatname);
+//получение имя из поля айди
+char *get_username_by_user_id(sqlite3 *db, int user_id);
 //запись чата
 int create_chat_record(sqlite3 *db, int chat_id, int sender_id, int recipient_id, const char *message);
 //создание нового чата
 int sql_create_new_group(sqlite3 *db, const char *chatname, const char *avatarname, const char *avatarblob, int avatarsize);
+//запись одиночного чата в бд
+int sql_record_message(sqlite3 *db, char *username, char *friendname, const char *message_text);
+//запись истории чата в односвязный список
+t_list *get_message_history(sqlite3 *db, int user_id, int friend_id);
 /*функции для операций над списками и JSON*/
 
-//односвязный список в JSON
-char* serialize_list(t_list* head);
+//односвязный список имен в JSON
+char* serialize_namelist(t_list* head);
+//односвязный список чата в JSON
+char* serialize_historylist(t_list* head);
 //отправка сообщений всем клиентам кроме текущего
 void send_message_to_all_clients(char *message, int current_socket, char *login);
 //конвертация сообщения в JSON
 char *convert_to_json(char *buffer, char *login);
-//отправка односвязного списка в клиент
-int send_list(SSL *ssl, t_list *head);
+//отправка односвязного списка имен в клиент
+int send_namelist(SSL *ssl, t_list *head);
+
 
 /*generate id*/
 char *generate_uuid();

@@ -3,37 +3,22 @@ void print_message(char *login, char *message);
 
 void *recv_func()
 {
-    char temp[2048];
-    // while (main_client.connected == false)
-    // {
-    //     int len = SSL_read(current_client.ssl, temp, sizeof(temp) - 1);
-    //     if (len == -1)
-    //     {
-    //         printf("Error receiving message\n");
-    //     }
-    //     if(mx_strcmp(temp, "success\n") == 0) {
-    //         main_client.connected = true;
-    //         break;
-    //     }
-    // }
-    // mx_printint(main_client.connected);
+    char command[2048];
     while (!main_client.connected)
     {
         int i = 0;
         i++;
-        // mx_printint(main_client.connected);
-        // sleep(60);
     }
     while (main_client.connected)
     {
-        pthread_mutex_lock(&mutex1);
-        int len = SSL_read(current_client.ssl, temp, sizeof(temp) - 1);
-        pthread_mutex_unlock(&mutex1);
+        // pthread_mutex_lock(&mutex1);
+        int len = SSL_read(current_client.ssl, command, sizeof(command) - 1);
+        // pthread_mutex_unlock(&mutex1);
         if (len == -1)
         {
             printf("Error receiving message\n");
         }
-        if (mx_strcmp(temp, "<user_list>") == 0)
+        if (mx_strcmp(command, "<user_list>") == 0)
         {
 
             t_list *ccc = receive_list(current_client.ssl);
@@ -48,7 +33,7 @@ void *recv_func()
             //     free(tmp);
             // }
         }
-        else if (mx_strcmp(temp, "<friend_list>") == 0)
+        else if (mx_strcmp(command, "<friend_list>") == 0)
         {
             t_list *friend_list = receive_list(current_client.ssl);
 
@@ -70,10 +55,10 @@ void *recv_func()
                 free(tmp);
             }
         }
-        else if (mx_strcmp(temp, "<add_friend>") == 0)
+        else if (mx_strcmp(command, "<add_friend>") == 0)
         {
             char friendname[32];
-            int rec = SSL_read(current_client.ssl, friendname, sizeof(temp) - 1);
+            int rec = SSL_read(current_client.ssl, friendname, sizeof(command) - 1);
             if (rec == -1)
             {
                 printf("Error receiving message\n");
@@ -85,11 +70,16 @@ void *recv_func()
                 break;
             }
         }
-        else
+        // else if (mx_strcmp(command, "<send_message_to>") == 0)
+        // {
+        //     t_list *friend_list = receive_list(current_client.ssl);
+
+        //     t_list *current = friend_list;
+        // }
+        else if (mx_strcmp(command, "<recv_message_from>") == 0)
         {
-            // Преобразование строки в JSON-объект
-            cJSON *json_obj = cJSON_Parse(temp);
-            memset(temp, 0, sizeof(temp));
+            cJSON *json_obj = cJSON_Parse(command);
+            memset(command, 0, sizeof(command));
             if (!json_obj)
             {
                 printf("Error: Invalid JSON data received from server\n");
@@ -101,6 +91,58 @@ void *recv_func()
             print_message(login, message);
             cJSON_Delete(json_obj);
         }
+        else if (mx_strcmp(command, "<show_history>") == 0)
+        {
+            const int temp_size = 4096;
+            char temp[temp_size];
+
+            int bytes_received = SSL_read(current_client.ssl, temp, temp_size - 1);
+            if (bytes_received <= 0)
+            {
+                return NULL;
+            }
+
+            temp[bytes_received] = '\0';
+
+            t_list *chat_history = deserialize_chathistory_list(temp);
+
+            t_list *current = chat_history;
+
+            while (current)
+            {
+                // show_chats_with_added_friends(((t_user *)current->data)->username);
+                mx_printstr(((t_chat *)current->data)->sender);
+                mx_printstr(" -> ");
+                mx_printstr(((t_chat *)current->data)->message);
+                mx_printstr(" | ");
+                mx_printstr(((t_chat *)current->data)->timestamp);
+                current = current->next;
+            }
+
+            while (chat_history != NULL)
+            {
+                t_list *tmp = chat_history;
+                chat_history = chat_history->next;
+                free(tmp->data);
+                free(tmp);
+            }
+        }
+        // else
+        // {
+        //     // Преобразование строки в JSON-объект
+        //     cJSON *json_obj = cJSON_Parse(command);
+        //     memset(command, 0, sizeof(command));
+        //     if (!json_obj)
+        //     {
+        //         printf("Error: Invalid JSON data received from server\n");
+        //         break;
+        //     }
+        //     // Извлечение данных из JSON-объекта
+        //     char *login = cJSON_GetObjectItemCaseSensitive(json_obj, "name")->valuestring;
+        //     char *message = cJSON_GetObjectItemCaseSensitive(json_obj, "message")->valuestring;
+        //     print_message(login, message);
+        //     cJSON_Delete(json_obj);
+        // }
     }
     pthread_mutex_unlock(&mutex2);
     pthread_detach(pthread_self());

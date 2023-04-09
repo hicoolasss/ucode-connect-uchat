@@ -112,3 +112,34 @@ t_list *receive_list(SSL *ssl)
     temp[bytes_received] = '\0';
     return deserialize_name_list(temp);
 }
+
+t_list *deserialize_chathistory_list(const char *json_str)
+{
+    cJSON *json_list = cJSON_Parse(json_str);
+    if (json_list == NULL)
+    {
+        return NULL;
+    }
+
+    t_list *chat_history = NULL;
+
+    cJSON *json_node = NULL;
+    cJSON_ArrayForEach(json_node, json_list)
+    {
+        char *sender = cJSON_GetObjectItem(json_node, "sender")->valuestring;
+        char *message = cJSON_GetObjectItem(json_node, "message")->valuestring;
+        char *timestamp = cJSON_GetObjectItem(json_node, "timestamp")->valuestring;
+        
+        t_chat *chat = (t_chat *)malloc(sizeof(t_chat));
+        chat->sender = mx_strdup(sender);
+        chat->message = mx_strdup(message);
+        chat->timestamp = mx_strdup(timestamp);
+
+        if (chat != NULL)
+        {
+            mx_push_back(&chat_history, chat);
+        }
+    }
+    cJSON_Delete(json_list);
+    return chat_history;
+}

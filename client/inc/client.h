@@ -179,6 +179,15 @@ typedef struct s_client {
 
 } t_client;
 
+typedef struct s_chat {
+    
+    char *sender;
+    // char *recipient;
+    char *message;
+    char *timestamp;
+
+} t_chat;
+
 typedef struct s_main
 {
     char *ip;
@@ -232,6 +241,7 @@ int recv_all(SSL *sockfd, char *buf, int len);
 int send_all(SSL *sockfd, char *buf, int len);
 t_list *receive_list(SSL *ssl);
 t_list *deserialize_name_list(const char *json_str);
+t_list *deserialize_chathistory_list(const char *json_str);
 // load styles
 void loadstyles(void);
 // add style to widget

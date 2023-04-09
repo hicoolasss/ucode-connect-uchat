@@ -104,6 +104,24 @@ void sql_create_db()
         exit(rc);
     }
 
+    char sql_create_table_dialogs[] = "CREATE TABLE IF NOT EXISTS dialogs ("
+                                       "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                                       "user_id INTEGER NOT NULL,"
+                                       "friend_id TEXT NOT NULL,"
+                                       "message TEXT NOT NULL,"
+                                       "timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,"
+                                       "FOREIGN KEY(user_id) REFERENCES users(id),"
+                                       "FOREIGN KEY(friend_id) REFERENCES users(id));";
+
+    rc = sqlite3_exec(db, sql_create_table_dialogs, 0, 0, &err_msg);
+    if (rc != SQLITE_OK)
+    {
+        fprintf(stderr, "SQL error: %s\n", err_msg);
+        sqlite3_free(err_msg);
+        sqlite3_close(db);
+        exit(rc);
+    }
+
     sqlite3_close(db);
 }
 
@@ -180,4 +198,24 @@ int get_group_id(sqlite3 *db, const char *groupname)
 
     sqlite3_finalize(stmt);
     return chat_id;
+}
+
+char *get_username_by_user_id(sqlite3 *db, int user_id) {
+    sqlite3_stmt *stmt;
+    const unsigned char *name = NULL;
+    const char *sql = "SELECT username FROM users WHERE id = ?;";
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK) {
+        printf("Error SQL: %s\n", sqlite3_errmsg(db));
+        exit(0);
+    }
+
+    sqlite3_bind_int(stmt, 1, user_id);
+
+    if (sqlite3_step(stmt) == SQLITE_ROW) {
+        name = sqlite3_column_text(stmt, 0);
+        return (char *)name;
+    }
+
+    sqlite3_finalize(stmt);
+    return (char *)name;
 }
