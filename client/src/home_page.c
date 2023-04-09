@@ -30,6 +30,14 @@ void show_home(void) {
     current_grid.third_intro_screen = create_grid(586, 544, NULL);
 
 
+    cJSON *json1 = cJSON_CreateObject();
+    cJSON_AddStringToObject(json1, "login", current_client.login);
+    cJSON_AddStringToObject(json1, "command", "<friend_list>");
+
+    char *json_str1 = cJSON_Print(json1);
+    cJSON_Delete(json1);
+
+    send_message_to_server(json_str1);
     //fill all grids
     show_left_menu_bar();
     show_achievements();

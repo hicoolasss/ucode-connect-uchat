@@ -68,15 +68,6 @@ void home_clicked () {
 void chats_clicked () {
     set_unvisible_all();
 
-    cJSON *json1 = cJSON_CreateObject();
-    cJSON_AddStringToObject(json1, "login", current_client.login);
-    cJSON_AddStringToObject(json1, "command", "<friend_list>");
-
-    char *json_str1 = cJSON_Print(json1);
-    cJSON_Delete(json1);
-
-    send_message_to_server(json_str1);
-
     gtk_widget_set_visible(GTK_WIDGET(current_grid.left_menu_bar), TRUE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chats_container), TRUE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chats), FALSE);
