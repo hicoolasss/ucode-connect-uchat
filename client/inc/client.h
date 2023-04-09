@@ -179,6 +179,15 @@ typedef struct s_client {
 
 } t_client;
 
+typedef struct s_chat {
+    
+    char *sender;
+    // char *recipient;
+    char *message;
+    char *timestamp;
+
+} t_chat;
+
 typedef struct s_main
 {
     char *ip;
@@ -232,6 +241,7 @@ int recv_all(SSL *sockfd, char *buf, int len);
 int send_all(SSL *sockfd, char *buf, int len);
 t_list *receive_list(SSL *ssl);
 t_list *deserialize_name_list(const char *json_str);
+t_list *deserialize_chathistory_list(const char *json_str);
 // load styles
 void loadstyles(void);
 // add style to widget
@@ -308,7 +318,7 @@ GtkWidget *create_grid( const gint width,
                         const gint height,
                         const char *style );
 
-void call_new_chat_and_add_iter(const char *new_username);
+void call_new_chat_and_add_iter();
 void search_btn_clicked_chat(void);
 void search_btn_clicked_group(void);
 

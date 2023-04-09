@@ -33,25 +33,6 @@ void get_scaled_image() {
     
 }
 
-static void draw_round_mask(cairo_t *cr, double x, double y, double radius) {
-   cairo_new_path(cr);
-   cairo_arc(cr, x + radius, y + radius, radius, 0, 2 * M_PI);
-   cairo_close_path(cr);
-}
-
-static void draw_image(GtkDrawingArea *area,
-              cairo_t        *cr,
-              int             width,
-              int             height,
-              gpointer        data) {
-
-   cairo_surface_t *image_surface = (cairo_surface_t *)data;
-   cairo_surface_t *mask_surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, width, height);
-   draw_round_mask(cr, 0, 0, width/2);
-   cairo_set_source_surface(cr, image_surface, 0, 0);
-   cairo_mask_surface(cr, mask_surface, 0, 0);
-   cairo_paint(cr);
-}
 
 void your_profile_clicked () {
     set_unvisible_all();
@@ -92,7 +73,7 @@ void log_out_clicked () {
 
 void show_left_menu_bar() {
 
-    current_avatar.avatar = gdk_pixbuf_new_from_file("/home/criops/ucode-connect-uchat/avatar1.png", NULL);
+    current_avatar.avatar = gdk_pixbuf_new_from_file("avatar1.png", NULL);
 
     get_scaled_image();
 

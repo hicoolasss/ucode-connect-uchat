@@ -1,18 +1,36 @@
 #include "../inc/server.h"
 
-int send_list(SSL *ssl, t_list *head) {
-    char *serialized_list = serialize_list(head);
+int send_namelist(SSL *ssl, t_list *head) {
+    char *serialized_list = serialize_namelist(head);
     int result = SSL_write(ssl, serialized_list, strlen(serialized_list));
     free(serialized_list);
     return result;
 }
 
-char* serialize_list(t_list* head) {
+char* serialize_namelist(t_list* head) {
     cJSON *json_list = cJSON_CreateArray();
     
     while (head != NULL) {
         cJSON *json_node = cJSON_CreateObject();
         cJSON_AddStringToObject(json_node, "name", ((t_user *)head->data)->username);
+        cJSON_AddItemToArray(json_list, json_node);
+        head = head->next;
+    }
+    
+    char *serialized_list = cJSON_Print(json_list);
+    cJSON_Delete(json_list);
+    return serialized_list;
+}
+
+char* serialize_historylist(t_list* head) {
+    cJSON *json_list = cJSON_CreateArray();
+    
+    while (head != NULL) {
+        cJSON *json_node = cJSON_CreateObject();
+        cJSON_AddStringToObject(json_node, "sender", ((t_chat *)head->data)->sender);
+        // cJSON_AddStringToObject(json_node, "recipient", ((t_chat *)head->data)->recipient);
+        cJSON_AddStringToObject(json_node, "message", ((t_chat *)head->data)->message);
+        cJSON_AddStringToObject(json_node, "timestamp", ((t_chat *)head->data)->timestamp);
         cJSON_AddItemToArray(json_list, json_node);
         head = head->next;
     }
@@ -46,7 +64,6 @@ char *convert_to_json(char *buffer, char *login)
 {
     cJSON *json = cJSON_CreateObject();
     cJSON_AddStringToObject(json, "name", login);
-    // cJSON_AddStringToObject(json, "password", cur_client.passwd);
     cJSON_AddStringToObject(json, "message", buffer);
 
     char *json_str = cJSON_Print(json);

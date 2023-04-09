@@ -3,7 +3,7 @@
 t_list *users_list;
 pthread_mutex_t clients_mutex;
 _Atomic unsigned int cli_count;
-t_list *user_id;
+// t_list *user_id;
 int main(int argc, char **argv) {
     if (argc != 2)
 	{

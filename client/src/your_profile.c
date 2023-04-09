@@ -61,7 +61,7 @@ void on_open_response(GtkDialog *dialog, int response)
   gtk_window_destroy(GTK_WINDOW(dialog));
 }
 
-void choose_profile_avatar_btn_clicked(GtkButton *button)
+void choose_profile_avatar_btn_clicked()
 {
   GtkWidget *dialog;
   GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;

@@ -25,7 +25,7 @@ extern t_grid current_grid;
 //
 //}
 
-void call_new_chat_and_add_iter(const gchar *const new_username){
+void call_new_chat_and_add_iter() {
     // create_new_chat(current_grid.chat_pos_count,
     //                 new_username);
 
