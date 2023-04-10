@@ -226,9 +226,11 @@ typedef struct s_your_profile_avatar {
 } t_your_profile_avatar;
 extern t_client current_client;
 extern t_main main_client;
+extern t_list *user_list;
+extern t_list *friend_list;
 // extern pthread_mutex_t cl_mutex;
-extern pthread_mutex_t mutex1;
-extern pthread_mutex_t mutex2;
+// extern pthread_mutex_t mutex1;
+// extern pthread_mutex_t mutex2;
 extern _Atomic bool registered;
 
 void load_custom_font(const char* font_path, GtkWidget* widget);
@@ -330,10 +332,10 @@ void search_btn_clicked_group(void);
 
 void get_scaled_image();
 
-void show_create_new_chat_with_someone(t_list *ccc);
+void show_create_new_chat_with_someone();
 void show_empty_chat();
 
-void show_chats_with_added_friends(const char *username1);
+void show_chats_with_added_friends();
 
-void show_chat_history(t_list *current);
+void show_chat_history(t_list *chat_history);
 

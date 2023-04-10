@@ -5,6 +5,10 @@ t_main main_client;
 t_client current_client;
 t_grid current_grid;
 pthread_mutex_t cl_mutex;
+
+t_list *user_list;
+t_list *friend_list;
+
 _Atomic bool registered;
 pthread_mutex_t mutex1 = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t mutex2 = PTHREAD_MUTEX_INITIALIZER;
@@ -152,10 +156,10 @@ int main(int argc, char **argv)
     GtkApplication *app;
     int stat = 0;
 
-    pthread_t rec_th;
-    pthread_mutex_init(&mutex1, NULL);
-    pthread_mutex_init(&mutex2, NULL);
-    pthread_create(&rec_th, NULL, recv_func, &current_client.serv_fd);
+    // pthread_t rec_th;
+    // pthread_mutex_init(&mutex1, NULL);
+    // pthread_mutex_init(&mutex2, NULL);
+    // pthread_create(&rec_th, NULL, recv_func, &current_client.serv_fd);
 
     app = gtk_application_new("com.github.darkchat", G_APPLICATION_DEFAULT_FLAGS);
     g_signal_connect(app, "activate", G_CALLBACK(app_activate), NULL);
@@ -168,5 +172,21 @@ int main(int argc, char **argv)
     SSL_CTX_free(ctx);
     close(server_fd);
     // pthread_exit(NULL);
+
+    while (friend_list != NULL)
+    {
+        t_list *tmp = friend_list;
+        friend_list = friend_list->next;
+        free(tmp->data);
+        free(tmp);
+    }
+
+    while (user_list != NULL)
+    {
+        t_list *tmp = user_list;
+        user_list = user_list->next;
+        free(tmp->data);
+        free(tmp);
+    }
     return stat;
 }

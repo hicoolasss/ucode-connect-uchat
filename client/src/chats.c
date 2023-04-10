@@ -42,7 +42,9 @@ static void create_new_chat_clicked() {
     cJSON_Delete(json);
 
     send_message_to_server(json_str);
-    
+
+    user_list = receive_list(current_client.ssl);
+
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chats), TRUE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.empty_chat), FALSE);
     // gtk_entry_set_activates_default(GTK_ENTRY(current_grid.entry_for_search), TRUE);

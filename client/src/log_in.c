@@ -83,7 +83,6 @@ static int get_username_status(void)
 
 static void log_in_btn_clicked(GtkWidget *widget, gpointer data)
 {
-    pthread_mutex_lock(&mutex1);
     bool is_log_in_success = true;
 
     current_grid.is_log_in_clicked = TRUE;
@@ -189,7 +188,6 @@ static void log_in_btn_clicked(GtkWidget *widget, gpointer data)
         main_client.connected = true;
         set_unvisible_auth();
         show_home();
-        pthread_mutex_unlock(&mutex1);
     }
 
     // char *json_str;

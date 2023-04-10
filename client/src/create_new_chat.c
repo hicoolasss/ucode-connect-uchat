@@ -12,10 +12,6 @@ GtkWidget *checkbox_btn;
 int count = 0;
 int temp_count = 0;
 
-t_list *user_list;
-t_list *friend_list;
-
-
 static void get_scaled_image_chats()
 {
 
@@ -253,11 +249,11 @@ void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
     widget_styling(entry, current_screen, "empty_chat_label");
 }
 
-void show_chats_with_added_friends(const char *username1)
+void show_chats_with_added_friends()
 {
     GtkWidget *user_box_btn1 = gtk_button_new();
 
-    GtkWidget *username = gtk_label_new(username1);
+    GtkWidget *username = gtk_label_new(((t_user *)friend_list->data)->username);
 
     gtk_button_set_child(GTK_BUTTON(user_box_btn1), username);
 
@@ -275,7 +271,7 @@ void show_chats_with_added_friends(const char *username1)
     gtk_grid_attach(GTK_GRID(current_grid.chats_list_grid_child), user_box_btn1, 0, count, 1, 1);
     count++;
 
-    gpointer username_copy = (gpointer)username1;
+    gpointer username_copy = (gpointer)((t_user *)friend_list->data)->username;
 
     //g_print("%s\n", (const char *)username_copy);
 
@@ -286,9 +282,9 @@ void show_chats_with_added_friends(const char *username1)
     //g_free(username_copy);
 }
 
-void show_create_new_chat_with_someone(t_list *user_list_temp)
+void show_create_new_chat_with_someone()
 {
-    user_list = user_list_temp;
+    // user_list = user_list_temp;
 
     user_list_grid = create_grid(451, 227, "mini_chats");
 

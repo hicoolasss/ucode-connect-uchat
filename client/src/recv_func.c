@@ -19,43 +19,43 @@ void *recv_func()
             printf("Error receiving message\n");
             break;
         }
-        if (mx_strcmp(command, "<user_list>") == 0)
-        {
+        // if (mx_strcmp(command, "<user_list>") == 0)
+        // {
 
-            t_list *ccc = receive_list(current_client.ssl);
+        //     t_list *ccc = receive_list(current_client.ssl);
 
-            show_create_new_chat_with_someone(ccc);
+        //  show_create_new_chat_with_someone(ccc);
 
-            // while (ccc != NULL)
-            // {
-            //     t_list *tmp = ccc;
-            //     ccc = ccc->next;
-            //     free(tmp->data);
-            //     free(tmp);
-            // }
-        }
-        else if (mx_strcmp(command, "<friend_list>") == 0)
-        {
-            t_list *friend_list = receive_list(current_client.ssl);
+        //     // while (ccc != NULL)
+        //     // {
+        //     //     t_list *tmp = ccc;
+        //     //     ccc = ccc->next;
+        //     //     free(tmp->data);
+        //     //     free(tmp);
+        //     // }
+        // }
+        // else if (mx_strcmp(command, "<friend_list>") == 0)
+        // {
+        //     t_list *friend_list = receive_list(current_client.ssl);
 
-            t_list *current = friend_list;
+        //     t_list *current = friend_list;
 
-            while (current)
-            {
-                show_chats_with_added_friends(((t_user *)current->data)->username);
-                mx_printstr(((t_user *)current->data)->username);
-                mx_printstr("\n");
-                current = current->next;
-            }
+        //     while (current)
+        //     {
+        //         show_chats_with_added_friends(((t_user *)current->data)->username);
+        //         mx_printstr(((t_user *)current->data)->username);
+        //         mx_printstr("\n");
+        //         current = current->next;
+        //     }
 
-            while (friend_list != NULL)
-            {
-                t_list *tmp = friend_list;
-                friend_list = friend_list->next;
-                free(tmp->data);
-                free(tmp);
-            }
-        }
+        //     while (friend_list != NULL)
+        //     {
+        //         t_list *tmp = friend_list;
+        //         friend_list = friend_list->next;
+        //         free(tmp->data);
+        //         free(tmp);
+        //     }
+        // }
         else if (mx_strcmp(command, "<add_friend>") == 0)
         {
             char friendname[32];
@@ -111,23 +111,7 @@ void *recv_func()
             
             t_list *chat_history = deserialize_chathistory_list(temp);
 
-            t_list *current = chat_history;
-
-
-            while (current)
-            {
-                // show_chats_with_friends(((t_user *)current->data)->username);
-                show_chat_history(current);
-                // mx_printstr(mx_itoa(((t_chat *)current->data)->id));
-                // mx_printstr(" | ");
-                // mx_printstr(((t_chat *)current->data)->sender);
-                // mx_printstr(" -> ");
-                // mx_printstr(((t_chat *)current->data)->message);
-                // mx_printstr(" | ");
-                // mx_printstr(((t_chat *)current->data)->timestamp);
-                // mx_printchar('\n');
-                current = current->next;
-            }
+            show_chat_history(chat_history);
 
             while (chat_history != NULL)
             {
@@ -154,7 +138,7 @@ void *recv_func()
         //     cJSON_Delete(json_obj);
         // }
     }
-    pthread_mutex_unlock(&mutex2);
+    // pthread_mutex_unlock(&mutex2);
     pthread_detach(pthread_self());
     return NULL;
 }
