@@ -334,3 +334,5 @@ void show_empty_chat();
 
 void show_chats_with_added_friends(const char *username1);
 
+void show_chat_history(t_list *current, int pos);
+

@@ -38,6 +38,7 @@ void show_home(void) {
     cJSON_Delete(json1);
 
     send_message_to_server(json_str1);
+
     //fill all grids
     show_left_menu_bar();
     show_achievements();

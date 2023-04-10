@@ -206,6 +206,11 @@ static void on_entry_activate(GtkEntry *entry, gpointer data)
 
 void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
 {
+
+    GtkWidget *child = gtk_widget_get_last_child(current_grid.empty_chat);
+
+    gtk_widget_unparent(child);
+
     GtkWidget *child_username = gtk_widget_get_last_child(btn);
 
     const gchar *g_text = gtk_label_get_text(GTK_LABEL(child_username));
@@ -224,29 +229,21 @@ void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
 
     GtkWidget *entry = gtk_entry_new();
 
-    GtkWidget *label = gtk_label_new(text);
-
     gtk_entry_set_placeholder_text(GTK_ENTRY(entry), "ti pidor");
 
     gtk_box_append(GTK_BOX(box), entry);
-    gtk_box_append(GTK_BOX(box), label);
 
     gtk_widget_set_margin_start(entry, 17);
     gtk_widget_set_margin_end(entry, 17);
     gtk_widget_set_margin_top(entry, 14);
     gtk_widget_set_margin_bottom(entry, 14);
 
-    gtk_widget_set_margin_start(label, 17);
-    gtk_widget_set_margin_end(label, 17);
-    gtk_widget_set_margin_top(label, 14);
-    gtk_widget_set_margin_bottom(label, 14);
+    gtk_widget_set_margin_start(box, 26);
+    gtk_widget_set_margin_end(box, 55);
+    gtk_widget_set_margin_top(box, 613);
+    gtk_widget_set_margin_bottom(box, 14);
 
-    gtk_widget_set_margin_start(box, 179);
-    gtk_widget_set_margin_end(box, 178);
-    gtk_widget_set_margin_top(box, 317);
-    gtk_widget_set_margin_bottom(box, 316);
-
-    gtk_widget_set_size_request(box, 200, 36);
+    gtk_widget_set_size_request(box, 452, 40);
 
     gtk_grid_attach(GTK_GRID(current_grid.empty_chat), box, 0, 0, 1, 1);
 
@@ -258,7 +255,6 @@ void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
 
 void show_chats_with_added_friends(const char *username1)
 {
-
     GtkWidget *user_box_btn1 = gtk_button_new();
 
     GtkWidget *username = gtk_label_new(username1);

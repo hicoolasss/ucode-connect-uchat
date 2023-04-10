@@ -109,6 +109,7 @@ void *recv_func()
 
             t_list *current = chat_history;
 
+
             while (current)
             {
                 // show_chats_with_added_friends(((t_user *)current->data)->username);
