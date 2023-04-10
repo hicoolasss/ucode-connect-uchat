@@ -3,6 +3,9 @@
 extern t_screen current_screen;
 extern t_grid current_grid;
 
+t_list *friend_list;
+t_list *user_list;
+
 void show_home(void)
 {
     // main box
@@ -39,7 +42,24 @@ void show_home(void)
 
     send_message_to_server(json_str1);
 
-    friend_list = receive_list(current_client.ssl);
+    while (!friend_list)
+    {
+        friend_list = receive_list(current_client.ssl);
+    }
+
+    cJSON *json = cJSON_CreateObject();
+    cJSON_AddStringToObject(json, "login", current_client.login);
+    cJSON_AddStringToObject(json, "command", "<user_list>");
+
+    char *json_str = cJSON_Print(json);
+    cJSON_Delete(json);
+
+    send_message_to_server(json_str);
+
+    while(user_list == NULL) {
+        user_list = receive_list(current_client.ssl);
+    }
+
     // fill all grids
     show_left_menu_bar();
     show_achievements();
@@ -50,7 +70,7 @@ void show_home(void)
     show_mini_groups();
     show_mini_chats();
     show_empty_chat();
-    // show_create_new_chat_with_someone();
+    show_create_new_chat_with_someone();
 
     // fill intro grids
     //  first_intro_screen();

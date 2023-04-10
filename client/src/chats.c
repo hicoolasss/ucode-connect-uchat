@@ -2,7 +2,6 @@
 
 extern t_screen current_screen;
 extern t_grid current_grid;
-
 //static void send_message(GtkEntry *message_entry) {
 //
 //        GtkEntryBuffer *buffer = gtk_entry_get_buffer(message_entry);
@@ -34,16 +33,20 @@ void call_new_chat_and_add_iter() {
 
 static void create_new_chat_clicked() {
 
-    cJSON *json = cJSON_CreateObject();
-    cJSON_AddStringToObject(json, "login", current_client.login);
-    cJSON_AddStringToObject(json, "command", "<user_list>");
+    // cJSON *json = cJSON_CreateObject();
+    // cJSON_AddStringToObject(json, "login", current_client.login);
+    // cJSON_AddStringToObject(json, "command", "<user_list>");
 
-    char *json_str = cJSON_Print(json);
-    cJSON_Delete(json);
+    // char *json_str = cJSON_Print(json);
+    // cJSON_Delete(json);
 
-    send_message_to_server(json_str);
+    // send_message_to_server(json_str);
 
-    user_list = receive_list(current_client.ssl);
+    // while(user_list == NULL) {
+    //     user_list = receive_list(current_client.ssl);
+    // }
+
+    // mx_printstr(((t_user*)user_list->data)->username);
 
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chats), TRUE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.empty_chat), FALSE);

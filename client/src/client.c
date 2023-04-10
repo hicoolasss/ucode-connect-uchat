@@ -1,13 +1,10 @@
 #include "../inc/client.h"
-
+extern t_list *user_list;
 t_screen current_screen;
 t_main main_client;
 t_client current_client;
 t_grid current_grid;
 pthread_mutex_t cl_mutex;
-
-t_list *user_list;
-t_list *friend_list;
 
 _Atomic bool registered;
 pthread_mutex_t mutex1 = PTHREAD_MUTEX_INITIALIZER;

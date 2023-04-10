@@ -226,8 +226,8 @@ typedef struct s_your_profile_avatar {
 } t_your_profile_avatar;
 extern t_client current_client;
 extern t_main main_client;
-extern t_list *user_list;
 extern t_list *friend_list;
+extern t_list *user_list;
 // extern pthread_mutex_t cl_mutex;
 // extern pthread_mutex_t mutex1;
 // extern pthread_mutex_t mutex2;
