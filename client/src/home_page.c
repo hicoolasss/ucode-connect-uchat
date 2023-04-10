@@ -3,16 +3,17 @@
 extern t_screen current_screen;
 extern t_grid current_grid;
 
-void show_home(void) {
-    //main box
-//    current_grid.main_grid = create_grid(1200, 760, NULL);
+void show_home(void)
+{
+    // main box
+    //    current_grid.main_grid = create_grid(1200, 760, NULL);
     current_grid.intro_grid = create_grid(1200, 760, NULL);
 
-    //help containers
+    // help containers
     current_grid.chats_container = create_grid(1010, 667, "chats_container");
     current_grid.three_rows_container = create_grid(427, 667, NULL);
 
-    //the children of the main grid
+    // the children of the main grid
     current_grid.left_menu_bar = create_grid(124, 667, "left_menu_bar");
     current_grid.your_profile = create_grid(1010, 667, "home");
     current_grid.home = create_grid(1010, 667, "home");
@@ -24,11 +25,10 @@ void show_home(void) {
     current_grid.settings = create_grid(1010, 667, "settings_main_grid");
     current_grid.achievements = create_grid(1010, 667, "achievements_grid");
 
-    //the children of the intro main grid
+    // the children of the intro main grid
     current_grid.first_intro_screen = create_grid(1200, 760, "intro_main_box");
     current_grid.second_intro_screen = create_grid(1200, 760, "intro_flash_light");
     current_grid.third_intro_screen = create_grid(586, 544, NULL);
-
 
     cJSON *json1 = cJSON_CreateObject();
     cJSON_AddStringToObject(json1, "login", current_client.login);
@@ -38,7 +38,19 @@ void show_home(void) {
     cJSON_Delete(json1);
 
     send_message_to_server(json_str1);
-    //fill all grids
+
+    // while (friend_list != NULL)
+    // {
+    //     cJSON *json = cJSON_CreateObject();
+    //     cJSON_AddStringToObject(json, "command", "<show_history>");
+    //     cJSON_AddStringToObject(json, "friend", friend_list->username);
+    //     char *json_str = cJSON_Print(json);
+    //     cJSON_Delete(json);
+
+    //     send_message_to_server(json_str);
+    // }
+
+    // fill all grids
     show_left_menu_bar();
     show_achievements();
     show_your_profile();
@@ -48,12 +60,12 @@ void show_home(void) {
     show_mini_groups();
     show_mini_chats();
     show_empty_chat();
-    //show_create_new_chat_with_someone();
+    // show_create_new_chat_with_someone();
 
-    //fill intro grids
-    // first_intro_screen();
-    // second_intro_screen();
-    // third_intro_screen();
+    // fill intro grids
+    //  first_intro_screen();
+    //  second_intro_screen();
+    //  third_intro_screen();
 
     // //create the structure of the intro screen
     // gtk_grid_attach(GTK_GRID(current_grid.main_grid), current_grid.intro_grid, 0, 0, 1, 1);
@@ -61,7 +73,7 @@ void show_home(void) {
     // gtk_grid_attach(GTK_GRID(current_grid.intro_grid), current_grid.second_intro_screen, 0, 0, 1, 1);
     // gtk_grid_attach(GTK_GRID(current_grid.intro_grid), current_grid.third_intro_screen, 0, 0, 1, 1);
 
-    //create the structure of chat main screen
+    // create the structure of chat main screen
     gtk_grid_attach(GTK_GRID(current_grid.main_grid), current_grid.left_menu_bar, 0, 0, 1, 1);
 
     gtk_grid_attach(GTK_GRID(current_grid.main_grid), current_grid.chats_container, 1, 0, 1, 1);
@@ -80,30 +92,34 @@ void show_home(void) {
     gtk_grid_attach(GTK_GRID(current_grid.main_grid), current_grid.settings, 1, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(current_grid.main_grid), current_grid.achievements, 1, 0, 1, 1);
 
-    //gtk_widget_set_margin_start(current_grid.home, 23);
+    // gtk_widget_set_margin_start(current_grid.home, 23);
     gtk_widget_set_margin_end(current_grid.home, 21);
 
-    //set unvisible all
+    // set unvisible all
     set_unvisible_all();
-    //show intro
-    if(current_grid.is_log_in_clicked){
-        //gtk_widget_set_visible(GTK_WIDGET(current_grid.intro_grid), TRUE);
-        //set_first_intro_screen_visible();
+    // show intro
+    if (current_grid.is_log_in_clicked)
+    {
+        // gtk_widget_set_visible(GTK_WIDGET(current_grid.intro_grid), TRUE);
+        // set_first_intro_screen_visible();
         gtk_widget_set_visible(GTK_WIDGET(current_grid.left_menu_bar), TRUE);
         gtk_widget_set_visible(GTK_WIDGET(current_grid.home), TRUE);
-    } else {
+    }
+    else
+    {
         // gtk_widget_set_visible(GTK_WIDGET(current_grid.left_menu_bar), TRUE);
         // gtk_widget_set_visible(GTK_WIDGET(current_grid.home), TRUE);
     }
 
-//    //by default at first show home grid
-//    gtk_widget_set_visible(GTK_WIDGET(current_grid.home), TRUE);
+    //    //by default at first show home grid
+    //    gtk_widget_set_visible(GTK_WIDGET(current_grid.home), TRUE);
 
-    //set main grid as a chlid to a widow
+    // set main grid as a chlid to a widow
     gtk_window_set_child(GTK_WINDOW(current_screen.screen), current_grid.main_grid);
 }
 
-void set_unvisible_all() {
+void set_unvisible_all()
+{
     gtk_widget_set_visible(GTK_WIDGET(current_grid.log_in_conrainer), FALSE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.registration_container), FALSE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.intro_grid), FALSE);

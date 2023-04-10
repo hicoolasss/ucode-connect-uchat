@@ -281,7 +281,7 @@ void *handle_client(void *args)
                 {
                     printf("chat empty\n");
                     SSL_write(current_client->ssl, "chat empty", 11);
-                    break;
+                    continue;
                 }
                 char *serialized_list = serialize_historylist(chat_history);
                 int result = SSL_write(current_client->ssl, serialized_list, strlen(serialized_list));

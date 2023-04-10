@@ -195,6 +195,7 @@ int sql_create_new_group(sqlite3 *db, const char *groupname, const char *avatarn
             return rc;
         }
     }
+    sqlite3_finalize(stmt);
     return SQLITE_OK;
 }
 

@@ -105,13 +105,17 @@ void *recv_func()
 
             temp[bytes_received] = '\0';
 
+            if (mx_strcmp(temp, "<chat empty>") == 0) {
+                continue;
+            }
+            
             t_list *chat_history = deserialize_chathistory_list(temp);
 
             t_list *current = chat_history;
 
             while (current)
             {
-                // show_chats_with_added_friends(((t_user *)current->data)->username);
+                // show_chats_with_friends(((t_user *)current->data)->username);
                 mx_printstr(((t_chat *)current->data)->sender);
                 mx_printstr(" -> ");
                 mx_printstr(((t_chat *)current->data)->message);
