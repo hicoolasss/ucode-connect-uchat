@@ -37,6 +37,7 @@ typedef struct s_client {
 
 typedef struct s_chat {
     
+    int id;
     char *sender;
     // char *recipient;
     char *message;

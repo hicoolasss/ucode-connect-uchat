@@ -113,15 +113,19 @@ void *recv_func()
 
             t_list *current = chat_history;
 
+
             while (current)
             {
                 // show_chats_with_friends(((t_user *)current->data)->username);
-                mx_printstr(((t_chat *)current->data)->sender);
-                mx_printstr(" -> ");
-                mx_printstr(((t_chat *)current->data)->message);
-                mx_printstr(" | ");
-                mx_printstr(((t_chat *)current->data)->timestamp);
-                mx_printchar('\n');
+                show_chat_history(current);
+                // mx_printstr(mx_itoa(((t_chat *)current->data)->id));
+                // mx_printstr(" | ");
+                // mx_printstr(((t_chat *)current->data)->sender);
+                // mx_printstr(" -> ");
+                // mx_printstr(((t_chat *)current->data)->message);
+                // mx_printstr(" | ");
+                // mx_printstr(((t_chat *)current->data)->timestamp);
+                // mx_printchar('\n');
                 current = current->next;
             }
 

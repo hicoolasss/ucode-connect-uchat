@@ -27,6 +27,7 @@ char* serialize_historylist(t_list* head) {
     
     while (head != NULL) {
         cJSON *json_node = cJSON_CreateObject();
+        cJSON_AddNumberToObject(json_node, "message_id", ((t_chat *)head->data)->id);
         cJSON_AddStringToObject(json_node, "sender", ((t_chat *)head->data)->sender);
         // cJSON_AddStringToObject(json_node, "recipient", ((t_chat *)head->data)->recipient);
         cJSON_AddStringToObject(json_node, "message", ((t_chat *)head->data)->message);

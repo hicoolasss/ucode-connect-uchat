@@ -39,17 +39,6 @@ void show_home(void)
 
     send_message_to_server(json_str1);
 
-    // while (friend_list != NULL)
-    // {
-    //     cJSON *json = cJSON_CreateObject();
-    //     cJSON_AddStringToObject(json, "command", "<show_history>");
-    //     cJSON_AddStringToObject(json, "friend", friend_list->username);
-    //     char *json_str = cJSON_Print(json);
-    //     cJSON_Delete(json);
-
-    //     send_message_to_server(json_str);
-    // }
-
     // fill all grids
     show_left_menu_bar();
     show_achievements();

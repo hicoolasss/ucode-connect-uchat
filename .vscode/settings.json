@@ -20,7 +20,9 @@
         "string": "c",
         "string_view": "c",
         "jansson.h": "c",
-        "curl.h": "c"
+        "curl.h": "c",
+        "ranges": "c",
+        "span": "c"
     },
     "editor.formatOnSave": true,
     "editor.formatOnSaveTimeout": 1500

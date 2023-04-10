@@ -126,11 +126,13 @@ t_list *deserialize_chathistory_list(const char *json_str)
     cJSON *json_node = NULL;
     cJSON_ArrayForEach(json_node, json_list)
     {
+        int message_id = cJSON_GetObjectItem(json_node, "message_id")->valueint;
         char *sender = cJSON_GetObjectItem(json_node, "sender")->valuestring;
         char *message = cJSON_GetObjectItem(json_node, "message")->valuestring;
         char *timestamp = cJSON_GetObjectItem(json_node, "timestamp")->valuestring;
         
         t_chat *chat = (t_chat *)malloc(sizeof(t_chat));
+        chat->id = message_id;
         chat->sender = mx_strdup(sender);
         chat->message = mx_strdup(message);
         chat->timestamp = mx_strdup(timestamp);

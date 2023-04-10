@@ -82,7 +82,7 @@ t_list *get_friends(sqlite3 *db, int user_id)
 
 t_list *get_message_history(sqlite3 *db, int user_id, int friend_id) {
     sqlite3_stmt *stmt;
-    const char *sql = "SELECT user_id, message, timestamp FROM dialogs WHERE (user_id = ? AND friend_id = ?) OR (user_id = ? AND friend_id = ?) ORDER BY timestamp;";
+    const char *sql = "SELECT user_id, message, timestamp, id FROM dialogs WHERE (user_id = ? AND friend_id = ?) OR (user_id = ? AND friend_id = ?) ORDER BY timestamp;";
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK) {
         printf("Ошибка подготовки SQL: %s\n", sqlite3_errmsg(db));
@@ -99,8 +99,10 @@ t_list *get_message_history(sqlite3 *db, int user_id, int friend_id) {
         char *sender = get_username_by_user_id(db, sender_id);
         const unsigned char *text = sqlite3_column_text(stmt, 1);
         const unsigned char *timestamp = sqlite3_column_text(stmt, 2);
+        int message_id = sqlite3_column_int(stmt, 3);
         
         t_chat *chat_record = (t_chat*)malloc(sizeof(t_chat));
+        chat_record->id = message_id;
         chat_record->sender = mx_strdup(sender);
         chat_record->message = mx_strdup((const char *)text);
         chat_record->timestamp = mx_strdup((const char *)timestamp);

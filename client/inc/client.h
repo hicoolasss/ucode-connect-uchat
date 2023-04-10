@@ -181,6 +181,7 @@ typedef struct s_client {
 
 typedef struct s_chat {
     
+    int id;
     char *sender;
     // char *recipient;
     char *message;
@@ -333,4 +334,6 @@ void show_create_new_chat_with_someone(t_list *ccc);
 void show_empty_chat();
 
 void show_chats_with_added_friends(const char *username1);
+
+void show_chat_history(t_list *current);
 
