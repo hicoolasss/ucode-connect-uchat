@@ -11,6 +11,8 @@ GtkWidget *checkbox_btn;
 
 int count = 0;
 int temp_count = 0;
+
+t_list *chat_history;
 static void get_scaled_image_chats()
 {
 
@@ -50,18 +52,6 @@ void create_new_chat(GtkToggleButton *toggle_button, gpointer user_data)
     cJSON_Delete(json);
 
     send_message_to_server(json_str);
-
-    // int command = SSL_write(current_client.ssl, ((t_user *)user_data)->username, mx_strlen(((t_user *)user_data)->username));
-
-    // if (command < 0)
-    // {
-    //     return;
-    // }
-    // else
-    // {
-    //     mx_printstr(((t_user *)user_data)->username);
-    //     mx_printchar('\n');
-    // }
 
     GtkWidget *user_info_box_temp = gtk_widget_get_parent(GTK_WIDGET(toggle_button));
 
@@ -201,6 +191,8 @@ static void on_entry_activate(GtkEntry *entry, gpointer data)
 void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
 {
 
+    int last_child = 0;
+
     GtkWidget *child = gtk_widget_get_last_child(current_grid.empty_chat);
 
     gtk_widget_unparent(child);
@@ -218,6 +210,57 @@ void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
     cJSON_Delete(json);
 
     send_message_to_server(json_str);
+
+    while (chat_history != NULL)
+    {
+        const int temp_size = 4096;
+        char temp[temp_size];
+
+        int bytes_received = SSL_read(current_client.ssl, temp, temp_size - 1);
+        if (bytes_received <= 0)
+        {
+            break;
+        }
+
+        temp[bytes_received] = '\0';
+
+        if (mx_strcmp(temp, "<chat empty>") == 0)
+        {
+            break;
+        }
+
+        t_list *chat_history = deserialize_chathistory_list(temp);
+    }
+
+    t_list *current = chat_history;
+
+    if (!chat_history) {
+        exit(-1);
+    }
+
+    while (current) {
+
+        const char *s_msg = ((t_chat *)current->data)->message;
+
+        GtkWidget *sent_msg = gtk_label_new(s_msg);
+
+        printf("aaa: %s\n", s_msg);
+
+        gtk_widget_set_halign(sent_msg, GTK_ALIGN_END);
+
+        gtk_widget_set_size_request(sent_msg, 365, 40);
+
+        int pos = ((t_chat *)current->data)->id;
+
+        gtk_grid_attach(GTK_GRID(current_grid.empty_chat), sent_msg, 0, pos, 1, 1);
+
+        current = current->next;
+
+        last_child++;
+
+    }
+
+
 
     GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
@@ -239,7 +282,7 @@ void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
 
     gtk_widget_set_size_request(box, 452, 40);
 
-    gtk_grid_attach(GTK_GRID(current_grid.empty_chat), box, 0, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(current_grid.empty_chat), box, 0, 0, last_child + 1, 1);
 
     g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate), username_copy);
 
