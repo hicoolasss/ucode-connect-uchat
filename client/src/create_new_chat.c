@@ -12,7 +12,6 @@ GtkWidget *checkbox_btn;
 int count = 0;
 int temp_count = 0;
 
-t_list *chat_history;
 static void get_scaled_image_chats()
 {
 
@@ -190,7 +189,9 @@ static void on_entry_activate(GtkEntry *entry, gpointer data)
 
 void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
 {
-
+    t_list *chat_history = NULL;
+    const int temp_size = 4096;
+    char temp[temp_size];
     int last_child = 0;
 
     GtkWidget *child = gtk_widget_get_last_child(current_grid.empty_chat);
@@ -211,11 +212,8 @@ void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
 
     send_message_to_server(json_str);
 
-    while (chat_history != NULL)
+    while (!chat_history)
     {
-        const int temp_size = 4096;
-        char temp[temp_size];
-
         int bytes_received = SSL_read(current_client.ssl, temp, temp_size - 1);
         if (bytes_received <= 0)
         {
@@ -229,16 +227,13 @@ void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
             break;
         }
 
-        t_list *chat_history = deserialize_chathistory_list(temp);
+        chat_history = deserialize_chathistory_list(temp);
     }
 
     t_list *current = chat_history;
 
-    if (!chat_history) {
-        exit(-1);
-    }
-
-    while (current) {
+    while (current)
+    {
 
         const char *s_msg = ((t_chat *)current->data)->message;
 
@@ -257,10 +252,7 @@ void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
         current = current->next;
 
         last_child++;
-
     }
-
-
 
     GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 

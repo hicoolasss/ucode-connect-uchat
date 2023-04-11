@@ -92,35 +92,35 @@ void *recv_func()
             print_message(login, message);
             cJSON_Delete(json_obj);
         }
-        else if (mx_strcmp(command, "<show_history>") == 0)
-        {
-            const int temp_size = 4096;
-            char temp[temp_size];
+        // else if (mx_strcmp(command, "<show_history>") == 0)
+        // {
+        //     const int temp_size = 4096;
+        //     char temp[temp_size];
 
-            int bytes_received = SSL_read(current_client.ssl, temp, temp_size - 1);
-            if (bytes_received <= 0)
-            {
-                return NULL;
-            }
+        //     int bytes_received = SSL_read(current_client.ssl, temp, temp_size - 1);
+        //     if (bytes_received <= 0)
+        //     {
+        //         return NULL;
+        //     }
 
-            temp[bytes_received] = '\0';
+        //     temp[bytes_received] = '\0';
 
-            if (mx_strcmp(temp, "<chat empty>") == 0) {
-                continue;
-            }
+        //     if (mx_strcmp(temp, "<chat empty>") == 0) {
+        //         continue;
+        //     }
             
-            t_list *chat_history = deserialize_chathistory_list(temp);
+        //     t_list *chat_history = deserialize_chathistory_list(temp);
 
-            show_chat_history(chat_history);
+        //     show_chat_history(chat_history);
 
-            while (chat_history != NULL)
-            {
-                t_list *tmp = chat_history;
-                chat_history = chat_history->next;
-                free(tmp->data);
-                free(tmp);
-            }
-        }
+        //     while (chat_history != NULL)
+        //     {
+        //         t_list *tmp = chat_history;
+        //         chat_history = chat_history->next;
+        //         free(tmp->data);
+        //         free(tmp);
+        //     }
+        // }
         // else
         // {
         //     // Преобразование строки в JSON-объект

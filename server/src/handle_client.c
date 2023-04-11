@@ -138,15 +138,15 @@ void *handle_client(void *args)
 
                 // t_list *ccc = clients;
 
-                int command = SSL_write(current_client->ssl, "<user_list>", 12);
-                if (command < 0)
-                {
-                    printf("I can't send command to %s\n, check his connection", current_client->login);
-                }
-                else
-                {
-                    printf("Success sending command to %s\n", current_client->login);
-                }
+                // int command = SSL_write(current_client->ssl, "<user_list>", 12);
+                // if (command < 0)
+                // {
+                //     printf("I can't send command to %s\n, check his connection", current_client->login);
+                // }
+                // else
+                // {
+                //     printf("Success sending command to %s\n", current_client->login);
+                // }
 
                 // while (ccc != NULL)
                 // {
@@ -174,15 +174,15 @@ void *handle_client(void *args)
             }
             else if (mx_strcmp(command, "<friend_list>") == 0)
             {
-                int cmd = SSL_write(current_client->ssl, command, mx_strlen(command));
-                if (cmd < 0)
-                {
-                    printf("I can't send command to %s\n, check his connection", current_client->login);
-                }
-                else
-                {
-                    printf("Success sending command to %s\n", current_client->login);
-                }
+                // int cmd = SSL_write(current_client->ssl, command, mx_strlen(command));
+                // if (cmd < 0)
+                // {
+                //     printf("I can't send command to %s\n, check his connection", current_client->login);
+                // }
+                // else
+                // {
+                //     printf("Success sending command to %s\n", current_client->login);
+                // }
                 int user_id = get_user_id(db, current_client->login);
                 t_list *friends_list = get_friends(db, user_id);
 
@@ -262,15 +262,15 @@ void *handle_client(void *args)
             }
             else if (mx_strcmp(command, "<show_history>") == 0)
             {
-                int cmd = SSL_write(current_client->ssl, command, mx_strlen(command));
-                if (cmd < 0)
-                {
-                    printf("I can't send command to %s\n, check his connection", current_client->login);
-                }
-                else
-                {
-                    printf("Success sending command to %s\n", current_client->login);
-                }
+                // int cmd = SSL_write(current_client->ssl, command, mx_strlen(command));
+                // if (cmd < 0)
+                // {
+                //     printf("I can't send command to %s\n, check his connection", current_client->login);
+                // }
+                // else
+                // {
+                //     printf("Success sending command to %s\n", current_client->login);
+                // }
                 char *friendname = cJSON_GetObjectItemCaseSensitive(json, "friend")->valuestring;
                 int user_id = get_user_id(db, current_client->login);
                 int friend_id = get_user_id(db, friendname);
