@@ -1337,8 +1337,27 @@ settings_dark_scheme_btn:hover {
     box-shadow: none;
     transform: translateY(-2px);
 }
-.empty {
-    
+
+.empty {}
+
+.message {
+
+    border-radius: 10px 0px 10px 10px;
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    background-color: #13131A;
+
+
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+
 }
-
-

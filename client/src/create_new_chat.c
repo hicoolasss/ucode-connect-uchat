@@ -264,10 +264,13 @@ void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
 
             gtk_widget_set_margin_top(sent_msg, 15);
 
-            gtk_widget_set_hexpand(sent_msg, TRUE);
-            
+            gtk_label_set_wrap(GTK_LABEL(sent_msg), TRUE);
+            gtk_label_set_wrap_mode(GTK_LABEL(sent_msg), PANGO_WRAP_WORD_CHAR);
+            gtk_label_set_max_width_chars(GTK_LABEL(sent_msg), 50);
+            gtk_label_set_selectable(GTK_LABEL(sent_msg), FALSE);
 
-            gtk_widget_set_size_request(sent_msg, 365, 40);
+            gtk_widget_set_hexpand(sent_msg, TRUE);
+            //gtk_widget_set_size_request(sent_msg, 50, 40);
 
             int pos = ((t_chat *)current->data)->id;
 
@@ -277,7 +280,7 @@ void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
 
             last_child++;
 
-            widget_styling(sent_msg, current_screen, "empty_chat_box");
+            widget_styling(sent_msg, current_screen, "message");
         }
 
         GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
@@ -301,20 +304,17 @@ void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
         gtk_widget_set_size_request(box, 452, 40);
 
         gtk_widget_set_margin_top(chat_with_friend_scrolled, 75);
-        //gtk_widget_set_margin_bottom(chat_with_friend_scrolled, 16);
+        // gtk_widget_set_margin_bottom(chat_with_friend_scrolled, 16);
         gtk_widget_set_size_request(chat_with_friend_scrolled, 533, 507);
 
         gtk_grid_attach(GTK_GRID(current_grid.chat_with_friend), chat_with_friend_scrolled, 0, 0, 1, 1);
 
         gtk_grid_attach(GTK_GRID(current_grid.chat_with_friend), box, 0, 9999, 1, 1);
 
-
         g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate), username_copy);
 
         widget_styling(box, current_screen, "empty_chat_box");
         widget_styling(entry, current_screen, "empty_chat_label");
-
-
     }
     else
     {
