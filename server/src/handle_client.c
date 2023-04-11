@@ -246,19 +246,19 @@ void *handle_client(void *args)
                 if(sql_record_message(db, current_client->login, friendname, message) == 0) {
                     mx_printstr("Success recording\n");
                 }
-                char *json_str = convert_to_json(message, current_client->login);
-                t_list *current = users_list;
-                while (current != NULL)
-                {
-                    // if (((t_client *)current->data)->cl_socket != current_socket && ((t_client *)current->data)->connected == true)
-                    if (((t_client *)current->data)->login != friendname && ((t_client *)current->data)->connected == true)
-                    {
-                        SSL *ssl = ((t_client *)current->data)->ssl;
-                        SSL_write(ssl, "recv_message_from", 18);
-                        SSL_write(ssl, json_str, mx_strlen(json_str));
-                    }
-                    current = current->next;
-                }
+                // char *json_str = convert_to_json(message, current_client->login);
+                // t_list *current = users_list;
+                // while (current != NULL)
+                // {
+                //     // if (((t_client *)current->data)->cl_socket != current_socket && ((t_client *)current->data)->connected == true)
+                //     if (((t_client *)current->data)->login != friendname && ((t_client *)current->data)->connected == true)
+                //     {
+                //         SSL *ssl = ((t_client *)current->data)->ssl;
+                //         SSL_write(ssl, "recv_message_from", 18);
+                //         SSL_write(ssl, json_str, mx_strlen(json_str));
+                //     }
+                //     current = current->next;
+                // }
             }
             else if (mx_strcmp(command, "<show_history>") == 0)
             {

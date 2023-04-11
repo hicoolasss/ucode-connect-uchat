@@ -247,7 +247,7 @@ void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
 
             GtkWidget *sent_msg = gtk_label_new(s_msg);
 
-            printf("aaa: %s\n", s_msg);
+            // printf("aaa: %s\n", s_msg);
 
             gtk_widget_set_halign(sent_msg, GTK_ALIGN_END);
 
@@ -317,6 +317,14 @@ void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
 
         widget_styling(box, current_screen, "empty_chat_box");
         widget_styling(entry, current_screen, "empty_chat_label");
+    }
+    
+    while (chat_history != NULL)
+    {
+        t_list *tmp = chat_history;
+        chat_history = chat_history->next;
+        free(tmp->data);
+        free(tmp);
     }
 }
 

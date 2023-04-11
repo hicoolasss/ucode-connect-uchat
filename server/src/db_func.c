@@ -213,6 +213,7 @@ char *get_username_by_user_id(sqlite3 *db, int user_id) {
 
     if (sqlite3_step(stmt) == SQLITE_ROW) {
         name = sqlite3_column_text(stmt, 0);
+        sqlite3_finalize(stmt);
         return (char *)name;
     }
 

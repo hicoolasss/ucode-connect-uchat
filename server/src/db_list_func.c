@@ -19,7 +19,6 @@ t_list *get_clients(sqlite3 *db)
     if (rc != SQLITE_OK)
     {
         fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(db));
-        sqlite3_finalize(stmt);
         return NULL;
     }
 
