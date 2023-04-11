@@ -269,12 +269,12 @@ void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
 
     gtk_widget_set_margin_start(box, 26);
     gtk_widget_set_margin_end(box, 55);
-    gtk_widget_set_margin_top(box, 613);
+    gtk_widget_set_margin_top(box, 10);
     gtk_widget_set_margin_bottom(box, 14);
 
     gtk_widget_set_size_request(box, 452, 40);
 
-    gtk_grid_attach(GTK_GRID(current_grid.empty_chat), box, 0, 0, last_child + 1, 1);
+    gtk_grid_attach(GTK_GRID(current_grid.empty_chat), box, 0, last_child + 1, 1, 1);
 
     g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate), username_copy);
 
