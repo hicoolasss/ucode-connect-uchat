@@ -53,6 +53,7 @@ void chats_clicked () {
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chats_container), TRUE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chats), FALSE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.empty_chat), TRUE);
+    gtk_widget_set_visible(GTK_WIDGET(current_grid.chat_with_friend), FALSE);
 }
 
 void settings_clicked () {

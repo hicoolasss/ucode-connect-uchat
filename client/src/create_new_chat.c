@@ -189,20 +189,31 @@ static void on_entry_activate(GtkEntry *entry, gpointer data)
 
 void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
 {
-    t_list *chat_history = NULL;
-    const int temp_size = 4096;
-    char temp[temp_size];
-    int last_child = 0;
+
+    gtk_widget_set_visible(GTK_WIDGET(current_grid.empty_chat), FALSE);
+    gtk_widget_set_visible(GTK_WIDGET(current_grid.chat_with_friend), TRUE);
 
     GtkWidget *children, *iter;
 
-    children = gtk_widget_get_first_child(current_grid.empty_chat);
+    children = gtk_widget_get_first_child(current_grid.chat_with_friend);
 
-    for (iter = children; iter != NULL; iter = gtk_widget_get_last_child(current_grid.empty_chat))
+    for (iter = children; iter != NULL; iter = gtk_widget_get_last_child(current_grid.chat_with_friend))
     {
 
         gtk_widget_unparent(iter);
     }
+
+    GtkWidget *chat_with_friend_grid = create_grid(557, 507, "empty");
+
+    GtkWidget *chat_with_friend_scrolled = gtk_scrolled_window_new();
+
+    gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled), chat_with_friend_grid);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+
+    t_list *chat_history = NULL;
+    const int temp_size = 4096;
+    char temp[temp_size];
+    int last_child = 0;
 
     GtkWidget *child_username = gtk_widget_get_last_child(btn);
 
@@ -251,15 +262,22 @@ void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
 
             gtk_widget_set_halign(sent_msg, GTK_ALIGN_END);
 
+            gtk_widget_set_margin_top(sent_msg, 15);
+
+            gtk_widget_set_hexpand(sent_msg, TRUE);
+            
+
             gtk_widget_set_size_request(sent_msg, 365, 40);
 
             int pos = ((t_chat *)current->data)->id;
 
-            gtk_grid_attach(GTK_GRID(current_grid.empty_chat), sent_msg, 0, pos, 1, 1);
+            gtk_grid_attach(GTK_GRID(chat_with_friend_grid), sent_msg, 0, pos, 1, 1);
 
             current = current->next;
 
             last_child++;
+
+            widget_styling(sent_msg, current_screen, "empty_chat_box");
         }
 
         GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
@@ -282,12 +300,21 @@ void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
 
         gtk_widget_set_size_request(box, 452, 40);
 
-        gtk_grid_attach(GTK_GRID(current_grid.empty_chat), box, 0, last_child + 1, 1, 1);
+        gtk_widget_set_margin_top(chat_with_friend_scrolled, 75);
+        //gtk_widget_set_margin_bottom(chat_with_friend_scrolled, 16);
+        gtk_widget_set_size_request(chat_with_friend_scrolled, 533, 507);
+
+        gtk_grid_attach(GTK_GRID(current_grid.chat_with_friend), chat_with_friend_scrolled, 0, 0, 1, 1);
+
+        gtk_grid_attach(GTK_GRID(current_grid.chat_with_friend), box, 0, 9999, 1, 1);
+
 
         g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate), username_copy);
 
         widget_styling(box, current_screen, "empty_chat_box");
         widget_styling(entry, current_screen, "empty_chat_label");
+
+
     }
     else
     {
@@ -311,14 +338,14 @@ void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
 
         gtk_widget_set_size_request(box, 452, 40);
 
-        gtk_grid_attach(GTK_GRID(current_grid.empty_chat), box, 0, last_child + 1, 1, 1);
+        gtk_grid_attach(GTK_GRID(chat_with_friend_grid), box, 0, 0, 1, 1);
 
         g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate), username_copy);
 
         widget_styling(box, current_screen, "empty_chat_box");
         widget_styling(entry, current_screen, "empty_chat_label");
     }
-    
+
     while (chat_history != NULL)
     {
         t_list *tmp = chat_history;
@@ -368,8 +395,6 @@ void show_create_new_chat_with_someone()
     user_list_grid = create_grid(451, 227, "mini_chats");
 
     user_list_grid_scrolled = gtk_scrolled_window_new();
-
-    current_grid.chat_with_friend = create_grid(557, 667, "mini_chats");
 
     gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(user_list_grid_scrolled), user_list_grid);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(user_list_grid_scrolled), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);

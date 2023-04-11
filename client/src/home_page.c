@@ -25,6 +25,7 @@ void show_home(void)
     current_grid.mini_chats = create_grid(427, 246, "mini_chats");
     current_grid.chats = create_grid(557, 667, "chats_list_grid");
     current_grid.empty_chat = create_grid(557, 667, "empty_chat_grid");
+    current_grid.chat_with_friend = create_grid(557, 667, "empty_chat_grid");
     current_grid.settings = create_grid(1010, 667, "settings_main_grid");
     current_grid.achievements = create_grid(1010, 667, "achievements_grid");
 
@@ -95,6 +96,7 @@ void show_home(void)
     gtk_grid_set_column_spacing(GTK_GRID(current_grid.chats_container), 21);
     gtk_grid_attach(GTK_GRID(current_grid.chats_container), current_grid.chats, 1, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(current_grid.chats_container), current_grid.empty_chat, 1, 0, 1, 1);
+    gtk_grid_attach(GTK_GRID(current_grid.chats_container), current_grid.chat_with_friend, 1, 0, 1, 1);
 
     gtk_grid_attach(GTK_GRID(current_grid.main_grid), current_grid.your_profile, 1, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(current_grid.main_grid), current_grid.home, 1, 0, 1, 1);
