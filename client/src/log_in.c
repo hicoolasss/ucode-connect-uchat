@@ -229,6 +229,11 @@ void show_log_in(void)
 
     current_log_in.sign_up_button_log_in = gtk_button_new_with_label("Sign up");
 
+    gtk_widget_set_halign(current_log_in.box, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(current_log_in.box, GTK_ALIGN_CENTER);
+    gtk_widget_set_hexpand(current_log_in.box, TRUE);
+    gtk_widget_set_vexpand(current_log_in.box, TRUE);
+
     // PangoFontDescription *font_desc = pango_font_description_from_string("MyFont 12");
 
     // gtk_widget_override_font(current_log_in.welcome, font_desc);

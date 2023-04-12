@@ -10,6 +10,10 @@ void show_home(void)
 {
     // main box
     //    current_grid.main_grid = create_grid(1200, 760, NULL);
+
+    gtk_widget_set_hexpand(current_grid.main_grid, TRUE);
+    gtk_widget_set_vexpand(current_grid.main_grid, TRUE);
+    
     current_grid.intro_grid = create_grid(1200, 760, NULL);
 
     // help containers

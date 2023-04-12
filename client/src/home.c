@@ -190,6 +190,10 @@ void show_home_grid() {
 
     current_home.chat_gpt_send_btn = gtk_button_new();
 
+    gtk_widget_set_halign(current_grid.home, GTK_ALIGN_FILL);
+    gtk_widget_set_hexpand(current_grid.home, TRUE);
+    gtk_widget_set_vexpand(current_grid.home, TRUE);
+
 
     gtk_grid_attach(GTK_GRID(current_grid.home), current_home.chat_gpt_box_for_label, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(current_grid.home), current_home.chat_gpt_desc_label, 0, 1, 1, 1);

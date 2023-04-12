@@ -3,6 +3,8 @@
 extern t_screen current_screen;
 extern t_grid current_grid;
 
+t_achievements current_achievements;
+
 static void scrolled_window_styling(GtkWidget *widget, t_screen screen, const char *name_of_css_class) {
 	
 	GtkStyleContext *context = gtk_widget_get_style_context(widget);
@@ -22,7 +24,7 @@ void show_achievements() {
 
     GtkWidget *achievements_icon_btn = gtk_button_new();
 
-    GtkWidget *achievements_label_btn = gtk_button_new_with_label("Achievements");
+    GtkWidget *achievements_label_btn = gtk_button_new_with_label("Achievements");////
 
     //completed and not completed yet buttons
     GtkWidget *btn_0 = gtk_button_new();

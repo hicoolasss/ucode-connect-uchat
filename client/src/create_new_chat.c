@@ -3,6 +3,8 @@
 extern t_screen current_screen;
 extern t_grid current_grid;
 extern t_avatar current_avatar;
+extern t_achievements current_achievements;
+
 GdkPixbuf *scaled_avatar;
 
 GtkWidget *user_list_grid;
@@ -344,6 +346,8 @@ void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
 
         gtk_widget_set_size_request(box, 452, 40);
 
+        mx_printstr("epfkke");
+
         gtk_grid_attach(GTK_GRID(chat_with_friend_grid), box, 0, 0, 1, 1);
 
         g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate), username_copy);
@@ -368,6 +372,11 @@ void show_chats_with_added_friends(const char *username)
     GtkWidget *username1 = gtk_label_new(username);
 
     gtk_button_set_child(GTK_BUTTON(user_box_btn1), username1);
+
+    gtk_widget_set_halign(user_box_btn1, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(user_box_btn1, GTK_ALIGN_CENTER);
+    gtk_widget_set_hexpand(user_box_btn1, TRUE);
+    gtk_widget_set_vexpand(user_box_btn1, TRUE);
 
     gtk_widget_set_size_request(user_box_btn1, 400, 55);
 
