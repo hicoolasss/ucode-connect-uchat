@@ -25,9 +25,9 @@ static int get_username_status(void)
     char buf[256];
     while (main_client.connected == false)
     {
-
+        pthread_mutex_lock(&mutex1);
         int len = SSL_read(current_client.ssl, buf, sizeof(buf));
-
+        pthread_mutex_unlock(&mutex1);
         if (len < 0)
         {
 

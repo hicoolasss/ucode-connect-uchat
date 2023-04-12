@@ -46,6 +46,7 @@ void show_home(void)
     while (!friend_list)
     {
         friend_list = receive_list(current_client.ssl);
+        if(friend_list == NULL) break;
     }
 
     cJSON *json = cJSON_CreateObject();

@@ -60,7 +60,9 @@ int recv_all(SSL *sockfd, char *buf, int len)
 
     while (len > 0)
     {
+        pthread_mutex_lock(&mutex1);
         n = SSL_read(sockfd, buf, len);
+        pthread_mutex_unlock(&mutex1);
         if (n <= 0)
             return -1;
         buf += n;
@@ -103,12 +105,16 @@ t_list *receive_list(SSL *ssl)
     const int temp_size = 4096;
     char temp[temp_size];
 
+    pthread_mutex_lock(&mutex1);
     int bytes_received = SSL_read(ssl, temp, temp_size - 1);
+    pthread_mutex_unlock(&mutex1);
     if (bytes_received <= 0)
     {
         return NULL;
     }
-
+    if(mx_strcmp("User has no friends", temp) == 0) {
+        return NULL;
+    }
     temp[bytes_received] = '\0';
     return deserialize_name_list(temp);
 }

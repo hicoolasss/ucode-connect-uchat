@@ -184,6 +184,10 @@ static void on_entry_activate(GtkEntry *entry, gpointer data)
 
     send_message_to_server(json_str);
 
+    pthread_mutex_lock(&mutex1);
+    in_chat = 1;
+    pthread_cond_signal(&new_data_cond);
+    pthread_mutex_unlock(&mutex1);
     // Не забудьте освободить память, выделенную для text_copy, когда она вам больше не понадобится
 }
 
@@ -231,7 +235,9 @@ void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
 
     while (!chat_history)
     {
+        pthread_mutex_lock(&mutex1);
         int bytes_received = SSL_read(current_client.ssl, temp, temp_size - 1);
+        pthread_mutex_unlock(&mutex1);
         if (bytes_received <= 0)
         {
             break;
@@ -270,7 +276,7 @@ void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
             gtk_label_set_selectable(GTK_LABEL(sent_msg), FALSE);
 
             gtk_widget_set_hexpand(sent_msg, TRUE);
-            //gtk_widget_set_size_request(sent_msg, 50, 40);
+            // gtk_widget_set_size_request(sent_msg, 50, 40);
 
             int pos = ((t_chat *)current->data)->id;
 

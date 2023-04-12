@@ -187,23 +187,29 @@ void *handle_client(void *args)
                 t_list *friends_list = get_friends(db, user_id);
 
                 if (friends_list == NULL)
-                    printf("User has no friends.\n");
-
-                int result = send_namelist(current_client->ssl, friends_list);
-                if (result > 0)
                 {
-                    printf("List sent successfully to %s\n", current_client->login);
+                    printf("User has no friends.\n");
+                    SSL_write(current_client->ssl, "User has no friends", 20);
                 }
                 else
                 {
-                    printf("Error sending list to %s\n", current_client->login);
-                }
-                while (friends_list != NULL)
-                {
-                    t_list *temp = friends_list;
-                    friends_list = friends_list->next;
-                    free(temp->data);
-                    free(temp);
+                    printf("%s\n", ((t_user*)friends_list->data)->username);
+                    int result = send_namelist(current_client->ssl, friends_list);
+                    if (result > 0)
+                    {
+                        printf("List sent successfully to %s\n", current_client->login);
+                    }
+                    else
+                    {
+                        printf("Error sending list to %s\n", current_client->login);
+                    }
+                    while (friends_list != NULL)
+                    {
+                        t_list *temp = friends_list;
+                        friends_list = friends_list->next;
+                        free(temp->data);
+                        free(temp);
+                    }
                 }
             }
             else if (mx_strcmp(command, "<add_friend>") == 0)
@@ -243,7 +249,8 @@ void *handle_client(void *args)
                 char *friendname = cJSON_GetObjectItemCaseSensitive(json, "friend")->valuestring;
                 char *message = cJSON_GetObjectItemCaseSensitive(json, "message")->valuestring;
 
-                if(sql_record_message(db, current_client->login, friendname, message) == 0) {
+                if (sql_record_message(db, current_client->login, friendname, message) == 0)
+                {
                     mx_printstr("Success recording\n");
                 }
                 // char *json_str = convert_to_json(message, current_client->login);

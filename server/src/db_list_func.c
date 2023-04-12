@@ -60,6 +60,7 @@ t_list *get_friends(sqlite3 *db, int user_id)
         if (result2 != SQLITE_OK)
         {
             fprintf(stderr, "Error: failed to execute statement: %s.\n", sqlite3_errmsg(db));
+            sqlite3_finalize(stmt2);
             sqlite3_finalize(stmt);
             return NULL;
         }
