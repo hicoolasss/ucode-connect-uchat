@@ -12,15 +12,15 @@ void show_empty_chat() {
 
     gtk_box_append(GTK_BOX(box), label);
 
-    gtk_widget_set_margin_start(label, 17);
-    gtk_widget_set_margin_end(label, 17);
-    gtk_widget_set_margin_top(label, 14);
-    gtk_widget_set_margin_bottom(box, 14);
+    gtk_widget_set_halign(label, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(label, GTK_ALIGN_CENTER);
+    gtk_widget_set_hexpand(label, TRUE);
+    gtk_widget_set_vexpand(label, TRUE);
 
-    gtk_widget_set_margin_start(box, 179);
-    gtk_widget_set_margin_end(box, 178);
-    gtk_widget_set_margin_top(box, 317);
-    gtk_widget_set_margin_bottom(box, 316);
+    gtk_widget_set_halign(box, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(box, GTK_ALIGN_CENTER);
+    gtk_widget_set_hexpand(box, TRUE);
+    gtk_widget_set_vexpand(box, TRUE);
 
     gtk_widget_set_size_request(box, 200, 36);
 

@@ -304,6 +304,11 @@ void show_registration()
 
     current_registration.sign_in_btn = gtk_button_new_with_label("Sign in");
 
+    gtk_widget_set_halign(current_registration.box, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(current_registration.box, GTK_ALIGN_CENTER);
+    gtk_widget_set_hexpand(current_registration.box, TRUE);
+    gtk_widget_set_vexpand(current_registration.box, TRUE);
+
     gtk_grid_attach(GTK_GRID(current_grid.registration_container), current_registration.box, 0, 0, 1, 1);
 
     gtk_widget_set_margin_start(current_registration.box, 307);

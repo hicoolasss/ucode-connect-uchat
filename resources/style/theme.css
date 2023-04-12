@@ -986,7 +986,7 @@
 /*ACHIEVEMENTS START*/
 
 .achievements_grid {
-    margin: 47px 0px 48px 0px;
+    margin: 47px 22px 48px 0px;
 }
 
 .achievements_box {
@@ -1198,7 +1198,7 @@
     font-size: 1.1em;
 }
 
-settings_grid_with_in_body_btn:hover {
+.settings_grid_with_in_body_btn:hover {
     color: @bit-text-col;
     background-color: @log-out-no-border;
     box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
@@ -1216,7 +1216,7 @@ settings_grid_with_in_body_btn:hover {
     border: 1px solid @all-containers-borders-bg;
 }
 
-settings_default_scheme_btn:hover {
+.settings_default_scheme_btn:hover {
     border: 1px solid @small-text-col;
     transform: translateY(-7px);
 }
@@ -1234,7 +1234,7 @@ settings_default_scheme_btn:hover {
     border: 1px solid @all-containers-borders-bg;
 }
 
-settings_purple_scheme_btn:hover {
+.settings_purple_scheme_btn:hover {
     border: 1px solid @small-text-col;
     transform: translateY(-7px);
 }
@@ -1251,7 +1251,7 @@ settings_purple_scheme_btn:hover {
     border: 1px solid @all-containers-borders-bg;
 }
 
-settings_dark_scheme_btn:hover {
+.settings_dark_scheme_btn:hover {
     border: 1px solid @small-text-col;
     transform: translateY(-7px);
 }

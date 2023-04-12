@@ -93,6 +93,12 @@ void show_left_menu_bar() {
     GtkWidget *achievements_btn = gtk_button_new();
     GtkWidget *log_out_btn = gtk_button_new();
 
+    gtk_widget_set_halign(current_grid.left_menu_bar, GTK_ALIGN_START);
+    //gtk_widget_set_valign(current_grid.left_menu_bar, GTK_ALIGN_CENTER);
+
+    gtk_widget_set_hexpand(current_grid.left_menu_bar, TRUE);
+    gtk_widget_set_vexpand(current_grid.left_menu_bar, TRUE);
+
     //attach to side
     gtk_grid_attach(GTK_GRID(current_grid.left_menu_bar), profile_avatar_btn, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(current_grid.left_menu_bar), home_btn, 0, 1, 1, 1);

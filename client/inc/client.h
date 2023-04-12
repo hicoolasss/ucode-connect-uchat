@@ -224,6 +224,22 @@ typedef struct s_your_profile_avatar {
     GdkPixbuf *avatar;
 
 } t_your_profile_avatar;
+
+typedef struct s_achievements {
+    
+    bool first_step;    
+    bool explorer;
+    bool fickle;
+    bool milka; //xDDDD
+    bool loving;
+    //bool vicious; unusable
+    bool smart;
+    bool mission_impossible;
+
+} t_achievements;
+
+
+
 extern t_client current_client;
 extern t_main main_client;
 extern t_list *friend_list;
