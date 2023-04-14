@@ -356,3 +356,4 @@ void show_chats_with_added_friends();
 
 void show_chat_history(t_list *chat_history);
 void receive_msg(char *msg);
+void update_friend_list();
