@@ -50,6 +50,7 @@ static void create_new_chat_clicked() {
 
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chats), TRUE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.empty_chat), FALSE);
+    gtk_widget_set_visible(GTK_WIDGET(current_grid.chat_with_friend), FALSE);
     // gtk_entry_set_activates_default(GTK_ENTRY(current_grid.entry_for_search), TRUE);
     // gtk_entry_set_placeholder_text(GTK_ENTRY(current_grid.entry_for_search), "New chat name");
     // g_signal_connect(current_grid.search_btn, "clicked", G_CALLBACK(search_btn_clicked_chat), NULL);
