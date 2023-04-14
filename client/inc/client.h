@@ -238,17 +238,31 @@ typedef struct s_achievements {
 
 } t_achievements;
 
+typedef struct s_ThreadCommand{
+    CommandType command_type;
+    gchar *data;
+} t_ThreadCommand;
 
+typedef enum {
+    COMMAND_TYPE_GET_USER_LIST,
+} CommandType;
 
+GAsyncQueue *command_queue;
+
+extern volatile gboolean running;
+
+extern pthread_mutex_t command_queue_mutex;
+extern pthread_mutex_t send;
+extern pthread_mutex_t recv;
+extern _Atomic bool registered;
+extern pthread_cond_t new_data_cond;
+
+extern t_ThreadCommand *command;
 extern t_client current_client;
 extern t_main main_client;
 extern t_list *friend_list;
 extern t_list *user_list;
 // extern pthread_mutex_t cl_mutex;
-extern pthread_mutex_t mutex1;
-extern pthread_mutex_t mutex2;
-extern _Atomic bool registered;
-extern pthread_cond_t new_data_cond;
 extern int in_chat;
 void load_custom_font(const char* font_path, GtkWidget* widget);
 
@@ -256,6 +270,8 @@ SSL_CTX* CTX_initialize_client();
 int send_message_to_server(char *buffer);
 char *convert_to_json(char *buffer);
 void *recv_func();
+void *send_func(void);
+
 char *registration(int status);
 int recv_all(SSL *sockfd, char *buf, int len);
 int send_all(SSL *sockfd, char *buf, int len);

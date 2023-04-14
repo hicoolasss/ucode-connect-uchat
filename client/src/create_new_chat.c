@@ -211,21 +211,24 @@ static void on_entry_activate(GtkEntry *entry, gpointer data)
 
     send_message_to_server(json_str);
 
-    pthread_mutex_lock(&mutex1);
-    in_chat = 1;
-    pthread_cond_signal(&new_data_cond);
-    pthread_mutex_unlock(&mutex1);
     // Не забудьте освободить память, выделенную для text_copy, когда она вам больше не понадобится
 }
 
 void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
 {
+    // pthread_mutex_lock(&mutex1);
+    // in_chat = 0;
+    // pthread_cond_signal(&new_data_cond);
+    // pthread_mutex_unlock(&mutex1);
 
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chats), FALSE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.empty_chat), FALSE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chat_with_friend), TRUE);
 
-    in_chat = 1;
+    // pthread_mutex_lock(&mutex1);
+    // in_chat = 1;
+    // pthread_cond_signal(&new_data_cond);
+    // pthread_mutex_unlock(&mutex1);
 
     GtkWidget *children, *iter;
 
@@ -389,6 +392,8 @@ void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
         free(tmp->data);
         free(tmp);
     }
+
+
 }
 
 void show_chats_with_added_friends(const char *username)

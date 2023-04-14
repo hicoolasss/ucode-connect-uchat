@@ -43,7 +43,9 @@ int send_all(SSL *sockfd, char *buf, int len)
 
     while (len > 0)
     {
+        pthread_mutex_lock(&send);
         n = SSL_write(sockfd, buf, len);
+        pthread_mutex_unlock(&send);
         if (n <= 0)
             return -1;
         buf += n;
@@ -60,9 +62,9 @@ int recv_all(SSL *sockfd, char *buf, int len)
 
     while (len > 0)
     {
-        pthread_mutex_lock(&mutex1);
+        pthread_mutex_lock(&recv);
         n = SSL_read(sockfd, buf, len);
-        pthread_mutex_unlock(&mutex1);
+        pthread_mutex_unlock(&recv);
         if (n <= 0)
             return -1;
         buf += n;
@@ -105,9 +107,9 @@ t_list *receive_list(SSL *ssl)
     const int temp_size = 4096;
     char temp[temp_size];
 
-    pthread_mutex_lock(&mutex1);
+    pthread_mutex_lock(&recv);
     int bytes_received = SSL_read(ssl, temp, temp_size - 1);
-    pthread_mutex_unlock(&mutex1);
+    pthread_mutex_unlock(&recv);
     if (bytes_received <= 0)
     {
         return NULL;

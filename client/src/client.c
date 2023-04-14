@@ -7,31 +7,20 @@ t_grid current_grid;
 pthread_mutex_t cl_mutex;
 int in_chat = 0;
 _Atomic bool registered;
-pthread_mutex_t mutex1 = PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t mutex2 = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t send = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t recv = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t command_queue_mutex = PTHREAD_MUTEX_INITIALIZER;
+
 pthread_cond_t new_data_cond = PTHREAD_COND_INITIALIZER;
-int send_all(SSL *sockfd, char *buf, int len);
-int recv_all(SSL *sockfd, char *buf, int len);
 
-// void load_custom_font(const char* font_path, GtkWidget* widget) {
-//     PangoFontMap* font_map = pango_cairo_font_map_get_default();
-//     PangoFontDescription* font_description = pango_font_description_new();
-//     char* font_name = g_path_get_basename(font_path);
+GAsyncQueue *command_queue;
 
-//     pango_font_description_set_family(font_description, font_name);
-//     pango_font_description_set_weight(font_description, PANGO_WEIGHT_NORMAL);
-//     pango_font_description_set_style(font_description, PANGO_STYLE_NORMAL);
+t_ThreadCommand *command;
 
-//     PangoContext* context = gtk_widget_create_pango_context(widget);
-//     const char* font_name = "JetBrainsMono";
-//     PangoFontFamily* font_family = pango_font_family_new_from_name(font_name);
-//     pango_font_map_load_font(font_map, context, font_description);
+volatile gboolean running = TRUE;
 
-//     g_object_unref(context);
-//     g_object_unref(font_map);
-//     pango_font_description_free(font_description);
-//     g_free(font_name);
-// }
+// int send_all(SSL *sockfd, char *buf, int len);
+// int recv_all(SSL *sockfd, char *buf, int len);
 
 void loadstyles()
 {
@@ -154,17 +143,24 @@ int main(int argc, char **argv)
     GtkApplication *app;
     int stat = 0;
 
-    pthread_t rec_th;
-    pthread_mutex_init(&mutex1, NULL);
-    pthread_mutex_init(&mutex2, NULL);
+    pthread_t rec_th, send_th;
+    pthread_mutex_init(&recv, NULL);
+    pthread_mutex_init(&send, NULL);
+    pthread_mutex_init(&command_queue_mutex, NULL);
+    command_queue = g_async_queue_new();
+
+    pthread_create(&send_th, NULL, send_func, &current_client.serv_fd);
+
     pthread_create(&rec_th, NULL, recv_func, &current_client.serv_fd);
 
     app = gtk_application_new("com.github.darkchat", G_APPLICATION_DEFAULT_FLAGS);
     g_signal_connect(app, "activate", G_CALLBACK(app_activate), NULL);
     stat = g_application_run(G_APPLICATION(app), FALSE, NULL);
 
-    pthread_cancel(rec_th);
-    pthread_join(rec_th, NULL);
+    running = FALSE;
+
+    g_thread_join(send_th);
+    g_thread_join(rec_th);
 
     SSL_shutdown(ssl);
     SSL_free(ssl);
