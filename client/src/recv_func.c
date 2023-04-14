@@ -28,10 +28,11 @@ void *recv_func()
             printf("Error: Invalid JSON data received from server\n");
             break;
         }
-        // Извлечение данных из JSON-объекта
-        // char *login = cJSON_GetObjectItemCaseSensitive(json_obj, "name")->valuestring;
-        // char *message = cJSON_GetObjectItemCaseSensitive(json_obj, "message")->valuestring;
-        // print_message(login, message);
+        //Извлечение данных из JSON-объекта
+        char *login = cJSON_GetObjectItemCaseSensitive(json_obj, "name")->valuestring;
+        char *message = cJSON_GetObjectItemCaseSensitive(json_obj, "message")->valuestring;
+        receive_msg(message);
+        //print_message(login, message);
         cJSON_Delete(json_obj);
         // data_ready = 0;
     }
