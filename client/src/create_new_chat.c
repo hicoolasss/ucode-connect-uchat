@@ -103,8 +103,32 @@ static void show_user_list_scrolled(t_list *current)
 
     get_scaled_image_chats();
     // mx_printstr(((t_user*)user_list->data)->username);
+    t_list *current_friend = friend_list;
     while (current != NULL)
     {
+        gboolean should_continue = FALSE; // Add a flag to check if we should continue
+        current_friend = friend_list;
+
+        while (current_friend != NULL)
+        {
+            if (strcmp((((t_user *)current->data)->username), (((t_user *)current_friend->data)->username)) == 0)
+            {
+                should_continue = TRUE; // Set the flag to TRUE when the condition is met
+                break;
+            }
+            else if (strcmp((((t_user *)current->data)->username), current_client.login) == 0)
+            {
+                should_continue = TRUE; // Set the flag to TRUE when the condition is met
+                break;
+            }
+            current_friend = current_friend->next;
+        }
+
+        if (should_continue) // Check the flag and continue the outer loop if necessary
+        {
+            current = current->next;
+            continue;
+        }
         pos++;
         // mx_printstr(((t_user*)current->data)->username);
         GtkWidget *user_info_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
@@ -196,6 +220,7 @@ static void on_entry_activate(GtkEntry *entry, gpointer data)
 void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
 {
 
+    gtk_widget_set_visible(GTK_WIDGET(current_grid.chats), FALSE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.empty_chat), FALSE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chat_with_friend), TRUE);
 
@@ -341,14 +366,12 @@ void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
 
         gtk_widget_set_margin_start(box, 26);
         gtk_widget_set_margin_end(box, 55);
-        gtk_widget_set_margin_top(box, 10);
+        gtk_widget_set_margin_top(box, 613);
         gtk_widget_set_margin_bottom(box, 14);
 
         gtk_widget_set_size_request(box, 452, 40);
 
-        mx_printstr("epfkke");
-
-        gtk_grid_attach(GTK_GRID(chat_with_friend_grid), box, 0, 0, 1, 1);
+        gtk_grid_attach(GTK_GRID(current_grid.chat_with_friend), box, 0, 0, 1, 1);
 
         g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate), username_copy);
 

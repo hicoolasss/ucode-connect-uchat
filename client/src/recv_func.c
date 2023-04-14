@@ -18,9 +18,13 @@ void *recv_func()
         {
             pthread_cond_wait(&new_data_cond, &mutex1);
         }
+
+        in_chat = 0;
+        
+        pthread_mutex_unlock(&mutex1);
+
         int len = SSL_read(current_client.ssl, command, sizeof(command) - 1);
 
-        pthread_mutex_unlock(&mutex1);
         if (len == -1)
         {
             printf("Error receiving message\n");

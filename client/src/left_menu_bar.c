@@ -49,7 +49,7 @@ void home_clicked () {
 void chats_clicked () {
     set_unvisible_all();
 
-    gtk_widget_set_visible(GTK_WIDGET(current_grid.left_menu_bar), TRUE);
+     gtk_widget_set_visible(GTK_WIDGET(current_grid.left_menu_bar), TRUE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chats_container), TRUE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chats), FALSE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.empty_chat), TRUE);

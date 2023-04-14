@@ -193,7 +193,7 @@ void *handle_client(void *args)
                 }
                 else
                 {
-                    printf("%s\n", ((t_user*)friends_list->data)->username);
+                    printf("%s\n", ((t_user *)friends_list->data)->username);
                     int result = send_namelist(current_client->ssl, friends_list);
                     if (result > 0)
                     {
@@ -253,19 +253,24 @@ void *handle_client(void *args)
                 {
                     mx_printstr("Success recording\n");
                 }
-                // char *json_str = convert_to_json(message, current_client->login);
                 // t_list *current = users_list;
-                // while (current != NULL)
-                // {
-                //     // if (((t_client *)current->data)->cl_socket != current_socket && ((t_client *)current->data)->connected == true)
-                //     if (((t_client *)current->data)->login != friendname && ((t_client *)current->data)->connected == true)
-                //     {
-                //         SSL *ssl = ((t_client *)current->data)->ssl;
-                //         SSL_write(ssl, "recv_message_from", 18);
-                //         SSL_write(ssl, json_str, mx_strlen(json_str));
-                //     }
-                //     current = current->next;
-                // }
+                // if (((t_client *)current->data)->login == friendname)
+                //     mx_printstr(((t_client *)current->data)->login);
+                // else mx_printstr("null\n");
+                char *json_str = convert_to_json(message, current_client->login);
+                t_list *current = users_list;
+                while (current != NULL)
+                {
+                    // if (((t_client *)current->data)->cl_socket != current_socket && ((t_client *)current->data)->connected == true)
+                    if (((t_client *)current->data)->login == friendname)
+                    {
+                        SSL *ssl = ((t_client *)current->data)->ssl;
+                        SSL_write(ssl, json_str, mx_strlen(json_str));
+                    }
+                    // else mx_printstr("null\n");
+
+                    current = current->next;
+                }
             }
             else if (mx_strcmp(command, "<show_history>") == 0)
             {
