@@ -163,13 +163,13 @@ int main(int argc, char **argv)
     g_signal_connect(app, "activate", G_CALLBACK(app_activate), NULL);
     stat = g_application_run(G_APPLICATION(app), FALSE, NULL);
 
-    pthread_mutex_unlock(&mutex1);
-    pthread_mutex_unlock(&mutex2);
+    pthread_cancel(rec_th);
+    pthread_join(rec_th, NULL);
+
     SSL_shutdown(ssl);
     SSL_free(ssl);
     SSL_CTX_free(ctx);
     close(server_fd);
-    pthread_exit(NULL);
 
     while (friend_list != NULL)
     {

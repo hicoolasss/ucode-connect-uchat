@@ -5,17 +5,26 @@ void print_message(char *login, char *message);
 void *recv_func()
 {
     char command[2048];
+
+    pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
+    pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
+
     while (1)
     {
         mx_printstr("recv\n");
         pthread_mutex_lock(&mutex1);
-        
-        while (!in_chat) {
+
+        while (!in_chat)
+        {
             pthread_cond_wait(&new_data_cond, &mutex1);
         }
-        int len = SSL_read(current_client.ssl, command, sizeof(command) - 1);
+
+        in_chat = 0;
         
         pthread_mutex_unlock(&mutex1);
+
+        int len = SSL_read(current_client.ssl, command, sizeof(command) - 1);
+
         if (len == -1)
         {
             printf("Error receiving message\n");
@@ -36,7 +45,6 @@ void *recv_func()
         cJSON_Delete(json_obj);
         // data_ready = 0;
     }
-    pthread_detach(pthread_self());
     return NULL;
 }
 

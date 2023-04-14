@@ -4,6 +4,7 @@ extern t_screen current_screen;
 extern t_grid current_grid;
 extern t_avatar current_avatar;
 extern t_achievements current_achievements;
+extern int in_chat;
 
 GdkPixbuf *scaled_avatar;
 
@@ -223,6 +224,8 @@ void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chats), FALSE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.empty_chat), FALSE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chat_with_friend), TRUE);
+
+    in_chat = 1;
 
     GtkWidget *children, *iter;
 
