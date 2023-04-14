@@ -220,6 +220,7 @@ static void on_entry_activate(GtkEntry *entry, gpointer data)
 void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
 {
 
+    gtk_widget_set_visible(GTK_WIDGET(current_grid.chats), FALSE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.empty_chat), FALSE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chat_with_friend), TRUE);
 
