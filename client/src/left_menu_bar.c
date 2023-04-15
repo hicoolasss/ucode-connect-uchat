@@ -74,7 +74,10 @@ void log_out_clicked () {
 
 void show_left_menu_bar() {
 
-    current_avatar.avatar = gdk_pixbuf_new_from_file("avatar1.png", NULL);
+     if (!current_avatar.avatar)
+    {
+        current_avatar.avatar = gdk_pixbuf_new_from_file("avatar1.png", NULL);
+    }
 
     get_scaled_image();
 

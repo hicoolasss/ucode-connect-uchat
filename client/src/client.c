@@ -5,10 +5,11 @@ t_main main_client;
 t_client current_client;
 t_grid current_grid;
 pthread_mutex_t cl_mutex;
-
+int in_chat = 0;
 _Atomic bool registered;
 pthread_mutex_t mutex1 = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t mutex2 = PTHREAD_MUTEX_INITIALIZER;
+pthread_cond_t new_data_cond = PTHREAD_COND_INITIALIZER;
 int send_all(SSL *sockfd, char *buf, int len);
 int recv_all(SSL *sockfd, char *buf, int len);
 
@@ -153,10 +154,10 @@ int main(int argc, char **argv)
     GtkApplication *app;
     int stat = 0;
 
-    // pthread_t rec_th;
-    // pthread_mutex_init(&mutex1, NULL);
-    // pthread_mutex_init(&mutex2, NULL);
-    // pthread_create(&rec_th, NULL, recv_func, &current_client.serv_fd);
+    pthread_t rec_th;
+    pthread_mutex_init(&mutex1, NULL);
+    pthread_mutex_init(&mutex2, NULL);
+    pthread_create(&rec_th, NULL, recv_func, &current_client.serv_fd);
 
     app = gtk_application_new("com.github.darkchat", G_APPLICATION_DEFAULT_FLAGS);
     g_signal_connect(app, "activate", G_CALLBACK(app_activate), NULL);
@@ -164,11 +165,11 @@ int main(int argc, char **argv)
 
     pthread_cancel(rec_th);
     pthread_join(rec_th, NULL);
+
     SSL_shutdown(ssl);
     SSL_free(ssl);
     SSL_CTX_free(ctx);
     close(server_fd);
-    // pthread_exit(NULL);
 
     while (friend_list != NULL)
     {

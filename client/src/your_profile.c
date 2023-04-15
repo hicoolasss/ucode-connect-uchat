@@ -7,6 +7,23 @@ t_scaled_avatar current_scaled_avatar;
 t_your_profile_avatar current_your_profile_avatar;
 GtkWidget *avatar_img;
 
+static void update_profile_pic_lmb()
+{
+  GtkWidget *children, *iter;
+
+  children = gtk_widget_get_first_child(current_grid.left_menu_bar);
+
+  for (iter = children; iter != NULL; iter = gtk_widget_get_last_child(current_grid.left_menu_bar))
+  {
+
+    gtk_widget_unparent(iter);
+  }
+
+  current_avatar.avatar = current_your_profile_avatar.avatar;
+
+  show_left_menu_bar();
+}
+
 static void get_your_profile_avatar()
 {
 
@@ -54,7 +71,8 @@ void on_open_response(GtkDialog *dialog, int response)
     get_your_profile_avatar();
     get_scaled_image();
     gtk_image_set_from_pixbuf(GTK_IMAGE(avatar_img), current_your_profile_avatar.your_profile_avatar);
-
+    update_profile_pic_lmb();
+    
     g_free(filename);
   }
 
