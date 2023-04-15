@@ -47,10 +47,9 @@ void show_home(void)
 
     send_message_to_server(json_str1);
 
-    while (!friend_list)
+    while (friend_list == NULL)
     {
         friend_list = receive_list(current_client.ssl);
-        if(friend_list == NULL) break;
     }
 
     cJSON *json = cJSON_CreateObject();
