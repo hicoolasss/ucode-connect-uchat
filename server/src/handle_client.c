@@ -128,12 +128,6 @@ void *handle_client(void *args)
             }
             else if (mx_strcmp(command, "<user_list>") == 0)
             {
-                t_list *clients = get_clients(db);
-                if (clients == NULL)
-                {
-                    fprintf(stderr, "Failed to get clients\n");
-                    break;
-                }
                 int cmd = SSL_write(current_client->ssl,command, mx_strlen(command));
                 if (cmd < 0)
                 {
@@ -142,6 +136,12 @@ void *handle_client(void *args)
                 else
                 {
                     printf("Success sending command to %s\n", current_client->login);
+                }
+                t_list *clients = get_clients(db);
+                if (clients == NULL)
+                {
+                    fprintf(stderr, "Failed to get clients\n");
+                    break;
                 }
                 int result = send_namelist(current_client->ssl, clients);
                 if (result > 0)

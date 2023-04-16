@@ -38,6 +38,10 @@ gpointer recv_func(gpointer data)
         else if (mx_strcmp(command, "<friend_list>") == 0)
         {
             friend_list = receive_list(current_client.ssl);
+            if(friend_list == NULL) {
+                mx_printstr("null");
+                continue;
+            }
             t_list *current = friend_list;
             while (current)
             {

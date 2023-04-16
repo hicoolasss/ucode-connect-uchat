@@ -12,7 +12,9 @@ gpointer send_func(gpointer data)
     while (running)
     {
         // Получаем команду из очереди (блокирующий вызов)
+        pthread_mutex_lock(&command_queue_mutex);
         t_ThreadCommand *command = (t_ThreadCommand *)g_async_queue_pop(command_queue);
+        pthread_mutex_unlock(&command_queue_mutex);
         // Обрабатываем команду в зависимости от command_type
         switch (command->command_type)
         {
@@ -93,7 +95,7 @@ gpointer send_func(gpointer data)
         default:
             break;
         }
-
+        g_free(command);
         // Освобождаем память, выделенную для команды
     }
     // g_free(command);

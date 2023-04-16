@@ -47,11 +47,6 @@ void home_clicked () {
 }
 
 void chats_clicked () {
-    
-    t_ThreadCommand *command1 = g_new(t_ThreadCommand, 1);
-    command->command_type = COMMAND_TYPE_GET_FRIEND_LIST; // Тип команды
-    command->data = NULL;                               // Данные могут быть NULL или указателем на строку, в зависимости от типа команды
-    g_async_queue_push(command_queue, command1);
 
     set_unvisible_all();
 

@@ -2,36 +2,38 @@
 
 extern t_screen current_screen;
 extern t_grid current_grid;
-//static void send_message(GtkEntry *message_entry) {
+// static void send_message(GtkEntry *message_entry) {
 //
-//        GtkEntryBuffer *buffer = gtk_entry_get_buffer(message_entry);
-//        const char *buf = gtk_entry_buffer_get_text(buffer);
-//        char *temp_buffer = mx_strdup(buf);
+//         GtkEntryBuffer *buffer = gtk_entry_get_buffer(message_entry);
+//         const char *buf = gtk_entry_buffer_get_text(buffer);
+//         char *temp_buffer = mx_strdup(buf);
 //
 //
-//        int len = SSL_write(current_client.ssl, temp_buffer, mx_strlen(temp_buffer));
+//         int len = SSL_write(current_client.ssl, temp_buffer, mx_strlen(temp_buffer));
 //
-//        if (len < 0)
-//        {
-//            mx_printstr("Error sending message.\n");
-//        }
+//         if (len < 0)
+//         {
+//             mx_printstr("Error sending message.\n");
+//         }
 //
-//        memset(temp_buffer, 0, sizeof(*temp_buffer));
+//         memset(temp_buffer, 0, sizeof(*temp_buffer));
 //
-//        GtkWidget *label = gtk_text_new_with_buffer(buffer);
+//         GtkWidget *label = gtk_text_new_with_buffer(buffer);
 //
-//        gtk_grid_attach(GTK_GRID(current_grid.chats_scrolled), label, 0, 0, 1, 1);
+//         gtk_grid_attach(GTK_GRID(current_grid.chats_scrolled), label, 0, 0, 1, 1);
 //
-//}
+// }
 
-void call_new_chat_and_add_iter() {
+void call_new_chat_and_add_iter()
+{
     // create_new_chat(current_grid.chat_pos_count,
     //                 new_username);
 
     current_grid.chat_pos_count++;
 }
 
-static void create_new_chat_clicked() {
+static void create_new_chat_clicked()
+{
 
     // cJSON *json = cJSON_CreateObject();
     // cJSON_AddStringToObject(json, "login", current_client.login);
@@ -51,13 +53,20 @@ static void create_new_chat_clicked() {
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chats), TRUE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.empty_chat), FALSE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chat_with_friend), FALSE);
+
     t_ThreadCommand *command = g_new(t_ThreadCommand, 1);
     command->command_type = COMMAND_TYPE_GET_USER_LIST; // Тип команды
     command->data = NULL;                               // Данные могут быть NULL или указателем на строку, в зависимости от типа команды
     g_async_queue_push(command_queue, command);
+
+    command = g_new(t_ThreadCommand, 1);
+    command->command_type = COMMAND_TYPE_GET_FRIEND_LIST; // Тип команды
+    command->data = NULL;                                 // Данные могут быть NULL или указателем на строку, в зависимости от типа команды
+    g_async_queue_push(command_queue, command);
 }
 
-void show_mini_chats() {
+void show_mini_chats()
+{
     GtkWidget *chats_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     GtkWidget *chats_label = gtk_label_new("Chats");
     GtkWidget *create_new_chat_btn = gtk_button_new();
@@ -67,11 +76,11 @@ void show_mini_chats() {
 
     // GtkWidget *chats_list_grid = create_grid(400, 190, "chats_list_grid");
 
-    //scroll
+    // scroll
     GtkWidget *chats_list_grid_scrolled = gtk_scrolled_window_new();
     gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(chats_list_grid_scrolled), current_grid.chats_list_grid_child);
 
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW(chats_list_grid_scrolled), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(chats_list_grid_scrolled), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
     gtk_widget_set_size_request(chats_list_grid_scrolled, 400, 190);
 
@@ -89,17 +98,15 @@ void show_mini_chats() {
     widget_styling(chats_box, current_screen, "mini_groups_box");
     widget_styling(chats_label, current_screen, "group_label");
     widget_styling(create_new_chat_btn, current_screen, "create_new_chat_btn");
-    //widget_styling(chats_list_grid_scrolled, current_screen, "chats_list_grid");
+    // widget_styling(chats_list_grid_scrolled, current_screen, "chats_list_grid");
 
     gtk_box_append(GTK_BOX(chats_box), chats_label);
     gtk_box_append(GTK_BOX(chats_box), create_new_chat_btn);
 
-    //create new chat on + click
+    // create new chat on + click
     g_signal_connect(create_new_chat_btn, "clicked", G_CALLBACK(create_new_chat_clicked), NULL);
 
     gtk_grid_attach(GTK_GRID(current_grid.mini_chats), chats_box, 0, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(current_grid.mini_chats), chats_list_grid_scrolled, 0, 1, 1, 1);
-    //gtk_grid_attach(GTK_GRID(chats_list_grid), chats_list_grid_scrolled, 0, 0, 1, 1);
+    // gtk_grid_attach(GTK_GRID(chats_list_grid), chats_list_grid_scrolled, 0, 0, 1, 1);
 }
-
-
