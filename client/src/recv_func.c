@@ -6,45 +6,6 @@ t_list *chat_history;
 
 void print_message(char *login, char *message);
 
-// void *recv_func()
-// {
-//     char command[2048];
-//     pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
-//     pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
-//     while (1)
-//     {
-//         mx_printstr("recv\n");
-//         pthread_mutex_lock(&recv);
-//         while (!in_chat)
-//         {
-//             pthread_cond_wait(&new_data_cond, &recv);
-//         }
-//         in_chat = 0;
-//         pthread_mutex_unlock(&recv);
-//         int len = SSL_read(current_client.ssl, command, sizeof(command) - 1);
-//         if (len == -1)
-//         {
-//             printf("Error receiving message\n");
-//             break;
-//         }
-//         cJSON *json_obj = cJSON_Parse(command);
-//         memset(command, 0, sizeof(command));
-//         if (!json_obj)
-//         {
-//             printf("Error: Invalid JSON data received from server\n");
-//             break;
-//         }
-//         //Извлечение данных из JSON-объекта
-//         char *login = cJSON_GetObjectItemCaseSensitive(json_obj, "name")->valuestring;
-//         char *message = cJSON_GetObjectItemCaseSensitive(json_obj, "message")->valuestring;
-//         receive_msg(message);
-//         //print_message(login, message);
-//         cJSON_Delete(json_obj);
-//         // data_ready = 0;
-//     }
-//     return NULL;
-// }
-
 gpointer recv_func(gpointer data)
 {
     char command[2048];
@@ -72,16 +33,17 @@ gpointer recv_func(gpointer data)
         else if (mx_strcmp(command, "<user_list>") == 0)
         {
             user_list = receive_list(current_client.ssl);
-            // mx_printstr(((t_user*)user_list->data)->username);
-            // if (user_list == NULL)
-            // {
-            //     printf("null\n");
-            //     break;
-            // }
+            show_user_list_scrolled(user_list);
         }
         else if (mx_strcmp(command, "<friend_list>") == 0)
         {
             friend_list = receive_list(current_client.ssl);
+            t_list *current = friend_list;
+            while (current)
+            {
+                show_chats_with_added_friends(((t_user *)current->data)->username);
+                current = current->next;
+            }
         }
         else if (mx_strcmp(command, "<add_friend>") == 0)
         {

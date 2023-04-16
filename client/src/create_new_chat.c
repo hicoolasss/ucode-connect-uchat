@@ -236,7 +236,7 @@ void update_user_list_while_searching(GtkEditable *editable)
     }
 }
 
-static void show_user_list_scrolled(t_list *current)
+void show_user_list_scrolled(t_list *current)
 {
 
     int pos = 0;
@@ -521,7 +521,7 @@ void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
     // }
 }
 
-void show_chats_with_added_friends(const char *username, t_list *current)
+void show_chats_with_added_friends(const char *username)
 {
     GtkWidget *user_box_btn1 = gtk_button_new();
 
@@ -533,9 +533,9 @@ void show_chats_with_added_friends(const char *username, t_list *current)
 
     GtkWidget *user_avatar = gtk_image_new_from_pixbuf(scaled_avatar);
 
-    t_chat *last_element = find_last_message(current);
+    //t_chat *last_element = find_last_message(current);
 
-    // mx_printstr(last_element->message);
+    //mx_printstr(username);
 
     GtkWidget *last_msg_label = gtk_label_new("Dast_element->message");
 
@@ -673,17 +673,11 @@ void show_create_new_chat_with_someone()
     widget_styling(entry_for_search, current_screen, "entry_for_search_user");
 
     // g_print("penis[ig]: %p\n", (void *)current_grid.chats_list_grid_child);
-    t_ThreadCommand *command = g_new(t_ThreadCommand, 1);
-    command->command_type = COMMAND_TYPE_GET_USER_LIST; // Тип команды
-    command->data = NULL;                               // Данные могут быть NULL или указателем на строку, в зависимости от типа команды
-    g_async_queue_push(command_queue, command);
 
     // printf("%s\n", ((t_user *)user_list->data)->username);
     // t_list *cur = user_list;
 
     g_signal_connect(entry_for_search, "changed", G_CALLBACK(update_user_list_while_searching), NULL);
-
-    // show_user_list_scrolled(user_list);
 
     // t_list *current = friend_list;
 
