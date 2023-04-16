@@ -88,7 +88,7 @@ int add_friend(sqlite3 *db, const char *username, const char *friend_username)
     }
 
     sqlite3_stmt *stmt;
-    char *sql = "INSERT INTO friends (user_id, friend_id) VALUES (?, ?);";
+    char *sql = "INSERT INTO friends (user_id, friend_id) VALUES (?, ?), (?, ?);";
     int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
 
     if (result != SQLITE_OK)
@@ -99,6 +99,8 @@ int add_friend(sqlite3 *db, const char *username, const char *friend_username)
 
     sqlite3_bind_int(stmt, 1, user_id);
     sqlite3_bind_int(stmt, 2, friend_id);
+    sqlite3_bind_int(stmt, 3, friend_id);
+    sqlite3_bind_int(stmt, 4, user_id);
 
     result = sqlite3_step(stmt);
     if (result != SQLITE_DONE)
@@ -248,4 +250,41 @@ int sql_record_message(sqlite3 *db, char *username, char *friendname, const char
     return 0;
 }
 
+char *get_last_message_from_dialog(sqlite3 *db, char *username, char *friendname)
+{
+    sqlite3_stmt *stmt;
+    char *lastmessage = NULL;
+    char *sql = "SELECT message FROM dialogs WHERE (user_id = ? AND friend_id = ?) OR (user_id = ? AND friend_id = ?) ORDER BY timestamp DESC LIMIT 1;";
+    int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+    if (result != SQLITE_OK)
+    {
+        fprintf(stderr, "Error: %s\n", sqlite3_errmsg(db));
+        return NULL;
+    }
+    
+    int user_id = get_user_id(db, username);
+    int friend_id = get_user_id(db, friendname);
 
+    sqlite3_bind_int(stmt, 1, user_id);
+    sqlite3_bind_int(stmt, 2, friend_id);
+    sqlite3_bind_int(stmt, 3, friend_id);
+    sqlite3_bind_int(stmt, 4, user_id);
+
+    result = sqlite3_step(stmt);
+    if(result == SQLITE_ROW) {
+        lastmessage = (char *)sqlite3_column_text(stmt, 0);
+        return lastmessage;
+    }
+    else if (result == SQLITE_DONE)
+    {
+        printf("No message found in the dialog.\n");
+        sqlite3_finalize(stmt);
+        return NULL;
+    }
+    else
+    {
+        fprintf(stderr, "Error: %s\n", sqlite3_errmsg(db));
+        sqlite3_finalize(stmt);
+        return NULL;
+    }
+}

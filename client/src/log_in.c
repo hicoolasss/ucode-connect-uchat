@@ -56,33 +56,6 @@ static int get_username_status(void)
     return 0;
 }
 
-// static int get_password_status (const char *confirm_password) {
-
-//     if (mx_strlen(current_client.password) < 4) return -1;
-//     if (mx_strlen(current_client.password) > 10) return -2;
-
-//     const char *forbidden_symbols = "$&=+<>,_`- ";
-
-//     for (int i = 0; i < mx_strlen(current_client.password); i++) {
-
-//         for (int j = 0; j < 9; j++) {
-
-//             if (current_client.password[i] == forbidden_symbols[j]) {
-
-//                 return -3;
-
-//             }
-
-//         }
-
-//     }
-
-//     if (mx_strcmp(current_client.password, confirm_password) != 0) return -4;
-
-//     return 0;
-
-// }
-
 static void log_in_btn_clicked(GtkWidget *widget, gpointer data)
 {
     bool is_log_in_success = true;
@@ -193,9 +166,14 @@ static void log_in_btn_clicked(GtkWidget *widget, gpointer data)
     }
 }
 
+static void on_entry_activate(GtkEntry *entry)
+{
+    //gtk_entry_set_text(entry, "");
+    gtk_widget_grab_focus(current_log_in.password); // Та-да! Курсор перемещается на второй виджет GtkEntry
+}
+
 void show_log_in(void)
 {
-
     current_log_in.box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
     current_log_in.welcome = gtk_label_new_with_mnemonic("Welcome to the dark!");
@@ -290,7 +268,15 @@ void show_log_in(void)
     entry_arr[0] = current_log_in.username;
     entry_arr[1] = current_log_in.password;
 
+    gtk_editable_set_text(GTK_EDITABLE(current_log_in.username), "");
+
+    gtk_editable_set_text(GTK_EDITABLE(current_log_in.password), "");
+
     g_signal_connect(current_log_in.sign_up_button_log_in, "clicked", G_CALLBACK(dont_have_account_btn_clicked), NULL);
 
     g_signal_connect(current_log_in.log_in_button, "clicked", G_CALLBACK(log_in_btn_clicked), entry_arr);
+
+    g_signal_connect(current_log_in.username, "activate", G_CALLBACK(on_entry_activate), NULL);
+
+    g_signal_connect(current_log_in.password, "activate", G_CALLBACK(log_in_btn_clicked), entry_arr);
 }

@@ -26,14 +26,69 @@ gpointer send_func(gpointer data)
             char *json_str = cJSON_Print(json);
             cJSON_Delete(json);
 
-            printf("Thread send_message%lu trying to lock mutex\n", pthread_self());
+            printf("Thread user_list in %lu trying to lock mutex\n", pthread_self());
             pthread_mutex_lock(&mutex_send);
             send_message_to_server(json_str);
             pthread_mutex_unlock(&mutex_send);
-            printf("Thread send_message%lu trying to unlock mutex\n", pthread_self());
+            printf("Thread user_list in %lu trying to unlock mutex\n", pthread_self());
             break;
 
             // Обработка других типов команд, если нужно
+        }
+        case COMMAND_TYPE_GET_FRIEND_LIST:
+        {
+            cJSON *json = cJSON_CreateObject();
+            cJSON_AddStringToObject(json, "login", current_client.login);
+            cJSON_AddStringToObject(json, "command", "<friend_list>");
+
+            char *json_str = cJSON_Print(json);
+            cJSON_Delete(json);
+
+            printf("Thread friend_list in %lu trying to lock mutex\n", pthread_self());
+            pthread_mutex_lock(&mutex_send);
+            send_message_to_server(json_str);
+            pthread_mutex_unlock(&mutex_send);
+            printf("Thread friend_list in %lu trying to unlock mutex\n", pthread_self());
+            break;
+        }
+        case COMMAND_TYPE_SEND_MESSAGE:
+        {
+            cJSON *json = (cJSON *)g_async_queue_pop(message_queue);
+            char *json_str = cJSON_Print(json);
+            cJSON_Delete(json);
+
+            printf("Thread send_message in %lu trying to lock mutex\n", pthread_self());
+            pthread_mutex_lock(&mutex_send);
+            send_message_to_server(json_str);
+            pthread_mutex_unlock(&mutex_send);
+            printf("Thread send_message in %lu trying to unlock mutex\n", pthread_self());
+            break;
+        }
+        case COMMAND_TYPE_GET_SHOW_HISTORY:
+        {
+            cJSON *json = (cJSON *)g_async_queue_pop(message_queue);
+            char *json_str = cJSON_Print(json);
+            cJSON_Delete(json);
+
+            printf("Thread show_history in %lu trying to lock mutex\n", pthread_self());
+            pthread_mutex_lock(&mutex_send);
+            send_message_to_server(json_str);
+            pthread_mutex_unlock(&mutex_send);
+            printf("Thread show_history in %lu trying to unlock mutex\n", pthread_self());
+            break;
+        }
+        case COMMAND_TYPE_GET_ADD_FRIEND:
+        {
+            cJSON *json = (cJSON *)g_async_queue_pop(message_queue);
+            char *json_str = cJSON_Print(json);
+            cJSON_Delete(json);
+
+            printf("Thread show_history in %lu trying to lock mutex\n", pthread_self());
+            pthread_mutex_lock(&mutex_send);
+            send_message_to_server(json_str);
+            pthread_mutex_unlock(&mutex_send);
+            printf("Thread show_history in %lu trying to unlock mutex\n", pthread_self());
+            break;
         }
         default:
             break;

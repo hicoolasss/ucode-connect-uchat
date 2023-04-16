@@ -50,8 +50,10 @@ static void get_your_profile_avatar()
   GdkPixbuf *circle_pixbuf = gdk_pixbuf_get_from_surface(surface, 0, 0, 200, 200);
 
   current_your_profile_avatar.your_profile_avatar = circle_pixbuf;
+  current_avatar.avatar = current_your_profile_avatar.avatar;
 
   // cairo_surface_write_to_png(surface, "avatar1.png");
+
 }
 
 void on_open_response(GtkDialog *dialog, int response)
@@ -69,9 +71,8 @@ void on_open_response(GtkDialog *dialog, int response)
     get_your_profile_avatar();
     get_scaled_image();
     gtk_image_set_from_pixbuf(GTK_IMAGE(avatar_img), current_your_profile_avatar.your_profile_avatar);
-
     update_profile_pic_lmb();
-
+    
     g_free(filename);
   }
 
@@ -102,19 +103,19 @@ void show_your_profile()
 
   GtkWidget *profile_help_grid = create_grid(474, 602, "profile_help_box");
   GtkWidget *profile_grid_for_img = create_grid(200, 200, "profile_grid_for_img");
-  // GtkWidget *profile_grid_scale = create_grid(251, 20, "profile_grid_scale");
+  //GtkWidget *profile_grid_scale = create_grid(251, 20, "profile_grid_scale");
   GtkWidget *profile_grid_body = create_grid(474, 385, "profile_grid_body");
 
   gtk_grid_attach(GTK_GRID(current_grid.your_profile), profile_help_grid, 0, 0, 1, 1);
   gtk_grid_set_row_spacing(GTK_GRID(profile_help_grid), 10);
   gtk_grid_attach(GTK_GRID(profile_help_grid), profile_grid_for_img, 0, 0, 1, 1);
-  // gtk_grid_attach(GTK_GRID(profile_help_grid), profile_grid_scale, 0, 1, 1, 1);
+ // gtk_grid_attach(GTK_GRID(profile_help_grid), profile_grid_scale, 0, 1, 1, 1);
   gtk_grid_attach(GTK_GRID(profile_help_grid), profile_grid_body, 0, 1, 1, 1);
 
   // GtkWidget *profile_avatar_icon = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
   //  get_your_profile_avatar();
 
-  // GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file("/home/criops/ucode-connect-uchat/avatar.png", NULL);
+  //GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file("/home/criops/ucode-connect-uchat/avatar.png", NULL);
 
   avatar_img = gtk_image_new_from_pixbuf(current_avatar.avatar);
 
@@ -152,17 +153,17 @@ void show_your_profile()
 
   gtk_widget_set_size_request(choose_profile_avatar_btn, 200, 200);
 
-  // gtk_grid_attach(GTK_GRID(profile_grid_scale), exp_box, 0, 0, 1, 1);
+  //gtk_grid_attach(GTK_GRID(profile_grid_scale), exp_box, 0, 0, 1, 1);
 
-  // gtk_widget_set_size_request(exp_box, 250, 20);
+  //gtk_widget_set_size_request(exp_box, 250, 20);
 
-  // gtk_box_append(GTK_BOX(exp_box), mini_exp_box);
+  //gtk_box_append(GTK_BOX(exp_box), mini_exp_box);
 
-  // gtk_widget_set_size_request(mini_exp_box, 125, 20);
+  //gtk_widget_set_size_request(mini_exp_box, 125, 20);
 
-  // gtk_widget_set_halign(exp_count_label, GTK_ALIGN_CENTER);
+  //gtk_widget_set_halign(exp_count_label, GTK_ALIGN_CENTER);
 
-  // gtk_grid_attach(GTK_GRID(profile_grid_scale), exp_count_label, 0, 0, 1, 1);
+  //gtk_grid_attach(GTK_GRID(profile_grid_scale), exp_count_label, 0, 0, 1, 1);
 
   gtk_grid_attach(GTK_GRID(profile_grid_body), profile_grid_vbox, 0, 0, 1, 1);
 
@@ -217,10 +218,11 @@ void show_your_profile()
 
   gtk_widget_set_size_request(bio_entry, 216, 22);
 
+
   widget_styling(choose_profile_avatar_btn, current_screen, "choose_profile_avatar_btn");
-  // widget_styling(avatar_img, current_screen, "avatar_img");
-  // widget_styling(mini_exp_box, current_screen, "mini_exp_box");
-  // widget_styling(exp_count_label, current_screen, "exp_count_label");
+  //widget_styling(avatar_img, current_screen, "avatar_img");
+  //widget_styling(mini_exp_box, current_screen, "mini_exp_box");
+  //widget_styling(exp_count_label, current_screen, "exp_count_label");
   widget_styling(name_label, current_screen, "name_label");
   widget_styling(first_name_entry, current_screen, "name_entry");
   widget_styling(last_name_entry, current_screen, "name_entry");

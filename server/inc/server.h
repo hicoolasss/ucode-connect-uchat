@@ -96,6 +96,8 @@ int sql_create_new_group(sqlite3 *db, const char *chatname, const char *avatarna
 int sql_record_message(sqlite3 *db, char *username, char *friendname, const char *message_text);
 //запись истории чата в односвязный список
 t_list *get_message_history(sqlite3 *db, int user_id, int friend_id);
+//вывод последнего сообщения в чате с этим человеком
+char *get_last_message_from_dialog(sqlite3 *db, char *username, char *friendname);
 /*функции для операций над списками и JSON*/
 
 //односвязный список имен в JSON

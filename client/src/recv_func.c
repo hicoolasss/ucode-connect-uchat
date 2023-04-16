@@ -2,6 +2,7 @@
 extern int in_chat;
 t_list *friend_list;
 t_list *user_list;
+t_list *chat_history;
 
 void print_message(char *login, char *message);
 
@@ -71,11 +72,79 @@ gpointer recv_func(gpointer data)
         else if (mx_strcmp(command, "<user_list>") == 0)
         {
             user_list = receive_list(current_client.ssl);
-            if (user_list == NULL)
+            // mx_printstr(((t_user*)user_list->data)->username);
+            // if (user_list == NULL)
+            // {
+            //     printf("null\n");
+            //     break;
+            // }
+        }
+        else if (mx_strcmp(command, "<friend_list>") == 0)
+        {
+            friend_list = receive_list(current_client.ssl);
+        }
+        else if (mx_strcmp(command, "<add_friend>") == 0)
+        {
+            char temp[128];
+            pthread_mutex_lock(&mutex_recv);
+            int len = SSL_read(current_client.ssl, temp, sizeof(temp));
+            pthread_mutex_unlock(&mutex_recv);
+            if (len < 0)
             {
-                printf("null\n");
+                printf("Error: Unable to receive data from server\n");
                 break;
             }
+            if (mx_strcmp(temp, "already your friend") == 0)
+            {
+                mx_printstr("already your friend\n");
+                continue;
+            }
+            cJSON *json = cJSON_Parse(temp);
+            if (!json)
+            {
+                printf("Error: Invalid JSON data received from server\n");
+                break;
+            }
+            char *friendname = cJSON_GetObjectItemCaseSensitive(json, "friendname")->valuestring;
+            mx_printstr(friendname);
+        }
+        else if (mx_strcmp(command, "<send_message>") == 0)
+        {
+            char temp[128];
+            pthread_mutex_lock(&mutex_recv);
+            int len = SSL_read(current_client.ssl, temp, sizeof(temp));
+            pthread_mutex_unlock(&mutex_recv);
+            if (len < 0)
+            {
+                printf("Error: Unable to receive data from server\n");
+                break;
+            }
+            cJSON *json = cJSON_Parse(temp);
+            if (!json)
+            {
+                printf("Error: Invalid JSON data received from server\n");
+                break;
+            }
+            char *sender = cJSON_GetObjectItemCaseSensitive(json, "sender")->valuestring;
+            mx_printstr(sender);
+        }
+        else if (mx_strcmp(command, "<show_history>") == 0)
+        {
+            char temp[128];
+            pthread_mutex_lock(&mutex_recv);
+            int len = SSL_read(current_client.ssl, temp, sizeof(temp));
+            pthread_mutex_unlock(&mutex_recv);
+            if (len < 0)
+            {
+                printf("Error: Unable to receive data from server\n");
+                break;
+            }
+            if (mx_strcmp(temp, "chat empty") == 0)
+            {
+                mx_printstr("chat empty");
+                continue;
+            }
+            chat_history = deserialize_chathistory_list(temp);
         }
     }
     // g_free(command);

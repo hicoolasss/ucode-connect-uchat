@@ -25,12 +25,8 @@
 #include <pango/pango.h>
 #include <math.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-//не дай бог кто-то это удалит, будка будет набита!!!!
-//почему эта хуйня подсвечивается крассным, а уебище
 #include <curl/curl.h>
 #include <jansson.h>
-//
-
 #include "../../libs/libmx/inc/libmx.h"
 #include "../../libs/cjson/inc/cJSON.h"
 
@@ -46,6 +42,7 @@ typedef struct {
 
 typedef struct s_user {
     const char *username;
+    char *lastmessage;
     // char *firstname;
     // char *lastname;
 
@@ -240,6 +237,10 @@ typedef struct s_achievements {
 
 typedef enum {
     COMMAND_TYPE_GET_USER_LIST,
+    COMMAND_TYPE_SEND_MESSAGE,
+    COMMAND_TYPE_GET_FRIEND_LIST,
+    COMMAND_TYPE_GET_SHOW_HISTORY,
+    COMMAND_TYPE_GET_ADD_FRIEND,
 } CommandType;
 
 typedef struct s_ThreadCommand{
@@ -249,7 +250,7 @@ typedef struct s_ThreadCommand{
 
 
 extern GAsyncQueue *command_queue;
-
+extern GAsyncQueue *message_queue;
 extern volatile gboolean running;
 
 extern pthread_mutex_t command_queue_mutex;
@@ -373,4 +374,6 @@ void show_chats_with_added_friends();
 
 void show_chat_history(t_list *chat_history);
 void receive_msg(char *msg);
+void update_friend_list();
+
 void update_friend_list();

@@ -35,42 +35,6 @@ void show_home(void)
     current_grid.second_intro_screen = create_grid(1200, 760, "intro_flash_light");
     current_grid.third_intro_screen = create_grid(586, 544, NULL);
 
-    // cJSON *json1 = cJSON_CreateObject();
-    // cJSON_AddStringToObject(json1, "login", current_client.login);
-    // cJSON_AddStringToObject(json1, "command", "<friend_list>");
-
-    // char *json_str1 = cJSON_Print(json1);
-    // cJSON_Delete(json1);
-
-    // send_message_to_server(json_str1);
-
-    // while (!friend_list)
-    // {
-    //     friend_list = receive_list(current_client.ssl);
-    //     if(friend_list == NULL) break;
-    // }
-
-    // t_ThreadCommand *command = g_new(t_ThreadCommand, 1);
-    // command->command_type = COMMAND_TYPE_GET_USER_LIST; // Тип команды
-    // command->data = NULL; // Данные могут быть NULL или указателем на строку, в зависимости от типа команды
-
-    // Блокируем мьютекс и добавляем команду в очередь
-    // pthread_mutex_lock(&command_queue_mutex);
-    // g_async_queue_push(command_queue, command);
-    // pthread_mutex_unlock(&command_queue_mutex);
-    // cJSON *json = cJSON_CreateObject();
-    // cJSON_AddStringToObject(json, "login", current_client.login);
-    // cJSON_AddStringToObject(json, "command", "<user_list>");
-
-    // char *json_str = cJSON_Print(json);
-    // cJSON_Delete(json);
-
-    // send_message_to_server(json_str);
-
-    // while(user_list == NULL) {
-    //     user_list = receive_list(current_client.ssl);
-    // }
-
     // fill all grids
     show_left_menu_bar();
     show_achievements();

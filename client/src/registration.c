@@ -5,104 +5,123 @@ extern t_grid current_grid;
 extern t_client current_client;
 t_registration current_registration;
 
-
-static void log_in_btn_clicked(void) {
+static void log_in_btn_clicked(void)
+{
 
     set_unvisible_auth();
     gtk_widget_set_visible(GTK_WIDGET(current_grid.log_in_conrainer), TRUE);
     show_log_in();
-
 }
 
-static int get_username_status(void) {
+static int get_username_status(void)
+{
 
-    if (mx_strlen(current_client.login) < 4) return -1;
-    if (mx_strlen(current_client.login) > 10) return -2;
+    if (mx_strlen(current_client.login) < 4)
+        return -1;
+    if (mx_strlen(current_client.login) > 10)
+        return -2;
 
     const char *forbidden_symbols = "$&=+<>,_`- ";
-    
-    for (int i = 0; i < mx_strlen(current_client.login); i++) {
-        
-        for (int j = 0; j < 9; j++) {
-            
-            if (current_client.login[i] == forbidden_symbols[j]) {
-                
+
+    for (int i = 0; i < mx_strlen(current_client.login); i++)
+    {
+
+        for (int j = 0; j < 9; j++)
+        {
+
+            if (current_client.login[i] == forbidden_symbols[j])
+            {
+
                 return -3;
-            
             }
-        
         }
-    
     }
 
     char *json_str;
     json_str = registration(1);
     send_message_to_server(json_str);
     char buf[256];
-    
-    
-    while (1) {
+
+    while (1)
+    {
         // int len = recv_all(current_client.ssl, buf, sizeof(buf));
         printf("Thread %lu trying to lock mutex\n", pthread_self());
         pthread_mutex_lock(&mutex_recv);
         int len = SSL_read(current_client.ssl, buf, sizeof(buf));
         pthread_mutex_unlock(&mutex_recv);
         printf("Thread %lu trying to unlock mutex\n", pthread_self());
-        if (len < 0) {
-            
-            //printf("Error: Unable to receive data from server\n");
+        if (len < 0)
+        {
+
+            // printf("Error: Unable to receive data from server\n");
             return -4;
-        
-        } else if (mx_strcmp(buf, "this user already exist\n") == 0) {
-
-            //mx_printstr("this user already exist\n");
-            return -5;
-        
-        } else if (mx_strcmp(buf, "registered\n") == 0) {
-            
-            return 0;
-        
         }
+        else if (mx_strcmp(buf, "this user already exist\n") == 0)
+        {
+
+            // mx_printstr("this user already exist\n");
+            return -5;
+        }
+        else if (mx_strcmp(buf, "registered\n") == 0)
+        {
+
+            return 0;
+        }
+        else break;
     }
-
-    return 0;
+    return 1;
 }
+static int get_password_status(const char *confirm_password)
+{
 
-static int get_password_status (const char *confirm_password) {
-
-    if (mx_strlen(current_client.password) < 4) return -1;
-    if (mx_strlen(current_client.password) > 10) return -2;
+    if (mx_strlen(current_client.password) < 4)
+        return -1;
+    if (mx_strlen(current_client.password) > 10)
+        return -2;
 
     const char *forbidden_symbols = "$&=+<>,_`- ";
-    
-    for (int i = 0; i < mx_strlen(current_client.password); i++) {
-        
-        for (int j = 0; j < 9; j++) {
-            
-            if (current_client.password[i] == forbidden_symbols[j]) {
-                
+
+    for (int i = 0; i < mx_strlen(current_client.password); i++)
+    {
+
+        for (int j = 0; j < 9; j++)
+        {
+
+            if (current_client.password[i] == forbidden_symbols[j])
+            {
+
                 return -3;
-            
             }
-        
         }
-    
     }
 
-    if (mx_strcmp(current_client.password, confirm_password) != 0) return -4;
+    if (mx_strcmp(current_client.password, confirm_password) != 0)
+        return -4;
 
     return 0;
-
 }
 
-static void sign_inbtn_clicked() {
-    
+static void sign_inbtn_clicked()
+{
+
     set_unvisible_auth();
     gtk_widget_set_visible(GTK_WIDGET(current_grid.log_in_conrainer), TRUE);
-
 }
 
-static void sign_up_btn_clicked(GtkWidget *widget, gpointer entries_array) {
+static void username_to_password(GtkEntry *entry)
+{
+    // gtk_entry_set_text(entry, "");
+    gtk_widget_grab_focus(current_registration.password); // Та-да! Курсор перемещается на второй виджет GtkEntry
+}
+
+static void password_to_confirm_password(GtkEntry *entry)
+{
+    // gtk_entry_set_text(entry, "");
+    gtk_widget_grab_focus(current_registration.confirm_password); // Та-да! Курсор перемещается на второй виджет GtkEntry
+}
+
+static void sign_up_btn_clicked(GtkWidget *widget, gpointer entries_array)
+{
 
     bool is_registration_success = true;
 
@@ -118,180 +137,183 @@ static void sign_up_btn_clicked(GtkWidget *widget, gpointer entries_array) {
 
     int username_status = get_username_status();
 
-    switch (username_status) {
-        
-        case 0: { 
-            
-            widget_restyling(current_registration.username_error_label, current_screen, "error_label", "hide_label");
+    switch (username_status)
+    {
 
-            widget_restyling(entry_data[0], current_screen, "wrong_auth_entry_field", "auth_entry_field");
-            
-            break;
+    case 0:
+    {
 
-        }
+        widget_restyling(current_registration.username_error_label, current_screen, "error_label", "hide_label");
 
-        case -1: {
-            
-            gtk_label_set_text(GTK_LABEL(current_registration.username_error_label), "Username is too short!");
+        widget_restyling(entry_data[0], current_screen, "wrong_auth_entry_field", "auth_entry_field");
 
-            widget_restyling(current_registration.username_error_label, current_screen, "hide_label", "error_label");
+        break;
+    }
 
-            widget_styling(entry_data[0], current_screen, "wrong_auth_entry_field");
+    case -1:
+    {
 
-            is_registration_success = false;
+        gtk_label_set_text(GTK_LABEL(current_registration.username_error_label), "Username is too short!");
 
-            return;
-        
-        }
+        widget_restyling(current_registration.username_error_label, current_screen, "hide_label", "error_label");
 
-        case -2: {
+        widget_styling(entry_data[0], current_screen, "wrong_auth_entry_field");
 
-            gtk_label_set_text(GTK_LABEL(current_registration.username_error_label), "Username is too long!");
+        is_registration_success = false;
 
-            widget_restyling(current_registration.username_error_label, current_screen, "hide_label", "error_label");
+        return;
+    }
 
-            widget_styling(entry_data[0], current_screen, "wrong_auth_entry_field");
+    case -2:
+    {
 
-            is_registration_success = false;
+        gtk_label_set_text(GTK_LABEL(current_registration.username_error_label), "Username is too long!");
 
-            return;
+        widget_restyling(current_registration.username_error_label, current_screen, "hide_label", "error_label");
 
-        }
+        widget_styling(entry_data[0], current_screen, "wrong_auth_entry_field");
 
-        case -3: {
+        is_registration_success = false;
 
-            gtk_label_set_text(GTK_LABEL(current_registration.username_error_label), "Username contain forbidden symbols!");
+        return;
+    }
 
-            widget_restyling(current_registration.username_error_label, current_screen, "hide_label", "error_label");
+    case -3:
+    {
 
-            widget_styling(entry_data[0], current_screen, "wrong_auth_entry_field");
+        gtk_label_set_text(GTK_LABEL(current_registration.username_error_label), "Username contain forbidden symbols!");
 
-            is_registration_success = false;
+        widget_restyling(current_registration.username_error_label, current_screen, "hide_label", "error_label");
 
-            return;
+        widget_styling(entry_data[0], current_screen, "wrong_auth_entry_field");
 
-        }
+        is_registration_success = false;
 
-        case -4: {
+        return;
+    }
 
-            gtk_label_set_text(GTK_LABEL(current_registration.username_error_label), "Unable to receive data from server!");
+    case -4:
+    {
 
-            widget_restyling(current_registration.username_error_label, current_screen, "hide_label", "error_label");
+        gtk_label_set_text(GTK_LABEL(current_registration.username_error_label), "Unable to receive data from server!");
 
-            widget_styling(entry_data[0], current_screen, "wrong_auth_entry_field");
+        widget_restyling(current_registration.username_error_label, current_screen, "hide_label", "error_label");
 
-            is_registration_success = false;
+        widget_styling(entry_data[0], current_screen, "wrong_auth_entry_field");
 
-            return;
+        is_registration_success = false;
 
-        }
+        return;
+    }
 
-        case -5: {
+    case -5:
+    {
 
-            gtk_label_set_text(GTK_LABEL(current_registration.username_error_label), "This account already exist!");
+        gtk_label_set_text(GTK_LABEL(current_registration.username_error_label), "This account already exist!");
 
-            widget_restyling(current_registration.username_error_label, current_screen, "hide_label", "error_label");
+        widget_restyling(current_registration.username_error_label, current_screen, "hide_label", "error_label");
 
-            widget_styling(entry_data[0], current_screen, "wrong_auth_entry_field");
+        widget_styling(entry_data[0], current_screen, "wrong_auth_entry_field");
 
-            is_registration_success = false;
+        is_registration_success = false;
 
-            return;
-
-        }
-
-
+        return;
+    }
     }
 
     int password_status = get_password_status(confirm_password);
 
-    switch (password_status) {
-        
-        case 0: {
+    switch (password_status)
+    {
 
-            widget_restyling(current_registration.password_error_label, current_screen, "error_label", "hide_label");
-            widget_restyling(current_registration.confirm_password_error_label, current_screen, "error_label", "hide_label");
+    case 0:
+    {
 
-            widget_restyling(entry_data[1], current_screen, "wrong_auth_entry_field", "auth_entry_field");
-            widget_restyling(entry_data[2], current_screen, "wrong_auth_entry_field", "auth_entry_field");
+        widget_restyling(current_registration.password_error_label, current_screen, "error_label", "hide_label");
+        widget_restyling(current_registration.confirm_password_error_label, current_screen, "error_label", "hide_label");
 
-            break;
-        
-        }
+        widget_restyling(entry_data[1], current_screen, "wrong_auth_entry_field", "auth_entry_field");
+        widget_restyling(entry_data[2], current_screen, "wrong_auth_entry_field", "auth_entry_field");
 
-        case -1: {
-            
-            gtk_label_set_text(GTK_LABEL(current_registration.password_error_label), "Password is too short");
-
-            widget_restyling(current_registration.password_error_label, current_screen, "hide_label", "error_label");
-
-            widget_styling(entry_data[1], current_screen, "wrong_auth_entry_field");
-
-            is_registration_success = false;
-
-            return;
-        
-        }
-
-        case -2: {
-
-            gtk_label_set_text(GTK_LABEL(current_registration.password_error_label), "Password is too long");
-
-            widget_restyling(current_registration.password_error_label, current_screen, "hide_label", "error_label");
-
-            widget_styling(entry_data[1], current_screen, "wrong_auth_entry_field");
-
-            is_registration_success = false;
-
-            return;
-
-        }
-
-        case -3: {
-
-            gtk_label_set_text(GTK_LABEL(current_registration.password_error_label), "Password contain forbidden symbols!");
-
-            widget_restyling(current_registration.password_error_label, current_screen, "hide_label", "error_label");
-
-            widget_styling(entry_data[1], current_screen, "wrong_auth_entry_field");
-
-            is_registration_success = false;
-
-            return;
-
-        }
-
-
-        case -4: {
-
-            gtk_label_set_text(GTK_LABEL(current_registration.password_error_label), "Passwords missmatch!");
-            gtk_label_set_text(GTK_LABEL(current_registration.confirm_password_error_label), "Passwords missmatch!");
-
-            widget_styling(entry_data[1], current_screen, "wrong_auth_entry_field");
-            widget_styling(entry_data[2], current_screen, "wrong_auth_entry_field");
-
-            widget_restyling(current_registration.password_error_label, current_screen, "hide_label", "error_label");
-            widget_restyling(current_registration.confirm_password_error_label, current_screen, "hide_label", "error_label");
-
-            is_registration_success = false;
-
-            return;
-
-        }
+        break;
     }
 
-    if (is_registration_success) {
-        
+    case -1:
+    {
+
+        gtk_label_set_text(GTK_LABEL(current_registration.password_error_label), "Password is too short");
+
+        widget_restyling(current_registration.password_error_label, current_screen, "hide_label", "error_label");
+
+        widget_styling(entry_data[1], current_screen, "wrong_auth_entry_field");
+
+        is_registration_success = false;
+
+        return;
+    }
+
+    case -2:
+    {
+
+        gtk_label_set_text(GTK_LABEL(current_registration.password_error_label), "Password is too long");
+
+        widget_restyling(current_registration.password_error_label, current_screen, "hide_label", "error_label");
+
+        widget_styling(entry_data[1], current_screen, "wrong_auth_entry_field");
+
+        is_registration_success = false;
+
+        return;
+    }
+
+    case -3:
+    {
+
+        gtk_label_set_text(GTK_LABEL(current_registration.password_error_label), "Password contain forbidden symbols!");
+
+        widget_restyling(current_registration.password_error_label, current_screen, "hide_label", "error_label");
+
+        widget_styling(entry_data[1], current_screen, "wrong_auth_entry_field");
+
+        is_registration_success = false;
+
+        return;
+    }
+
+    case -4:
+    {
+
+        gtk_label_set_text(GTK_LABEL(current_registration.password_error_label), "Passwords missmatch!");
+        gtk_label_set_text(GTK_LABEL(current_registration.confirm_password_error_label), "Passwords missmatch!");
+
+        widget_styling(entry_data[1], current_screen, "wrong_auth_entry_field");
+        widget_styling(entry_data[2], current_screen, "wrong_auth_entry_field");
+
+        widget_restyling(current_registration.password_error_label, current_screen, "hide_label", "error_label");
+        widget_restyling(current_registration.confirm_password_error_label, current_screen, "hide_label", "error_label");
+
+        is_registration_success = false;
+
+        return;
+    }
+    }
+
+    if (is_registration_success)
+    {
+
+        gtk_editable_set_text(GTK_EDITABLE(current_registration.username), "");
+        gtk_editable_set_text(GTK_EDITABLE(current_registration.password), "");
+        gtk_editable_set_text(GTK_EDITABLE(current_registration.confirm_password), "");
         set_unvisible_auth();
         gtk_widget_set_visible(GTK_WIDGET(current_grid.registration_success_container), TRUE);
-    
     }
+    // pthread_mutex_unlock(&mutex1);
 }
 
 void show_registration()
 {
 
-    //GtkWidget *box, *username, *wrong_username, *password, *wrong_password, *confirm_password, *wrong_password1;
+    // GtkWidget *box, *username, *wrong_username, *password, *wrong_password, *confirm_password, *wrong_password1;
     current_registration.username_error_label = gtk_label_new("label");
 
     current_registration.password_error_label = gtk_label_new("label");
@@ -329,11 +351,10 @@ void show_registration()
     gtk_entry_set_alignment(GTK_ENTRY(current_registration.username), 0.1);
     gtk_entry_set_alignment(GTK_ENTRY(current_registration.password), 0.1);
     gtk_entry_set_alignment(GTK_ENTRY(current_registration.confirm_password), 0.1);
-    
+
     gtk_entry_set_placeholder_text(GTK_ENTRY(current_registration.username), " Username");
     gtk_entry_set_placeholder_text(GTK_ENTRY(current_registration.password), " Password");
     gtk_entry_set_placeholder_text(GTK_ENTRY(current_registration.confirm_password), "  Confirm Password");
-    
 
     gtk_box_append(GTK_BOX(current_registration.box), current_registration.welcome);
 
@@ -359,20 +380,17 @@ void show_registration()
 
     gtk_widget_set_halign(current_registration.username_error_label, GTK_ALIGN_CENTER);
 
-
     gtk_widget_set_halign(current_registration.password, GTK_ALIGN_CENTER);
     gtk_widget_set_margin_top(current_registration.password, 5);
     gtk_widget_set_size_request(current_registration.password, 423, 63);
 
     gtk_widget_set_halign(current_registration.password_error_label, GTK_ALIGN_CENTER);
 
-
     gtk_widget_set_halign(current_registration.confirm_password, GTK_ALIGN_CENTER);
     gtk_widget_set_margin_top(current_registration.confirm_password, 5);
     gtk_widget_set_size_request(current_registration.confirm_password, 423, 63);
 
     gtk_widget_set_halign(current_registration.confirm_password_error_label, GTK_ALIGN_CENTER);
-
 
     gtk_widget_set_halign(current_registration.sign_up_btn, GTK_ALIGN_CENTER);
     gtk_widget_set_margin_top(current_registration.sign_up_btn, 5);
@@ -386,7 +404,6 @@ void show_registration()
     gtk_widget_set_margin_top(current_registration.sign_in_btn, 0);
     gtk_widget_set_size_request(current_registration.sign_in_btn, 63, 20);
 
-
     widget_styling(current_registration.box, current_screen, "auth_main_box");
     widget_styling(current_registration.welcome, current_screen, "auth_welcome_to_the_dark");
     widget_styling(current_registration.username, current_screen, "auth_entry_field");
@@ -395,7 +412,7 @@ void show_registration()
     widget_styling(current_registration.sign_up_btn, current_screen, "auth_button");
     widget_styling(current_registration.sign_in_btn, current_screen, "auth_sign_button");
     widget_styling(current_registration.have_account, current_screen, "auth_dont_or_have_account");
-    
+
     widget_styling(current_registration.username_error_label, current_screen, "hide_label");
     widget_styling(current_registration.password_error_label, current_screen, "hide_label");
     widget_styling(current_registration.confirm_password_error_label, current_screen, "hide_label");
@@ -409,12 +426,17 @@ void show_registration()
 
     g_signal_connect(current_registration.sign_up_btn, "clicked", G_CALLBACK(sign_up_btn_clicked), entry_arr);
 
-    gtk_window_present(GTK_WINDOW(current_screen.screen));
+    g_signal_connect(current_registration.username, "activate", G_CALLBACK(username_to_password), NULL);
 
+    g_signal_connect(current_registration.password, "activate", G_CALLBACK(password_to_confirm_password), NULL);
+
+    g_signal_connect(current_registration.password, "activate", G_CALLBACK(sign_up_btn_clicked), NULL);
+
+    gtk_window_present(GTK_WINDOW(current_screen.screen));
 }
 
-
-void show_success_registration(void) {
+void show_success_registration(void)
+{
 
     GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
@@ -436,7 +458,7 @@ void show_success_registration(void) {
 
     gtk_widget_set_halign(registration_success_label, GTK_ALIGN_CENTER);
     gtk_widget_set_margin_top(registration_success_label, 155);
-    
+
     gtk_label_set_wrap(GTK_LABEL(registration_success_label), TRUE);
     gtk_label_set_max_width_chars(GTK_LABEL(registration_success_label), 22);
     gtk_label_set_justify(GTK_LABEL(registration_success_label), GTK_JUSTIFY_CENTER);
@@ -449,6 +471,4 @@ void show_success_registration(void) {
     widget_styling(registration_success_label, current_screen, "registration_success_label");
 
     g_signal_connect(log_in_button, "clicked", G_CALLBACK(log_in_btn_clicked), NULL);
-
-
 }
