@@ -1,5 +1,8 @@
 #include "../inc/client.h"
 extern int in_chat;
+t_list *friend_list;
+t_list *user_list;
+
 void print_message(char *login, char *message);
 
 // void *recv_func()
@@ -41,11 +44,42 @@ void print_message(char *login, char *message);
 //     return NULL;
 // }
 
-void *recv_func() {
+gpointer recv_func(gpointer data)
+{
+    char command[2048];
 
-    while(running) {
-        
+    pthread_mutex_lock(&mutex_recv);
+    while (!main_client.connected)
+    {
+        pthread_cond_wait(&auth_cond, &mutex_recv);
     }
+    // Здесь пользователь авторизован, и поток может продолжить работу с мьютексом
+    pthread_mutex_unlock(&mutex_recv);
+
+    while (running)
+    {
+        printf("Thread recv_func trying to lock mutex\n");
+        pthread_mutex_lock(&mutex_recv);
+        int len = SSL_read(current_client.ssl, command, sizeof(command));
+        pthread_mutex_unlock(&mutex_recv);
+        printf("Thread recv_func trying to unlock mutex\n");
+        if (len < 0)
+        {
+            printf("Error: Unable to receive data from server\n");
+            break;
+        }
+        else if (mx_strcmp(command, "<user_list>") == 0)
+        {
+            user_list = receive_list(current_client.ssl);
+            if (user_list == NULL)
+            {
+                printf("null\n");
+                break;
+            }
+        }
+    }
+    // g_free(command);
+    return NULL;
 }
 
 void print_message(char *login, char *message)

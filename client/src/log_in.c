@@ -23,14 +23,14 @@ static int get_username_status(void)
     send_message_to_server(json_str);
     mx_printstr(json_str);
     char buf[256];
+
     while (main_client.connected == false)
     {
-        pthread_mutex_lock(&mutex1);
+        pthread_mutex_lock(&mutex_recv);
         int len = SSL_read(current_client.ssl, buf, sizeof(buf));
-        pthread_mutex_unlock(&mutex1);
+        pthread_mutex_unlock(&mutex_recv);
         if (len < 0)
         {
-
             return -1;
         }
         else if (mx_strcmp(buf, "user not found\n") == 0)
@@ -45,8 +45,10 @@ static int get_username_status(void)
         }
         else if (mx_strcmp(buf, "success\n") == 0)
         {
-
+            pthread_mutex_lock(&mutex_recv);
             main_client.connected = true;
+            pthread_cond_broadcast(&auth_cond);
+            pthread_mutex_unlock(&mutex_recv);
             return 0;
         }
     }
@@ -189,31 +191,6 @@ static void log_in_btn_clicked(GtkWidget *widget, gpointer data)
         set_unvisible_auth();
         show_home();
     }
-
-    // char *json_str;
-    // json_str = registration(0);
-    // send_message_to_server(json_str);
-    // char buf[256];
-    // while (main_client.connected == false)
-    // {
-    //     int len = SSL_read(current_client.ssl, buf, sizeof(buf));
-    //     if (len < 0)
-    //     {
-    //         printf("Error: Unable to receive data from server\n");
-    //     }
-    //     else if (mx_strcmp(buf, "incorrect password\n") == 0)
-    //     {
-    //         mx_printstr("incorrect password or login\n");
-    //         break;
-    //     }
-    //     else if (mx_strcmp(buf, "success\n") == 0)
-    //     {
-    //         main_client.connected = true;
-    //         set_unvisible_auth();
-    //         show_home();
-    //     }
-    // }
-    // pthread_mutex_unlock(&mutex1);
 }
 
 void show_log_in(void)

@@ -42,9 +42,12 @@ static int get_username_status(void) {
     
     
     while (1) {
-        pthread_mutex_lock(&mutex1);
+        // int len = recv_all(current_client.ssl, buf, sizeof(buf));
+        printf("Thread %lu trying to lock mutex\n", pthread_self());
+        pthread_mutex_lock(&mutex_recv);
         int len = SSL_read(current_client.ssl, buf, sizeof(buf));
-        pthread_mutex_unlock(&mutex1);
+        pthread_mutex_unlock(&mutex_recv);
+        printf("Thread %lu trying to unlock mutex\n", pthread_self());
         if (len < 0) {
             
             //printf("Error: Unable to receive data from server\n");

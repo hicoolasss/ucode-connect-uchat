@@ -7,11 +7,11 @@ t_grid current_grid;
 pthread_mutex_t cl_mutex;
 int in_chat = 0;
 _Atomic bool registered;
-pthread_mutex_t send = PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t recv = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mutex_send = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mutex_recv = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t command_queue_mutex = PTHREAD_MUTEX_INITIALIZER;
 
-pthread_cond_t new_data_cond = PTHREAD_COND_INITIALIZER;
+pthread_cond_t auth_cond = PTHREAD_COND_INITIALIZER;
 
 GAsyncQueue *command_queue;
 
@@ -143,24 +143,27 @@ int main(int argc, char **argv)
     GtkApplication *app;
     int stat = 0;
 
-    pthread_t rec_th, send_th;
-    pthread_mutex_init(&recv, NULL);
-    pthread_mutex_init(&send, NULL);
+    // pthread_t rec_th, send_th;
+    pthread_mutex_init(&mutex_recv, NULL);
+    pthread_mutex_init(&mutex_send, NULL);
     pthread_mutex_init(&command_queue_mutex, NULL);
+
+    gpointer send_func(gpointer data);
+    gpointer recv_func(gpointer data);
+
     command_queue = g_async_queue_new();
 
-    pthread_create(&send_th, NULL, send_func, &current_client.serv_fd);
-
-    pthread_create(&rec_th, NULL, recv_func, &current_client.serv_fd);
-
+    GThread *send_thread = g_thread_new("send_thread", send_func, NULL);
+    GThread *receive_thread = g_thread_new("receive_thread", recv_func, NULL);
+    
     app = gtk_application_new("com.github.darkchat", G_APPLICATION_DEFAULT_FLAGS);
     g_signal_connect(app, "activate", G_CALLBACK(app_activate), NULL);
     stat = g_application_run(G_APPLICATION(app), FALSE, NULL);
 
     running = FALSE;
 
-    g_thread_join(send_th);
-    g_thread_join(rec_th);
+    g_thread_join(send_thread);
+    g_thread_join(receive_thread);
 
     SSL_shutdown(ssl);
     SSL_free(ssl);

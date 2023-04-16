@@ -54,8 +54,7 @@ void create_new_chat(GtkToggleButton *toggle_button, gpointer user_data)
     char *json_str = cJSON_Print(json);
     cJSON_Delete(json);
 
-    send_message_to_server(json_str);
-
+    // send_message_to_server(json_str);
     // GtkWidget *user_info_box_temp = gtk_widget_get_parent(GTK_WIDGET(toggle_button));
 
     // GtkWidget *checkbox_btn = gtk_widget_get_last_child(user_info_box_temp);
@@ -210,8 +209,9 @@ static void on_entry_activate(GtkEntry *entry, gpointer data)
     char *json_str = cJSON_Print(json);
     cJSON_Delete(json);
 
-    send_message_to_server(json_str);
-
+    printf("Thread %lu trying to lock mutex\n", pthread_self());
+    // send_message_to_server(json_str);
+    printf("Thread %lu trying to unlock mutex\n", pthread_self());
     // Не забудьте освободить память, выделенную для text_copy, когда она вам больше не понадобится
 }
 
@@ -267,25 +267,27 @@ void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
 
     send_message_to_server(json_str);
 
-    while (!chat_history)
-    {
-        pthread_mutex_lock(&mutex1);
-        int bytes_received = SSL_read(current_client.ssl, temp, temp_size - 1);
-        pthread_mutex_unlock(&mutex1);
-        if (bytes_received <= 0)
-        {
-            break;
-        }
+    // while (!chat_history)
+    // {
+    //     printf("Thread %lu trying to lock mutex\n", pthread_self());
+    //     pthread_mutex_lock(&mutex_recv);
+    //     int bytes_received = SSL_read(current_client.ssl, temp, temp_size - 1);
+    //     pthread_mutex_unlock(&mutex_recv);
+    //     printf("Thread %lu trying to unlock mutex\n", pthread_self());
+    //     if (bytes_received <= 0)
+    //     {
+    //         break;
+    //     }
 
-        temp[bytes_received] = '\0';
+    //     temp[bytes_received] = '\0';
 
-        if (mx_strcmp(temp, "chat empty") == 0)
-        {
-            break;
-        }
+    //     if (mx_strcmp(temp, "chat empty") == 0)
+    //     {
+    //         break;
+    //     }
 
-        chat_history = deserialize_chathistory_list(temp);
-    }
+    //     chat_history = deserialize_chathistory_list(temp);
+    // }
     t_list *current = chat_history;
     if (chat_history)
     {
@@ -392,8 +394,6 @@ void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
         free(tmp->data);
         free(tmp);
     }
-
-
 }
 
 void show_chats_with_added_friends(const char *username)
@@ -459,7 +459,8 @@ void update_friend_list()
     while (!friend_list_temp)
     {
         friend_list_temp = receive_list(current_client.ssl);
-        if(friend_list_temp == NULL) break;
+        if (friend_list_temp == NULL)
+            break;
     }
 
     // Пройдись по списку друзей и вызови show_chats_with_added_friends для каждого друга
@@ -516,7 +517,12 @@ void show_create_new_chat_with_someone()
     widget_styling(entry_for_search, current_screen, "entry_for_search_user");
 
     // g_print("penis[ig]: %p\n", (void *)current_grid.chats_list_grid_child);
+    t_ThreadCommand *command = g_new(t_ThreadCommand, 1);
+    command->command_type = COMMAND_TYPE_GET_USER_LIST; // Тип команды
+    command->data = NULL;                               // Данные могут быть NULL или указателем на строку, в зависимости от типа команды
+    g_async_queue_push(command_queue, command);
 
+    // printf("%s\n", ((t_user *)user_list->data)->username);
     t_list *cur = user_list;
 
     show_user_list_scrolled(cur);

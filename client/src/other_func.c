@@ -3,7 +3,6 @@
 int send_message_to_server(char *buffer)
 {
     int len = send_all(current_client.ssl, buffer, mx_strlen(buffer));
-
     if (len < 0)
     {
         mx_printstr("Error sending message.\n");
@@ -43,9 +42,7 @@ int send_all(SSL *sockfd, char *buf, int len)
 
     while (len > 0)
     {
-        pthread_mutex_lock(&send);
         n = SSL_write(sockfd, buf, len);
-        pthread_mutex_unlock(&send);
         if (n <= 0)
             return -1;
         buf += n;
@@ -62,9 +59,7 @@ int recv_all(SSL *sockfd, char *buf, int len)
 
     while (len > 0)
     {
-        pthread_mutex_lock(&recv);
         n = SSL_read(sockfd, buf, len);
-        pthread_mutex_unlock(&recv);
         if (n <= 0)
             return -1;
         buf += n;
@@ -107,14 +102,15 @@ t_list *receive_list(SSL *ssl)
     const int temp_size = 4096;
     char temp[temp_size];
 
-    pthread_mutex_lock(&recv);
+    pthread_mutex_lock(&mutex_recv);
     int bytes_received = SSL_read(ssl, temp, temp_size - 1);
-    pthread_mutex_unlock(&recv);
+    pthread_mutex_unlock(&mutex_recv);
     if (bytes_received <= 0)
     {
         return NULL;
     }
-    if(mx_strcmp("User has no friends", temp) == 0) {
+    if (mx_strcmp("User has no friends", temp) == 0)
+    {
         return NULL;
     }
     temp[bytes_received] = '\0';
@@ -138,7 +134,7 @@ t_list *deserialize_chathistory_list(const char *json_str)
         char *sender = cJSON_GetObjectItem(json_node, "sender")->valuestring;
         char *message = cJSON_GetObjectItem(json_node, "message")->valuestring;
         char *timestamp = cJSON_GetObjectItem(json_node, "timestamp")->valuestring;
-        
+
         t_chat *chat = (t_chat *)malloc(sizeof(t_chat));
         chat->id = message_id;
         chat->sender = mx_strdup(sender);

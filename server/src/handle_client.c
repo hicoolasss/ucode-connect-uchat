@@ -138,15 +138,15 @@ void *handle_client(void *args)
 
                 // t_list *ccc = clients;
 
-                // int command = SSL_write(current_client->ssl, "<user_list>", 12);
-                // if (command < 0)
-                // {
-                //     printf("I can't send command to %s\n, check his connection", current_client->login);
-                // }
-                // else
-                // {
-                //     printf("Success sending command to %s\n", current_client->login);
-                // }
+                int command = SSL_write(current_client->ssl, "<user_list>", 12);
+                if (command < 0)
+                {
+                    printf("I can't send command to %s\n, check his connection", current_client->login);
+                }
+                else
+                {
+                    printf("Success sending command to %s\n", current_client->login);
+                }
 
                 // while (ccc != NULL)
                 // {
