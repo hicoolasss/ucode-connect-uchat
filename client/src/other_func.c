@@ -157,9 +157,11 @@ t_list *process_json_object(cJSON *json_object)
     {
         cJSON *json_friend = cJSON_GetArrayItem(json_friend_list, i);
         cJSON *json_friend_username = cJSON_GetObjectItem(json_friend, "name");
+        cJSON *json_lastmessage = cJSON_GetObjectItem(json_friend, "lastmessage");
 
         t_Friend *new_friend = (t_Friend *)malloc(sizeof(t_Friend)); // Изменено на t_Friend
         new_friend->username = mx_strdup(json_friend_username->valuestring); // Использование strdup для копирования строки
+        new_friend->lastmessage = mx_strdup(json_lastmessage->valuestring);
         new_friend->chat_history = NULL; // Инициализация указателя на историю чата
 
         if (new_friend != NULL)

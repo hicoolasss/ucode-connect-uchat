@@ -294,50 +294,6 @@ void *handle_client(void *args)
                     free(message_data);
                 }
             }
-            // else if (mx_strcmp(command, "<show_history>") == 0)
-            // {
-            //     int cmd = SSL_write(current_client->ssl, command, mx_strlen(command));
-            //     if (cmd < 0)
-            //     {
-            //         printf("I can't send command to %s\n, check his connection", current_client->login);
-            //     }
-            //     else
-            //     {
-            //         printf("Success sending command to %s\n", current_client->login);
-            //     }
-            //     char *friendname = cJSON_GetObjectItemCaseSensitive(json, "friend")->valuestring;
-            //     int user_id = get_user_id(db, current_client->login);
-            //     int friend_id = get_user_id(db, friendname);
-
-            //     t_list *chat_history = get_message_history(db, user_id, friend_id);
-
-            //     if (chat_history == NULL)
-            //     {
-            //         printf("chat empty\n");
-            //         SSL_write(current_client->ssl, "chat empty", 11);
-            //         continue;
-            //     }
-            //     char *serialized_list = serialize_historylist(chat_history);
-            //     int result = SSL_write(current_client->ssl, serialized_list, strlen(serialized_list));
-            //     free(serialized_list);
-
-            //     if (result > 0)
-            //     {
-            //         printf("List sent successfully to %s\n", current_client->login);
-            //     }
-            //     else
-            //     {
-            //         printf("Error sending list to %s\n", current_client->login);
-            //     }
-
-            //     while (chat_history != NULL)
-            //     {
-            //         t_list *temp = chat_history;
-            //         chat_history = chat_history->next;
-            //         free(temp->data);
-            //         free(temp);
-            //     }
-            // }
             cJSON_Delete(json);
         }
     }

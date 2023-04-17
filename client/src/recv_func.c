@@ -62,15 +62,48 @@ gpointer recv_func(gpointer data)
 
             friend_list = process_json_object(received_json);
 
-            t_list *current = friend_list;
+            // t_list *current = friend_list;
 
-            t_Friend *friend_data = (t_Friend *)current->data;
+            // t_Friend *friend_data = (t_Friend *)current->data;
 
-            while (current != NULL)
+            // while (current != NULL)
+            // {
+            //     t_Friend *friend_data = (t_Friend *)current->data;
+
+            //     // mx_printstr(((t_chat*)friend_data->chat_history->data)->message);
+            //     show_chats_with_added_friends(friend_data->username, friend_data->chat_history);
+            //     current = current->next;
+            // }
+
+            // while (friend_data->chat_history != NULL)
+            // {
+            //     mx_printstr(((t_chat*)friend_data->chat_history->data)->message);
+            //     friend_data->chat_history->next;
+            // }
+            t_list *friend_iter = friend_list;
+
+            while (friend_iter != NULL)
             {
-                t_Friend *friend_data = (t_Friend *)current->data;
-                show_chats_with_added_friends(friend_data->username, ((t_Friend *)friend_list->data)->chat_history);
-                current = current->next;
+                t_Friend *friend_data = (t_Friend *)friend_iter->data;
+
+                printf("Friend: %s\n", friend_data->username);
+                printf("last message: %s\n", friend_data->lastmessage);
+
+                t_list *chat_history_iter = friend_data->chat_history;
+
+                while (chat_history_iter != NULL)
+                {
+                    t_chat *chat_data = (t_chat *)chat_history_iter->data;
+
+                    printf("  Message ID: %d\n", chat_data->id);
+                    printf("  Sender: %s\n", chat_data->sender);
+                    printf("  Message: %s\n", chat_data->message);
+                    printf("  Timestamp: %s\n", chat_data->timestamp);
+
+                    chat_history_iter = chat_history_iter->next;
+                }
+
+                friend_iter = friend_iter->next;
             }
             cJSON_Delete(received_json);
         }
@@ -122,8 +155,8 @@ gpointer recv_func(gpointer data)
             cJSON *json_message_text = cJSON_GetObjectItem(json, "message");
             cJSON *json_message_timestamp = cJSON_GetObjectItem(json, "timestamp");
             cJSON *json_sender = cJSON_GetObjectItem(json, "sender");
-            
-            t_chat *message_data = (t_chat*)malloc(sizeof(t_chat));
+
+            t_chat *message_data = (t_chat *)malloc(sizeof(t_chat));
             message_data->sender = mx_strdup(json_sender->valuestring);
             message_data->message = mx_strdup(json_message_text->valuestring);
             message_data->id = json_message_id->valueint;
