@@ -103,13 +103,12 @@ t_list *receive_list(SSL *ssl)
     char temp[temp_size];
 
     int bytes_received = SSL_read(ssl, temp, temp_size - 1);
-    printf("14523342532452345%s\n",temp);
     if (bytes_received <= 0)
     {
         return NULL;
     }
-    // temp[bytes_received] = '\0';
-    // printf("%s\n",temp);
+    temp[bytes_received] = '\0';
+    printf("%s\n",temp);
     return deserialize_name_list(temp);
 }
 

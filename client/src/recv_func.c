@@ -42,6 +42,7 @@ gpointer recv_func(gpointer data)
         {
             char temp[4196];
             int cmd = SSL_read(current_client.ssl, temp, sizeof(temp));
+            mx_printstr(temp);
             if (cmd <= 0)
             {
                 int error_code = SSL_get_error(current_client.ssl, cmd);
@@ -62,13 +63,13 @@ gpointer recv_func(gpointer data)
             friend_list = process_json_object(received_json);
 
             t_list *current = friend_list;
-        
+
             t_Friend *friend_data = (t_Friend *)current->data;
 
             while (current != NULL)
             {
                 t_Friend *friend_data = (t_Friend *)current->data;
-                show_chats_with_added_friends(friend_data->username, ((t_Friend*)friend_list->data)->chat_history);
+                show_chats_with_added_friends(friend_data->username, ((t_Friend *)friend_list->data)->chat_history);
                 current = current->next;
             }
             cJSON_Delete(received_json);
@@ -109,17 +110,25 @@ gpointer recv_func(gpointer data)
                 printf("Error: Unable to receive data from server\n");
                 break;
             }
+            printf("%s\n", temp);
             cJSON *json = cJSON_Parse(temp);
             if (!json)
             {
                 printf("Error: Invalid JSON data received from server\n");
                 break;
             }
-            t_chat *message_data = NULL;
-            message_data->sender = cJSON_GetObjectItemCaseSensitive(json, "sender")->valuestring;
-            message_data->message = cJSON_GetObjectItemCaseSensitive(json, "message")->valuestring;
-            message_data->id = cJSON_GetObjectItemCaseSensitive(json, "id")->valueint;
-            message_data->timestamp = cJSON_GetObjectItemCaseSensitive(json, "timestamp")->valuestring;
+
+            cJSON *json_message_id = cJSON_GetObjectItem(json, "id");
+            cJSON *json_message_text = cJSON_GetObjectItem(json, "message");
+            cJSON *json_message_timestamp = cJSON_GetObjectItem(json, "timestamp");
+            cJSON *json_sender = cJSON_GetObjectItem(json, "sender");
+            
+            t_chat *message_data = (t_chat*)malloc(sizeof(t_chat));
+            message_data->sender = mx_strdup(json_sender->valuestring);
+            message_data->message = mx_strdup(json_message_text->valuestring);
+            message_data->id = json_message_id->valueint;
+            message_data->timestamp = mx_strdup(json_message_timestamp->valuestring);
+            printf("%s -> %s | %d | %s |", message_data->sender, message_data->message, message_data->id, message_data->timestamp);
         }
     }
     // g_free(command);

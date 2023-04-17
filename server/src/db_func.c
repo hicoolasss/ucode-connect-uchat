@@ -200,6 +200,27 @@ int get_group_id(sqlite3 *db, const char *groupname)
     return chat_id;
 }
 
+// char *get_username_by_user_id(sqlite3 *db, int user_id) {
+//     sqlite3_stmt *stmt;
+//     const unsigned char *name = NULL;
+//     const char *sql = "SELECT username FROM users WHERE id = ?;";
+//     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK) {
+//         printf("Error SQL: %s\n", sqlite3_errmsg(db));
+//         exit(0);
+//     }
+
+//     sqlite3_bind_int(stmt, 1, user_id);
+
+//     if (sqlite3_step(stmt) == SQLITE_ROW) {
+//         name = sqlite3_column_text(stmt, 0);
+//         sqlite3_finalize(stmt);
+//         return (char *)name;
+//     }
+
+//     sqlite3_finalize(stmt);
+//     return (char *)name;
+// }
+
 char *get_username_by_user_id(sqlite3 *db, int user_id) {
     sqlite3_stmt *stmt;
     const unsigned char *name = NULL;
@@ -213,10 +234,11 @@ char *get_username_by_user_id(sqlite3 *db, int user_id) {
 
     if (sqlite3_step(stmt) == SQLITE_ROW) {
         name = sqlite3_column_text(stmt, 0);
+        char *result = mx_strdup((const char *)name);
         sqlite3_finalize(stmt);
-        return (char *)name;
+        return result;
     }
 
     sqlite3_finalize(stmt);
-    return (char *)name;
+    return NULL;
 }
