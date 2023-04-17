@@ -250,7 +250,7 @@ int sql_record_message(sqlite3 *db, char *username, char *friendname, const char
     return 0;
 }
 
-char *get_last_message_from_dialog(sqlite3 *db, char *username, char *friendname)
+char *get_last_message_from_dialog(sqlite3 *db, const char *username, const char *friendname)
 {
     sqlite3_stmt *stmt;
     char *lastmessage = NULL;

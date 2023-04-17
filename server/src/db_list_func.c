@@ -36,8 +36,9 @@ t_list *get_clients(sqlite3 *db)
     return users_list;
 }
 
-t_list *get_friends(sqlite3 *db, int user_id)
+t_list *get_friends(sqlite3 *db, const char *username)
 {
+    int user_id = get_user_id(db, username);
     char sql[100];
     sprintf(sql, "SELECT friend_id FROM friends WHERE user_id='%d'", user_id);
     sqlite3_stmt *stmt;
@@ -66,9 +67,13 @@ t_list *get_friends(sqlite3 *db, int user_id)
         }
         if (sqlite3_step(stmt2) == SQLITE_ROW)
         {
-            const unsigned char *db_username = sqlite3_column_text(stmt2, 1);
+            const char *friendname = (const char*)sqlite3_column_text(stmt2, 1);
+            char *lastmessage = get_last_message_from_dialog(db, username, friendname);
             t_user *friend_person = (t_user *)malloc(sizeof(t_user));
-            friend_person->username = mx_strdup((const char *)db_username);
+            if(lastmessage != NULL) {
+                friend_person->lastmessage = mx_strdup((const char *)lastmessage);
+            }
+            friend_person->username = mx_strdup((const char *)friendname);
             if (friend_person != NULL)
             {
                 mx_push_back(&friend_list, friend_person);

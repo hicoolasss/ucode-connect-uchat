@@ -21,13 +21,13 @@ gpointer recv_func(gpointer data)
     while (running)
     {
         memset(command, 0, sizeof(command));
-        printf("\nThread recv_func trying to lock mutex\n");
+        // printf("\nThread recv_func trying to lock mutex\n");
         // pthread_mutex_lock(&mutex_recv);
         int len = SSL_read(current_client.ssl, command, sizeof(command));
         // pthread_mutex_unlock(&mutex_recv);
         printf("\n%d ->", len);
         printf(" %s\n", command);
-        printf("Thread recv_func trying to unlock mutex\n");
+        // printf("Thread recv_func trying to unlock mutex\n");
         if (len < 0)
         {
             printf("Error: Unable to receive data from server\n");
@@ -38,18 +38,20 @@ gpointer recv_func(gpointer data)
             user_list = receive_list(current_client.ssl);
             // printf("%s\n", ((t_user *)user_list->data)->username);
             show_user_list_scrolled(user_list);
-
         }
         else if (mx_strcmp(command, "<friend_list>") == 0)
         {
             friend_list = receive_list(current_client.ssl);
-            if(friend_list == NULL) {
+            if (friend_list == NULL)
+            {
                 mx_printstr("null");
                 break;
             }
             t_list *current = friend_list;
             while (current)
             {
+                if (((t_user *)current->data)->lastmessage != NULL)
+                    printf("%s\n", ((t_user *)current->data)->lastmessage);
                 show_chats_with_added_friends(((t_user *)current->data)->username);
                 current = current->next;
             }

@@ -172,8 +172,8 @@ void *handle_client(void *args)
                 {
                     printf("Success sending command to %s\n", current_client->login);
                 }
-                int user_id = get_user_id(db, current_client->login);
-                t_list *friends_list = get_friends(db, user_id);
+                // int user_id = get_user_id(db, current_client->login);
+                t_list *friends_list = get_friends(db, current_client->login);
 
                 if (friends_list == NULL)
                 {

@@ -28,11 +28,11 @@ gpointer send_func(gpointer data)
             char *json_str = cJSON_Print(json);
             cJSON_Delete(json);
 
-            printf("Thread user_list in %lu trying to lock mutex\n", pthread_self());
-            pthread_mutex_lock(&mutex_send);
+            // printf("Thread user_list in %lu trying to lock mutex\n", pthread_self());
+            // pthread_mutex_lock(&mutex_send);
             send_message_to_server(json_str);
-            pthread_mutex_unlock(&mutex_send);
-            printf("Thread user_list in %lu trying to unlock mutex\n", pthread_self());
+            // pthread_mutex_unlock(&mutex_send);
+            // printf("Thread user_list in %lu trying to unlock mutex\n", pthread_self());
             break;
 
             // Обработка других типов команд, если нужно
@@ -46,11 +46,11 @@ gpointer send_func(gpointer data)
             char *json_str = cJSON_Print(json);
             cJSON_Delete(json);
 
-            printf("Thread friend_list in %lu trying to lock mutex\n", pthread_self());
-            pthread_mutex_lock(&mutex_send);
+            // printf("Thread friend_list in %lu trying to lock mutex\n", pthread_self());
+            // pthread_mutex_lock(&mutex_send);
             send_message_to_server(json_str);
-            pthread_mutex_unlock(&mutex_send);
-            printf("Thread friend_list in %lu trying to unlock mutex\n", pthread_self());
+            // pthread_mutex_unlock(&mutex_send);
+            // printf("Thread friend_list in %lu trying to unlock mutex\n", pthread_self());
             break;
         }
         case COMMAND_TYPE_SEND_MESSAGE:
@@ -59,11 +59,11 @@ gpointer send_func(gpointer data)
             char *json_str = cJSON_Print(json);
             cJSON_Delete(json);
 
-            printf("Thread send_message in %lu trying to lock mutex\n", pthread_self());
-            pthread_mutex_lock(&mutex_send);
+            // printf("Thread send_message in %lu trying to lock mutex\n", pthread_self());
+            // pthread_mutex_lock(&mutex_send);
             send_message_to_server(json_str);
-            pthread_mutex_unlock(&mutex_send);
-            printf("Thread send_message in %lu trying to unlock mutex\n", pthread_self());
+            // pthread_mutex_unlock(&mutex_send);
+            // printf("Thread send_message in %lu trying to unlock mutex\n", pthread_self());
             break;
         }
         case COMMAND_TYPE_GET_SHOW_HISTORY:
@@ -72,11 +72,11 @@ gpointer send_func(gpointer data)
             char *json_str = cJSON_Print(json);
             cJSON_Delete(json);
 
-            printf("Thread show_history in %lu trying to lock mutex\n", pthread_self());
-            pthread_mutex_lock(&mutex_send);
+            // printf("Thread show_history in %lu trying to lock mutex\n", pthread_self());
+            // pthread_mutex_lock(&mutex_send);
             send_message_to_server(json_str);
-            pthread_mutex_unlock(&mutex_send);
-            printf("Thread show_history in %lu trying to unlock mutex\n", pthread_self());
+            // pthread_mutex_unlock(&mutex_send);
+            // printf("Thread show_history in %lu trying to unlock mutex\n", pthread_self());
             break;
         }
         case COMMAND_TYPE_GET_ADD_FRIEND:
@@ -85,11 +85,11 @@ gpointer send_func(gpointer data)
             char *json_str = cJSON_Print(json);
             cJSON_Delete(json);
 
-            printf("Thread show_history in %lu trying to lock mutex\n", pthread_self());
-            pthread_mutex_lock(&mutex_send);
+            // printf("Thread show_history in %lu trying to lock mutex\n", pthread_self());
+            // pthread_mutex_lock(&mutex_send);
             send_message_to_server(json_str);
-            pthread_mutex_unlock(&mutex_send);
-            printf("Thread show_history in %lu trying to unlock mutex\n", pthread_self());
+            // pthread_mutex_unlock(&mutex_send);
+            // printf("Thread show_history in %lu trying to unlock mutex\n", pthread_self());
             break;
         }
         default:

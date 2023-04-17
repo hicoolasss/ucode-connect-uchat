@@ -47,6 +47,7 @@ typedef struct s_chat {
 
 typedef struct s_user {
     char *username;
+    char *lastmessage;
     // char *firstname;
     // char *lastname;
 
@@ -77,7 +78,7 @@ void sql_create_db();
 //получение списка всех пользователей
 t_list *get_clients(sqlite3 *db);
 //получение списка друзей пользователя
-t_list *get_friends(sqlite3 *db, int user_id);
+t_list *get_friends(sqlite3 *db, const char *username);
 //добавление в друзья по логину
 int add_friend(sqlite3 *db, const char *username, const char *friend_username);
 //проверка есть ли этот пользователь уже в друзьях или нет
@@ -97,7 +98,7 @@ int sql_record_message(sqlite3 *db, char *username, char *friendname, const char
 //запись истории чата в односвязный список
 t_list *get_message_history(sqlite3 *db, int user_id, int friend_id);
 //вывод последнего сообщения в чате с этим человеком
-char *get_last_message_from_dialog(sqlite3 *db, char *username, char *friendname);
+char *get_last_message_from_dialog(sqlite3 *db, const char *username, const char *friendname);
 /*функции для операций над списками и JSON*/
 
 //односвязный список имен в JSON
