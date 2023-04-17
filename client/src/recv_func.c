@@ -62,15 +62,11 @@ gpointer recv_func(gpointer data)
             friend_list = process_json_object(received_json);
 
             t_list *current = friend_list;
-        
+
             t_Friend *friend_data = (t_Friend *)current->data;
 
-            while (current != NULL)
-            {
-                t_Friend *friend_data = (t_Friend *)current->data;
-                show_chats_with_added_friends(friend_data->username, ((t_Friend*)friend_list->data)->chat_history);
-                current = current->next;
-            }
+            show_chats_with_added_friends(friend_list, ((t_Friend *)friend_list->data)->chat_history);
+
             cJSON_Delete(received_json);
         }
         else if (mx_strcmp(command, "<add_friend>") == 0)

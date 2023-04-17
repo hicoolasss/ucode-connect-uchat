@@ -72,7 +72,6 @@ static void get_scaled_image_chats()
 void create_new_chat(GtkToggleButton *toggle_button, gpointer user_data)
 {
 
-    update_friend_list();
     cJSON *json = cJSON_CreateObject();
     cJSON_AddStringToObject(json, "login", current_client.login);
     cJSON_AddStringToObject(json, "command", "<add_friend>");
@@ -81,47 +80,11 @@ void create_new_chat(GtkToggleButton *toggle_button, gpointer user_data)
 
     g_async_queue_push(message_queue, json);
 
-    // send_message_to_server(json_str);
-    // GtkWidget *user_info_box_temp = gtk_widget_get_parent(GTK_WIDGET(toggle_button));
+    cJSON *json1 = cJSON_CreateObject();
+    cJSON_AddStringToObject(json1, "login", current_client.login);
+    cJSON_AddStringToObject(json1, "command", "<friend_list>");
+    g_async_queue_push(message_queue, json1);
 
-    // GtkWidget *checkbox_btn = gtk_widget_get_last_child(user_info_box_temp);
-
-    // // Отсоедините checkbox_btn от user_info_box
-    // gtk_box_remove(GTK_BOX(user_info_box_temp), checkbox_btn);
-
-    // // Отсоедините user_info_box от его текущего родителя
-    // gtk_widget_unparent(user_info_box_temp);
-
-    // GtkWidget *user_box_btn = gtk_button_new();
-
-    // gtk_widget_set_margin_start(user_info_box_temp, 0);
-    // gtk_widget_set_margin_end(user_info_box_temp, 0);
-    // gtk_widget_set_margin_top(user_info_box_temp, 0);
-    // gtk_widget_set_margin_bottom(user_info_box_temp, 0);
-
-    // gtk_button_set_child(GTK_BUTTON(user_box_btn), user_info_box_temp);
-
-    // gtk_widget_set_size_request(user_box_btn, 400, 60);
-
-    // gtk_widget_set_margin_top(user_box_btn, 5);
-    // gtk_widget_set_margin_bottom(user_box_btn, 10);
-
-    // gtk_widget_set_size_request(current_grid.mini_chats, 427, 246);
-
-    // gtk_widget_set_size_request(current_grid.chats_list_grid_child, 427, 246);
-
-    // gtk_widget_set_hexpand(current_grid.chats_list_grid_child, FALSE);
-
-    // g_print("current_grid.chats_list_grid_child: %p\n", (void *)current_grid.chats_list_grid_child);
-
-    // gtk_grid_attach(GTK_GRID(current_grid.chats_list_grid_child), user_box_btn, 0, count, 1, 1);
-    // count++;
-
-    // GtkStyleContext *context = gtk_widget_get_style_context(user_info_box_temp);
-
-    // gtk_style_context_remove_class(context, "user_info_box");
-
-    // widget_styling(user_box_btn, current_screen, "user_box_btn");
 }
 
 void update_user_list_while_searching(GtkEditable *editable)
@@ -233,6 +196,16 @@ void update_user_list_while_searching(GtkEditable *editable)
 
 void show_user_list_scrolled(t_list *current)
 {
+
+    GtkWidget *children, *iter;
+
+    children = gtk_widget_get_first_child(user_list_grid);
+
+    for (iter = children; iter != NULL; iter = gtk_widget_get_last_child(user_list_grid))
+    {
+
+        gtk_widget_unparent(iter);
+    }
 
     int pos = 0;
 
@@ -377,7 +350,6 @@ void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
 
     g_async_queue_push(message_queue, json);
 
-
     t_list *current = chat_history_temp;
     if (chat_history_temp)
     {
@@ -476,122 +448,99 @@ void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
         widget_styling(box, current_screen, "empty_chat_box");
         widget_styling(entry, current_screen, "empty_chat_label");
     }
-
 }
 
-void show_chats_with_added_friends(const char *username, t_list *chat_history)
+void show_chats_with_added_friends(t_list *current, t_list *chat_history)
 {
 
-    t_list *chat_history_temp = chat_history;
-
-    GtkWidget *user_box_btn1 = gtk_button_new();
-
-    GtkWidget *user_box_grid = create_grid(400, 80, NULL);
-
-    GtkWidget *username_label = gtk_label_new(username);
-
-    get_scaled_image_chats();
-
-    GtkWidget *user_avatar = gtk_image_new_from_pixbuf(scaled_avatar);
-
-    //t_chat *last_element = find_last_message(current);
-
-    //mx_printstr(username);
-
-    GtkWidget *last_msg_label = gtk_label_new("Dast_element->message");
-
-    gtk_grid_attach(GTK_GRID(user_box_grid), user_avatar, 0, 0, 1, 2);
-
-    gtk_grid_attach(GTK_GRID(user_box_grid), username_label, 1, 0, 1, 1);
-
-    gtk_grid_attach(GTK_GRID(user_box_grid), last_msg_label, 1, 1, 1, 1);
-
-    gtk_button_set_child(GTK_BUTTON(user_box_btn1), user_box_grid);
-
-    gtk_widget_set_halign(user_box_btn1, GTK_ALIGN_CENTER);
-    gtk_widget_set_hexpand(user_box_btn1, TRUE);
-    gtk_widget_set_vexpand(user_box_btn1, FALSE);
-    gtk_widget_set_vexpand(user_box_grid, FALSE);
-
-    gtk_widget_set_margin_top(user_box_btn1, 5);
-    gtk_widget_set_margin_bottom(user_box_btn1, 10);
-
-    gtk_widget_set_size_request(user_box_btn1, 400, 80);
-
-    gtk_widget_set_margin_start(user_avatar, 6);
-    gtk_widget_set_margin_top(user_avatar, 10);
-    gtk_widget_set_margin_bottom(user_avatar, 10);
-
-    gtk_widget_set_halign(username_label, GTK_ALIGN_START);
-    gtk_widget_set_margin_top(username_label, 5);
-    // gtk_widget_set_margin_bottom(username_label, 0);
-
-    // gtk_widget_set_hexpand(last_msg_label, TRUE);
-
-    gtk_widget_set_valign(last_msg_label, GTK_ALIGN_START);
-    gtk_widget_set_margin_top(last_msg_label, 5);
-
-    gtk_widget_set_size_request(user_avatar, 60, 60);
-
-    // gtk_widget_set_size_request(current_grid.chats_list_grid_child, 427, 246);
-
-    // gtk_widget_set_hexpand(current_grid.chats_list_grid_child, FALSE);
-
-    gtk_grid_attach(GTK_GRID(current_grid.chats_list_grid_child), user_box_btn1, 0, count, 1, 1);
-    count++;
-
-    gpointer username_copy = (gpointer)username;
-
-    g_signal_connect(user_box_btn1, "clicked", G_CALLBACK(show_chat_with_friend), username_copy);
-
-    widget_styling(user_box_btn1, current_screen, "user_box_btn");
-
-    widget_styling(username_label, current_screen, "username_label_in_chats");
-
-    widget_styling(last_msg_label, current_screen, "last_msg_label");
-}
-
-void update_friend_list()
-{
     GtkWidget *children, *iter;
 
     children = gtk_widget_get_first_child(current_grid.chats_list_grid_child);
 
     for (iter = children; iter != NULL; iter = gtk_widget_get_last_child(current_grid.chats_list_grid_child))
     {
-
         gtk_widget_unparent(iter);
     }
 
-    // t_list *friend_list_temp = NULL;
-    // cJSON *json1 = cJSON_CreateObject();
-    // cJSON_AddStringToObject(json1, "login", current_client.login);
-    // cJSON_AddStringToObject(json1, "command", "<friend_list>");
+    while (current != NULL)
+    {
+        t_Friend *friend_data = (t_Friend *)current->data;
+        
+        t_list *chat_history_temp = chat_history;
 
-    // char *json_str1 = cJSON_Print(json1);
-    // cJSON_Delete(json1);
+        GtkWidget *user_box_btn1 = gtk_button_new();
 
-    // send_message_to_server(json_str1);
+        GtkWidget *user_box_grid = create_grid(400, 80, NULL);
 
-    // while (!friend_list_temp)
-    // {
-    //     friend_list_temp = receive_list(current_client.ssl);
-    //     if (friend_list_temp == NULL)
-    //         break;
-    // }
+        GtkWidget *username_label = gtk_label_new(friend_data->username);
 
-    // Пройдись по списку друзей и вызови show_chats_with_added_friends для каждого друга
-    // t_list *current = friend_list_temp;
-    // while (current)
-    // {
-    //     show_chats_with_added_friends(((t_user *)current->data)->username, chat_history);
-    //     current = current->next;
-    // }
+        get_scaled_image_chats();
+
+        GtkWidget *user_avatar = gtk_image_new_from_pixbuf(scaled_avatar);
+
+        // t_chat *last_element = find_last_message(current);
+
+        // mx_printstr(username);
+
+        GtkWidget *last_msg_label = gtk_label_new("Dast_element->message");
+
+        gtk_grid_attach(GTK_GRID(user_box_grid), user_avatar, 0, 0, 1, 2);
+
+        gtk_grid_attach(GTK_GRID(user_box_grid), username_label, 1, 0, 1, 1);
+
+        gtk_grid_attach(GTK_GRID(user_box_grid), last_msg_label, 1, 1, 1, 1);
+
+        gtk_button_set_child(GTK_BUTTON(user_box_btn1), user_box_grid);
+
+        gtk_widget_set_halign(user_box_btn1, GTK_ALIGN_CENTER);
+        gtk_widget_set_hexpand(user_box_btn1, TRUE);
+        gtk_widget_set_vexpand(user_box_btn1, FALSE);
+        gtk_widget_set_vexpand(user_box_grid, FALSE);
+
+        gtk_widget_set_margin_top(user_box_btn1, 5);
+        gtk_widget_set_margin_bottom(user_box_btn1, 10);
+
+        gtk_widget_set_size_request(user_box_btn1, 400, 80);
+
+        gtk_widget_set_margin_start(user_avatar, 6);
+        gtk_widget_set_margin_top(user_avatar, 10);
+        gtk_widget_set_margin_bottom(user_avatar, 10);
+
+        gtk_widget_set_halign(username_label, GTK_ALIGN_START);
+        gtk_widget_set_margin_top(username_label, 5);
+        // gtk_widget_set_margin_bottom(username_label, 0);
+
+        // gtk_widget_set_hexpand(last_msg_label, TRUE);
+
+        gtk_widget_set_valign(last_msg_label, GTK_ALIGN_START);
+        gtk_widget_set_margin_top(last_msg_label, 5);
+
+        gtk_widget_set_size_request(user_avatar, 60, 60);
+
+        // gtk_widget_set_size_request(current_grid.chats_list_grid_child, 427, 246);
+
+        // gtk_widget_set_hexpand(current_grid.chats_list_grid_child, FALSE);
+
+        gtk_grid_attach(GTK_GRID(current_grid.chats_list_grid_child), user_box_btn1, 0, count, 1, 1);
+        count++;
+
+        gpointer username_copy = (gpointer)friend_data->username;
+
+        g_signal_connect(user_box_btn1, "clicked", G_CALLBACK(show_chat_with_friend), username_copy);
+
+        widget_styling(user_box_btn1, current_screen, "user_box_btn");
+
+        widget_styling(username_label, current_screen, "username_label_in_chats");
+
+        widget_styling(last_msg_label, current_screen, "last_msg_label");
+        
+        current = current->next;
+    }
 }
+
 
 void show_create_new_chat_with_someone()
 {
-    // user_list = user_list_temp;
 
     user_list_grid = create_grid(451, 227, "mini_chats");
 

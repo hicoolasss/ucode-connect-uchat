@@ -35,6 +35,12 @@ void show_home(void)
     current_grid.second_intro_screen = create_grid(1200, 760, "intro_flash_light");
     current_grid.third_intro_screen = create_grid(586, 544, NULL);
 
+        
+    cJSON *json = cJSON_CreateObject();
+    cJSON_AddStringToObject(json, "login", current_client.login);
+    cJSON_AddStringToObject(json, "command", "<friend_list>");
+    g_async_queue_push(message_queue, json);
+    
     // fill all grids
     show_left_menu_bar();
     show_achievements();
@@ -45,11 +51,6 @@ void show_home(void)
     show_mini_groups();
     show_mini_chats();
     show_empty_chat();
-
-    cJSON *json = cJSON_CreateObject();
-    cJSON_AddStringToObject(json, "login", current_client.login);
-    cJSON_AddStringToObject(json, "command", "<friend_list>");
-    g_async_queue_push(message_queue, json);
     show_create_new_chat_with_someone();
 
     // fill intro grids
