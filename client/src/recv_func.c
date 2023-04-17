@@ -62,12 +62,7 @@ gpointer recv_func(gpointer data)
 
             friend_list = process_json_object(received_json);
 
-            t_list *current = friend_list;
-
-            t_Friend *friend_data = (t_Friend *)current->data;
-
-            show_chats_with_added_friends(friend_list, ((t_Friend *)friend_list->data)->chat_history);
-
+            show_chats_with_added_friends(friend_list);
 
             cJSON_Delete(received_json);
         }

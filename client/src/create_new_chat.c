@@ -84,7 +84,6 @@ void create_new_chat(GtkToggleButton *toggle_button, gpointer user_data)
     cJSON_AddStringToObject(json1, "login", current_client.login);
     cJSON_AddStringToObject(json1, "command", "<friend_list>");
     g_async_queue_push(message_queue, json1);
-
 }
 
 void update_user_list_while_searching(GtkEditable *editable)
@@ -314,10 +313,15 @@ static void on_entry_activate(GtkEntry *entry, gpointer data)
 
     g_async_queue_push(message_queue, json);
 
+    cJSON *json1 = cJSON_CreateObject();
+    cJSON_AddStringToObject(json1, "login", current_client.login);
+    cJSON_AddStringToObject(json1, "command", "<friend_list>");
+    g_async_queue_push(message_queue, json);
+
     // Не забудьте освободить память, выделенную для text_copy, когда она вам больше не понадобится
 }
 
-void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
+void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
 {
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chats), FALSE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.empty_chat), FALSE);
@@ -340,24 +344,23 @@ void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
     gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled), chat_with_friend_grid);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
-    const int temp_size = 4096;
-    char temp[temp_size];
     int last_child = 0;
 
-    cJSON *json = cJSON_CreateObject();
-    cJSON_AddStringToObject(json, "command", "<show_history>");
-    cJSON_AddStringToObject(json, "friend", (char *)username_copy);
+    t_Friend *friend_iter = friend_data;
 
-    g_async_queue_push(message_queue, json);
 
-    t_list *current = chat_history_temp;
-    if (chat_history_temp)
+
+    if (friend_iter->chat_history)
     {
 
-        while (current)
+        t_list *chat_history_iter = friend_iter->chat_history;
+
+        while (chat_history_iter != NULL)
         {
 
-            const char *s_msg = ((t_chat *)current->data)->message;
+            t_chat *chat_data = (t_chat *)chat_history_iter->data;
+
+            const char *s_msg = chat_data->message;
 
             GtkWidget *sent_msg = gtk_label_new(s_msg);
 
@@ -375,11 +378,11 @@ void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
             gtk_widget_set_hexpand(sent_msg, TRUE);
             // gtk_widget_set_size_request(sent_msg, 60, 40);
 
-            int pos = ((t_chat *)current->data)->id;
+            int pos = chat_data->id;
 
             gtk_grid_attach(GTK_GRID(chat_with_friend_grid), sent_msg, 0, pos, 1, 1);
 
-            current = current->next;
+            chat_history_iter = chat_history_iter->next;
 
             last_child++;
 
@@ -414,13 +417,17 @@ void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
 
         gtk_grid_attach(GTK_GRID(current_grid.chat_with_friend), box, 0, 9999, 1, 1);
 
-        g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate), username_copy);
+        g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate), friend_iter->username);
 
         widget_styling(box, current_screen, "empty_chat_box");
         widget_styling(entry, current_screen, "empty_chat_label");
     }
     else
     {
+
+        mx_printstr("empty chat with : ");
+        mx_printstr(friend_iter->username);
+        mx_printstr("\n");
         GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
         GtkWidget *entry = gtk_entry_new();
@@ -443,14 +450,14 @@ void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
 
         gtk_grid_attach(GTK_GRID(current_grid.chat_with_friend), box, 0, 0, 1, 1);
 
-        g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate), username_copy);
+        g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate), friend_iter->username);
 
         widget_styling(box, current_screen, "empty_chat_box");
         widget_styling(entry, current_screen, "empty_chat_label");
     }
 }
 
-void show_chats_with_added_friends(t_list *current, t_list *chat_history)
+void show_chats_with_added_friends(t_list *friend_list)
 {
 
     GtkWidget *children, *iter;
@@ -462,11 +469,11 @@ void show_chats_with_added_friends(t_list *current, t_list *chat_history)
         gtk_widget_unparent(iter);
     }
 
+    t_list *current = friend_list;
+
     while (current != NULL)
     {
         t_Friend *friend_data = (t_Friend *)current->data;
-        
-        t_list *chat_history_temp = chat_history;
 
         GtkWidget *user_box_btn1 = gtk_button_new();
 
@@ -480,9 +487,15 @@ void show_chats_with_added_friends(t_list *current, t_list *chat_history)
 
         // t_chat *last_element = find_last_message(current);
 
-        // mx_printstr(username);
+        if (friend_data->lastmessage)
+        {
 
-        GtkWidget *last_msg_label = gtk_label_new("Dast_element->message");
+            mx_printstr(friend_data->lastmessage);
+
+            mx_printstr("\n");
+        }
+
+        GtkWidget *last_msg_label = gtk_label_new(friend_data->lastmessage);
 
         gtk_grid_attach(GTK_GRID(user_box_grid), user_avatar, 0, 0, 1, 2);
 
@@ -526,18 +539,17 @@ void show_chats_with_added_friends(t_list *current, t_list *chat_history)
 
         gpointer username_copy = (gpointer)friend_data->username;
 
-        g_signal_connect(user_box_btn1, "clicked", G_CALLBACK(show_chat_with_friend), username_copy);
+        g_signal_connect(user_box_btn1, "clicked", G_CALLBACK(show_chat_with_friend), friend_data);
 
         widget_styling(user_box_btn1, current_screen, "user_box_btn");
 
         widget_styling(username_label, current_screen, "username_label_in_chats");
 
         widget_styling(last_msg_label, current_screen, "last_msg_label");
-        
+
         current = current->next;
     }
 }
-
 
 void show_create_new_chat_with_someone()
 {
@@ -583,5 +595,4 @@ void show_create_new_chat_with_someone()
     widget_styling(entry_for_search, current_screen, "entry_for_search_user");
 
     g_signal_connect(entry_for_search, "changed", G_CALLBACK(update_user_list_while_searching), NULL);
-
 }

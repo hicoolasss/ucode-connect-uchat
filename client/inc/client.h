@@ -368,7 +368,13 @@ void update_friend_list();
 
 
 void show_user_list_scrolled(t_list *current);
-void show_chats_with_added_friends(t_list *current, t_list *chat_history);
+void show_chats_with_added_friends(t_list *friend_list);
+
+
+typedef struct {
+    gpointer chat_history;
+    gpointer username_copy;
+} CallbackArgs;
 
 
 
