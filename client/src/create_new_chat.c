@@ -487,15 +487,12 @@ void show_chats_with_added_friends(t_list *friend_list)
 
         // t_chat *last_element = find_last_message(current);
 
-        if (friend_data->lastmessage)
-        {
-
-            mx_printstr(friend_data->lastmessage);
-
-            mx_printstr("\n");
-        }
-
         GtkWidget *last_msg_label = gtk_label_new(friend_data->lastmessage);
+
+        if (friend_data->lastmessage == NULL)
+        {
+            gtk_label_set_label(GTK_LABEL(last_msg_label), "Nothing here...");
+        }
 
         gtk_grid_attach(GTK_GRID(user_box_grid), user_avatar, 0, 0, 1, 2);
 

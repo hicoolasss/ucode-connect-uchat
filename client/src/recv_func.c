@@ -62,7 +62,9 @@ gpointer recv_func(gpointer data)
 
             friend_list = process_json_object(received_json);
 
+
             show_chats_with_added_friends(friend_list);
+
 
             cJSON_Delete(received_json);
         }
@@ -114,8 +116,8 @@ gpointer recv_func(gpointer data)
             cJSON *json_message_text = cJSON_GetObjectItem(json, "message");
             cJSON *json_message_timestamp = cJSON_GetObjectItem(json, "timestamp");
             cJSON *json_sender = cJSON_GetObjectItem(json, "sender");
-            
-            t_chat *message_data = (t_chat*)malloc(sizeof(t_chat));
+
+            t_chat *message_data = (t_chat *)malloc(sizeof(t_chat));
             message_data->sender = mx_strdup(json_sender->valuestring);
             message_data->message = mx_strdup(json_message_text->valuestring);
             message_data->id = json_message_id->valueint;
