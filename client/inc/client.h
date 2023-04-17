@@ -368,7 +368,7 @@ void update_friend_list();
 
 
 void show_user_list_scrolled(t_list *current);
-void show_chats_with_added_friends(const char *username);
+void show_chats_with_added_friends(const char *username, t_list *chat_history);
 
 
 

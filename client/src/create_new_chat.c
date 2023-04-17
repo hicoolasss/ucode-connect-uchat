@@ -11,7 +11,7 @@ GtkWidget *user_list_grid;
 GtkWidget *user_list_grid_scrolled;
 GtkWidget *checkbox_btn;
 
-// t_list *chat_history;
+t_list *chat_history_temp;
 
 int count = 0;
 int temp_count = 0;
@@ -377,137 +377,113 @@ void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
 
     g_async_queue_push(message_queue, json);
 
-    /*----------------------------------------------------------------------------------------------------------------------------------------
-                                                                        change
-    ----------------------------------------------------------------------------------------------------------------------------------------*/
-    // while (!chat_history)
-    // {
-    //     // int bytes_received = SSL_read(current_client.ssl, temp, temp_size - 1);
-    //     // if (bytes_received <= 0)
-    //     // {
-    //     //     break;
-    //     // }
 
-    //     //     temp[bytes_received] = '\0';
+    t_list *current = chat_history_temp;
+    if (chat_history_temp)
+    {
 
-    //     //     if (mx_strcmp(temp, "chat empty") == 0)
-    //     //     {
-    //     //         break;
-    //     //     }
+        while (current)
+        {
 
-    //     chat_history = deserialize_chathistory_list(temp);
-    // }
+            const char *s_msg = ((t_chat *)current->data)->message;
 
-    // t_list *current = chat_history;
-    // if (chat_history)
-    // {
+            GtkWidget *sent_msg = gtk_label_new(s_msg);
 
-    //     while (current)
-    //     {
+            // printf("aaa: %s\n", s_msg);
 
-    //         const char *s_msg = ((t_chat *)current->data)->message;
+            gtk_widget_set_halign(sent_msg, GTK_ALIGN_END);
 
-    //         GtkWidget *sent_msg = gtk_label_new(s_msg);
+            gtk_widget_set_margin_top(sent_msg, 15);
 
-    //         // printf("aaa: %s\n", s_msg);
+            gtk_label_set_wrap(GTK_LABEL(sent_msg), TRUE);
+            gtk_label_set_wrap_mode(GTK_LABEL(sent_msg), PANGO_WRAP_WORD_CHAR);
+            gtk_label_set_max_width_chars(GTK_LABEL(sent_msg), 60);
+            gtk_label_set_selectable(GTK_LABEL(sent_msg), FALSE);
 
-    //         gtk_widget_set_halign(sent_msg, GTK_ALIGN_END);
+            gtk_widget_set_hexpand(sent_msg, TRUE);
+            // gtk_widget_set_size_request(sent_msg, 60, 40);
 
-    //         gtk_widget_set_margin_top(sent_msg, 15);
+            int pos = ((t_chat *)current->data)->id;
 
-    //         gtk_label_set_wrap(GTK_LABEL(sent_msg), TRUE);
-    //         gtk_label_set_wrap_mode(GTK_LABEL(sent_msg), PANGO_WRAP_WORD_CHAR);
-    //         gtk_label_set_max_width_chars(GTK_LABEL(sent_msg), 60);
-    //         gtk_label_set_selectable(GTK_LABEL(sent_msg), FALSE);
+            gtk_grid_attach(GTK_GRID(chat_with_friend_grid), sent_msg, 0, pos, 1, 1);
 
-    //         gtk_widget_set_hexpand(sent_msg, TRUE);
-    //         // gtk_widget_set_size_request(sent_msg, 60, 40);
+            current = current->next;
 
-    //         int pos = ((t_chat *)current->data)->id;
+            last_child++;
 
-    //         gtk_grid_attach(GTK_GRID(chat_with_friend_grid), sent_msg, 0, pos, 1, 1);
+            widget_styling(sent_msg, current_screen, "message");
+        }
 
-    //         current = current->next;
+        GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
-    //         last_child++;
+        GtkWidget *entry = gtk_entry_new();
 
-    //         widget_styling(sent_msg, current_screen, "message");
-    //     }
+        gtk_entry_set_placeholder_text(GTK_ENTRY(entry), "ti pidor");
 
-    //     GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+        gtk_box_append(GTK_BOX(box), entry);
 
-    //     GtkWidget *entry = gtk_entry_new();
+        gtk_widget_set_margin_start(entry, 17);
+        gtk_widget_set_margin_end(entry, 17);
+        gtk_widget_set_margin_top(entry, 14);
+        gtk_widget_set_margin_bottom(entry, 14);
 
-    //     gtk_entry_set_placeholder_text(GTK_ENTRY(entry), "ti pidor");
+        gtk_widget_set_margin_start(box, 26);
+        gtk_widget_set_margin_end(box, 60);
+        gtk_widget_set_margin_top(box, 10);
+        gtk_widget_set_margin_bottom(box, 14);
 
-    //     gtk_box_append(GTK_BOX(box), entry);
+        gtk_widget_set_size_request(box, 452, 40);
 
-    //     gtk_widget_set_margin_start(entry, 17);
-    //     gtk_widget_set_margin_end(entry, 17);
-    //     gtk_widget_set_margin_top(entry, 14);
-    //     gtk_widget_set_margin_bottom(entry, 14);
+        gtk_widget_set_margin_top(chat_with_friend_scrolled, 75);
+        // gtk_widget_set_margin_bottom(chat_with_friend_scrolled, 16);
+        gtk_widget_set_size_request(chat_with_friend_scrolled, 533, 607);
 
-    //     gtk_widget_set_margin_start(box, 26);
-    //     gtk_widget_set_margin_end(box, 60);
-    //     gtk_widget_set_margin_top(box, 10);
-    //     gtk_widget_set_margin_bottom(box, 14);
+        gtk_grid_attach(GTK_GRID(current_grid.chat_with_friend), chat_with_friend_scrolled, 0, 0, 1, 1);
 
-    //     gtk_widget_set_size_request(box, 452, 40);
+        gtk_grid_attach(GTK_GRID(current_grid.chat_with_friend), box, 0, 9999, 1, 1);
 
-    //     gtk_widget_set_margin_top(chat_with_friend_scrolled, 75);
-    //     // gtk_widget_set_margin_bottom(chat_with_friend_scrolled, 16);
-    //     gtk_widget_set_size_request(chat_with_friend_scrolled, 533, 607);
+        g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate), username_copy);
 
-    //     gtk_grid_attach(GTK_GRID(current_grid.chat_with_friend), chat_with_friend_scrolled, 0, 0, 1, 1);
+        widget_styling(box, current_screen, "empty_chat_box");
+        widget_styling(entry, current_screen, "empty_chat_label");
+    }
+    else
+    {
+        GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
-    //     gtk_grid_attach(GTK_GRID(current_grid.chat_with_friend), box, 0, 9999, 1, 1);
+        GtkWidget *entry = gtk_entry_new();
 
-    //     g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate), username_copy);
+        gtk_entry_set_placeholder_text(GTK_ENTRY(entry), "ti pidor");
 
-    //     widget_styling(box, current_screen, "empty_chat_box");
-    //     widget_styling(entry, current_screen, "empty_chat_label");
-    // }
-    // else
-    // {
-    //     GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+        gtk_box_append(GTK_BOX(box), entry);
 
-    //     GtkWidget *entry = gtk_entry_new();
+        gtk_widget_set_margin_start(entry, 17);
+        gtk_widget_set_margin_end(entry, 17);
+        gtk_widget_set_margin_top(entry, 14);
+        gtk_widget_set_margin_bottom(entry, 14);
 
-    //     gtk_entry_set_placeholder_text(GTK_ENTRY(entry), "ti pidor");
+        gtk_widget_set_margin_start(box, 26);
+        gtk_widget_set_margin_end(box, 60);
+        gtk_widget_set_margin_top(box, 613);
+        gtk_widget_set_margin_bottom(box, 14);
 
-    //     gtk_box_append(GTK_BOX(box), entry);
+        gtk_widget_set_size_request(box, 452, 40);
 
-    //     gtk_widget_set_margin_start(entry, 17);
-    //     gtk_widget_set_margin_end(entry, 17);
-    //     gtk_widget_set_margin_top(entry, 14);
-    //     gtk_widget_set_margin_bottom(entry, 14);
+        gtk_grid_attach(GTK_GRID(current_grid.chat_with_friend), box, 0, 0, 1, 1);
 
-    //     gtk_widget_set_margin_start(box, 26);
-    //     gtk_widget_set_margin_end(box, 60);
-    //     gtk_widget_set_margin_top(box, 613);
-    //     gtk_widget_set_margin_bottom(box, 14);
+        g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate), username_copy);
 
-    //     gtk_widget_set_size_request(box, 452, 40);
+        widget_styling(box, current_screen, "empty_chat_box");
+        widget_styling(entry, current_screen, "empty_chat_label");
+    }
 
-    //     gtk_grid_attach(GTK_GRID(current_grid.chat_with_friend), box, 0, 0, 1, 1);
-
-    //     g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate), username_copy);
-
-    //     widget_styling(box, current_screen, "empty_chat_box");
-    //     widget_styling(entry, current_screen, "empty_chat_label");
-    // }
-
-    // while (chat_history != NULL)
-    // {
-    //     t_list *tmp = chat_history;
-    //     chat_history = chat_history->next;
-    //     free(tmp->data);
-    //     free(tmp);
-    // }
 }
 
-void show_chats_with_added_friends(const char *username)
+void show_chats_with_added_friends(const char *username, t_list *chat_history)
 {
+
+    t_list *chat_history_temp = chat_history;
+
     GtkWidget *user_box_btn1 = gtk_button_new();
 
     GtkWidget *user_box_grid = create_grid(400, 80, NULL);

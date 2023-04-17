@@ -69,7 +69,7 @@ gpointer recv_func(gpointer data)
             while (current != NULL)
             {
                 t_Friend *friend_data = (t_Friend *)current->data;
-                show_chats_with_added_friends(friend_data->username);
+                show_chats_with_added_friends(friend_data->username, ((t_Friend*)friend_list->data)->chat_history);
                 current = current->next;
             }
             cJSON_Delete(received_json);
