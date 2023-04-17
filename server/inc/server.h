@@ -111,7 +111,7 @@ void send_message_to_all_clients(char *message, int current_socket, char *login)
 char *convert_to_json(char *buffer, char *login);
 //отправка односвязного списка имен в клиент
 int send_namelist(SSL *ssl, t_list *head);
-
-
+//список друзей с их историей чата
+cJSON *create_json_from_friends_and_chats(t_list *friends, sqlite3 *db, char *username);
 /*generate id*/
 char *generate_uuid();

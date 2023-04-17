@@ -77,7 +77,7 @@ t_list *deserialize_name_list(const char *json_str)
         return NULL;
     }
 
-    t_list *user_list = NULL;
+    t_list *friend = NULL;
 
     cJSON *json_node = NULL;
     cJSON_ArrayForEach(json_node, json_list)
@@ -89,12 +89,12 @@ t_list *deserialize_name_list(const char *json_str)
             user->username = mx_strdup(json_name->valuestring);
             if (user != NULL)
             {
-                mx_push_back(&user_list, user);
+                mx_push_back(&friend, user);
             }
         }
     }
     cJSON_Delete(json_list);
-    return user_list;
+    return friend;
 }
 
 t_list *receive_list(SSL *ssl)
@@ -146,4 +146,57 @@ t_list *deserialize_chathistory_list(const char *json_str)
     }
     cJSON_Delete(json_list);
     return chat_history;
+}
+
+t_list *process_json_object(cJSON *json_object)
+{
+    cJSON *json_friend_list = json_object; // Изменено, чтобы использовать входной объект напрямую
+
+    int friend_count = cJSON_GetArraySize(json_friend_list);
+
+    t_list *friend = NULL;
+
+    for (int i = 0; i < friend_count; i++)
+    {
+        cJSON *json_friend = cJSON_GetArrayItem(json_friend_list, i);
+        cJSON *json_friend_username = cJSON_GetObjectItem(json_friend, "name");
+
+        t_Friend *new_friend = (t_Friend *)malloc(sizeof(t_Friend)); // Изменено на t_Friend
+        new_friend->username = mx_strdup(json_friend_username->valuestring); // Использование strdup для копирования строки
+        new_friend->chat_history = NULL; // Инициализация указателя на историю чата
+
+        if (new_friend != NULL)
+        {
+            mx_push_back(&friend, new_friend);
+        }
+
+        cJSON *json_chat_history = cJSON_GetObjectItem(json_friend, "chat_history");
+        int chat_history_count = cJSON_GetArraySize(json_chat_history);
+
+        if (chat_history_count > 0)
+        {
+            t_list *chat_history = NULL;
+
+            for (int j = 0; j < chat_history_count; j++)
+            {
+                cJSON *json_message = cJSON_GetArrayItem(json_chat_history, j);
+                cJSON *json_message_id = cJSON_GetObjectItem(json_message, "message_id");
+                cJSON *json_message_text = cJSON_GetObjectItem(json_message, "message");
+                cJSON *json_message_timestamp = cJSON_GetObjectItem(json_message, "timestamp");
+                cJSON *json_sender = cJSON_GetObjectItem(json_message, "sender");
+
+                t_chat *new_chat = (t_chat *)malloc(sizeof(t_chat));
+                new_chat->id = json_message_id->valueint;
+                new_chat->message = mx_strdup(json_message_text->valuestring); // Использование strdup для копирования строки
+                new_chat->timestamp = mx_strdup(json_message_timestamp->valuestring); // Использование strdup для копирования строки
+                new_chat->sender = mx_strdup(json_sender->valuestring); // Использование strdup для копирования строки
+                if (new_chat != NULL)
+                {
+                    mx_push_back(&chat_history, new_chat);
+                }
+            }
+            new_friend->chat_history = chat_history; // Изменено на new_friend
+        }
+    }
+    return friend;
 }

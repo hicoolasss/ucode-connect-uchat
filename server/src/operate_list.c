@@ -102,3 +102,49 @@ void remove_client(int socket_fd)
     }
 }
 
+cJSON *create_json_from_friends_and_chats(t_list *friends, sqlite3 *db, char *username)
+{
+    int user_id = get_user_id(db, username);
+    cJSON *root = cJSON_CreateArray();
+
+    for (t_list *iter = friends; iter != NULL; iter = iter->next)
+    {
+        cJSON *friend_chat = cJSON_CreateObject();
+        cJSON_AddStringToObject(friend_chat, "name", ((t_user *)iter->data)->username);
+        cJSON_AddStringToObject(friend_chat, "lastmessage", ((t_user *)iter->data)->lastmessage);
+
+        int friend_id = get_user_id(db, ((t_user *)iter->data)->username);
+        t_list *chat_history = get_message_history(db, user_id, friend_id);
+        cJSON *messages = cJSON_CreateArray();
+
+        for (t_list *msg_iter = chat_history; msg_iter != NULL; msg_iter = msg_iter->next)
+        {
+            t_chat *message = (t_chat *)msg_iter->data;
+
+            cJSON *msg_json = cJSON_CreateObject();
+            cJSON_AddNumberToObject(msg_json, "message_id", message->id);
+            cJSON_AddStringToObject(msg_json, "sender", message->sender);
+            cJSON_AddStringToObject(msg_json, "message", message->message);
+            cJSON_AddStringToObject(msg_json, "timestamp", message->timestamp);
+
+            cJSON_AddItemToArray(messages, msg_json);
+        }
+
+        cJSON_AddItemToObject(friend_chat, "chat_history", messages); // изменено с "messages" на "chat_history"
+        cJSON_AddItemToArray(root, friend_chat);
+
+        // Освободить память, занятую списком сообщений
+        while (chat_history != NULL)
+        {
+            t_list *temp = chat_history;
+            chat_history = chat_history->next;
+            t_chat *message = (t_chat *)temp->data;
+            free(message->message); // освободить память строки message
+            free(message->timestamp); // освободить память строки timestamp
+            free(temp->data);
+            free(temp);
+        }
+    }
+
+    return root;
+}

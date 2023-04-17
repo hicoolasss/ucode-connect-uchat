@@ -296,7 +296,7 @@ char *get_last_message_from_dialog(sqlite3 *db, const char *username, const char
     }
     else if (result == SQLITE_DONE)
     {
-        printf("No message found in the dialog.\n");
+        // printf("No message found in the dialog.\n");
         sqlite3_finalize(stmt);
         return NULL;
     }

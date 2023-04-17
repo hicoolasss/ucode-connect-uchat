@@ -40,17 +40,6 @@ typedef struct {
     GtkCssProvider *provider;
 } t_screen;
 
-typedef struct s_user {
-    const char *username;
-    char *lastmessage;
-    // char *firstname;
-    // char *lastname;
-
-    // char *avatarname;
-    // char *avatardata;
-    // int avatarsize;
-} t_user;
-
 typedef struct s_log_in {
 
     bool is_username_correct;
@@ -164,12 +153,9 @@ typedef struct {
 
 typedef struct s_client {
     int serv_fd;
-
     SSL *ssl;// client ssl structure with coneection to server
-
     struct sockaddr_in adr;
     int cl_socket;
-
     int id;
     char *login;
     const char *password;
@@ -185,6 +171,23 @@ typedef struct s_chat {
     char *timestamp;
 
 } t_chat;
+
+typedef struct s_user {
+    const char *username;
+    char *lastmessage;
+    // char *firstname;
+    // char *lastname;
+
+    // char *avatarname;
+    // char *avatardata;
+    // int avatarsize;
+} t_user;
+
+typedef struct s_Friend {
+    char *username;
+    char *lastmessage;
+    t_list *chat_history;
+} t_Friend;
 
 typedef struct s_main
 {
@@ -264,6 +267,7 @@ int send_all(SSL *sockfd, char *buf, int len);
 t_list *receive_list(SSL *ssl);
 t_list *deserialize_name_list(const char *json_str);
 t_list *deserialize_chathistory_list(const char *json_str);
+t_list *process_json_object(cJSON *json_object);
 // load styles
 void loadstyles(void);
 // add style to widget

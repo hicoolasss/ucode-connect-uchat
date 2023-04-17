@@ -1,5 +1,6 @@
 #include "../inc/client.h"
 extern t_list *user_list;
+
 t_screen current_screen;
 t_main main_client;
 t_client current_client;
