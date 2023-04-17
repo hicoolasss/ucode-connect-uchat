@@ -36,7 +36,6 @@ gpointer recv_func(gpointer data)
         else if (mx_strcmp(command, "<user_list>") == 0)
         {
             user_list = receive_list(current_client.ssl);
-            // printf("%s\n", ((t_user *)user_list->data)->username);
             show_user_list_scrolled(user_list);
         }
         else if (mx_strcmp(command, "<friend_list>") == 0)
@@ -51,7 +50,7 @@ gpointer recv_func(gpointer data)
             }
             if (mx_strcmp("User has no friends", temp) == 0)
             {
-                break;
+                continue;
             }
             cJSON *received_json = cJSON_Parse(temp);
             if (received_json == NULL)
@@ -122,30 +121,6 @@ gpointer recv_func(gpointer data)
             message_data->id = cJSON_GetObjectItemCaseSensitive(json, "id")->valueint;
             message_data->timestamp = cJSON_GetObjectItemCaseSensitive(json, "timestamp")->valuestring;
         }
-        // else if (mx_strcmp(command, "<show_history>") == 0)
-        // {
-        //     char temp[128];
-        //     // pthread_mutex_lock(&mutex_recv);
-        //     int len = SSL_read(current_client.ssl, temp, sizeof(temp));
-        //     // pthread_mutex_unlock(&mutex_recv);
-        //     if (len < 0)
-        //     {
-        //         printf("Error: Unable to receive data from server\n");
-        //         break;
-        //     }
-        //     if (mx_strcmp(temp, "chat empty") == 0)
-        //     {
-        //         mx_printstr("chat empty");
-        //         continue;
-        //     }
-        //     chat_history = deserialize_chathistory_list(temp);
-        // }
-        // else if (mx_strcmp(command, "<delete_message>") == 0)
-        // {
-        //     char temp[128];
-        //     // pthread_mutex_lock(&mutex_recv);
-        //     int len = SSL_read(current_client.ssl, temp, sizeof(temp));
-        // }
     }
     // g_free(command);
     return NULL;

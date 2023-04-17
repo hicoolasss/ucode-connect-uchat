@@ -129,25 +129,23 @@ void *handle_client(void *args)
             else if (mx_strcmp(command, "<user_list>") == 0)
             {
                 int cmd = SSL_write(current_client->ssl, command, mx_strlen(command));
-                if (cmd <= 0)
-                {
-                    int error_code = SSL_get_error(current_client->ssl, cmd);
-                    fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
-                }
+                // if (cmd <= 0)
+                // {
+                //     int error_code = SSL_get_error(current_client->ssl, cmd);
+                //     fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                // }
                 t_list *clients = get_clients(db);
                 if (clients == NULL)
                 {
                     fprintf(stderr, "Failed to get clients\n");
                     break;
                 }
+
                 int result = send_namelist(current_client->ssl, clients);
-                if (result > 0)
+                if (result <= 0)
                 {
-                    printf("List sent successfully to %s\n", current_client->login);
-                }
-                else
-                {
-                    printf("Error sending list to %s\n", current_client->login);
+                    int error_code = SSL_get_error(current_client->ssl, result);
+                    fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
                 }
                 // Освобождаем память, выделенную для списка
                 while (clients != NULL)
@@ -266,35 +264,35 @@ void *handle_client(void *args)
                 cJSON_AddNumberToObject(json, "id", message_data->id);
                 char *json_str = cJSON_Print(json);
                 cJSON_Delete(json);
-                t_list *current = users_list;
-                while (current != NULL)
-                {
-                    // if (((t_client *)current->data)->cl_socket != current_socket && ((t_client *)current->data)->connected == true)
-                    if (((t_client *)current->data)->login == friendname || ((t_client *)current->data)->login == current_client->login)
-                    {
-                        SSL *ssl = ((t_client *)current->data)->ssl;
-                        SSL_write(ssl, json_str, mx_strlen(json_str));
-                    }
-                    // else mx_printstr("null\n");
+                // t_list *current = users_list;
+                // while (current != NULL)
+                // {
+                //     // if (((t_client *)current->data)->cl_socket != current_socket && ((t_client *)current->data)->connected == true)
+                //     if (((t_client *)current->data)->login == friendname || ((t_client *)current->data)->login == current_client->login)
+                //     {
+                //         SSL *ssl = ((t_client *)current->data)->ssl;
+                //         SSL_write(ssl, json_str, mx_strlen(json_str));
+                //     }
+                //     // else mx_printstr("null\n");
 
-                    current = current->next;
-                }
-                if (message_data)
-                {
-                    if (message_data->message)
-                    {
-                        free(message_data->message);
-                    }
-                    if (message_data->timestamp)
-                    {
-                        free(message_data->timestamp);
-                    }
-                    if (message_data->sender)
-                    {
-                        free(message_data->sender);
-                    }
-                    free(message_data);
-                }
+                //     current = current->next;
+                // }
+                // if (message_data)
+                // {
+                //     if (message_data->message)
+                //     {
+                //         free(message_data->message);
+                //     }
+                //     if (message_data->timestamp)
+                //     {
+                //         free(message_data->timestamp);
+                //     }
+                //     if (message_data->sender)
+                //     {
+                //         free(message_data->sender);
+                //     }
+                //     free(message_data);
+                // }
             }
             // else if (mx_strcmp(command, "<show_history>") == 0)
             // {
