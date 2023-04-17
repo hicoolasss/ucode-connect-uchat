@@ -102,9 +102,7 @@ t_list *receive_list(SSL *ssl)
     const int temp_size = 4096;
     char temp[temp_size];
 
-    pthread_mutex_lock(&mutex_recv);
     int bytes_received = SSL_read(ssl, temp, temp_size - 1);
-    pthread_mutex_unlock(&mutex_recv);
     if (bytes_received <= 0)
     {
         return NULL;

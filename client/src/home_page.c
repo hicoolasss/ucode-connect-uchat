@@ -45,6 +45,12 @@ void show_home(void)
     show_mini_groups();
     show_mini_chats();
     show_empty_chat();
+
+    command = g_new(t_ThreadCommand, 1);
+    command->command_type = COMMAND_TYPE_GET_FRIEND_LIST; // Тип команды
+    command->data = NULL;                                 // Данные могут быть NULL или указателем на строку, в зависимости от типа команды
+    g_async_queue_push(command_queue, command);
+    
     show_create_new_chat_with_someone();
 
     // fill intro grids

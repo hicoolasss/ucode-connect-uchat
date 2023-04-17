@@ -13,7 +13,7 @@ gpointer send_func(gpointer data)
     {
         // Получаем команду из очереди (блокирующий вызов)
         pthread_mutex_lock(&command_queue_mutex);
-        t_ThreadCommand *command = (t_ThreadCommand *)g_async_queue_pop(command_queue);
+        command = (t_ThreadCommand *)g_async_queue_pop(command_queue);
         pthread_mutex_unlock(&command_queue_mutex);
         // Обрабатываем команду в зависимости от command_type
         switch (command->command_type)

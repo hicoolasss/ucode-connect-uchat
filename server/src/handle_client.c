@@ -182,7 +182,7 @@ void *handle_client(void *args)
                 }
                 else
                 {
-                    printf("%s\n", ((t_user *)friends_list->data)->username);
+                    //printf("%s\n", ((t_user *)friends_list->data)->username);
                     int result = send_namelist(current_client->ssl, friends_list);
                     if (result > 0)
                     {

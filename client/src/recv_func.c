@@ -20,10 +20,13 @@ gpointer recv_func(gpointer data)
 
     while (running)
     {
-        printf("Thread recv_func trying to lock mutex\n");
-        pthread_mutex_lock(&mutex_recv);
+        memset(command, 0, sizeof(command));
+        printf("\nThread recv_func trying to lock mutex\n");
+        // pthread_mutex_lock(&mutex_recv);
         int len = SSL_read(current_client.ssl, command, sizeof(command));
-        pthread_mutex_unlock(&mutex_recv);
+        // pthread_mutex_unlock(&mutex_recv);
+        printf("\n%d ->", len);
+        printf(" %s\n", command);
         printf("Thread recv_func trying to unlock mutex\n");
         if (len < 0)
         {
@@ -33,14 +36,16 @@ gpointer recv_func(gpointer data)
         else if (mx_strcmp(command, "<user_list>") == 0)
         {
             user_list = receive_list(current_client.ssl);
+            // printf("%s\n", ((t_user *)user_list->data)->username);
             show_user_list_scrolled(user_list);
+
         }
         else if (mx_strcmp(command, "<friend_list>") == 0)
         {
             friend_list = receive_list(current_client.ssl);
             if(friend_list == NULL) {
                 mx_printstr("null");
-                continue;
+                break;
             }
             t_list *current = friend_list;
             while (current)
@@ -52,9 +57,9 @@ gpointer recv_func(gpointer data)
         else if (mx_strcmp(command, "<add_friend>") == 0)
         {
             char temp[128];
-            pthread_mutex_lock(&mutex_recv);
+            // pthread_mutex_lock(&mutex_recv);
             int len = SSL_read(current_client.ssl, temp, sizeof(temp));
-            pthread_mutex_unlock(&mutex_recv);
+            // pthread_mutex_unlock(&mutex_recv);
             if (len < 0)
             {
                 printf("Error: Unable to receive data from server\n");
@@ -77,9 +82,9 @@ gpointer recv_func(gpointer data)
         else if (mx_strcmp(command, "<send_message>") == 0)
         {
             char temp[128];
-            pthread_mutex_lock(&mutex_recv);
+            // pthread_mutex_lock(&mutex_recv);
             int len = SSL_read(current_client.ssl, temp, sizeof(temp));
-            pthread_mutex_unlock(&mutex_recv);
+            // pthread_mutex_unlock(&mutex_recv);
             if (len < 0)
             {
                 printf("Error: Unable to receive data from server\n");
@@ -97,9 +102,9 @@ gpointer recv_func(gpointer data)
         else if (mx_strcmp(command, "<show_history>") == 0)
         {
             char temp[128];
-            pthread_mutex_lock(&mutex_recv);
+            // pthread_mutex_lock(&mutex_recv);
             int len = SSL_read(current_client.ssl, temp, sizeof(temp));
-            pthread_mutex_unlock(&mutex_recv);
+            // pthread_mutex_unlock(&mutex_recv);
             if (len < 0)
             {
                 printf("Error: Unable to receive data from server\n");
