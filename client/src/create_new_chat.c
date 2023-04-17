@@ -72,11 +72,6 @@ static void get_scaled_image_chats()
 void create_new_chat(GtkToggleButton *toggle_button, gpointer user_data)
 {
 
-    t_ThreadCommand *command = g_new(t_ThreadCommand, 1);
-    command->command_type = COMMAND_TYPE_GET_ADD_FRIEND; // Тип команды
-    command->data = NULL;                              // Данные могут быть NULL или указателем на строку, в зависимости от типа команды
-    g_async_queue_push(command_queue, command);
-
     update_friend_list();
     cJSON *json = cJSON_CreateObject();
     cJSON_AddStringToObject(json, "login", current_client.login);
@@ -332,11 +327,6 @@ void show_user_list_scrolled(t_list *current)
 
 static void on_entry_activate(GtkEntry *entry, gpointer data)
 {
-    t_ThreadCommand *command = g_new(t_ThreadCommand, 1);
-    command->command_type = COMMAND_TYPE_SEND_MESSAGE; // Тип команды
-    command->data = NULL;                              // Данные могут быть NULL или указателем на строку, в зависимости от типа команды
-    g_async_queue_push(command_queue, command);
-
     GtkEntryBuffer *text = gtk_entry_get_buffer(GTK_ENTRY(entry));
     const char *username = (const char *)data;
     const char *message = g_strdup(gtk_entry_buffer_get_text(text));
@@ -356,11 +346,6 @@ static void on_entry_activate(GtkEntry *entry, gpointer data)
 
 void show_chat_with_friend(GtkWidget *btn, gpointer username_copy)
 {
-    t_ThreadCommand *command = g_new(t_ThreadCommand, 1);
-    command->command_type = COMMAND_TYPE_GET_SHOW_HISTORY; // Тип команды
-    command->data = NULL;                                  // Данные могут быть NULL или указателем на строку, в зависимости от типа команды
-    g_async_queue_push(command_queue, command);
-
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chats), FALSE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.empty_chat), FALSE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chat_with_friend), TRUE);
@@ -672,18 +657,6 @@ void show_create_new_chat_with_someone()
     widget_styling(create_new_chat_with_someone_label, current_screen, "create_new_chat_with_someone_label");
     widget_styling(entry_for_search, current_screen, "entry_for_search_user");
 
-    // g_print("penis[ig]: %p\n", (void *)current_grid.chats_list_grid_child);
-
-    // printf("%s\n", ((t_user *)user_list->data)->username);
-    // t_list *cur = user_list;
-
     g_signal_connect(entry_for_search, "changed", G_CALLBACK(update_user_list_while_searching), NULL);
 
-    // t_list *current = friend_list;
-
-    // while (current)
-    // {
-    //     show_chats_with_added_friends(((t_user *)current->data)->username, chat_history);
-    //     current = current->next;
-    // }
 }

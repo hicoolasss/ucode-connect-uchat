@@ -54,11 +54,10 @@ static void create_new_chat_clicked()
     gtk_widget_set_visible(GTK_WIDGET(current_grid.empty_chat), FALSE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chat_with_friend), FALSE);
 
-    command = g_new(t_ThreadCommand, 1);
-    command->command_type = COMMAND_TYPE_GET_USER_LIST; // Тип команды
-    command->data = NULL;                               // Данные могут быть NULL или указателем на строку, в зависимости от типа команды
-    g_async_queue_push(command_queue, command);
-    
+    cJSON *json = cJSON_CreateObject();
+    cJSON_AddStringToObject(json, "login", current_client.login);
+    cJSON_AddStringToObject(json, "command", "<user_list>");
+    g_async_queue_push(message_queue, json);
 }
 
 void show_mini_chats()

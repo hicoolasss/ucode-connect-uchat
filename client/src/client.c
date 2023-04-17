@@ -13,10 +13,7 @@ pthread_mutex_t command_queue_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 pthread_cond_t auth_cond = PTHREAD_COND_INITIALIZER;
 
-GAsyncQueue *command_queue;
 GAsyncQueue *message_queue;
-
-t_ThreadCommand *command;
 
 volatile gboolean running = TRUE;
 
@@ -152,7 +149,6 @@ int main(int argc, char **argv)
     gpointer send_func(gpointer data);
     gpointer recv_func(gpointer data);
 
-    command_queue = g_async_queue_new();
     message_queue = g_async_queue_new();
     
     GThread *send_thread = g_thread_new("send_thread", send_func, NULL);

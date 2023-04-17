@@ -235,21 +235,6 @@ typedef struct s_achievements {
 
 } t_achievements;
 
-typedef enum {
-    COMMAND_TYPE_GET_USER_LIST,
-    COMMAND_TYPE_SEND_MESSAGE,
-    COMMAND_TYPE_GET_FRIEND_LIST,
-    COMMAND_TYPE_GET_SHOW_HISTORY,
-    COMMAND_TYPE_GET_ADD_FRIEND,
-} CommandType;
-
-typedef struct s_ThreadCommand{
-    CommandType command_type;
-    gchar *data;
-} t_ThreadCommand;
-
-
-extern GAsyncQueue *command_queue;
 extern GAsyncQueue *message_queue;
 extern volatile gboolean running;
 
@@ -259,7 +244,6 @@ extern pthread_mutex_t mutex_recv;
 extern _Atomic bool registered;
 extern pthread_cond_t auth_cond;
 
-extern t_ThreadCommand *command;
 extern t_client current_client;
 extern t_main main_client;
 extern t_list *friend_list;

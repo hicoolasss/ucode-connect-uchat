@@ -229,12 +229,12 @@ int add_user_to_chat(sqlite3 *db, int group_id, int user_id)
     return SQLITE_OK;
 }
 
-int sql_record_message(sqlite3 *db, char *username, char *friendname, const char *message_text) {
+t_chat *sql_record_message(sqlite3 *db, char *username, char *friendname, const char *message_text) {
     sqlite3_stmt *stmt;
     const char *sql = "INSERT INTO dialogs (user_id, friend_id, message) VALUES (?, ?, ?);";
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK) {
         printf("Ошибка подготовки SQL: %s\n", sqlite3_errmsg(db));
-        return -1;
+        return NULL;
     }
     int user_id = get_user_id(db, username);
     int friend_id = get_user_id(db, friendname);
@@ -244,10 +244,29 @@ int sql_record_message(sqlite3 *db, char *username, char *friendname, const char
     if (sqlite3_step(stmt) != SQLITE_DONE) {
         printf("Ошибка выполнения SQL: %s\n", sqlite3_errmsg(db));
         sqlite3_finalize(stmt);
-        return -1;
+        return NULL;
+    }
+    int message_id = sqlite3_last_insert_rowid(db);
+    sqlite3_finalize(stmt);
+
+    const char *sql2 = "SELECT timestamp FROM dialogs WHERE id = ?;";
+    if (sqlite3_prepare_v2(db, sql2, -1, &stmt, NULL) != SQLITE_OK) {
+        printf("Ошибка подготовки SQL: %s\n", sqlite3_errmsg(db));
+        return NULL;
+    }
+    sqlite3_bind_int(stmt, 1, message_id);
+    t_chat *message_data = NULL;
+    if (sqlite3_step(stmt) == SQLITE_ROW) {
+        message_data = (t_chat *)malloc(sizeof(t_chat));
+        message_data->id = message_id;
+        message_data->message = mx_strdup(message_text);
+        message_data->timestamp = mx_strdup((const char *)sqlite3_column_text(stmt, 0));
+        message_data->sender = mx_strdup(username);
+    } else {
+        printf("Ошибка выполнения SQL: %s\n", sqlite3_errmsg(db));
     }
     sqlite3_finalize(stmt);
-    return 0;
+    return message_data;
 }
 
 char *get_last_message_from_dialog(sqlite3 *db, const char *username, const char *friendname)

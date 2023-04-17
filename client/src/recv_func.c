@@ -83,7 +83,7 @@ gpointer recv_func(gpointer data)
         }
         else if (mx_strcmp(command, "<send_message>") == 0)
         {
-            char temp[128];
+            char temp[256];
             // pthread_mutex_lock(&mutex_recv);
             int len = SSL_read(current_client.ssl, temp, sizeof(temp));
             // pthread_mutex_unlock(&mutex_recv);
@@ -98,8 +98,11 @@ gpointer recv_func(gpointer data)
                 printf("Error: Invalid JSON data received from server\n");
                 break;
             }
-            char *sender = cJSON_GetObjectItemCaseSensitive(json, "sender")->valuestring;
-            mx_printstr(sender);
+            t_chat *message_data = NULL;
+            message_data->sender = cJSON_GetObjectItemCaseSensitive(json, "sender")->valuestring;
+            message_data->message = cJSON_GetObjectItemCaseSensitive(json, "message")->valuestring;
+            message_data->id = cJSON_GetObjectItemCaseSensitive(json, "id")->valueint;
+            message_data->timestamp = cJSON_GetObjectItemCaseSensitive(json, "timestamp")->valuestring;
         }
         else if (mx_strcmp(command, "<show_history>") == 0)
         {

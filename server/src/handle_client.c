@@ -128,7 +128,7 @@ void *handle_client(void *args)
             }
             else if (mx_strcmp(command, "<user_list>") == 0)
             {
-                int cmd = SSL_write(current_client->ssl,command, mx_strlen(command));
+                int cmd = SSL_write(current_client->ssl, command, mx_strlen(command));
                 if (cmd < 0)
                 {
                     printf("I can't send command to %s\n, check his connection", current_client->login);
@@ -182,7 +182,7 @@ void *handle_client(void *args)
                 }
                 else
                 {
-                    //printf("%s\n", ((t_user *)friends_list->data)->username);
+                    // printf("%s\n", ((t_user *)friends_list->data)->username);
                     int result = send_namelist(current_client->ssl, friends_list);
                     if (result > 0)
                     {
@@ -261,19 +261,16 @@ void *handle_client(void *args)
                 {
                     printf("Success sending command to %s\n", current_client->login);
                 }
-                // char *sender = cJSON_GetObjectItemCaseSensitive(json, "sender")->valuestring;
                 char *friendname = cJSON_GetObjectItemCaseSensitive(json, "friend")->valuestring;
                 char *message = cJSON_GetObjectItemCaseSensitive(json, "message")->valuestring;
-
-                if (sql_record_message(db, current_client->login, friendname, message) == 0)
-                {
-                    mx_printstr("Success recording\n");
-                }
-                // t_list *current = users_list;
-                // if (((t_client *)current->data)->login == friendname)
-                //     mx_printstr(((t_client *)current->data)->login);
-                // else mx_printstr("null\n");
-                char *json_str = convert_to_json(message, current_client->login);
+                t_chat *message_data = sql_record_message(db, current_client->login, friendname, message);
+                cJSON *json = cJSON_CreateObject();
+                cJSON_AddStringToObject(json, "sender", message_data->sender);
+                cJSON_AddStringToObject(json, "message", message_data->message);
+                cJSON_AddStringToObject(json, "timestamp", message_data->timestamp);
+                cJSON_AddNumberToObject(json, "id", message_data->id);
+                char *json_str = cJSON_Print(json);
+                cJSON_Delete(json);
                 t_list *current = users_list;
                 while (current != NULL)
                 {
@@ -286,6 +283,22 @@ void *handle_client(void *args)
                     // else mx_printstr("null\n");
 
                     current = current->next;
+                }
+                if (message_data)
+                {
+                    if (message_data->message)
+                    {
+                        free(message_data->message);
+                    }
+                    if (message_data->timestamp)
+                    {
+                        free(message_data->timestamp);
+                    }
+                    if (message_data->sender)
+                    {
+                        free(message_data->sender);
+                    }
+                    free(message_data);
                 }
             }
             else if (mx_strcmp(command, "<show_history>") == 0)

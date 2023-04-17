@@ -10,7 +10,7 @@ void show_home(void)
 
     gtk_widget_set_hexpand(current_grid.main_grid, TRUE);
     gtk_widget_set_vexpand(current_grid.main_grid, TRUE);
-    
+
     current_grid.intro_grid = create_grid(1200, 760, NULL);
 
     // help containers
@@ -46,11 +46,10 @@ void show_home(void)
     show_mini_chats();
     show_empty_chat();
 
-    command = g_new(t_ThreadCommand, 1);
-    command->command_type = COMMAND_TYPE_GET_FRIEND_LIST; // Тип команды
-    command->data = NULL;                                 // Данные могут быть NULL или указателем на строку, в зависимости от типа команды
-    g_async_queue_push(command_queue, command);
-    
+    cJSON *json = cJSON_CreateObject();
+    cJSON_AddStringToObject(json, "login", current_client.login);
+    cJSON_AddStringToObject(json, "command", "<friend_list>");
+    g_async_queue_push(message_queue, json);
     show_create_new_chat_with_someone();
 
     // fill intro grids
