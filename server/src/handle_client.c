@@ -267,29 +267,29 @@ void *handle_client(void *args)
                 {
                     if (strcmp(((t_client *)current->data)->login, friendname) == 0)
                     {
-                        int cmd = SSL_write(current_client->ssl, command, mx_strlen(command));
+                        SSL *ssl = ((t_client *)current->data)->ssl;
+                        int cmd = SSL_write(ssl, command, mx_strlen(command));
                         if (cmd <= 0)
                         {
-                            int error_code = SSL_get_error(current_client->ssl, cmd);
+                            int error_code = SSL_get_error(ssl, cmd);
                             fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
                         }
                         cJSON_AddStringToObject(json_message, "friendname", current_client->login);
                         char *json_str = cJSON_Print(json_message);
-                        SSL *ssl = ((t_client *)current->data)->ssl;
                         SSL_write(ssl, json_str, mx_strlen(json_str));
                         cJSON_DeleteItemFromObject(json_message, "friendname");
                     }
                     if (strcmp(((t_client *)current->data)->login, current_client->login) == 0 && strcmp(((t_client *)current->data)->login, friendname) != 0)
                     {
-                        int cmd = SSL_write(current_client->ssl, command, mx_strlen(command));
+                        SSL *ssl = ((t_client *)current->data)->ssl;
+                        int cmd = SSL_write(ssl, command, mx_strlen(command));
                         if (cmd <= 0)
                         {
-                            int error_code = SSL_get_error(current_client->ssl, cmd);
+                            int error_code = SSL_get_error(ssl, cmd);
                             fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
                         }
                         cJSON_AddStringToObject(json_message, "friendname", friendname);
                         char *json_str = cJSON_Print(json_message);
-                        SSL *ssl = ((t_client *)current->data)->ssl;
                         SSL_write(ssl, json_str, mx_strlen(json_str));
                         cJSON_DeleteItemFromObject(json_message, "friendname");
                     }
