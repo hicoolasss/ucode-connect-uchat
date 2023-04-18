@@ -272,16 +272,39 @@ void *handle_client(void *args)
                 t_list *current = users_list;
                 while (current != NULL)
                 {
-                    // if (((t_client *)current->data)->cl_socket != current_socket && ((t_client *)current->data)->connected == true)
                     if (((t_client *)current->data)->login == friendname || ((t_client *)current->data)->login == current_client->login)
                     {
                         SSL *ssl = ((t_client *)current->data)->ssl;
                         SSL_write(ssl, json_str, mx_strlen(json_str));
                     }
-                    // else mx_printstr("null\n");
-
                     current = current->next;
                 }
+                // while (current != NULL)
+                // {
+                //     if (((t_client *)current->data)->login == friendname)
+                //     {
+                //         int cmd = SSL_write(current_client->ssl, "<recv_message>", 15);
+                //         if (cmd <= 0)
+                //         {
+                //             int error_code = SSL_get_error(current_client->ssl, cmd);
+                //             fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                //         }
+                //         SSL *ssl = ((t_client *)current->data)->ssl;
+                //         SSL_write(ssl, json_str, mx_strlen(json_str));
+                //     }
+                //     else if (((t_client *)current->data)->login == current_client->login)
+                //     {
+                //         int cmd = SSL_write(current_client->ssl, command, mx_strlen(command));
+                //         if (cmd <= 0)
+                //         {
+                //             int error_code = SSL_get_error(current_client->ssl, cmd);
+                //             fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                //             SSL *ssl = ((t_client *)current->data)->ssl;
+                //             SSL_write(ssl, json_str, mx_strlen(json_str));
+                //         }
+                //     }
+                //     current = current->next;
+                // }
                 if (message_data)
                 {
                     if (message_data->message)
@@ -297,6 +320,15 @@ void *handle_client(void *args)
                         free(message_data->sender);
                     }
                     free(message_data);
+                }
+            }
+            else if (mx_strcmp(command, "<create_group>") == 0)
+            {
+                int cmd = SSL_write(current_client->ssl, command, mx_strlen(command));
+                if (cmd <= 0)
+                {
+                    int error_code = SSL_get_error(current_client->ssl, cmd);
+                    fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
                 }
             }
             cJSON_Delete(json);

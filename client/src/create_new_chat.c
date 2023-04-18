@@ -313,12 +313,7 @@ static void on_entry_activate(GtkEntry *entry, gpointer data)
 
     g_async_queue_push(message_queue, json);
 
-    cJSON *json1 = cJSON_CreateObject();
-    cJSON_AddStringToObject(json1, "login", current_client.login);
-    cJSON_AddStringToObject(json1, "command", "<friend_list>");
-    g_async_queue_push(message_queue, json);
-
-    // Не забудьте освободить память, выделенную для text_copy, когда она вам больше не понадобится
+    gtk_editable_set_text(GTK_EDITABLE(entry), "");
 }
 
 void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
@@ -358,33 +353,55 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
 
             t_chat *chat_data = (t_chat *)chat_history_iter->data;
 
-            const char *s_msg = chat_data->message;
-
-            GtkWidget *sent_msg = gtk_label_new(s_msg);
-
-            // printf("aaa: %s\n", s_msg);
-
-            gtk_widget_set_halign(sent_msg, GTK_ALIGN_END);
-
-            gtk_widget_set_margin_top(sent_msg, 15);
-
-            gtk_label_set_wrap(GTK_LABEL(sent_msg), TRUE);
-            gtk_label_set_wrap_mode(GTK_LABEL(sent_msg), PANGO_WRAP_WORD_CHAR);
-            gtk_label_set_max_width_chars(GTK_LABEL(sent_msg), 60);
-            gtk_label_set_selectable(GTK_LABEL(sent_msg), FALSE);
-
-            gtk_widget_set_hexpand(sent_msg, TRUE);
-            // gtk_widget_set_size_request(sent_msg, 60, 40);
-
             int pos = chat_data->id;
+            
+            if (strcmp(chat_data->sender, current_client.login) == 0)
+            {
+                const char *s_msg = chat_data->message;
 
-            gtk_grid_attach(GTK_GRID(chat_with_friend_grid), sent_msg, 0, pos, 1, 1);
+                GtkWidget *sent_msg = gtk_label_new(s_msg);
+
+                gtk_widget_set_halign(sent_msg, GTK_ALIGN_END);
+
+                gtk_widget_set_margin_top(sent_msg, 15);
+
+                gtk_label_set_wrap(GTK_LABEL(sent_msg), TRUE);
+                gtk_label_set_wrap_mode(GTK_LABEL(sent_msg), PANGO_WRAP_WORD_CHAR);
+                gtk_label_set_max_width_chars(GTK_LABEL(sent_msg), 60);
+                gtk_label_set_selectable(GTK_LABEL(sent_msg), FALSE);
+
+                gtk_widget_set_hexpand(sent_msg, TRUE);
+
+                gtk_grid_attach(GTK_GRID(chat_with_friend_grid), sent_msg, 0, pos, 1, 1);
+
+                widget_styling(sent_msg, current_screen, "message");
+            }
+            else
+            {
+
+                const char *r_msg = chat_data->message;
+
+                GtkWidget *received_msg = gtk_label_new(r_msg);
+
+                gtk_widget_set_halign(received_msg, GTK_ALIGN_START);
+
+                gtk_widget_set_margin_top(received_msg, 15);
+
+                gtk_label_set_wrap(GTK_LABEL(received_msg), TRUE);
+                gtk_label_set_wrap_mode(GTK_LABEL(received_msg), PANGO_WRAP_WORD_CHAR);
+                gtk_label_set_max_width_chars(GTK_LABEL(received_msg), 60);
+                gtk_label_set_selectable(GTK_LABEL(received_msg), FALSE);
+
+                gtk_widget_set_hexpand(received_msg, TRUE);
+
+                gtk_grid_attach(GTK_GRID(chat_with_friend_grid), received_msg, 0, pos, 1, 1);
+
+                widget_styling(received_msg, current_screen, "message");
+            }
 
             chat_history_iter = chat_history_iter->next;
 
             last_child++;
-
-            widget_styling(sent_msg, current_screen, "message");
         }
 
         GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);

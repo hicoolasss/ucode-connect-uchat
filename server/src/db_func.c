@@ -68,16 +68,16 @@ void sql_create_db()
         exit(rc);
     }
 
-    char *sql_groups = "CREATE TABLE IF NOT EXISTS groups ("
-                       "message_id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                       "group_id INTEGER NOT NULL,"
-                       "sendler_id INTEGER NOT NULL,"
-                       "message TEXT NOT NULL,"
-                       "timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,"
-                       "FOREIGN KEY(group_id) REFERENCES newgroups(id),"
-                       "FOREIGN KEY(sendler_id) REFERENCES users(id));";
+    const char *sql_create_group_messages_table = "CREATE TABLE IF NOT EXISTS group_messages ("
+                                                  "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                                                  "group_id INTEGER NOT NULL,"
+                                                  "sender_id INTEGER NOT NULL,"
+                                                  "message TEXT NOT NULL,"
+                                                  "timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,"
+                                                  "FOREIGN KEY(group_id) REFERENCES groups(group_id),"
+                                                  "FOREIGN KEY(sender_id) REFERENCES users(id));";
 
-    rc = sqlite3_exec(db, sql_groups, 0, 0, &err_msg);
+    rc = sqlite3_exec(db, sql_create_group_messages_table, 0, 0, &err_msg);
 
     if (rc != SQLITE_OK)
     {
@@ -105,13 +105,13 @@ void sql_create_db()
     }
 
     char sql_create_table_dialogs[] = "CREATE TABLE IF NOT EXISTS dialogs ("
-                                       "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                                       "user_id INTEGER NOT NULL,"
-                                       "friend_id TEXT NOT NULL,"
-                                       "message TEXT NOT NULL,"
-                                       "timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,"
-                                       "FOREIGN KEY(user_id) REFERENCES users(id),"
-                                       "FOREIGN KEY(friend_id) REFERENCES users(id));";
+                                      "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                                      "user_id INTEGER NOT NULL,"
+                                      "friend_id TEXT NOT NULL,"
+                                      "message TEXT NOT NULL,"
+                                      "timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,"
+                                      "FOREIGN KEY(user_id) REFERENCES users(id),"
+                                      "FOREIGN KEY(friend_id) REFERENCES users(id));";
 
     rc = sqlite3_exec(db, sql_create_table_dialogs, 0, 0, &err_msg);
     if (rc != SQLITE_OK)
@@ -200,18 +200,21 @@ int get_group_id(sqlite3 *db, const char *groupname)
     return chat_id;
 }
 
-char *get_username_by_user_id(sqlite3 *db, int user_id) {
+char *get_username_by_user_id(sqlite3 *db, int user_id)
+{
     sqlite3_stmt *stmt;
     const unsigned char *name = NULL;
     const char *sql = "SELECT username FROM users WHERE id = ?;";
-    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK) {
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK)
+    {
         printf("Error SQL: %s\n", sqlite3_errmsg(db));
         exit(0);
     }
 
     sqlite3_bind_int(stmt, 1, user_id);
 
-    if (sqlite3_step(stmt) == SQLITE_ROW) {
+    if (sqlite3_step(stmt) == SQLITE_ROW)
+    {
         name = sqlite3_column_text(stmt, 0);
         char *result = mx_strdup((const char *)name);
         sqlite3_finalize(stmt);
