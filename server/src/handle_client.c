@@ -274,6 +274,7 @@ void *handle_client(void *args)
                 {
                     if (strcmp(((t_client *)current->data)->login, friendname) == 0)
                     {
+                        int cmd = SSL_write(current_client->ssl, command, mx_strlen(command));
                         if (cmd <= 0)
                         {
                             int error_code = SSL_get_error(current_client->ssl, cmd);
@@ -287,6 +288,7 @@ void *handle_client(void *args)
                     }
                     if (strcmp(((t_client *)current->data)->login, current_client->login) == 0 && strcmp(((t_client *)current->data)->login, friendname) != 0)
                     {
+                        int cmd = SSL_write(current_client->ssl, command, mx_strlen(command));
                         if (cmd <= 0)
                         {
                             int error_code = SSL_get_error(current_client->ssl, cmd);
