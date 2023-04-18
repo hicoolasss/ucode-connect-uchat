@@ -36,7 +36,7 @@ gpointer recv_func(gpointer data)
         }
         else if (mx_strcmp(command, "<friend_list>") == 0)
         {
-            char temp[4196];
+            char temp[21474];
             int cmd = SSL_read(current_client.ssl, temp, sizeof(temp));
             mx_printstr(temp);
             if (cmd <= 0)
