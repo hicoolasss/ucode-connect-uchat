@@ -5,11 +5,14 @@ extern t_grid current_grid;
 extern t_avatar current_avatar;
 extern t_achievements current_achievements;
 
+extern t_list *all_messages_list;
+
 GdkPixbuf *scaled_avatar;
 
 GtkWidget *user_list_grid;
 GtkWidget *user_list_grid_scrolled;
 GtkWidget *checkbox_btn;
+GtkWidget *chat_with_friend_grid;
 
 t_list *chat_history_temp;
 
@@ -332,7 +335,7 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
         gtk_widget_unparent(iter);
     }
 
-    GtkWidget *chat_with_friend_grid = create_grid(607, 607, "empty");
+    chat_with_friend_grid = create_grid(607, 607, "empty");
 
     GtkWidget *chat_with_friend_scrolled = gtk_scrolled_window_new();
 
@@ -354,7 +357,7 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
             t_chat *chat_data = (t_chat *)chat_history_iter->data;
 
             int pos = chat_data->id;
-            
+
             if (strcmp(chat_data->sender, current_client.login) == 0)
             {
                 const char *s_msg = chat_data->message;
@@ -402,6 +405,7 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
             chat_history_iter = chat_history_iter->next;
 
             last_child++;
+        
         }
 
         GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
@@ -469,6 +473,7 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
 
         widget_styling(box, current_screen, "empty_chat_box");
         widget_styling(entry, current_screen, "empty_chat_label");
+
     }
 }
 

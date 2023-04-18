@@ -105,12 +105,20 @@ gpointer recv_func(gpointer data)
             cJSON *json_message_text = cJSON_GetObjectItem(json, "message");
             cJSON *json_message_timestamp = cJSON_GetObjectItem(json, "timestamp");
             cJSON *json_sender = cJSON_GetObjectItem(json, "sender");
+            char *friendname = cJSON_GetObjectItemCaseSensitive(json, "friendname")->valuestring;
 
             t_chat *message_data = (t_chat *)malloc(sizeof(t_chat));
             message_data->sender = mx_strdup(json_sender->valuestring);
             message_data->message = mx_strdup(json_message_text->valuestring);
             message_data->id = json_message_id->valueint;
             message_data->timestamp = mx_strdup(json_message_timestamp->valuestring);
+
+            //send_receive_msg(message_data);
+
+            // gpointer message_data_pointer = (gpointer)message_data;
+
+            add_message_to_chat_history(&friend_list, friendname, message_data);
+
             printf("%s -> %s | %d | %s |", message_data->sender, message_data->message, message_data->id, message_data->timestamp);
         }
         // else if (mx_strcmp(command, "<recv_message>") == 0)
