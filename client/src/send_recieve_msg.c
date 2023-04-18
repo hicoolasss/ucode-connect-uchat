@@ -122,4 +122,6 @@ void add_message_to_chat_history(t_list **friend_list, const char *username, t_c
         free(friend_data->lastmessage);
     }
     friend_data->lastmessage = strdup(new_chat->message);
+
+    update_chat_history(friend_data);
 }

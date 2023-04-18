@@ -300,10 +300,13 @@ void show_user_list_scrolled(t_list *current)
     }
 }
 
-static void on_entry_activate(GtkEntry *entry, gpointer data)
+static void on_entry_activate(GtkEntry *entry, gpointer friend_data)
 {
+
+    t_Friend *data = friend_data;
+
     GtkEntryBuffer *text = gtk_entry_get_buffer(GTK_ENTRY(entry));
-    const char *username = (const char *)data;
+    const char *username = strdup(data->username);
     const char *message = g_strdup(gtk_entry_buffer_get_text(text));
     // Теперь переменная text_copy содержит текст из виджета GtkEntry
     // Вы можете использовать text_copy для дальнейших действий, например, отправки сообщения
@@ -316,7 +319,164 @@ static void on_entry_activate(GtkEntry *entry, gpointer data)
 
     g_async_queue_push(message_queue, json);
 
+    //g_signal_connect(entry, "activate", G_CALLBACK(update_chat_history), data);
+
     gtk_editable_set_text(GTK_EDITABLE(entry), "");
+}
+
+void update_chat_history(gpointer friend_data) {
+
+    GtkWidget *children, *iter;
+
+    children = gtk_widget_get_first_child(current_grid.chat_with_friend);
+
+    for (iter = children; iter != NULL; iter = gtk_widget_get_last_child(current_grid.chat_with_friend))
+    {
+
+        gtk_widget_unparent(iter);
+    }
+
+    chat_with_friend_grid = create_grid(607, 607, "empty");
+
+    GtkWidget *chat_with_friend_scrolled = gtk_scrolled_window_new();
+
+    gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled), chat_with_friend_grid);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+
+    int last_child = 0;
+
+    t_Friend *friend_iter = friend_data;
+
+    if (friend_iter->chat_history)
+    {
+
+        t_list *chat_history_iter = friend_iter->chat_history;
+
+        while (chat_history_iter != NULL)
+        {
+
+            t_chat *chat_data = (t_chat *)chat_history_iter->data;
+
+            int pos = chat_data->id;
+
+            if (strcmp(chat_data->sender, current_client.login) == 0)
+            {
+                const char *s_msg = chat_data->message;
+
+                GtkWidget *sent_msg = gtk_label_new(s_msg);
+
+                gtk_widget_set_halign(sent_msg, GTK_ALIGN_END);
+
+                gtk_widget_set_margin_top(sent_msg, 15);
+
+                gtk_label_set_wrap(GTK_LABEL(sent_msg), TRUE);
+                gtk_label_set_wrap_mode(GTK_LABEL(sent_msg), PANGO_WRAP_WORD_CHAR);
+                gtk_label_set_max_width_chars(GTK_LABEL(sent_msg), 60);
+                gtk_label_set_selectable(GTK_LABEL(sent_msg), FALSE);
+
+                gtk_widget_set_hexpand(sent_msg, TRUE);
+
+                gtk_grid_attach(GTK_GRID(chat_with_friend_grid), sent_msg, 0, pos, 1, 1);
+
+                widget_styling(sent_msg, current_screen, "message");
+            }
+            else
+            {
+
+                const char *r_msg = chat_data->message;
+
+                GtkWidget *received_msg = gtk_label_new(r_msg);
+
+                gtk_widget_set_halign(received_msg, GTK_ALIGN_START);
+
+                gtk_widget_set_margin_top(received_msg, 15);
+
+                gtk_label_set_wrap(GTK_LABEL(received_msg), TRUE);
+                gtk_label_set_wrap_mode(GTK_LABEL(received_msg), PANGO_WRAP_WORD_CHAR);
+                gtk_label_set_max_width_chars(GTK_LABEL(received_msg), 60);
+                gtk_label_set_selectable(GTK_LABEL(received_msg), FALSE);
+
+                gtk_widget_set_hexpand(received_msg, TRUE);
+
+                gtk_grid_attach(GTK_GRID(chat_with_friend_grid), received_msg, 0, pos, 1, 1);
+
+                widget_styling(received_msg, current_screen, "message");
+            }
+
+            chat_history_iter = chat_history_iter->next;
+
+            last_child++;
+        
+        }
+
+        GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+
+        GtkWidget *entry = gtk_entry_new();
+
+        gtk_entry_set_placeholder_text(GTK_ENTRY(entry), "ti pidor");
+
+        gtk_box_append(GTK_BOX(box), entry);
+
+        gtk_widget_set_margin_start(entry, 17);
+        gtk_widget_set_margin_end(entry, 17);
+        gtk_widget_set_margin_top(entry, 14);
+        gtk_widget_set_margin_bottom(entry, 14);
+
+        gtk_widget_set_margin_start(box, 26);
+        gtk_widget_set_margin_end(box, 60);
+        gtk_widget_set_margin_top(box, 10);
+        gtk_widget_set_margin_bottom(box, 14);
+
+        gtk_widget_set_size_request(box, 452, 40);
+
+        gtk_widget_set_margin_top(chat_with_friend_scrolled, 75);
+        // gtk_widget_set_margin_bottom(chat_with_friend_scrolled, 16);
+        gtk_widget_set_size_request(chat_with_friend_scrolled, 533, 607);
+
+        gtk_grid_attach(GTK_GRID(current_grid.chat_with_friend), chat_with_friend_scrolled, 0, 0, 1, 1);
+
+        gtk_grid_attach(GTK_GRID(current_grid.chat_with_friend), box, 0, 9999, 1, 1);
+
+        g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate), friend_iter);
+
+        widget_styling(box, current_screen, "empty_chat_box");
+        widget_styling(entry, current_screen, "empty_chat_label");
+    }
+    else
+    {
+
+        mx_printstr("empty chat with : ");
+        mx_printstr(friend_iter->username);
+        mx_printstr("\n");
+        GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+
+        GtkWidget *entry = gtk_entry_new();
+
+        gtk_entry_set_placeholder_text(GTK_ENTRY(entry), "ti pidor");
+
+        gtk_box_append(GTK_BOX(box), entry);
+
+        gtk_widget_set_margin_start(entry, 17);
+        gtk_widget_set_margin_end(entry, 17);
+        gtk_widget_set_margin_top(entry, 14);
+        gtk_widget_set_margin_bottom(entry, 14);
+
+        gtk_widget_set_margin_start(box, 26);
+        gtk_widget_set_margin_end(box, 60);
+        gtk_widget_set_margin_top(box, 613);
+        gtk_widget_set_margin_bottom(box, 14);
+
+        gtk_widget_set_size_request(box, 452, 40);
+
+        gtk_grid_attach(GTK_GRID(current_grid.chat_with_friend), box, 0, 0, 1, 1);
+
+        g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate), friend_iter);
+
+        widget_styling(box, current_screen, "empty_chat_box");
+        widget_styling(entry, current_screen, "empty_chat_label");
+
+    }
+
 }
 
 void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
@@ -436,7 +596,7 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
 
         gtk_grid_attach(GTK_GRID(current_grid.chat_with_friend), box, 0, 9999, 1, 1);
 
-        g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate), friend_iter->username);
+        g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate), friend_iter);
 
         widget_styling(box, current_screen, "empty_chat_box");
         widget_styling(entry, current_screen, "empty_chat_label");
@@ -469,7 +629,7 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
 
         gtk_grid_attach(GTK_GRID(current_grid.chat_with_friend), box, 0, 0, 1, 1);
 
-        g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate), friend_iter->username);
+        g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate), friend_iter);
 
         widget_styling(box, current_screen, "empty_chat_box");
         widget_styling(entry, current_screen, "empty_chat_label");

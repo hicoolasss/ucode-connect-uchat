@@ -368,7 +368,7 @@ void update_friend_list();
 
 void show_user_list_scrolled(t_list *current);
 void show_chats_with_added_friends(t_list *friend_list);
-
+void update_chat_history(gpointer friend_data);
 gboolean send_receive_msg(gpointer user_data);
 
 void add_message_to_chat_history(t_list **friend_list, const char *username, t_chat *new_chat);

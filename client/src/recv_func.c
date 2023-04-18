@@ -119,6 +119,7 @@ gpointer recv_func(gpointer data)
 
             add_message_to_chat_history(&friend_list, friendname, message_data);
 
+
             printf("%s -> %s | %d | %s |", message_data->sender, message_data->message, message_data->id, message_data->timestamp);
         }
         // else if (mx_strcmp(command, "<recv_message>") == 0)
