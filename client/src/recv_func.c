@@ -86,7 +86,7 @@ gpointer recv_func(gpointer data)
         }
         else if (mx_strcmp(command, "<send_message>") == 0)
         {
-            char temp[1024];
+            char temp[16784];
             int len = SSL_read(current_client.ssl, temp, sizeof(temp));
             if (len < 0)
             {
@@ -112,11 +112,6 @@ gpointer recv_func(gpointer data)
             message_data->message = mx_strdup(json_message_text->valuestring);
             message_data->id = json_message_id->valueint;
             message_data->timestamp = mx_strdup(json_message_timestamp->valuestring);
-
-            // printf("%s -> %s | %d | %s |", message_data->sender, message_data->message, message_data->id, message_data->timestamp);
-            mx_printchar('\n');
-            mx_printstr(message_data->message);
-            mx_printchar('\n');
            
             add_message_to_chat_history(&friend_list, friendname, message_data);
 
@@ -139,35 +134,7 @@ gpointer recv_func(gpointer data)
             }
             memset(temp, 0, sizeof(temp));
         }
-        // else if (mx_strcmp(command, "<recv_message>") == 0)
-        // {
-        //     char temp[256];
-        //     int len = SSL_read(current_client.ssl, temp, sizeof(temp));
-        //     if (len < 0)
-        //     {
-        //         printf("Error: Unable to receive data from server\n");
-        //         break;
-        //     }
-        //     printf("%s\n", temp);
-        //     cJSON *json = cJSON_Parse(temp);
-        //     if (!json)
-        //     {
-        //         printf("Error: Invalid JSON data received from server\n");
-        //         break;
-        //     }
 
-        //     cJSON *json_message_id = cJSON_GetObjectItem(json, "id");
-        //     cJSON *json_message_text = cJSON_GetObjectItem(json, "message");
-        //     cJSON *json_message_timestamp = cJSON_GetObjectItem(json, "timestamp");
-        //     cJSON *json_sender = cJSON_GetObjectItem(json, "sender");
-
-        //     t_chat *message_data = (t_chat *)malloc(sizeof(t_chat));
-        //     message_data->sender = mx_strdup(json_sender->valuestring);
-        //     message_data->message = mx_strdup(json_message_text->valuestring);
-        //     message_data->id = json_message_id->valueint;
-        //     message_data->timestamp = mx_strdup(json_message_timestamp->valuestring);
-        //     printf("%s -> %s | %d | %s |", message_data->sender, message_data->message, message_data->id, message_data->timestamp);
-        // }
         else if (mx_strcmp(command, "<logout>") == 0)
         {
             // running = false;

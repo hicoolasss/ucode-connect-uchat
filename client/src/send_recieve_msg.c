@@ -126,29 +126,5 @@ void add_message_to_chat_history(t_list **friend_list, const char *username, t_c
     }
     friend_data->lastmessage = mx_strdup(new_chat->message);
 
-    t_list *friend_iter = *friend_list;
-
-    while (friend_iter != NULL)
-    {
-        t_Friend *friend_data = (t_Friend *)friend_iter->data;
-
-        printf("\n\nFriend: %s\n", friend_data->username);
-
-        t_list *chat_history_iter = friend_data->chat_history;
-
-        while (chat_history_iter != NULL)
-        {
-            t_chat *chat_data = (t_chat *)chat_history_iter->data;
-
-            printf("  Message ID: %d\n", chat_data->id);
-            printf("  Sender: %s\n", chat_data->sender);
-            printf("  Message: %s\n", chat_data->message);
-            printf("  Timestamp: %s\n", chat_data->timestamp);
-
-            chat_history_iter = chat_history_iter->next;
-        }
-
-        friend_iter = friend_iter->next;
-    }
     update_chat_history(friend_data);
 }
