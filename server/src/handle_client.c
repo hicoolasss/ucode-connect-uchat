@@ -253,21 +253,14 @@ void *handle_client(void *args)
             }
             else if (mx_strcmp(command, "<send_message>") == 0)
             {
-                int cmd = SSL_write(current_client->ssl, command, mx_strlen(command));
-                // if (cmd <= 0)
-                // {
-                //     int error_code = SSL_get_error(current_client->ssl, cmd);
-                //     fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
-                // }
                 char *friendname = cJSON_GetObjectItemCaseSensitive(json, "friend")->valuestring;
                 char *message = cJSON_GetObjectItemCaseSensitive(json, "message")->valuestring;
                 t_chat *message_data = sql_record_message(db, current_client->login, friendname, message);
-                cJSON *json = cJSON_CreateObject();
-                cJSON_AddStringToObject(json, "sender", message_data->sender);
-                cJSON_AddStringToObject(json, "message", message_data->message);
-                cJSON_AddStringToObject(json, "timestamp", message_data->timestamp);
-                cJSON_AddNumberToObject(json, "id", message_data->id);
-                // cJSON_AddStringToObject(json, "friendname", friendname);
+                cJSON *json_message = cJSON_CreateObject();
+                cJSON_AddStringToObject(json_message, "sender", message_data->sender);
+                cJSON_AddStringToObject(json_message, "message", message_data->message);
+                cJSON_AddStringToObject(json_message, "timestamp", message_data->timestamp);
+                cJSON_AddNumberToObject(json_message, "id", message_data->id);
                 t_list *current = users_list;
 
                 while (current != NULL)
@@ -280,11 +273,11 @@ void *handle_client(void *args)
                             int error_code = SSL_get_error(current_client->ssl, cmd);
                             fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
                         }
-                        cJSON_AddStringToObject(json, "friendname", current_client->login);
-                        char *json_str = cJSON_Print(json);
+                        cJSON_AddStringToObject(json_message, "friendname", current_client->login);
+                        char *json_str = cJSON_Print(json_message);
                         SSL *ssl = ((t_client *)current->data)->ssl;
                         SSL_write(ssl, json_str, mx_strlen(json_str));
-                        cJSON_DeleteItemFromObject(json, "friendname");
+                        cJSON_DeleteItemFromObject(json_message, "friendname");
                     }
                     if (strcmp(((t_client *)current->data)->login, current_client->login) == 0 && strcmp(((t_client *)current->data)->login, friendname) != 0)
                     {
@@ -294,16 +287,15 @@ void *handle_client(void *args)
                             int error_code = SSL_get_error(current_client->ssl, cmd);
                             fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
                         }
-                        cJSON_AddStringToObject(json, "friendname", friendname);
-                        char *json_str = cJSON_Print(json);
+                        cJSON_AddStringToObject(json_message, "friendname", friendname);
+                        char *json_str = cJSON_Print(json_message);
                         SSL *ssl = ((t_client *)current->data)->ssl;
                         SSL_write(ssl, json_str, mx_strlen(json_str));
-                        cJSON_DeleteItemFromObject(json, "friendname");
+                        cJSON_DeleteItemFromObject(json_message, "friendname");
                     }
                     current = current->next;
                 }
-
-                cJSON_Delete(json);
+                cJSON_Delete(json_message);
                 if (message_data)
                 {
                     if (message_data->message)
