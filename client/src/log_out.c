@@ -15,22 +15,29 @@ static void yes_btn_clicked()
     cJSON_Delete(json);
     send_message_to_server(json_str);
 
-    while (1)
-    {
-        int len = SSL_read(current_client.ssl, buf, sizeof(buf));
+    // while (1)
+    // {
+    //     int len = SSL_read(current_client.ssl, buf, sizeof(buf));
 
-        if (len < 0)
-        {
-            break;
-        }
-        else if (mx_strcmp(buf, "success\n") == 0)
-        {
-            set_unvisible_all();
-            gtk_widget_remove_css_class(GTK_WIDGET(current_grid.main_grid), "main_grid_blurred");
-            gtk_widget_set_visible(GTK_WIDGET(current_grid.log_in_conrainer), TRUE);
-            break;
-        }
-    }
+    //     if (len < 0)
+    //     {
+    //         break;
+    //     }
+    //     else if (mx_strcmp(buf, "success\n") == 0)
+    //     {
+    //         set_unvisible_all();
+    //         gtk_widget_remove_css_class(GTK_WIDGET(current_grid.main_grid), "main_grid_blurred");
+    //         gtk_widget_set_visible(GTK_WIDGET(current_grid.log_in_conrainer), TRUE);
+    //         break;
+    //     }
+    // }
+}
+
+static void logout()
+{
+    set_unvisible_all();
+    gtk_widget_remove_css_class(GTK_WIDGET(current_grid.main_grid), "main_grid_blurred");
+    gtk_widget_set_visible(GTK_WIDGET(current_grid.log_in_conrainer), TRUE);
 }
 
 static void no_btn_clicked()
@@ -52,7 +59,7 @@ void show_log_out()
 
     container = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
     gtk_box_append(GTK_BOX(container), log_out_label);
-    
+
     GtkWidget *yes_btn = gtk_dialog_add_button(GTK_DIALOG(dialog), "Yes", 1);
     GtkWidget *no_btn = gtk_dialog_add_button(GTK_DIALOG(dialog), "No", 2);
 
@@ -72,7 +79,6 @@ void show_log_out()
 
     gtk_widget_set_size_request(no_btn, 172, 55);
 
-
     widget_styling(dialog, current_screen, "log_out_dialog");
     widget_styling(container, current_screen, "log_out_container");
     widget_styling(log_out_label, current_screen, "log_out_label");
@@ -85,7 +91,7 @@ void show_log_out()
                              dialog);
     g_signal_connect(yes_btn, "clicked", G_CALLBACK(yes_btn_clicked), NULL);
     g_signal_connect(no_btn, "clicked", G_CALLBACK(no_btn_clicked), NULL);
-    
+
     gtk_window_present(GTK_WINDOW(dialog));
 
     //    //main box

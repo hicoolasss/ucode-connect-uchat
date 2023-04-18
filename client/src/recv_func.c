@@ -21,13 +21,9 @@ gpointer recv_func(gpointer data)
     while (running)
     {
         memset(command, 0, sizeof(command));
-        // printf("\nThread recv_func trying to lock mutex\n");
-        // pthread_mutex_lock(&mutex_recv);
         int len = SSL_read(current_client.ssl, command, sizeof(command));
-        // pthread_mutex_unlock(&mutex_recv);
         printf("\n%d ->", len);
         printf(" %s\n", command);
-        // printf("Thread recv_func trying to unlock mutex\n");
         if (len < 0)
         {
             printf("Error: Unable to receive data from server\n");
@@ -59,21 +55,16 @@ gpointer recv_func(gpointer data)
                 fprintf(stderr, "Error parsing JSON string: %s\n", cJSON_GetErrorPtr());
                 break;
             }
-
             friend_list = process_json_object(received_json);
 
-
             show_chats_with_added_friends(friend_list);
-
 
             cJSON_Delete(received_json);
         }
         else if (mx_strcmp(command, "<add_friend>") == 0)
         {
             char temp[128];
-            // pthread_mutex_lock(&mutex_recv);
             int len = SSL_read(current_client.ssl, temp, sizeof(temp));
-            // pthread_mutex_unlock(&mutex_recv);
             if (len < 0)
             {
                 printf("Error: Unable to receive data from server\n");
@@ -96,9 +87,7 @@ gpointer recv_func(gpointer data)
         else if (mx_strcmp(command, "<send_message>") == 0)
         {
             char temp[256];
-            // pthread_mutex_lock(&mutex_recv);
             int len = SSL_read(current_client.ssl, temp, sizeof(temp));
-            // pthread_mutex_unlock(&mutex_recv);
             if (len < 0)
             {
                 printf("Error: Unable to receive data from server\n");
@@ -124,8 +113,10 @@ gpointer recv_func(gpointer data)
             message_data->timestamp = mx_strdup(json_message_timestamp->valuestring);
             printf("%s -> %s | %d | %s |", message_data->sender, message_data->message, message_data->id, message_data->timestamp);
         }
+        else if (mx_strcmp(command, "<logout>") == 0) {
+            // running = false;
+        }
     }
-    // g_free(command);
     return NULL;
 }
 

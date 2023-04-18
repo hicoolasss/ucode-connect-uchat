@@ -119,11 +119,16 @@ void *handle_client(void *args)
 
             if (mx_strcmp(command, "<logout>") == 0)
             {
+                int cmd = SSL_write(current_client->ssl, command, mx_strlen(command));
+                if (cmd <= 0)
+                {
+                    int error_code = SSL_get_error(current_client->ssl, cmd);
+                    fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                }
                 char *login = cJSON_GetObjectItemCaseSensitive(json, "login")->valuestring;
                 print_message(login, "logout\n");
                 remove_client(current_client->cl_socket);
                 cli_count--;
-                SSL_write(current_client->ssl, "success\n", 9);
                 is_run = false;
             }
             else if (mx_strcmp(command, "<user_list>") == 0)
