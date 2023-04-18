@@ -86,14 +86,14 @@ gpointer recv_func(gpointer data)
         }
         else if (mx_strcmp(command, "<send_message>") == 0)
         {
-            char temp[256];
+            char temp[1024];
             int len = SSL_read(current_client.ssl, temp, sizeof(temp));
             if (len < 0)
             {
                 printf("Error: Unable to receive data from server\n");
                 break;
             }
-            printf("%s\n", temp);
+            printf("\n%s\n", temp);
             cJSON *json = cJSON_Parse(temp);
             if (!json)
             {
@@ -113,14 +113,34 @@ gpointer recv_func(gpointer data)
             message_data->id = json_message_id->valueint;
             message_data->timestamp = mx_strdup(json_message_timestamp->valuestring);
 
-            printf("%s -> %s | %d | %s |", message_data->sender, message_data->message, message_data->id, message_data->timestamp);
-            //send_receive_msg(message_data);
+            // printf("%s -> %s | %d | %s |", message_data->sender, message_data->message, message_data->id, message_data->timestamp);
+            mx_printchar('\n');
+            mx_printstr(message_data->message);
+            mx_printchar('\n');
+            // send_receive_msg(message_data);
 
             // gpointer message_data_pointer = (gpointer)message_data;
 
             add_message_to_chat_history(&friend_list, friendname, message_data);
 
-
+            t_chat *data = message_data;
+            if (data)
+            {
+                if (data->message)
+                {
+                    free(data->message);
+                }
+                if (data->timestamp)
+                {
+                    free(data->timestamp);
+                }
+                if (data->sender)
+                {
+                    free(data->sender);
+                }
+                free(data);
+            }
+            memset(temp, 0, sizeof(temp));
         }
         // else if (mx_strcmp(command, "<recv_message>") == 0)
         // {

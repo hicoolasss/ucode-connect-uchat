@@ -311,7 +311,7 @@ static void on_entry_activate(GtkEntry *entry, gpointer friend_data)
     // Теперь переменная text_copy содержит текст из виджета GtkEntry
     // Вы можете использовать text_copy для дальнейших действий, например, отправки сообщения
 
-    printf("%s -> %s\n", username, message);
+    // printf("%s -> %s\n", username, message);
     cJSON *json = cJSON_CreateObject();
     cJSON_AddStringToObject(json, "command", "<send_message>");
     cJSON_AddStringToObject(json, "friend", username);

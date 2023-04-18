@@ -89,7 +89,7 @@ void add_message_to_chat_history(t_list **friend_list, const char *username, t_c
     while (temp)
     {
         friend_data = (t_Friend *)temp->data;
-        if (strcmp(friend_data->username, username) == 0)
+        if (mx_strcmp(friend_data->username, username) == 0)
         {
             break;
         }
@@ -100,7 +100,7 @@ void add_message_to_chat_history(t_list **friend_list, const char *username, t_c
     if (!temp)
     {
         friend_data = (t_Friend *)malloc(sizeof(t_Friend));
-        friend_data->username = strdup(username);
+        friend_data->username = mx_strdup(username);
         friend_data->lastmessage = NULL;
         friend_data->chat_history = NULL;
 
@@ -111,17 +111,38 @@ void add_message_to_chat_history(t_list **friend_list, const char *username, t_c
     }
 
     // Добавить новую историю чата в найденном (или созданном) друге
-    t_list *new_chat_node = (t_list *)malloc(sizeof(t_list));
-    new_chat_node->data = new_chat;
-    new_chat_node->next = friend_data->chat_history;
-    friend_data->chat_history = new_chat_node;
+    mx_push_back(&friend_data->chat_history, new_chat);
 
     // Обновить последнее сообщение для друга
     if (friend_data->lastmessage)
     {
         free(friend_data->lastmessage);
     }
-    friend_data->lastmessage = strdup(new_chat->message);
+    friend_data->lastmessage = mx_strdup(new_chat->message);
 
+    t_list *friend_iter = *friend_list;
+
+    while (friend_iter != NULL)
+    {
+        t_Friend *friend_data = (t_Friend *)friend_iter->data;
+
+        printf("\n\nFriend: %s\n", friend_data->username);
+
+        t_list *chat_history_iter = friend_data->chat_history;
+
+        while (chat_history_iter != NULL)
+        {
+            t_chat *chat_data = (t_chat *)chat_history_iter->data;
+
+            printf("  Message ID: %d\n", chat_data->id);
+            printf("  Sender: %s\n", chat_data->sender);
+            printf("  Message: %s\n", chat_data->message);
+            printf("  Timestamp: %s\n", chat_data->timestamp);
+
+            chat_history_iter = chat_history_iter->next;
+        }
+
+        friend_iter = friend_iter->next;
+    }
     update_chat_history(friend_data);
 }

@@ -280,7 +280,7 @@ void *handle_client(void *args)
                         SSL_write(ssl, json_str, mx_strlen(json_str));
                         cJSON_DeleteItemFromObject(json, "friendname");
                     }
-                    if (strcmp(((t_client *)current->data)->login, current_client->login) == 0)
+                    else if (strcmp(((t_client *)current->data)->login, current_client->login) == 0)
                     {
                         cJSON_AddStringToObject(json, "friendname", friendname);
                         char *json_str = cJSON_Print(json);
