@@ -254,11 +254,11 @@ void *handle_client(void *args)
             else if (mx_strcmp(command, "<send_message>") == 0)
             {
                 int cmd = SSL_write(current_client->ssl, command, mx_strlen(command));
-                if (cmd <= 0)
-                {
-                    int error_code = SSL_get_error(current_client->ssl, cmd);
-                    fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
-                }
+                // if (cmd <= 0)
+                // {
+                //     int error_code = SSL_get_error(current_client->ssl, cmd);
+                //     fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                // }
                 char *friendname = cJSON_GetObjectItemCaseSensitive(json, "friend")->valuestring;
                 char *message = cJSON_GetObjectItemCaseSensitive(json, "message")->valuestring;
                 t_chat *message_data = sql_record_message(db, current_client->login, friendname, message);
@@ -274,6 +274,11 @@ void *handle_client(void *args)
                 {
                     if (strcmp(((t_client *)current->data)->login, friendname) == 0)
                     {
+                        if (cmd <= 0)
+                        {
+                            int error_code = SSL_get_error(current_client->ssl, cmd);
+                            fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                        }
                         cJSON_AddStringToObject(json, "friendname", current_client->login);
                         char *json_str = cJSON_Print(json);
                         SSL *ssl = ((t_client *)current->data)->ssl;
@@ -282,6 +287,11 @@ void *handle_client(void *args)
                     }
                     if (strcmp(((t_client *)current->data)->login, current_client->login) == 0 && strcmp(((t_client *)current->data)->login, friendname) != 0)
                     {
+                        if (cmd <= 0)
+                        {
+                            int error_code = SSL_get_error(current_client->ssl, cmd);
+                            fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                        }
                         cJSON_AddStringToObject(json, "friendname", friendname);
                         char *json_str = cJSON_Print(json);
                         SSL *ssl = ((t_client *)current->data)->ssl;
