@@ -291,19 +291,19 @@ char *get_last_message_from_dialog(sqlite3 *db, const char *username, const char
 
     result = sqlite3_step(stmt);
     if(result == SQLITE_ROW) {
-        lastmessage = (char *)sqlite3_column_text(stmt, 0);
-        return lastmessage;
+        const unsigned char *temp = sqlite3_column_text(stmt, 0);
+        lastmessage = mx_strdup((const char *)temp);
     }
     else if (result == SQLITE_DONE)
     {
-        // printf("No message found in the dialog.\n");
-        sqlite3_finalize(stmt);
-        return NULL;
+        lastmessage = NULL;
     }
     else
     {
         fprintf(stderr, "Error: %s\n", sqlite3_errmsg(db));
-        sqlite3_finalize(stmt);
-        return NULL;
+        lastmessage = NULL;
     }
+
+    sqlite3_finalize(stmt);
+    return lastmessage;
 }

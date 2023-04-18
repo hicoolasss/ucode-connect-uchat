@@ -108,7 +108,7 @@ t_list *receive_list(SSL *ssl)
         return NULL;
     }
     temp[bytes_received] = '\0';
-    printf("%s\n",temp);
+    printf("%s\n", temp);
     return deserialize_name_list(temp);
 }
 
@@ -159,9 +159,13 @@ t_list *process_json_object(cJSON *json_object)
         cJSON *json_friend_username = cJSON_GetObjectItem(json_friend, "name");
         cJSON *json_lastmessage = cJSON_GetObjectItem(json_friend, "lastmessage");
 
-        t_Friend *new_friend = (t_Friend *)malloc(sizeof(t_Friend)); // Изменено на t_Friend
+        t_Friend *new_friend = (t_Friend *)malloc(sizeof(t_Friend));         // Изменено на t_Friend
         new_friend->username = mx_strdup(json_friend_username->valuestring); // Использование strdup для копирования строки
-        new_friend->lastmessage = mx_strdup(json_lastmessage->valuestring);
+        if (json_lastmessage->valuestring != NULL)
+        {
+            new_friend->lastmessage = mx_strdup(json_lastmessage->valuestring);
+        }
+        else new_friend->lastmessage = "Nothing here...";
         new_friend->chat_history = NULL; // Инициализация указателя на историю чата
 
         if (new_friend != NULL)
@@ -186,9 +190,9 @@ t_list *process_json_object(cJSON *json_object)
 
                 t_chat *new_chat = (t_chat *)malloc(sizeof(t_chat));
                 new_chat->id = json_message_id->valueint;
-                new_chat->message = mx_strdup(json_message_text->valuestring); // Использование strdup для копирования строки
+                new_chat->message = mx_strdup(json_message_text->valuestring);        // Использование strdup для копирования строки
                 new_chat->timestamp = mx_strdup(json_message_timestamp->valuestring); // Использование strdup для копирования строки
-                new_chat->sender = mx_strdup(json_sender->valuestring); // Использование strdup для копирования строки
+                new_chat->sender = mx_strdup(json_sender->valuestring);               // Использование strdup для копирования строки
                 if (new_chat != NULL)
                 {
                     mx_push_back(&chat_history, new_chat);

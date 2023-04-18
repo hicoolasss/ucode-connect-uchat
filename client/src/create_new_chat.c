@@ -348,8 +348,6 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
 
     t_Friend *friend_iter = friend_data;
 
-
-
     if (friend_iter->chat_history)
     {
 
@@ -486,13 +484,12 @@ void show_chats_with_added_friends(t_list *friend_list)
         GtkWidget *user_avatar = gtk_image_new_from_pixbuf(scaled_avatar);
 
         // t_chat *last_element = find_last_message(current);
-
         GtkWidget *last_msg_label = gtk_label_new(friend_data->lastmessage);
-
-        if (friend_data->lastmessage == NULL)
-        {
-            gtk_label_set_label(GTK_LABEL(last_msg_label), "Nothing here...");
-        }
+        // }
+        // if (friend_data->lastmessage == NULL)
+        // {
+        //     gtk_label_set_label(GTK_LABEL(last_msg_label), "Nothing here...");
+        // }
 
         gtk_grid_attach(GTK_GRID(user_box_grid), user_avatar, 0, 0, 1, 2);
 

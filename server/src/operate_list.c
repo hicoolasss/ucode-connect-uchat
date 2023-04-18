@@ -1,31 +1,36 @@
 #include "../inc/server.h"
 
-int send_namelist(SSL *ssl, t_list *head) {
+int send_namelist(SSL *ssl, t_list *head)
+{
     char *serialized_list = serialize_namelist(head);
     int result = SSL_write(ssl, serialized_list, strlen(serialized_list));
     free(serialized_list);
     return result;
 }
 
-char* serialize_namelist(t_list* head) {
+char *serialize_namelist(t_list *head)
+{
     cJSON *json_list = cJSON_CreateArray();
-    
-    while (head != NULL) {
+
+    while (head != NULL)
+    {
         cJSON *json_node = cJSON_CreateObject();
         cJSON_AddStringToObject(json_node, "name", ((t_user *)head->data)->username);
         cJSON_AddItemToArray(json_list, json_node);
         head = head->next;
     }
-    
+
     char *serialized_list = cJSON_Print(json_list);
     cJSON_Delete(json_list);
     return serialized_list;
 }
 
-char* serialize_historylist(t_list* head) {
+char *serialize_historylist(t_list *head)
+{
     cJSON *json_list = cJSON_CreateArray();
-    
-    while (head != NULL) {
+
+    while (head != NULL)
+    {
         cJSON *json_node = cJSON_CreateObject();
         cJSON_AddNumberToObject(json_node, "message_id", ((t_chat *)head->data)->id);
         cJSON_AddStringToObject(json_node, "sender", ((t_chat *)head->data)->sender);
@@ -35,7 +40,7 @@ char* serialize_historylist(t_list* head) {
         cJSON_AddItemToArray(json_list, json_node);
         head = head->next;
     }
-    
+
     char *serialized_list = cJSON_Print(json_list);
     cJSON_Delete(json_list);
     return serialized_list;
@@ -111,8 +116,14 @@ cJSON *create_json_from_friends_and_chats(t_list *friends, sqlite3 *db, char *us
     {
         cJSON *friend_chat = cJSON_CreateObject();
         cJSON_AddStringToObject(friend_chat, "name", ((t_user *)iter->data)->username);
-        cJSON_AddStringToObject(friend_chat, "lastmessage", ((t_user *)iter->data)->lastmessage);
-
+        if (((t_user *)iter->data)->lastmessage != NULL)
+        {
+            cJSON_AddStringToObject(friend_chat, "lastmessage", ((t_user *)iter->data)->lastmessage);
+        }
+        else
+        {
+            cJSON_AddNullToObject(friend_chat, "lastmessage");
+        }
         int friend_id = get_user_id(db, ((t_user *)iter->data)->username);
         t_list *chat_history = get_message_history(db, user_id, friend_id);
         cJSON *messages = cJSON_CreateArray();
@@ -139,7 +150,7 @@ cJSON *create_json_from_friends_and_chats(t_list *friends, sqlite3 *db, char *us
             t_list *temp = chat_history;
             chat_history = chat_history->next;
             t_chat *message = (t_chat *)temp->data;
-            free(message->message); // освободить память строки message
+            free(message->message);   // освободить память строки message
             free(message->timestamp); // освободить память строки timestamp
             free(temp->data);
             free(temp);
