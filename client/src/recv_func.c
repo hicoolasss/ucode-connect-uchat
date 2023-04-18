@@ -117,10 +117,7 @@ gpointer recv_func(gpointer data)
             mx_printchar('\n');
             mx_printstr(message_data->message);
             mx_printchar('\n');
-            // send_receive_msg(message_data);
-
-            // gpointer message_data_pointer = (gpointer)message_data;
-
+           
             add_message_to_chat_history(&friend_list, friendname, message_data);
 
             t_chat *data = message_data;

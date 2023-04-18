@@ -77,7 +77,7 @@ extern GtkWidget *chat_with_friend_grid;
 
 void add_message_to_chat_history(t_list **friend_list, const char *username, t_chat *new_chat)
 {
-    if (!friend_list || !new_chat)
+        if (!friend_list || !new_chat)
     {
         return;
     }
@@ -111,7 +111,13 @@ void add_message_to_chat_history(t_list **friend_list, const char *username, t_c
     }
 
     // Добавить новую историю чата в найденном (или созданном) друге
-    mx_push_back(&friend_data->chat_history, new_chat);
+    t_chat *chat_copy = (t_chat *)malloc(sizeof(t_chat));
+    chat_copy->id = new_chat->id;
+    chat_copy->sender = mx_strdup(new_chat->sender);
+    chat_copy->message = mx_strdup(new_chat->message);
+    chat_copy->timestamp = mx_strdup(new_chat->timestamp);
+
+    mx_push_back(&friend_data->chat_history, chat_copy);
 
     // Обновить последнее сообщение для друга
     if (friend_data->lastmessage)
