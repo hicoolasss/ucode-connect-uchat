@@ -370,11 +370,21 @@ void update_friend_list();
 void show_user_list_scrolled(t_list *current);
 void show_chats_with_added_friends(t_list *friend_list);
 
+gboolean send_receive_msg(gpointer user_data);
+
+void add_message_to_chat_history(t_chat *message_data);
+
 
 typedef struct {
     gpointer chat_history;
     gpointer username_copy;
 } CallbackArgs;
+
+typedef struct {
+    char *friend_name;
+    t_list *messages_list;
+    GtkWidget *chat_grid;
+} t_chat_info;
 
 
 

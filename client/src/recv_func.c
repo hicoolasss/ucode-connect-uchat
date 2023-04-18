@@ -122,6 +122,13 @@ gpointer recv_func(gpointer data)
             message_data->message = mx_strdup(json_message_text->valuestring);
             message_data->id = json_message_id->valueint;
             message_data->timestamp = mx_strdup(json_message_timestamp->valuestring);
+
+            //send_receive_msg(message_data);
+
+            gpointer message_data_pointer = (gpointer)message_data;
+
+            add_message_to_chat_history(message_data_pointer);
+
             printf("%s -> %s | %d | %s |", message_data->sender, message_data->message, message_data->id, message_data->timestamp);
         }
     }
