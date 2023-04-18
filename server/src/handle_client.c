@@ -272,7 +272,7 @@ void *handle_client(void *args)
 
                 while (current != NULL)
                 {
-                    if (((t_client *)current->data)->login == friendname)
+                    if (strcmp(((t_client *)current->data)->login, friendname) == 0)
                     {
                         cJSON_AddStringToObject(json, "friendname", current_client->login);
                         char *json_str = cJSON_Print(json);
@@ -280,7 +280,7 @@ void *handle_client(void *args)
                         SSL_write(ssl, json_str, mx_strlen(json_str));
                         cJSON_DeleteItemFromObject(json, "friendname");
                     }
-                    else if (((t_client *)current->data)->login == current_client->login)
+                    else if (strcmp(((t_client *)current->data)->login, current_client->login) == 0)
                     {
                         cJSON_AddStringToObject(json, "friendname", friendname);
                         char *json_str = cJSON_Print(json);
@@ -290,6 +290,7 @@ void *handle_client(void *args)
                     }
                     current = current->next;
                 }
+
                 cJSON_Delete(json);
                 if (message_data)
                 {
