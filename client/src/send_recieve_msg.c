@@ -77,7 +77,7 @@ extern GtkWidget *chat_with_friend_grid;
 
 void add_message_to_chat_history(t_list **friend_list, const char *username, t_chat *new_chat)
 {
-        if (!friend_list || !new_chat)
+    if (!friend_list || !new_chat)
     {
         return;
     }
@@ -100,11 +100,22 @@ void add_message_to_chat_history(t_list **friend_list, const char *username, t_c
     if (!temp)
     {
         friend_data = (t_Friend *)malloc(sizeof(t_Friend));
+        if (!friend_data)
+        {
+            return;
+        }
+
         friend_data->username = mx_strdup(username);
         friend_data->lastmessage = NULL;
         friend_data->chat_history = NULL;
 
         t_list *new_friend_node = (t_list *)malloc(sizeof(t_list));
+        if (!new_friend_node)
+        {
+            free(friend_data);
+            return;
+        }
+
         new_friend_node->data = friend_data;
         new_friend_node->next = *friend_list;
         *friend_list = new_friend_node;
@@ -112,6 +123,11 @@ void add_message_to_chat_history(t_list **friend_list, const char *username, t_c
 
     // Добавить новую историю чата в найденном (или созданном) друге
     t_chat *chat_copy = (t_chat *)malloc(sizeof(t_chat));
+    if (!chat_copy)
+    {
+        return;
+    }
+
     chat_copy->id = new_chat->id;
     chat_copy->sender = mx_strdup(new_chat->sender);
     chat_copy->message = mx_strdup(new_chat->message);
@@ -120,10 +136,6 @@ void add_message_to_chat_history(t_list **friend_list, const char *username, t_c
     mx_push_back(&friend_data->chat_history, chat_copy);
 
     // Обновить последнее сообщение для друга
-    if (friend_data->lastmessage)
-    {
-        free(friend_data->lastmessage);
-    }
     friend_data->lastmessage = mx_strdup(new_chat->message);
 
     update_chat_history(friend_data);
