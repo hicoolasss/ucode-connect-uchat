@@ -123,8 +123,9 @@ int main(int argc, char **argv)
     g_signal_connect(app, "activate", G_CALLBACK(app_activate), NULL);
     stat = g_application_run(G_APPLICATION(app), FALSE, NULL);
 
-    running = FALSE;
-
+    pthread_mutex_lock(&mutex_recv);
+    running = false;
+    pthread_mutex_unlock(&mutex_recv);
     g_thread_join(send_thread);
     g_thread_join(receive_thread);
 

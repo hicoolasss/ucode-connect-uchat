@@ -7,12 +7,12 @@ void print_message(char *login, char *message);
 
 void *handle_client(void *args)
 {
+    write_logs("here\n");
     sql_create_db();
     sqlite3 *db = db_open();
     t_client *current_client = (t_client *)args;
-    // char message[2048];
     char buf[2048];
-    // main_client.registered = false;
+    char *logs_buf = NULL;
     current_client->connected = false;
     bool is_run = false;
     while (is_run == false)
@@ -21,7 +21,7 @@ void *handle_client(void *args)
         int len = SSL_read(current_client->ssl, buf, sizeof(buf) - 1);
         if (len < 0)
         {
-            // printf("Error: Unable to receive data from server\n");
+            write_logs("Error: Unable to receive data from server\n");
             break;
         }
         else
@@ -30,7 +30,7 @@ void *handle_client(void *args)
             cJSON *json = cJSON_Parse(buf);
             if (!json)
             {
-                // printf("Error: Invalid JSON data received from server\n");
+                write_logs("Error: Invalid JSON data received from server\n");
                 break;
             }
             // Извлечение данных из JSON-объекта
@@ -38,13 +38,11 @@ void *handle_client(void *args)
             char *login = cJSON_GetObjectItemCaseSensitive(json, "login")->valuestring;
             char *passwd = cJSON_GetObjectItemCaseSensitive(json, "password")->valuestring;
             char *status = cJSON_GetObjectItemCaseSensitive(json, "status")->valuestring;
-            ///////////////////////++++++++++++++++++++++++++++++++++=
 
-            // other func db_regestr_to_serv();
             if (mx_atoi(status) == 0)
             {
                 int db_log = authenticate_user(db, login, passwd);
-                // int db_log = db_log_to_serv(login, passwd, current_client->ssl);
+
                 if (db_log == 1)
                 {
                     SSL_write(current_client->ssl, "user not found\n", 16);
@@ -56,9 +54,7 @@ void *handle_client(void *args)
                 else if (db_log == 0)
                 {
                     SSL_write(current_client->ssl, "success\n", 9);
-                    // mx_printstr(login);
                     current_client->login = mx_strdup(login);
-                    // mx_printstr(" success\n");
                     memset(login, 0, mx_strlen(login));
                     memset(passwd, 0, mx_strlen(passwd));
                     is_run = true;
@@ -75,8 +71,6 @@ void *handle_client(void *args)
                 else if (db_reg == 0)
                 {
                     SSL_write(current_client->ssl, "registered\n", 12);
-                    // mx_printstr(login);
-                    // mx_printstr(" registered\n");
                     current_client->login = mx_strdup(login);
                     memset(login, 0, mx_strlen(login));
                     memset(passwd, 0, mx_strlen(passwd));
@@ -91,15 +85,15 @@ void *handle_client(void *args)
         int len = SSL_read(current_client->ssl, buf, sizeof(buf));
         if (len < 0)
         {
-            // printf("Error: Unable to receive data from server\n");
+            write_logs("Error: Unable to receive data from server\n");
             break;
         }
         else if (len == 0)
         {
             // mx_printstr(current_client->login);
+            SSL_write(current_client->ssl, "<logout>", 9);
             remove_client(current_client->cl_socket);
             cli_count--;
-            // printf(" disconnected\n");
             break;
         }
         else
@@ -111,7 +105,7 @@ void *handle_client(void *args)
 
             if (!json)
             {
-                // printf("Error: Invalid JSON data received from server\n");
+                write_logs("Error: Invalid JSON data received from server\n");
                 break;
             }
 
@@ -123,10 +117,10 @@ void *handle_client(void *args)
                 if (cmd <= 0)
                 {
                     int error_code = SSL_get_error(current_client->ssl, cmd);
-                    // fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                    fprintf(logs_buf, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                    write_logs(logs_buf);
                 }
                 char *login = cJSON_GetObjectItemCaseSensitive(json, "login")->valuestring;
-                // print_message(login, "logout\n");
                 remove_client(current_client->cl_socket);
                 cli_count--;
                 is_run = false;
@@ -137,12 +131,13 @@ void *handle_client(void *args)
                 if (cmd <= 0)
                 {
                     int error_code = SSL_get_error(current_client->ssl, cmd);
-                    // fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                    fprintf(logs_buf, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                    write_logs(logs_buf);
                 }
                 t_list *clients = get_clients(db);
                 if (clients == NULL)
                 {
-                    // fprintf(stderr, "Failed to get clients\n");
+                    write_logs("Failed to get clients\n");
                     break;
                 }
 
@@ -150,7 +145,8 @@ void *handle_client(void *args)
                 if (result <= 0)
                 {
                     int error_code = SSL_get_error(current_client->ssl, result);
-                    // fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                    fprintf(logs_buf, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                    write_logs(logs_buf);
                 }
                 // Освобождаем память, выделенную для списка
                 while (clients != NULL)
@@ -167,7 +163,8 @@ void *handle_client(void *args)
                 if (cmd <= 0)
                 {
                     int error_code = SSL_get_error(current_client->ssl, cmd);
-                    // fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                    fprintf(logs_buf, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                    write_logs(logs_buf);
                 }
                 t_list *friends_list = get_friends(db, current_client->login);
 

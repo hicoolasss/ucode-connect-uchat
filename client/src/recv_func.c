@@ -137,7 +137,8 @@ gpointer recv_func(gpointer data)
 
         else if (mx_strcmp(command, "<logout>") == 0)
         {
-            // running = false;
+            running = false;
+            // break;
         }
         else if (mx_strcmp(command, "<create_group>") == 0)
         {

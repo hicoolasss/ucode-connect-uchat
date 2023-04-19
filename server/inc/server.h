@@ -56,13 +56,14 @@ typedef struct s_user {
 } t_user;
 
 extern t_list *users_list;
-// extern t_list *user_id;
 extern pthread_mutex_t clients_mutex;
+extern pthread_mutex_t logs_mutex;
 extern _Atomic unsigned int cli_count;
 t_client *create_new_client(const struct sockaddr_in adr, int client_fd, SSL *ssl);
 void *handle_client(void *args);
 void free_client(t_client **client, t_list **users_list);
 void daemon_server();
+void write_logs(char* message);
 SSL_CTX *SSL_STX_Init();
 /*функции для операций над базой данных SQL*/
 
