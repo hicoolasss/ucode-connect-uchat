@@ -2,7 +2,7 @@
 
 int send_message_to_server(char *buffer)
 {
-    int len = send_all(current_client.ssl, buffer, mx_strlen(buffer));
+    int len = stable_sending(current_client.ssl, buffer, mx_strlen(buffer));
     if (len < 0)
     {
         mx_printstr("Error sending message.\n");
@@ -102,7 +102,7 @@ t_list *receive_list(SSL *ssl)
     const int temp_size = 4096;
     char temp[temp_size];
 
-    int bytes_received = SSL_read(ssl, temp, temp_size - 1);
+    int bytes_received = stable_recv(ssl, temp, temp_size - 1);
     if (bytes_received <= 0)
     {
         return NULL;
@@ -248,4 +248,57 @@ t_list *extract_group_and_friends_from_json(cJSON *json_object, char **group_nam
     }
 
     return friends;
+}
+
+int stable_sending(SSL *ssl, void *buf, int size)
+{
+    int receive = 0;
+
+    if (main_client.loaded)
+    {
+        while ((receive = send_all(ssl, buf, size)) < 0)
+        {
+            main_client.loaded = false;
+            close_connection(current_client.ssl);
+            printf("Trying to reconnect\n");
+            open_ssl_connection();
+            ssl = current_client.ssl;
+            // Отправка данных для авторизации на сервер
+            cJSON *json = cJSON_CreateObject();
+            cJSON_AddStringToObject(json, "status", "0");
+            cJSON_AddStringToObject(json, "login", current_client.login);
+            cJSON_AddStringToObject(json, "password", current_client.password);
+
+            char *json_str = cJSON_Print(json);
+            send_all(ssl, json_str, mx_strlen(json_str));
+            cJSON_Delete(json);
+        }
+    }
+    return receive;
+}
+
+int stable_recv(SSL *ssl, void *buf, int size)
+{
+    int receive = 0;
+    if (main_client.loaded)
+    {
+        while ((receive = SSL_read(ssl, buf, size)) <= 0)
+        {
+            main_client.loaded = false;
+            printf("Trying to reconnect\n");
+            close_connection(current_client.ssl);
+            open_ssl_connection();
+            ssl = current_client.ssl;
+            // Отправка данных для авторизации на сервер
+            cJSON *json = cJSON_CreateObject();
+            cJSON_AddStringToObject(json, "status", "0");
+            cJSON_AddStringToObject(json, "login", current_client.login);
+            cJSON_AddStringToObject(json, "password", current_client.password);
+
+            char *json_str = cJSON_Print(json);
+            send_all(ssl, json_str, mx_strlen(json_str));
+            cJSON_Delete(json);
+        }
+    }
+    return receive;
 }

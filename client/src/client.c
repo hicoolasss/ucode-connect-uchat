@@ -97,48 +97,12 @@ int main(int argc, char **argv)
         printf("Usage: %s <port>\n", argv[0]);
         return EXIT_FAILURE;
     }
-    char *ip = argv[1];
-    int port = atoi(argv[2]);
-
-    SSL_CTX *ctx = CTX_initialize_client();
-    SSL *ssl;
-    struct sockaddr_in server_addr;
-
-    SSL_library_init();
-    OpenSSL_add_all_algorithms();
-    SSL_load_error_strings();
-
-    main_client.context = ctx;
+    main_client.ip = argv[1];
+    main_client.port = atoi(argv[2]);
+    main_client.context = CTX_initialize_client();
     main_client.connected = false;
-    registered = false;
-    int server_fd = socket(AF_INET, SOCK_STREAM, 0);
-    if (server_fd < 0)
-    {
-        perror("Failed to create socket");
-        exit(EXIT_FAILURE);
-    }
 
-    memset(&server_addr, 0, sizeof(server_addr));
-    server_addr.sin_family = AF_INET;
-    server_addr.sin_port = htons(port);
-    server_addr.sin_addr.s_addr = inet_addr(ip);
-
-    if (connect(server_fd, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0)
-    {
-        perror("Failed to connect to server");
-        exit(EXIT_FAILURE);
-    }
-
-    ssl = SSL_new(ctx);
-    SSL_set_fd(ssl, server_fd);
-
-    if (SSL_connect(ssl) <= 0)
-    {
-        ERR_print_errors_fp(stderr);
-        exit(EXIT_FAILURE);
-    }
-    current_client.ssl = ssl;
-    current_client.serv_fd = server_fd;
+    open_ssl_connection();
     GtkApplication *app;
     int stat = 0;
 
@@ -164,11 +128,6 @@ int main(int argc, char **argv)
     g_thread_join(send_thread);
     g_thread_join(receive_thread);
 
-    SSL_shutdown(ssl);
-    SSL_free(ssl);
-    SSL_CTX_free(ctx);
-    close(server_fd);
-
     while (friend_list != NULL)
     {
         t_list *tmp = friend_list;
@@ -184,5 +143,10 @@ int main(int argc, char **argv)
         free(tmp->data);
         free(tmp);
     }
+
+    close(current_client.serv_fd);
+    SSL_free(current_client.ssl);
+    SSL_CTX_free(main_client.context);
+
     return stat;
 }
