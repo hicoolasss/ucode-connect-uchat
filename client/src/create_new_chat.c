@@ -313,7 +313,7 @@ static void on_entry_activate(GtkEntry *entry, gpointer friend_data)
 
     // printf("%s -> %s\n", username, message);
     cJSON *json = cJSON_CreateObject();
-    cJSON_AddStringToObject(json, "command", "<send_message>");
+    cJSON_AddStringToObject(json, "command", "<send_message_in_chat>");
     cJSON_AddStringToObject(json, "friend", username);
     cJSON_AddStringToObject(json, "message", message);
 
@@ -323,7 +323,6 @@ static void on_entry_activate(GtkEntry *entry, gpointer friend_data)
 
     gtk_editable_set_text(GTK_EDITABLE(entry), "");
 }
-
 
 void update_chat_history(gpointer friend_data)
 {
@@ -352,9 +351,9 @@ void update_chat_history(gpointer friend_data)
     gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled), chat_with_friend_grid);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
-    GtkAdjustment* adj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW(chat_with_friend_scrolled));
+    GtkAdjustment *adj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled));
     gtk_adjustment_set_value(GTK_ADJUSTMENT(adj), gtk_adjustment_get_upper(GTK_ADJUSTMENT(adj)));
-    gtk_scrolled_window_set_vadjustment (GTK_SCROLLED_WINDOW(chat_with_friend_scrolled),GTK_ADJUSTMENT(adj));
+    gtk_scrolled_window_set_vadjustment(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled), GTK_ADJUSTMENT(adj));
 
     int last_child = 0;
 
@@ -508,16 +507,16 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
     GtkWidget *transparent_widget = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_widget_set_hexpand(transparent_widget, FALSE);
     gtk_widget_set_vexpand(transparent_widget, TRUE);
-    gtk_grid_attach(GTK_GRID(chat_with_friend_grid), transparent_widget, 0, 0, 1, 9999);
+    gtk_grid_attach(GTK_GRID(chat_with_friend_grid), transparent_widget, 0, 0, 1, 1);
 
     GtkWidget *chat_with_friend_scrolled = gtk_scrolled_window_new();
 
     gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled), chat_with_friend_grid);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
-    GtkAdjustment* adj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW(chat_with_friend_scrolled));
+    GtkAdjustment *adj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled));
     gtk_adjustment_set_value(GTK_ADJUSTMENT(adj), gtk_adjustment_get_upper(GTK_ADJUSTMENT(adj)));
-    gtk_scrolled_window_set_vadjustment (GTK_SCROLLED_WINDOW(chat_with_friend_scrolled),GTK_ADJUSTMENT(adj));
+    gtk_scrolled_window_set_vadjustment(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled), GTK_ADJUSTMENT(adj));
 
     int last_child = 0;
 
@@ -622,6 +621,12 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
         mx_printstr("empty chat with : ");
         mx_printstr(friend_iter->username);
         mx_printstr("\n");
+
+        // GtkWidget *transparent_widget = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+        // gtk_widget_set_hexpand(transparent_widget, FALSE);
+        // gtk_widget_set_vexpand(transparent_widget, TRUE);
+        // gtk_grid_attach(GTK_GRID(chat_with_friend_grid), transparent_widget, 0, 0, 1, 1);
+
         GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
         GtkWidget *entry = gtk_entry_new();
@@ -637,12 +642,13 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
 
         gtk_widget_set_margin_start(box, 26);
         gtk_widget_set_margin_end(box, 60);
-        gtk_widget_set_valign(box, GTK_ALIGN_START);
+        //gtk_widget_set_valign(box, GTK_ALIGN_START);
+        gtk_widget_set_margin_top(box, 613);
         gtk_widget_set_margin_bottom(box, 14);
 
         gtk_widget_set_size_request(box, 452, 40);
 
-        gtk_grid_attach(GTK_GRID(current_grid.chat_with_friend), box, 0, 0, 1, 1);
+        gtk_grid_attach(GTK_GRID(current_grid.chat_with_friend), box, 0, 0, 1, 9999);
 
         g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate), friend_iter);
 

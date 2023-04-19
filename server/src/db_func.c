@@ -23,6 +23,7 @@ void sql_create_db()
                             "username TEXT NOT NULL UNIQUE,"
                             "password TEXT NOT NULL,"
                             "avatarname TEXT,"
+                            "avatar_ext TEXT,"
                             "avatardata BLOB);";
 
     rc = sqlite3_exec(db, sql_users, 0, 0, &err_msg);
@@ -56,6 +57,7 @@ void sql_create_db()
                                 "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                                 "groupname TEXT NOT NULL,"
                                 "avatarname TEXT,"
+                                "avatar_ext TEXT,"
                                 "avatardata BLOB);";
 
     rc = sqlite3_exec(db, sql_create_new_chat, 0, 0, &err_msg);

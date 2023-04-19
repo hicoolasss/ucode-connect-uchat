@@ -22,7 +22,8 @@
         "jansson.h": "c",
         "curl.h": "c",
         "ranges": "c",
-        "span": "c"
+        "span": "c",
+        "functional": "c"
     },
     "editor.formatOnSave": true,
     "editor.formatOnSaveTimeout": 1500
