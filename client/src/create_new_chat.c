@@ -313,7 +313,7 @@ static void on_entry_activate(GtkEntry *entry, gpointer friend_data)
 
     // printf("%s -> %s\n", username, message);
     cJSON *json = cJSON_CreateObject();
-    cJSON_AddStringToObject(json, "command", "<send_message>");
+    cJSON_AddStringToObject(json, "command", "<send_message_in_chat>");
     cJSON_AddStringToObject(json, "friend", username);
     cJSON_AddStringToObject(json, "message", message);
 

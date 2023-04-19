@@ -267,6 +267,9 @@ t_list *receive_list(SSL *ssl);
 t_list *deserialize_name_list(const char *json_str);
 t_list *deserialize_chathistory_list(const char *json_str);
 t_list *process_json_object(cJSON *json_object);
+cJSON *create_json_from_group_and_friends(const char *group_name, t_list *friends);
+t_list *extract_group_and_friends_from_json(cJSON *json_object, char **group_name);
+
 // load styles
 void loadstyles(void);
 // add style to widget

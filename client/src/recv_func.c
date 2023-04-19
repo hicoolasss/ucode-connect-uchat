@@ -82,9 +82,9 @@ gpointer recv_func(gpointer data)
                 break;
             }
             char *friendname = cJSON_GetObjectItemCaseSensitive(json, "friendname")->valuestring;
-            mx_printstr(friendname);
+            // mx_printstr(friendname);
         }
-        else if (mx_strcmp(command, "<send_message>") == 0)
+        else if (mx_strcmp(command, "<send_message_in_chat>") == 0)
         {
             char temp[16784];
             int len = SSL_read(current_client.ssl, temp, sizeof(temp));
@@ -112,7 +112,7 @@ gpointer recv_func(gpointer data)
             message_data->message = mx_strdup(json_message_text->valuestring);
             message_data->id = json_message_id->valueint;
             message_data->timestamp = mx_strdup(json_message_timestamp->valuestring);
-           
+
             add_message_to_chat_history(&friend_list, friendname, message_data);
 
             t_chat *data = message_data;
@@ -138,6 +138,26 @@ gpointer recv_func(gpointer data)
         else if (mx_strcmp(command, "<logout>") == 0)
         {
             // running = false;
+        }
+        else if (mx_strcmp(command, "<create_group>") == 0)
+        {
+            char temp[16784];
+            char *group_name;
+            int len = SSL_read(current_client.ssl, temp, sizeof(temp));
+            if (len < 0)
+            {
+                printf("Error: Unable to receive data from server\n");
+                break;
+            }
+            printf("\n%s\n", temp);
+            cJSON *json_group = cJSON_Parse(temp);
+            if (!json_group)
+            {
+                printf("Error: Invalid JSON data received from server\n");
+                break;
+            }
+            
+            t_list *group_list = extract_group_and_friends_from_json(json_group, &group_name);
         }
     }
     return NULL;

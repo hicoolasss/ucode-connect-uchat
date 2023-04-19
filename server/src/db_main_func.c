@@ -320,3 +320,60 @@ char *get_last_message_from_dialog(sqlite3 *db, const char *username, const char
     sqlite3_finalize(stmt);
     return lastmessage;
 }
+
+int sql_delete_message_from_dialog(sqlite3 *db, int message_id, const char *username, const char *message)
+{
+    sqlite3_stmt *stmt;
+    char *sql = "DELETE FROM dialogs WHERE id = ? AND user_id = ? AND message = ?;";
+    int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+    if (result != SQLITE_OK)
+    {
+        fprintf(stderr, "Error: %s\n", sqlite3_errmsg(db));
+        return -1;
+    }
+
+    int user_id = get_user_id(db, username);
+
+    sqlite3_bind_int(stmt, 1, message_id);
+    sqlite3_bind_int(stmt, 2, user_id);
+    sqlite3_bind_text(stmt, 3, message, -1, SQLITE_STATIC);
+
+    if (sqlite3_step(stmt) != SQLITE_DONE)
+    {
+        printf("Ошибка выполнения SQL: %s\n", sqlite3_errmsg(db));
+        sqlite3_finalize(stmt);
+        return -1;
+    }
+
+    sqlite3_finalize(stmt);
+    return 0;
+}
+
+int sql_update_message_in_dialog(sqlite3 *db, int message_id, const char *old_message, const char *new_message, const char *username)
+{
+    sqlite3_stmt *stmt;
+    char *sql = "UPDATE dialogs SET message = ? WHERE id = ? AND message = ? AND user_id = ?;";
+    int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+    if (result != SQLITE_OK)
+    {
+        fprintf(stderr, "Error: %s\n", sqlite3_errmsg(db));
+        return -1;
+    }
+
+    int user_id = get_user_id(db, username);
+
+    sqlite3_bind_text(stmt, 1, new_message, -1, SQLITE_STATIC);
+    sqlite3_bind_int(stmt, 2, message_id);
+    sqlite3_bind_text(stmt, 3, old_message, -1, SQLITE_STATIC);
+    sqlite3_bind_int(stmt, 4, user_id);
+
+    if (sqlite3_step(stmt) != SQLITE_DONE)
+    {
+        printf("Ошибка выполнения SQL: %s\n", sqlite3_errmsg(db));
+        sqlite3_finalize(stmt);
+        return -1;
+    }
+
+    sqlite3_finalize(stmt);
+    return 0;
+}

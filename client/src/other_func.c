@@ -203,3 +203,49 @@ t_list *process_json_object(cJSON *json_object)
     }
     return friend;
 }
+
+cJSON *create_json_from_group_and_friends(const char *group_name, t_list *friends)
+{
+    cJSON *group_json = cJSON_CreateObject();
+    cJSON_AddStringToObject(group_json, "group_name", group_name);
+
+    cJSON *friends_array = cJSON_CreateArray();
+
+    for (t_list *iter = friends; iter != NULL; iter = iter->next)
+    {
+        cJSON *friend_json = cJSON_CreateObject();
+        cJSON_AddStringToObject(friend_json, "username", ((t_user *)iter->data)->username);
+
+        cJSON_AddItemToArray(friends_array, friend_json);
+    }
+
+    cJSON_AddItemToObject(group_json, "friends", friends_array);
+
+    return group_json;
+}
+
+t_list *extract_group_and_friends_from_json(cJSON *json_object, char **group_name)
+{
+    *group_name = cJSON_GetObjectItem(json_object, "group_name")->valuestring;
+
+    cJSON *json_friends_array = cJSON_GetObjectItem(json_object, "friends");
+    int friends_count = cJSON_GetArraySize(json_friends_array);
+
+    t_list *friends = NULL;
+
+    for (int i = 0; i < friends_count; i++)
+    {
+        cJSON *json_friend = cJSON_GetArrayItem(json_friends_array, i);
+        cJSON *json_friend_username = cJSON_GetObjectItem(json_friend, "username");
+
+        t_user *new_friend = (t_user *)malloc(sizeof(t_user));
+        new_friend->username = json_friend_username->valuestring;
+
+        if (new_friend != NULL)
+        {
+            mx_push_back(&friends, new_friend);
+        }
+    }
+
+    return friends;
+}
