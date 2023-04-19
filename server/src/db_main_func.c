@@ -10,7 +10,7 @@ int authenticate_user(sqlite3 *db, const char *username, const char *password)
 
     if (rc != SQLITE_OK)
     {
-        fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(db));
+        // fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(db));
         sqlite3_finalize(stmt);
         return 1;
     }
@@ -25,20 +25,20 @@ int authenticate_user(sqlite3 *db, const char *username, const char *password)
 
         if (strcmp((char *)db_password, password) == 0)
         {
-            printf("Authentication successful\n");
+            // printf("Authentication successful\n");
             sqlite3_finalize(stmt);
             return 0;
         }
         else
         {
-            printf("Incorrect password\n");
+            // printf("Incorrect password\n");
             sqlite3_finalize(stmt);
             return 2;
         }
     }
     else
     {
-        printf("User not found\n");
+        // printf("User not found\n");
         sqlite3_finalize(stmt);
         return 1;
     }
@@ -56,14 +56,14 @@ int register_user(sqlite3 *db, const char *username, const char *password)
 
     if (rc != SQLITE_OK)
     {
-        fprintf(stderr, "SQL error: %s\n", zErrMsg);
+        // fprintf(stderr, "SQL error: %s\n", zErrMsg);
         sqlite3_free(zErrMsg);
         sqlite3_free(sql);
         return 1;
     }
     else
     {
-        printf("User registered successfully\n");
+        // printf("User registered successfully\n");
     }
 
     sqlite3_free(sql);
@@ -74,7 +74,7 @@ int add_friend(sqlite3 *db, const char *username, const char *friend_username)
 {
     if (mx_strcmp(username, friend_username) == 0)
     {
-        printf("Error: cannot add yourself as a friend.\n");
+        // printf("Error: cannot add yourself as a friend.\n");
         return 0;
     }
 
@@ -83,7 +83,7 @@ int add_friend(sqlite3 *db, const char *username, const char *friend_username)
 
     if (is_friend(db, user_id, friend_id))
     {
-        printf("Error: %s is already your friend.\n", friend_username);
+        // printf("Error: %s is already your friend.\n", friend_username);
         return 0;
     }
 
@@ -93,7 +93,7 @@ int add_friend(sqlite3 *db, const char *username, const char *friend_username)
 
     if (result != SQLITE_OK)
     {
-        fprintf(stderr, "Error: %s\n", sqlite3_errmsg(db));
+        // fprintf(stderr, "Error: %s\n", sqlite3_errmsg(db));
         return 0;
     }
 
@@ -105,13 +105,13 @@ int add_friend(sqlite3 *db, const char *username, const char *friend_username)
     result = sqlite3_step(stmt);
     if (result != SQLITE_DONE)
     {
-        fprintf(stderr, "Error: %s\n", sqlite3_errmsg(db));
+        // fprintf(stderr, "Error: %s\n", sqlite3_errmsg(db));
         sqlite3_finalize(stmt);
         return 0;
     }
 
     sqlite3_finalize(stmt);
-    printf("%s added to friends.\n", friend_username);
+    // printf("%s added to friends.\n", friend_username);
     return 1;
 }
 
