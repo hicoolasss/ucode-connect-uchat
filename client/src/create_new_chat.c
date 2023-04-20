@@ -86,10 +86,10 @@ void create_new_chat(GtkToggleButton *toggle_button, gpointer user_data)
 
     g_async_queue_push(message_queue, json);
 
-    cJSON *json1 = cJSON_CreateObject();
-    cJSON_AddStringToObject(json1, "login", current_client.login);
-    cJSON_AddStringToObject(json1, "command", "<friend_list>");
-    g_async_queue_push(message_queue, json1);
+    // cJSON *json1 = cJSON_CreateObject();
+    // cJSON_AddStringToObject(json1, "login", current_client.login);
+    // cJSON_AddStringToObject(json1, "command", "<friend_list>");
+    // g_async_queue_push(message_queue, json1);
 }
 
 void update_user_list_while_searching(GtkEditable *editable)

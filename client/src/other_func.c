@@ -302,3 +302,41 @@ int stable_recv(SSL *ssl, void *buf, int size)
     }
     return receive;
 }
+
+void add_new_friend(t_list **friend_list, const char *username)
+{
+    if (!friend_list || !username)
+        return;
+
+    // Проверяем, есть ли уже друг с таким именем в списке
+    t_list *temp = *friend_list;
+    while (temp)
+    {
+        t_Friend *friend_data = (t_Friend *)temp->data;
+        if (mx_strcmp(friend_data->username, username) == 0)
+            return;
+        temp = temp->next;
+    }
+
+    // Создаем новый объект для друга и добавляем его в начало списка
+    t_Friend *friend_data = (t_Friend *)malloc(sizeof(t_Friend));
+    if (!friend_data)
+        return;
+
+    friend_data->username = mx_strdup(username);
+    friend_data->lastmessage = NULL;
+    friend_data->chat_history = NULL;
+
+    t_list *new_friend_node = (t_list *)malloc(sizeof(t_list));
+    if (!new_friend_node)
+    {
+        free(friend_data);
+        return;
+    }
+
+    new_friend_node->data = friend_data;
+    new_friend_node->next = *friend_list;
+    *friend_list = new_friend_node;
+
+    
+}
