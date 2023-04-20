@@ -488,6 +488,8 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
     int last_child = 0;
 
     t_Friend *friend_iter = friend_data;
+    
+    friend_iter->in_chat = true;
 
     mx_printstr("show chat with : ");
     mx_printstr(friend_iter->username);

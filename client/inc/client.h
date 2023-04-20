@@ -185,6 +185,7 @@ typedef struct s_user {
 typedef struct s_Friend {
     char *username;
     char *lastmessage;
+    bool in_chat;
     t_list *chat_history;
 } t_Friend;
 

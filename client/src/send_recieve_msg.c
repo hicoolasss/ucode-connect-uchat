@@ -108,6 +108,7 @@ void add_message_to_chat_history(t_list **friend_list, const char *username, t_c
         friend_data->username = mx_strdup(username);
         friend_data->lastmessage = NULL;
         friend_data->chat_history = NULL;
+        friend_data->in_chat = false;
 
         t_list *new_friend_node = (t_list *)malloc(sizeof(t_list));
         if (!new_friend_node)
@@ -138,5 +139,9 @@ void add_message_to_chat_history(t_list **friend_list, const char *username, t_c
     // Обновить последнее сообщение для друга
     friend_data->lastmessage = mx_strdup(new_chat->message);
 
-    update_chat_history(friend_data);
+    if (friend_data->in_chat) {
+        update_chat_history(friend_data);
+    }
+
+    update_show_chats_with_added_friends(*friend_list);
 }

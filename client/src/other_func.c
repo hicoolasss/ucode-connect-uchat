@@ -167,7 +167,7 @@ t_list *process_json_object(cJSON *json_object)
         }
         else new_friend->lastmessage = "Nothing here...";
         new_friend->chat_history = NULL; // Инициализация указателя на историю чата
-
+        new_friend->in_chat = false;
         if (new_friend != NULL)
         {
             mx_push_back(&friend, new_friend);
@@ -324,7 +324,7 @@ void add_new_friend(t_list **friend_list, const char *username)
         return;
 
     friend_data->username = mx_strdup(username);
-    friend_data->lastmessage = NULL;
+    friend_data->lastmessage = "Nothing here...";
     friend_data->chat_history = NULL;
 
     t_list *new_friend_node = (t_list *)malloc(sizeof(t_list));
