@@ -1361,3 +1361,25 @@
     margin-top: 0px;
 
 }
+
+
+.username_label_in_chat {
+
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 30px;
+
+    color: #B1BAE6;
+}
+
+.is_online_label {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 18px;
+
+    color: rgba(177, 186, 230, 0.85);
+}
