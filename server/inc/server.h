@@ -65,6 +65,7 @@ void free_client(t_client **client, t_list **users_list);
 void daemon_server();
 void write_logs(char* message);
 SSL_CTX *SSL_STX_Init();
+unsigned char *base64_decode(const char *input, size_t *out_length);
 /*функции для операций над базой данных SQL*/
 
 //авторизация
@@ -109,7 +110,7 @@ int sql_delete_message_from_dialog(sqlite3 *db, int message_id, const char *user
 //изменяет сообщение в чате по его айди
 int sql_update_message_in_dialog(sqlite3 *db, int message_id, const char *old_message, const char *new_message, const char *username);
 //сохранение аватара в базе данных
-int save_image_to_db(sqlite3 *db, const char *username, const char *image_name, const char *image_ext, const char *base64_image_data);
+int save_image_to_db(sqlite3 *db, const char *username, const unsigned char *image_data, size_t image_data_size);
 /*функции для операций над списками и JSON*/
 
 //односвязный список имен в JSON
@@ -124,7 +125,6 @@ char *convert_to_json(char *buffer, char *login);
 int send_namelist(SSL *ssl, t_list *head);
 //список друзей с их историей чата
 cJSON *create_json_from_friends_and_chats(t_list *friends, sqlite3 *db, char *username);
-
 
 /*generate id*/
 char *generate_uuid();

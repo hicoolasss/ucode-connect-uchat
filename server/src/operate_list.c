@@ -185,3 +185,22 @@ t_list *extract_group_and_friends_from_json(cJSON *json_object, char **group_nam
 
     return friends;
 }
+
+unsigned char *base64_decode(const char *input, size_t *out_length)
+{
+    BIO *b64, *bmem;
+    size_t length = strlen(input);
+
+    unsigned char *buffer = (unsigned char *)malloc(length);
+    memset(buffer, 0, length);
+
+    b64 = BIO_new(BIO_f_base64());
+    bmem = BIO_new_mem_buf(input, length);
+    bmem = BIO_push(b64, bmem);
+
+    *out_length = BIO_read(bmem, buffer, length);
+
+    BIO_free_all(bmem);
+
+    return buffer;
+}

@@ -49,11 +49,13 @@ void get_scaled_image()
 
     // Создание JSON-объекта
     cJSON *json_message = cJSON_CreateObject();
-    cJSON_AddStringToObject(json_message, "type", "image");
+    cJSON_AddStringToObject(json_message, "command", "<update_image>");
     cJSON_AddStringToObject(json_message, "data", base64_image_data);
 
-    // Преобразование JSON-объекта в строку
-    char *json_str = cJSON_Print(json_message);
+    g_async_queue_push(message_queue, json_message);
+
+    // cJSON_Delete(json_message);
+    g_free(base64_image_data);
 }
 
 void your_profile_clicked()

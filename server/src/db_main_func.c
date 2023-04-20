@@ -410,37 +410,15 @@ int sql_update_message_in_dialog(sqlite3 *db, int message_id, const char *old_me
     return 0;
 }
 
-unsigned char *base64_decode(const char *input, int *out_length)
+int save_image_to_db(sqlite3 *db, const char *username, const unsigned char *image_data, size_t image_data_size)
 {
-    BIO *b64, *bmem;
-    size_t length = strlen(input);
-
-    unsigned char *buffer = (unsigned char *)malloc(length);
-    memset(buffer, 0, length);
-
-    b64 = BIO_new(BIO_f_base64());
-    bmem = BIO_new_mem_buf(input, length);
-    bmem = BIO_push(b64, bmem);
-
-    *out_length = BIO_read(bmem, buffer, length);
-
-    BIO_free_all(bmem);
-
-    return buffer;
-}
-
-int save_image_to_db(sqlite3 *db, const char *username, const char *image_name, const char *image_ext, const char *base64_image_data)
-{
-    if (!db || !username || !image_name || !image_ext || !base64_image_data)
+    if (!db || !username || !image_data)
     {
         return -1;
     }
 
-    int image_data_size;
-    unsigned char *image_data = base64_decode(base64_image_data, &image_data_size);
-
     sqlite3_stmt *stmt;
-    const char *sql = "UPDATE users SET avatarname = ?, avatar_ext = ?, avatardata = ? WHERE username = ?";
+    const char *sql = "UPDATE users SET avatardata = ? WHERE username = ?";
 
     int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
 
@@ -451,22 +429,11 @@ int save_image_to_db(sqlite3 *db, const char *username, const char *image_name, 
         write_logs(logbuf);
         return -1;
     }
-    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) == SQLITE_OK)
-    {
-        sqlite3_bind_text(stmt, 1, image_name, -1, SQLITE_TRANSIENT);
-        sqlite3_bind_text(stmt, 2, image_ext, -1, SQLITE_TRANSIENT);
-        sqlite3_bind_blob(stmt, 3, image_data, image_data_size, SQLITE_TRANSIENT);
-        sqlite3_bind_text(stmt, 4, username, -1, SQLITE_TRANSIENT);
 
-        if (sqlite3_step(stmt) != SQLITE_DONE)
-        {
-            char logbuf[32];
-            sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
-            write_logs(logbuf);
-            return -1;
-        }
-    }
-    else
+    sqlite3_bind_blob(stmt, 1, image_data, image_data_size, SQLITE_TRANSIENT);
+    sqlite3_bind_text(stmt, 2, username, -1, SQLITE_TRANSIENT);
+
+    if (sqlite3_step(stmt) != SQLITE_DONE)
     {
         char logbuf[32];
         sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
@@ -475,6 +442,5 @@ int save_image_to_db(sqlite3 *db, const char *username, const char *image_name, 
     }
 
     sqlite3_finalize(stmt);
-    free(image_data);
     return 0;
 }

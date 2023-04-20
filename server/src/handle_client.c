@@ -11,7 +11,7 @@ void *handle_client(void *args)
     sql_create_db();
     sqlite3 *db = db_open();
     t_client *current_client = (t_client *)args;
-    char buf[2048];
+    char buf[16784];
     char *logs_buf = NULL;
     current_client->connected = false;
     bool is_run = false;
@@ -512,67 +512,61 @@ void *handle_client(void *args)
                     sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
                     write_logs(logbuf);
                 }
-                cJSON *json_image_name = cJSON_GetObjectItem(json, "image_name");
-                cJSON *json_image_ext = cJSON_GetObjectItem(json, "image_ext");
-                cJSON *json_image_data = cJSON_GetObjectItem(json, "image_data");
 
-                if (json_image_name && json_image_ext && json_image_data)
+                const char *base64_image_data = cJSON_GetObjectItem(json, "data")->valuestring;
+
+                size_t  image_data_size;
+                unsigned char  *image_data = base64_decode(base64_image_data, &image_data_size);
+
+                int result = save_image_to_db(db, current_client->login, image_data, image_data_size);
+                if (result != 0)
                 {
-                    const char *image_name = json_image_name->valuestring;
-                    const char *image_ext = json_image_ext->valuestring;
-                    const char *base64_image_data = json_image_data->valuestring;
-
-                    int result = save_image_to_db(db, current_client->login, image_name, image_ext, base64_image_data);
-
-                    if (result != 0)
-                    {
-                        SSL_write(current_client->ssl, "Avatar not saved", 17);
-                        continue;
-                    }
-
-                    SSL_write(current_client->ssl, "Avatar saved", 13);
+                    SSL_write(current_client->ssl, "Avatar not saved", 17);
+                    continue;
                 }
-                // t_list *current = users_list;
-                // while (current != NULL)
-                // {
-                //     if (strcmp(((t_client *)current->data)->login, friendname) == 0)
-                //     {
-                //         SSL *ssl = ((t_client *)current->data)->ssl;
-                //         int cmd = SSL_write(ssl, command, mx_strlen(command));
-                //         if (cmd <= 0)
-                //         {
-                //             int error_code = SSL_get_error(ssl, cmd);
-                //             // fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
-                //         }
-                //         else
-                //         {
-                //             cJSON_AddStringToObject(json_message, "friendname", current_client->login);
-                //             char *json_str = cJSON_Print(json_message);
-                //             SSL_write(ssl, json_str, mx_strlen(json_str));
-                //             cJSON_DeleteItemFromObject(json_message, "friendname");
-                //         }
-                //     }
-                //     if (strcmp(((t_client *)current->data)->login, current_client->login) == 0 && strcmp(((t_client *)current->data)->login, friendname) != 0)
-                //     {
-                //         SSL *ssl = ((t_client *)current->data)->ssl;
-                //         int cmd = SSL_write(ssl, command, mx_strlen(command));
-                //         if (cmd <= 0)
-                //         {
-                //             int error_code = SSL_get_error(ssl, cmd);
-                //             // fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
-                //         }
-                //         else
-                //         {
-                //             cJSON_AddStringToObject(json_message, "friendname", friendname);
-                //             char *json_str = cJSON_Print(json_message);
-                //             SSL_write(ssl, json_str, mx_strlen(json_str));
-                //             cJSON_DeleteItemFromObject(json_message, "friendname");
-                //         }
-                //     }
-                //     current = current->next;
-                // }
-                // cJSON_Delete(json_message);
+
+                SSL_write(current_client->ssl, "Avatar saved", 13);
             }
+            // t_list *current = users_list;
+            // while (current != NULL)
+            // {
+            //     if (strcmp(((t_client *)current->data)->login, friendname) == 0)
+            //     {
+            //         SSL *ssl = ((t_client *)current->data)->ssl;
+            //         int cmd = SSL_write(ssl, command, mx_strlen(command));
+            //         if (cmd <= 0)
+            //         {
+            //             int error_code = SSL_get_error(ssl, cmd);
+            //             // fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+            //         }
+            //         else
+            //         {
+            //             cJSON_AddStringToObject(json_message, "friendname", current_client->login);
+            //             char *json_str = cJSON_Print(json_message);
+            //             SSL_write(ssl, json_str, mx_strlen(json_str));
+            //             cJSON_DeleteItemFromObject(json_message, "friendname");
+            //         }
+            //     }
+            //     if (strcmp(((t_client *)current->data)->login, current_client->login) == 0 && strcmp(((t_client *)current->data)->login, friendname) != 0)
+            //     {
+            //         SSL *ssl = ((t_client *)current->data)->ssl;
+            //         int cmd = SSL_write(ssl, command, mx_strlen(command));
+            //         if (cmd <= 0)
+            //         {
+            //             int error_code = SSL_get_error(ssl, cmd);
+            //             // fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+            //         }
+            //         else
+            //         {
+            //             cJSON_AddStringToObject(json_message, "friendname", friendname);
+            //             char *json_str = cJSON_Print(json_message);
+            //             SSL_write(ssl, json_str, mx_strlen(json_str));
+            //             cJSON_DeleteItemFromObject(json_message, "friendname");
+            //         }
+            //     }
+            //     current = current->next;
+            // }
+            // cJSON_Delete(json_message);
             cJSON_Delete(json);
         }
     }
