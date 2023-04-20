@@ -21,7 +21,7 @@ gpointer recv_func(gpointer data)
     while (running)
     {
         memset(command, 0, sizeof(command));
-        int len = SSL_read(current_client.ssl, command, sizeof(command));
+        int len = stable_recv(current_client.ssl, command, sizeof(command));
         printf("\n%d ->", len);
         printf(" %s\n", command);
         if (len < 0)
@@ -37,7 +37,7 @@ gpointer recv_func(gpointer data)
         else if (mx_strcmp(command, "<friend_list>") == 0)
         {
             char temp[21474];
-            int cmd = SSL_read(current_client.ssl, temp, sizeof(temp));
+            int cmd = stable_recv(current_client.ssl, temp, sizeof(temp));
             mx_printstr(temp);
             if (cmd <= 0)
             {
@@ -64,7 +64,7 @@ gpointer recv_func(gpointer data)
         else if (mx_strcmp(command, "<add_friend>") == 0)
         {
             char temp[128];
-            int len = SSL_read(current_client.ssl, temp, sizeof(temp));
+            int len = stable_recv(current_client.ssl, temp, sizeof(temp));
             if (len < 0)
             {
                 printf("Error: Unable to receive data from server\n");
@@ -87,7 +87,7 @@ gpointer recv_func(gpointer data)
         else if (mx_strcmp(command, "<send_message_in_chat>") == 0)
         {
             char temp[16784];
-            int len = SSL_read(current_client.ssl, temp, sizeof(temp));
+            int len = stable_recv(current_client.ssl, temp, sizeof(temp));
             if (len < 0)
             {
                 printf("Error: Unable to receive data from server\n");
@@ -137,13 +137,14 @@ gpointer recv_func(gpointer data)
 
         else if (mx_strcmp(command, "<logout>") == 0)
         {
-            // running = false;
+            running = false;
+            // break;
         }
         else if (mx_strcmp(command, "<create_group>") == 0)
         {
             char temp[16784];
             char *group_name;
-            int len = SSL_read(current_client.ssl, temp, sizeof(temp));
+            int len = stable_recv(current_client.ssl, temp, sizeof(temp));
             if (len < 0)
             {
                 printf("Error: Unable to receive data from server\n");

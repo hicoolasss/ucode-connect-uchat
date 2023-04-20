@@ -6,7 +6,7 @@ sqlite3 *db_open()
 
     if (sqlite3_open(DB_NAME, &db) != SQLITE_OK)
     {
-        mx_printerr("Cannot open database");
+        // mx_printerr("Cannot open database");
         return NULL;
     }
     return db;
@@ -30,7 +30,7 @@ void sql_create_db()
 
     if (rc != SQLITE_OK)
     {
-        fprintf(stderr, "SQL error: %s\n", err_msg);
+        // fprintf(stderr, "SQL error: %s\n", err_msg);
         sqlite3_free(err_msg);
         sqlite3_close(db);
         exit(rc);
@@ -47,7 +47,7 @@ void sql_create_db()
 
     if (rc != SQLITE_OK)
     {
-        fprintf(stderr, "SQL error: %s\n", err_msg);
+        // fprintf(stderr, "SQL error: %s\n", err_msg);
         sqlite3_free(err_msg);
         sqlite3_close(db);
         exit(rc);
@@ -64,7 +64,7 @@ void sql_create_db()
 
     if (rc != SQLITE_OK)
     {
-        fprintf(stderr, "SQL error: %s\n", err_msg);
+        // fprintf(stderr, "SQL error: %s\n", err_msg);
         sqlite3_free(err_msg);
         sqlite3_close(db);
         exit(rc);
@@ -83,7 +83,7 @@ void sql_create_db()
 
     if (rc != SQLITE_OK)
     {
-        fprintf(stderr, "SQL error: %s\n", err_msg);
+        // fprintf(stderr, "SQL error: %s\n", err_msg);
         sqlite3_free(err_msg);
         sqlite3_close(db);
         exit(rc);
@@ -100,7 +100,7 @@ void sql_create_db()
 
     if (rc != SQLITE_OK)
     {
-        fprintf(stderr, "SQL error: %s\n", err_msg);
+        // fprintf(stderr, "SQL error: %s\n", err_msg);
         sqlite3_free(err_msg);
         sqlite3_close(db);
         exit(rc);
@@ -118,7 +118,7 @@ void sql_create_db()
     rc = sqlite3_exec(db, sql_create_table_dialogs, 0, 0, &err_msg);
     if (rc != SQLITE_OK)
     {
-        fprintf(stderr, "SQL error: %s\n", err_msg);
+        // fprintf(stderr, "SQL error: %s\n", err_msg);
         sqlite3_free(err_msg);
         sqlite3_close(db);
         exit(rc);
@@ -134,7 +134,7 @@ int is_friend(sqlite3 *db, int user_id, int friend_id)
     int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
     if (result != SQLITE_OK)
     {
-        fprintf(stderr, "Error: %s\n", sqlite3_errmsg(db));
+        // fprintf(stderr, "Error: %s\n", sqlite3_errmsg(db));
         return 0;
     }
 
@@ -161,7 +161,7 @@ int get_user_id(sqlite3 *db, const char *login)
     int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
     if (result != SQLITE_OK)
     {
-        fprintf(stderr, "Error: %s\n", sqlite3_errmsg(db));
+        // fprintf(stderr, "Error: %s\n", sqlite3_errmsg(db));
         return user_id;
     }
 
@@ -186,7 +186,7 @@ int get_group_id(sqlite3 *db, const char *groupname)
     int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
     if (result != SQLITE_OK)
     {
-        fprintf(stderr, "Error: %s\n", sqlite3_errmsg(db));
+        // fprintf(stderr, "Error: %s\n", sqlite3_errmsg(db));
         return chat_id;
     }
 
@@ -209,7 +209,7 @@ char *get_username_by_user_id(sqlite3 *db, int user_id)
     const char *sql = "SELECT username FROM users WHERE id = ?;";
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK)
     {
-        printf("Error SQL: %s\n", sqlite3_errmsg(db));
+        // printf("Error SQL: %s\n", sqlite3_errmsg(db));
         exit(0);
     }
 

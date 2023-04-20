@@ -18,7 +18,7 @@ t_list *get_clients(sqlite3 *db)
 
     if (rc != SQLITE_OK)
     {
-        fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(db));
+        // fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(db));
         return NULL;
     }
 
@@ -45,7 +45,7 @@ t_list *get_friends(sqlite3 *db, const char *username)
     int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
     if (result != SQLITE_OK)
     {
-        fprintf(stderr, "Error: failed to execute statement: %s.\n", sqlite3_errmsg(db));
+        // fprintf(stderr, "Error: failed to execute statement: %s.\n", sqlite3_errmsg(db));
         return NULL;
     }
     // t_list *head = NULL;
@@ -60,7 +60,7 @@ t_list *get_friends(sqlite3 *db, const char *username)
         int result2 = sqlite3_prepare_v2(db, sql2, -1, &stmt2, NULL);
         if (result2 != SQLITE_OK)
         {
-            fprintf(stderr, "Error: failed to execute statement: %s.\n", sqlite3_errmsg(db));
+            // fprintf(stderr, "Error: failed to execute statement: %s.\n", sqlite3_errmsg(db));
             sqlite3_finalize(stmt2);
             sqlite3_finalize(stmt);
             return NULL;
@@ -95,7 +95,7 @@ t_list *get_message_history(sqlite3 *db, int user_id, int friend_id)
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK)
     {
-        printf("Ошибка подготовки SQL: %s\n", sqlite3_errmsg(db));
+        // printf("Ошибка подготовки SQL: %s\n", sqlite3_errmsg(db));
         return NULL;
     }
     t_list *chat_recording = NULL;

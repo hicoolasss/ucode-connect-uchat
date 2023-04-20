@@ -14,8 +14,11 @@ GdkPixbuf *scaled_avatar;
 
 GtkWidget *user_list_grid;
 GtkWidget *user_list_grid_scrolled;
+
 GtkWidget *checkbox_btn;
+
 GtkWidget *chat_with_friend_grid;
+GtkWidget *chat_with_friend_scrolled;
 
 t_list *chat_history_temp;
 
@@ -327,42 +330,25 @@ static void on_entry_activate(GtkEntry *entry, gpointer friend_data)
     gtk_editable_set_text(GTK_EDITABLE(entry), "");
 }
 
-static gboolean scroll_to_bottom(gpointer data)
+static gboolean scroll_to_bottom(gpointer user_data)
 {
-    GtkScrolledWindow *scrolled_window = GTK_SCROLLED_WINDOW(data);
-    GtkAdjustment *vadjustment = gtk_scrolled_window_get_vadjustment(scrolled_window);
-    double upper = gtk_adjustment_get_upper(vadjustment);
-    double page_size = gtk_adjustment_get_page_size(vadjustment);
+    GtkScrolledWindow *scrolled_window = GTK_SCROLLED_WINDOW(user_data);
+    GtkAdjustment *v_adjustment = gtk_scrolled_window_get_vadjustment(scrolled_window);
+    double upper = gtk_adjustment_get_upper(v_adjustment);
+    double page_size = gtk_adjustment_get_page_size(v_adjustment);
+    gtk_adjustment_set_value(v_adjustment, upper - page_size);
 
-    gtk_adjustment_set_value(vadjustment, upper - page_size);
-
-    return G_SOURCE_REMOVE; // Удаляем обратный вызов, так как он должен быть вызван только один раз
+    return FALSE; // Возвращаем FALSE, чтобы удалить функцию из очереди выполнения
 }
 
-static gboolean tick_callback(GtkWidget *widget, GdkFrameClock *frame_clock, gpointer user_data)
-{
-    gboolean *scrolled_to_bottom = (gboolean *)user_data;
+void show_friend_info() {
 
-    if (!*scrolled_to_bottom)
-    {
 
-        mx_printstr("!scrolled_to_bottom\n");
-        GtkScrolledWindow *scrolled_window = GTK_SCROLLED_WINDOW(widget);
-        scroll_to_bottom(scrolled_window);
-        *scrolled_to_bottom = TRUE;
-    }
 
-    return G_SOURCE_CONTINUE;
-}
 
-gboolean is_scrolled_to_bottom(GtkScrolledWindow *scrolled_window)
-{
-    GtkAdjustment *vadj = gtk_scrolled_window_get_vadjustment(scrolled_window);
-    gdouble value = gtk_adjustment_get_value(vadj);
-    gdouble upper = gtk_adjustment_get_upper(vadj);
-    gdouble page_size = gtk_adjustment_get_page_size(vadj);
 
-    return value + page_size >= upper;
+
+
 }
 
 void update_chat_history(gpointer friend_data)
@@ -373,33 +359,17 @@ void update_chat_history(gpointer friend_data)
 
     GtkWidget *children, *iter;
 
-    children = gtk_widget_get_first_child(current_grid.chat_with_friend);
+    children = gtk_widget_get_first_child(chat_with_friend_grid);
 
-    for (iter = children; iter != NULL; iter = gtk_widget_get_last_child(current_grid.chat_with_friend))
+    for (iter = children; iter != NULL; iter = gtk_widget_get_last_child(chat_with_friend_grid))
     {
         gtk_widget_unparent(iter);
     }
 
-    GtkWidget *chat_with_friend_grid = create_grid(607, 607, "empty");
-
     GtkWidget *transparent_widget = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_widget_set_hexpand(transparent_widget, FALSE);
     gtk_widget_set_vexpand(transparent_widget, TRUE);
-    gtk_grid_attach(GTK_GRID(chat_with_friend_grid), transparent_widget, 0, 0, 1, 9999);
-
-    GtkWidget *chat_with_friend_scrolled = gtk_scrolled_window_new();
-
-    gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled), chat_with_friend_grid);
-    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-
-    GtkAdjustment *vadjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled));
-    double upper = gtk_adjustment_get_upper(vadjustment);
-    double page_size = gtk_adjustment_get_page_size(vadjustment);
-
-    // Устанавливаем положение прокрутки на самый низ
-    gtk_adjustment_set_value(vadjustment, upper - page_size);
-
-    int last_child = 0;
+    gtk_grid_attach(GTK_GRID(chat_with_friend_grid), transparent_widget, 0, 0, 1, 1);
 
     t_Friend *friend_iter = friend_data;
 
@@ -413,6 +383,8 @@ void update_chat_history(gpointer friend_data)
 
         while (chat_history_iter != NULL)
         {
+
+
             t_chat *chat_data = (t_chat *)chat_history_iter->data;
 
             int pos = chat_data->id;
@@ -420,13 +392,13 @@ void update_chat_history(gpointer friend_data)
             if (strcmp(chat_data->sender, current_client.login) == 0)
             {
 
-                gboolean was_scrolled_to_bottom = is_scrolled_to_bottom(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled));
-
                 const char *s_msg = chat_data->message;
 
                 GtkWidget *sent_msg = gtk_label_new(s_msg);
 
                 gtk_widget_set_halign(sent_msg, GTK_ALIGN_END);
+
+                // gtk_widget_set_valign(sent_msg, GTK_ALIGN_END);
 
                 gtk_widget_set_margin_top(sent_msg, 15);
 
@@ -440,24 +412,17 @@ void update_chat_history(gpointer friend_data)
                 gtk_grid_attach(GTK_GRID(chat_with_friend_grid), sent_msg, 1, 9999 + pos, 1, 1);
 
                 widget_styling(sent_msg, current_screen, "message");
-
-                if (was_scrolled_to_bottom)
-                {
-                    GtkAdjustment *adj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled));
-                    gdouble upper = gtk_adjustment_get_upper(adj);
-                    gtk_adjustment_set_value(adj, upper);
-                }
             }
             else
             {
-
-                gboolean was_scrolled_to_bottom = is_scrolled_to_bottom(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled));
-
+                
                 const char *r_msg = chat_data->message;
 
                 GtkWidget *received_msg = gtk_label_new(r_msg);
 
                 gtk_widget_set_halign(received_msg, GTK_ALIGN_START);
+
+                //gtk_widget_set_valign(received_msg, GTK_ALIGN_END);
 
                 gtk_widget_set_margin_top(received_msg, 15);
 
@@ -471,88 +436,26 @@ void update_chat_history(gpointer friend_data)
                 gtk_grid_attach(GTK_GRID(chat_with_friend_grid), received_msg, 0, 9999 + pos, 1, 1);
 
                 widget_styling(received_msg, current_screen, "message");
-                
-                if (was_scrolled_to_bottom)
-                {
-                    GtkAdjustment *adj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled));
-                    gdouble upper = gtk_adjustment_get_upper(adj);
-                    gtk_adjustment_set_value(adj, upper);
-                }
             }
 
             chat_history_iter = chat_history_iter->next;
 
-            last_child++;
+            count++;
         }
 
-        GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-
-        GtkWidget *entry = gtk_entry_new();
-
-        gtk_entry_set_placeholder_text(GTK_ENTRY(entry), "Введите сообщение");
-
-        gtk_box_append(GTK_BOX(box), entry);
-
-        gtk_widget_set_margin_start(entry, 17);
-        gtk_widget_set_margin_end(entry, 17);
-        gtk_widget_set_margin_top(entry, 14);
-        gtk_widget_set_margin_bottom(entry, 14);
-
-        gtk_widget_set_margin_start(box, 26);
-        gtk_widget_set_margin_end(box, 60);
-        gtk_widget_set_margin_top(box, 10);
-        gtk_widget_set_margin_bottom(box, 14);
-
-        gtk_widget_set_size_request(box, 452, 40);
-
-        gtk_widget_set_margin_top(chat_with_friend_scrolled, 75);
-        gtk_widget_set_size_request(chat_with_friend_scrolled, 533, 607);
-
-        gtk_grid_attach(GTK_GRID(current_grid.chat_with_friend), chat_with_friend_scrolled, 0, 0, 2, 9999 - last_child);
-        gtk_grid_attach(GTK_GRID(current_grid.chat_with_friend), box, 0, 9999 - last_child, 2, 1);
-
-        g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate), friend_iter);
-
-        // g_idle_add(scroll_to_bottom, chat_with_friend_scrolled);
-
-        // g_signal_connect(chat_with_friend_scrolled, "edge-reached", G_CALLBACK(on_edge_reached), NULL);
-
-        widget_styling(box, current_screen, "empty_chat_box");
-        widget_styling(entry, current_screen, "empty_chat_label");
     }
-    else
-    {
 
-        mx_printstr("empty chat with : ");
-        mx_printstr(friend_iter->username);
-        mx_printstr("\n");
-        GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    //gtk_widget_unparent(transparent_widget);
 
-        GtkWidget *entry = gtk_entry_new();
+    // GtkAdjustment *v_adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled));
+    // double upper = gtk_adjustment_get_upper(v_adjustment);
+    // double page_size = gtk_adjustment_get_page_size(v_adjustment);
+    // gtk_adjustment_set_upper(v_adjustment, upper);
+    // gtk_adjustment_set_value(v_adjustment, upper - page_size);
 
-        gtk_entry_set_placeholder_text(GTK_ENTRY(entry), "Введите сообщение");
-
-        gtk_box_append(GTK_BOX(box), entry);
-
-        gtk_widget_set_margin_start(entry, 17);
-        gtk_widget_set_margin_end(entry, 17);
-        gtk_widget_set_margin_top(entry, 14);
-        gtk_widget_set_margin_bottom(entry, 14);
-
-        gtk_widget_set_margin_start(box, 26);
-        gtk_widget_set_margin_end(box, 60);
-        gtk_widget_set_valign(box, GTK_ALIGN_START);
-        gtk_widget_set_margin_bottom(box, 14);
-
-        gtk_widget_set_size_request(box, 452, 40);
-
-        gtk_grid_attach(GTK_GRID(current_grid.chat_with_friend), box, 0, 0, 1, 1);
-
-        g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate), friend_iter);
-
-        widget_styling(box, current_screen, "empty_chat_box");
-        widget_styling(entry, current_screen, "empty_chat_label");
-    }
+    // // Примените новое значение к GtkScrolledWindow
+    // gtk_scrolled_window_set_vadjustment(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled), v_adjustment);
+    g_idle_add(scroll_to_bottom, chat_with_friend_scrolled);
 }
 
 void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
@@ -570,24 +473,17 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
         gtk_widget_unparent(iter);
     }
 
-    GtkWidget *chat_with_friend_grid = create_grid(607, 607, "empty");
+    chat_with_friend_grid = create_grid(607, 607, "empty");
 
     GtkWidget *transparent_widget = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_widget_set_hexpand(transparent_widget, FALSE);
     gtk_widget_set_vexpand(transparent_widget, TRUE);
     gtk_grid_attach(GTK_GRID(chat_with_friend_grid), transparent_widget, 0, 0, 1, 1);
 
-    GtkWidget *chat_with_friend_scrolled = gtk_scrolled_window_new();
+    chat_with_friend_scrolled = gtk_scrolled_window_new();
 
     gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled), chat_with_friend_grid);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-
-    GtkAdjustment *vadjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled));
-    double upper = gtk_adjustment_get_upper(vadjustment);
-    double page_size = gtk_adjustment_get_page_size(vadjustment);
-
-    // Устанавливаем положение прокрутки на самый низ
-    gtk_adjustment_set_value(vadjustment, upper - page_size);
 
     int last_child = 0;
 
@@ -609,8 +505,6 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
 
             if (strcmp(chat_data->sender, current_client.login) == 0)
             {
-
-                gboolean was_scrolled_to_bottom = is_scrolled_to_bottom(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled));
                 const char *s_msg = chat_data->message;
 
                 GtkWidget *sent_msg = gtk_label_new(s_msg);
@@ -630,17 +524,9 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
 
                 widget_styling(sent_msg, current_screen, "message");
 
-                if (was_scrolled_to_bottom)
-                {
-                    GtkAdjustment *adj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled));
-                    gdouble upper = gtk_adjustment_get_upper(adj);
-                    gtk_adjustment_set_value(adj, upper);
-                }
             }
             else
             {
-
-                gboolean was_scrolled_to_bottom = is_scrolled_to_bottom(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled));
                 
                 const char *r_msg = chat_data->message;
 
@@ -661,12 +547,6 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
 
                 widget_styling(received_msg, current_screen, "message");
 
-                if (was_scrolled_to_bottom)
-                {
-                    GtkAdjustment *adj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled));
-                    gdouble upper = gtk_adjustment_get_upper(adj);
-                    gtk_adjustment_set_value(adj, upper);
-                }
             }
 
             chat_history_iter = chat_history_iter->next;
@@ -695,7 +575,7 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
         gtk_widget_set_size_request(box, 452, 40);
 
         gtk_widget_set_margin_top(chat_with_friend_scrolled, 75);
-        gtk_widget_set_size_request(chat_with_friend_scrolled, 533, 607);
+        gtk_widget_set_size_request(chat_with_friend_scrolled, 533, 513);
 
         gtk_grid_attach(GTK_GRID(current_grid.chat_with_friend), chat_with_friend_scrolled, 0, 0, 2, 9999 - last_child);
         gtk_grid_attach(GTK_GRID(current_grid.chat_with_friend), box, 0, 9999 - last_child, 2, 1);
@@ -713,7 +593,7 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
 
         GtkWidget *entry = gtk_entry_new();
 
-        gtk_entry_set_placeholder_text(GTK_ENTRY(entry), "Введите сообщение");
+        gtk_entry_set_placeholder_text(GTK_ENTRY(entry), "Введите сообщение чат пустой");
 
         gtk_box_append(GTK_BOX(box), entry);
 
@@ -741,7 +621,6 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
 
 void show_chats_with_added_friends(t_list *friend_list)
 {
-
     GtkWidget *children, *iter;
 
     children = gtk_widget_get_first_child(current_grid.chats_list_grid_child);
@@ -766,14 +645,8 @@ void show_chats_with_added_friends(t_list *friend_list)
         get_scaled_image_chats();
 
         GtkWidget *user_avatar = gtk_image_new_from_pixbuf(scaled_avatar);
-
-        // t_chat *last_element = find_last_message(current);
+ 
         GtkWidget *last_msg_label = gtk_label_new(friend_data->lastmessage);
-        // }
-        // if (friend_data->lastmessage == NULL)
-        // {
-        //     gtk_label_set_label(GTK_LABEL(last_msg_label), "Nothing here...");
-        // }
 
         gtk_grid_attach(GTK_GRID(user_box_grid), user_avatar, 0, 0, 1, 2);
 
@@ -799,18 +672,11 @@ void show_chats_with_added_friends(t_list *friend_list)
 
         gtk_widget_set_halign(username_label, GTK_ALIGN_START);
         gtk_widget_set_margin_top(username_label, 5);
-        // gtk_widget_set_margin_bottom(username_label, 0);
-
-        // gtk_widget_set_hexpand(last_msg_label, TRUE);
 
         gtk_widget_set_valign(last_msg_label, GTK_ALIGN_START);
         gtk_widget_set_margin_top(last_msg_label, 5);
 
         gtk_widget_set_size_request(user_avatar, 60, 60);
-
-        // gtk_widget_set_size_request(current_grid.chats_list_grid_child, 427, 246);
-
-        // gtk_widget_set_hexpand(current_grid.chats_list_grid_child, FALSE);
 
         gtk_grid_attach(GTK_GRID(current_grid.chats_list_grid_child), user_box_btn1, 0, count, 1, 1);
         count++;
@@ -831,6 +697,20 @@ void show_chats_with_added_friends(t_list *friend_list)
 
 void show_create_new_chat_with_someone()
 {
+
+    chat_with_friend_grid = create_grid(607, 607, "empty");
+
+    GtkWidget *transparent_widget = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    gtk_widget_set_hexpand(transparent_widget, FALSE);
+    gtk_widget_set_vexpand(transparent_widget, TRUE);
+    gtk_grid_attach(GTK_GRID(chat_with_friend_grid), transparent_widget, 0, 0, 1, 1);
+
+    chat_with_friend_scrolled = gtk_scrolled_window_new();
+
+    gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled), chat_with_friend_grid);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+
+
 
     user_list_grid = create_grid(451, 227, "mini_chats");
 

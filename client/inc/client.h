@@ -255,10 +255,15 @@ extern int in_chat;
 void load_custom_font(const char* font_path, GtkWidget* widget);
 
 SSL_CTX* CTX_initialize_client();
+void open_client_connection(char* server_IP, int port);
+void close_connection(SSL *ssl);
+int open_ssl_connection();
 int send_message_to_server(char *buffer);
 char *convert_to_json(char *buffer);
 gpointer send_func(gpointer data);
 gpointer recv_func(gpointer data);
+int stable_sending(SSL *ssl, void *buf, int size);
+int stable_recv(SSL *ssl, void *buf, int size);
 
 char *registration(int status);
 int recv_all(SSL *sockfd, char *buf, int len);
