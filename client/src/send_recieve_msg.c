@@ -139,7 +139,10 @@ void add_message_to_chat_history(t_list **friend_list, const char *username, t_c
     // Обновить последнее сообщение для друга
     friend_data->lastmessage = mx_strdup(new_chat->message);
 
-    update_chat_history(friend_data);
+    if (friend_data->in_chat) {
+        update_chat_history(friend_data);
+    }
+
     update_show_chats_with_added_friends(*friend_list);
 }
 

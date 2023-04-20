@@ -154,12 +154,47 @@ here
 
 here
 
+<<<<<<< HEAD
+Error: Unable to receive data from server
+=======
 here
+>>>>>>> e9d654d2ede4371a1033b851c64b10ae2ef386ec
 
 here
 
 here
 
+<<<<<<< HEAD
+Error: Unable to receive data from server
+
+here
+
+Error: Unable to receive data from server
+
+here
+
+Error: Unable to receive data from server
+
+here
+
+Error: Unable to receive data from server
+
+here
+
+Error: Unable to receive data from server
+
+here
+
+Error: Unable to receive data from server
+
+here
+
+Error: Unable to receive data from server
+
+here
+
+=======
+>>>>>>> e9d654d2ede4371a1033b851c64b10ae2ef386ec
 here
 
 here

@@ -168,7 +168,7 @@ t_list *process_json_object(cJSON *json_object)
         else new_friend->lastmessage = "Nothing here...";
         new_friend->in_chat = false;
         new_friend->chat_history = NULL; // Инициализация указателя на историю чата
-
+        new_friend->in_chat = false;
         if (new_friend != NULL)
         {
             mx_push_back(&friend, new_friend);

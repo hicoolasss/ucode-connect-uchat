@@ -20,9 +20,9 @@ int main(int argc, char **argv)
 
     // daemon_server();
 
-    close(STDIN_FILENO);
-    close(STDOUT_FILENO);
-    close(STDERR_FILENO);
+    // close(STDIN_FILENO);
+    // close(STDOUT_FILENO);
+    // close(STDERR_FILENO);
     SSL_CTX *ctx = SSL_STX_Init();
 
     int server_fd = socket(AF_INET, SOCK_STREAM, 0);
