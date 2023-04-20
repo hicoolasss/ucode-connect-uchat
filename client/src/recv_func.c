@@ -82,6 +82,8 @@ gpointer recv_func(gpointer data)
                 break;
             }
             char *friendname = cJSON_GetObjectItemCaseSensitive(json, "friendname")->valuestring;
+
+            add_new_friend(&friend_list, friendname);
             // mx_printstr(friendname);
         }
         else if (mx_strcmp(command, "<send_message_in_chat>") == 0)

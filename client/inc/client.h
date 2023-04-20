@@ -264,7 +264,7 @@ gpointer send_func(gpointer data);
 gpointer recv_func(gpointer data);
 int stable_sending(SSL *ssl, void *buf, int size);
 int stable_recv(SSL *ssl, void *buf, int size);
-
+void add_new_friend(t_list **friend_list, const char *username);
 char *registration(int status);
 int recv_all(SSL *sockfd, char *buf, int len);
 int send_all(SSL *sockfd, char *buf, int len);
@@ -380,6 +380,8 @@ void update_chat_history(gpointer friend_data);
 gboolean send_receive_msg(gpointer user_data);
 
 void add_message_to_chat_history(t_list **friend_list, const char *username, t_chat *new_chat);
+
+void update_show_chats_with_added_friends(t_list *friend_list);
 
 typedef struct {
     gpointer chat_history;
