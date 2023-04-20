@@ -343,7 +343,7 @@ void show_search_bar(void);
 //add it to mini chat grid.
 //As a parametr get number of existed chats,
 // so it can attach it to grit in a right way
-void create_new_chat(GtkToggleButton *toggle_button, gpointer user_data);
+void create_new_chat(gpointer user_data);
 
 void create_new_group(const int i,
                       const char *new_groupname);
@@ -383,6 +383,8 @@ gboolean send_receive_msg(gpointer user_data);
 void add_message_to_chat_history(t_list **friend_list, const char *username, t_chat *new_chat);
 
 void update_show_chats_with_added_friends(t_list *friend_list);
+
+void show_friend_info(gpointer data);
 
 typedef struct {
     gpointer chat_history;
