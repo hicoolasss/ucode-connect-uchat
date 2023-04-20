@@ -355,6 +355,16 @@ static gboolean tick_callback(GtkWidget *widget, GdkFrameClock *frame_clock, gpo
     return G_SOURCE_CONTINUE;
 }
 
+gboolean is_scrolled_to_bottom(GtkScrolledWindow *scrolled_window)
+{
+    GtkAdjustment *vadj = gtk_scrolled_window_get_vadjustment(scrolled_window);
+    gdouble value = gtk_adjustment_get_value(vadj);
+    gdouble upper = gtk_adjustment_get_upper(vadj);
+    gdouble page_size = gtk_adjustment_get_page_size(vadj);
+
+    return value + page_size >= upper;
+}
+
 void update_chat_history(gpointer friend_data)
 {
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chats), FALSE);
@@ -409,6 +419,9 @@ void update_chat_history(gpointer friend_data)
 
             if (strcmp(chat_data->sender, current_client.login) == 0)
             {
+
+                gboolean was_scrolled_to_bottom = is_scrolled_to_bottom(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled));
+
                 const char *s_msg = chat_data->message;
 
                 GtkWidget *sent_msg = gtk_label_new(s_msg);
@@ -427,9 +440,19 @@ void update_chat_history(gpointer friend_data)
                 gtk_grid_attach(GTK_GRID(chat_with_friend_grid), sent_msg, 1, 9999 + pos, 1, 1);
 
                 widget_styling(sent_msg, current_screen, "message");
+
+                if (was_scrolled_to_bottom)
+                {
+                    GtkAdjustment *adj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled));
+                    gdouble upper = gtk_adjustment_get_upper(adj);
+                    gtk_adjustment_set_value(adj, upper);
+                }
             }
             else
             {
+
+                gboolean was_scrolled_to_bottom = is_scrolled_to_bottom(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled));
+
                 const char *r_msg = chat_data->message;
 
                 GtkWidget *received_msg = gtk_label_new(r_msg);
@@ -448,8 +471,15 @@ void update_chat_history(gpointer friend_data)
                 gtk_grid_attach(GTK_GRID(chat_with_friend_grid), received_msg, 0, 9999 + pos, 1, 1);
 
                 widget_styling(received_msg, current_screen, "message");
+                
+                if (was_scrolled_to_bottom)
+                {
+                    GtkAdjustment *adj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled));
+                    gdouble upper = gtk_adjustment_get_upper(adj);
+                    gtk_adjustment_set_value(adj, upper);
+                }
             }
-            
+
             chat_history_iter = chat_history_iter->next;
 
             last_child++;
@@ -483,7 +513,7 @@ void update_chat_history(gpointer friend_data)
 
         g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate), friend_iter);
 
-        g_idle_add(scroll_to_bottom, chat_with_friend_scrolled);
+        // g_idle_add(scroll_to_bottom, chat_with_friend_scrolled);
 
         // g_signal_connect(chat_with_friend_scrolled, "edge-reached", G_CALLBACK(on_edge_reached), NULL);
 
@@ -579,6 +609,8 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
 
             if (strcmp(chat_data->sender, current_client.login) == 0)
             {
+
+                gboolean was_scrolled_to_bottom = is_scrolled_to_bottom(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled));
                 const char *s_msg = chat_data->message;
 
                 GtkWidget *sent_msg = gtk_label_new(s_msg);
@@ -597,9 +629,19 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
                 gtk_grid_attach(GTK_GRID(chat_with_friend_grid), sent_msg, 1, 9999 + pos, 1, 1);
 
                 widget_styling(sent_msg, current_screen, "message");
+
+                if (was_scrolled_to_bottom)
+                {
+                    GtkAdjustment *adj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled));
+                    gdouble upper = gtk_adjustment_get_upper(adj);
+                    gtk_adjustment_set_value(adj, upper);
+                }
             }
             else
             {
+
+                gboolean was_scrolled_to_bottom = is_scrolled_to_bottom(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled));
+                
                 const char *r_msg = chat_data->message;
 
                 GtkWidget *received_msg = gtk_label_new(r_msg);
@@ -618,6 +660,13 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
                 gtk_grid_attach(GTK_GRID(chat_with_friend_grid), received_msg, 0, 9999 + pos, 1, 1);
 
                 widget_styling(received_msg, current_screen, "message");
+
+                if (was_scrolled_to_bottom)
+                {
+                    GtkAdjustment *adj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled));
+                    gdouble upper = gtk_adjustment_get_upper(adj);
+                    gtk_adjustment_set_value(adj, upper);
+                }
             }
 
             chat_history_iter = chat_history_iter->next;
@@ -653,7 +702,7 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
 
         g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate), friend_iter);
 
-        g_idle_add(scroll_to_bottom, chat_with_friend_scrolled);
+        // g_idle_add(scroll_to_bottom, chat_with_friend_scrolled);
 
         widget_styling(box, current_screen, "empty_chat_box");
         widget_styling(entry, current_screen, "empty_chat_label");
