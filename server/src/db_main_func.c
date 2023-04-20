@@ -10,7 +10,9 @@ int authenticate_user(sqlite3 *db, const char *username, const char *password)
 
     if (rc != SQLITE_OK)
     {
-        // fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(db));
+        char logbuf[32];
+        sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
+        write_logs(logbuf);
         sqlite3_finalize(stmt);
         return 1;
     }
@@ -25,20 +27,17 @@ int authenticate_user(sqlite3 *db, const char *username, const char *password)
 
         if (strcmp((char *)db_password, password) == 0)
         {
-            // printf("Authentication successful\n");
             sqlite3_finalize(stmt);
             return 0;
         }
         else
         {
-            // printf("Incorrect password\n");
             sqlite3_finalize(stmt);
             return 2;
         }
     }
     else
     {
-        // printf("User not found\n");
         sqlite3_finalize(stmt);
         return 1;
     }
@@ -56,16 +55,13 @@ int register_user(sqlite3 *db, const char *username, const char *password)
 
     if (rc != SQLITE_OK)
     {
-        // fprintf(stderr, "SQL error: %s\n", zErrMsg);
+        char logbuf[32];
+        sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
+        write_logs(logbuf);
         sqlite3_free(zErrMsg);
         sqlite3_free(sql);
         return 1;
     }
-    else
-    {
-        // printf("User registered successfully\n");
-    }
-
     sqlite3_free(sql);
     return 0;
 }
@@ -74,7 +70,6 @@ int add_friend(sqlite3 *db, const char *username, const char *friend_username)
 {
     if (mx_strcmp(username, friend_username) == 0)
     {
-        // printf("Error: cannot add yourself as a friend.\n");
         return 0;
     }
 
@@ -83,7 +78,6 @@ int add_friend(sqlite3 *db, const char *username, const char *friend_username)
 
     if (is_friend(db, user_id, friend_id))
     {
-        // printf("Error: %s is already your friend.\n", friend_username);
         return 0;
     }
 
@@ -93,7 +87,9 @@ int add_friend(sqlite3 *db, const char *username, const char *friend_username)
 
     if (result != SQLITE_OK)
     {
-        // fprintf(stderr, "Error: %s\n", sqlite3_errmsg(db));
+        char logbuf[32];
+        sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
+        write_logs(logbuf);
         return 0;
     }
 
@@ -105,13 +101,14 @@ int add_friend(sqlite3 *db, const char *username, const char *friend_username)
     result = sqlite3_step(stmt);
     if (result != SQLITE_DONE)
     {
-        // fprintf(stderr, "Error: %s\n", sqlite3_errmsg(db));
+        char logbuf[32];
+        sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
+        write_logs(logbuf);
         sqlite3_finalize(stmt);
         return 0;
     }
 
     sqlite3_finalize(stmt);
-    // printf("%s added to friends.\n", friend_username);
     return 1;
 }
 
@@ -125,7 +122,9 @@ int create_chat_record(sqlite3 *db, int chat_id, int sender_id, int recipient_id
 
     if (rc != SQLITE_OK)
     {
-        // fprintf(stderr, "Cannot prepare statement: %s\n", sqlite3_errmsg(db));
+        char logbuf[32];
+        sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
+        write_logs(logbuf);
         return rc;
     }
 
@@ -138,7 +137,9 @@ int create_chat_record(sqlite3 *db, int chat_id, int sender_id, int recipient_id
 
     if (rc != SQLITE_DONE)
     {
-        // fprintf(stderr, "Execution failed: %s\n", sqlite3_errmsg(db));
+        char logbuf[32];
+        sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
+        write_logs(logbuf);
         sqlite3_finalize(stmt);
         return rc;
     }
@@ -154,7 +155,9 @@ int create_group_chat(sqlite3 *db, const char *group_name, t_list *users)
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK)
     {
-        // printf("Ошибка подготовки SQL: %s\n", sqlite3_errmsg(db));
+        char logbuf[32];
+        sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
+        write_logs(logbuf);
         return -1;
     }
 
@@ -162,7 +165,9 @@ int create_group_chat(sqlite3 *db, const char *group_name, t_list *users)
 
     if (sqlite3_step(stmt) != SQLITE_DONE)
     {
-        // printf("Ошибка выполнения SQL: %s\n", sqlite3_errmsg(db));
+        char logbuf[32];
+        sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
+        write_logs(logbuf);
         sqlite3_finalize(stmt);
         return -1;
     }
@@ -179,7 +184,9 @@ int create_group_chat(sqlite3 *db, const char *group_name, t_list *users)
 
         if (sqlite3_prepare_v2(db, sql_add_member, -1, &stmt, NULL) != SQLITE_OK)
         {
-            // printf("Ошибка подготовки SQL: %s\n", sqlite3_errmsg(db));
+            char logbuf[32];
+            sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
+            write_logs(logbuf);
             return -1;
         }
 
@@ -188,7 +195,9 @@ int create_group_chat(sqlite3 *db, const char *group_name, t_list *users)
 
         if (sqlite3_step(stmt) != SQLITE_DONE)
         {
-            // printf("Ошибка выполнения SQL: %s\n", sqlite3_errmsg(db));
+            char logbuf[32];
+            sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
+            write_logs(logbuf);
             sqlite3_finalize(stmt);
             return -1;
         }
@@ -206,7 +215,6 @@ int add_group_message(sqlite3 *db, const char *group_name, const char *sender_na
 
     if (group_id == -1 || sender_id == -1)
     {
-        // printf("Ошибка: Невозможно найти группу или отправителя.\n");
         return -1;
     }
 
@@ -215,7 +223,9 @@ int add_group_message(sqlite3 *db, const char *group_name, const char *sender_na
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK)
     {
-        // printf("Ошибка подготовки SQL: %s\n", sqlite3_errmsg(db));
+        char logbuf[32];
+        sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
+        write_logs(logbuf);
         return -1;
     }
 
@@ -225,7 +235,9 @@ int add_group_message(sqlite3 *db, const char *group_name, const char *sender_na
 
     if (sqlite3_step(stmt) != SQLITE_DONE)
     {
-        // printf("Ошибка выполнения SQL: %s\n", sqlite3_errmsg(db));
+        char logbuf[32];
+        sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
+        write_logs(logbuf);
         sqlite3_finalize(stmt);
         return -1;
     }
@@ -240,7 +252,9 @@ t_chat *sql_record_message(sqlite3 *db, char *username, char *friendname, const 
     const char *sql = "INSERT INTO dialogs (user_id, friend_id, message) VALUES (?, ?, ?);";
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK)
     {
-        // printf("Ошибка подготовки SQL: %s\n", sqlite3_errmsg(db));
+        char logbuf[32];
+        sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
+        write_logs(logbuf);
         return NULL;
     }
     int user_id = get_user_id(db, username);
@@ -250,7 +264,9 @@ t_chat *sql_record_message(sqlite3 *db, char *username, char *friendname, const 
     sqlite3_bind_text(stmt, 3, message_text, -1, SQLITE_STATIC);
     if (sqlite3_step(stmt) != SQLITE_DONE)
     {
-        // printf("Ошибка выполнения SQL: %s\n", sqlite3_errmsg(db));
+        char logbuf[32];
+        sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
+        write_logs(logbuf);
         sqlite3_finalize(stmt);
         return NULL;
     }
@@ -260,7 +276,9 @@ t_chat *sql_record_message(sqlite3 *db, char *username, char *friendname, const 
     const char *sql2 = "SELECT timestamp FROM dialogs WHERE id = ?;";
     if (sqlite3_prepare_v2(db, sql2, -1, &stmt, NULL) != SQLITE_OK)
     {
-        // printf("Ошибка подготовки SQL: %s\n", sqlite3_errmsg(db));
+        char logbuf[32];
+        sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
+        write_logs(logbuf);
         return NULL;
     }
     sqlite3_bind_int(stmt, 1, message_id);
@@ -275,7 +293,9 @@ t_chat *sql_record_message(sqlite3 *db, char *username, char *friendname, const 
     }
     else
     {
-        // printf("Ошибка выполнения SQL: %s\n", sqlite3_errmsg(db));
+        char logbuf[32];
+        sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
+        write_logs(logbuf);
     }
     sqlite3_finalize(stmt);
     return message_data;
@@ -289,7 +309,9 @@ char *get_last_message_from_dialog(sqlite3 *db, const char *username, const char
     int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
     if (result != SQLITE_OK)
     {
-        // fprintf(stderr, "Error: %s\n", sqlite3_errmsg(db));
+        char logbuf[32];
+        sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
+        write_logs(logbuf);
         return NULL;
     }
 
@@ -313,7 +335,9 @@ char *get_last_message_from_dialog(sqlite3 *db, const char *username, const char
     }
     else
     {
-        // fprintf(stderr, "Error: %s\n", sqlite3_errmsg(db));
+        char logbuf[32];
+        sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
+        write_logs(logbuf);
         lastmessage = NULL;
     }
 
@@ -328,7 +352,9 @@ int sql_delete_message_from_dialog(sqlite3 *db, int message_id, const char *user
     int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
     if (result != SQLITE_OK)
     {
-        // fprintf(stderr, "Error: %s\n", sqlite3_errmsg(db));
+        char logbuf[32];
+        sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
+        write_logs(logbuf);
         return -1;
     }
 
@@ -340,7 +366,9 @@ int sql_delete_message_from_dialog(sqlite3 *db, int message_id, const char *user
 
     if (sqlite3_step(stmt) != SQLITE_DONE)
     {
-        // printf("Ошибка выполнения SQL: %s\n", sqlite3_errmsg(db));
+        char logbuf[32];
+        sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
+        write_logs(logbuf);
         sqlite3_finalize(stmt);
         return -1;
     }
@@ -356,7 +384,9 @@ int sql_update_message_in_dialog(sqlite3 *db, int message_id, const char *old_me
     int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
     if (result != SQLITE_OK)
     {
-        // fprintf(stderr, "Error: %s\n", sqlite3_errmsg(db));
+        char logbuf[32];
+        sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
+        write_logs(logbuf);
         return -1;
     }
 
@@ -369,11 +399,82 @@ int sql_update_message_in_dialog(sqlite3 *db, int message_id, const char *old_me
 
     if (sqlite3_step(stmt) != SQLITE_DONE)
     {
-        // printf("Ошибка выполнения SQL: %s\n", sqlite3_errmsg(db));
+        char logbuf[32];
+        sprintf(logbuf, "SQL error: %s\n", sqlite3_errmsg(db));
+        write_logs(logbuf);
         sqlite3_finalize(stmt);
         return -1;
     }
 
     sqlite3_finalize(stmt);
+    return 0;
+}
+
+unsigned char *base64_decode(const char *input, int *out_length)
+{
+    BIO *b64, *bmem;
+    size_t length = strlen(input);
+
+    unsigned char *buffer = (unsigned char *)malloc(length);
+    memset(buffer, 0, length);
+
+    b64 = BIO_new(BIO_f_base64());
+    bmem = BIO_new_mem_buf(input, length);
+    bmem = BIO_push(b64, bmem);
+
+    *out_length = BIO_read(bmem, buffer, length);
+
+    BIO_free_all(bmem);
+
+    return buffer;
+}
+
+int save_image_to_db(sqlite3 *db, const char *username, const char *image_name, const char *image_ext, const char *base64_image_data)
+{
+    if (!db || !username || !image_name || !image_ext || !base64_image_data)
+    {
+        return -1;
+    }
+
+    int image_data_size;
+    unsigned char *image_data = base64_decode(base64_image_data, &image_data_size);
+
+    sqlite3_stmt *stmt;
+    const char *sql = "UPDATE users SET avatarname = ?, avatar_ext = ?, avatardata = ? WHERE username = ?";
+
+    int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+
+    if (result != SQLITE_OK)
+    {
+        char logbuf[32];
+        sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
+        write_logs(logbuf);
+        return -1;
+    }
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) == SQLITE_OK)
+    {
+        sqlite3_bind_text(stmt, 1, image_name, -1, SQLITE_TRANSIENT);
+        sqlite3_bind_text(stmt, 2, image_ext, -1, SQLITE_TRANSIENT);
+        sqlite3_bind_blob(stmt, 3, image_data, image_data_size, SQLITE_TRANSIENT);
+        sqlite3_bind_text(stmt, 4, username, -1, SQLITE_TRANSIENT);
+
+        if (sqlite3_step(stmt) != SQLITE_DONE)
+        {
+            char logbuf[32];
+            sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
+            write_logs(logbuf);
+            return -1;
+        }
+    }
+    else
+    {
+        char logbuf[32];
+        sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
+        write_logs(logbuf);
+        return -1;
+    }
+
+    sqlite3_finalize(stmt);
+    free(image_data);
     return 0;
 }

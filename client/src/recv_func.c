@@ -159,8 +159,19 @@ gpointer recv_func(gpointer data)
                 printf("Error: Invalid JSON data received from server\n");
                 break;
             }
-            
+
             t_list *group_list = extract_group_and_friends_from_json(json_group, &group_name);
+        }
+        else if (mx_strcmp(command, "<update_image>") == 0)
+        {
+            char temp[16784];
+            int len = stable_recv(current_client.ssl, temp, sizeof(temp));
+            if (len < 0)
+            {
+                printf("Error: Unable to receive data from server\n");
+                break;
+            }
+            printf("\n%s\n", temp);
         }
     }
     return NULL;

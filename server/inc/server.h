@@ -108,6 +108,8 @@ int create_group_chat(sqlite3 *db, const char *group_name, t_list *users);
 int sql_delete_message_from_dialog(sqlite3 *db, int message_id, const char *username, const char *message);
 //изменяет сообщение в чате по его айди
 int sql_update_message_in_dialog(sqlite3 *db, int message_id, const char *old_message, const char *new_message, const char *username);
+//сохранение аватара в базе данных
+int save_image_to_db(sqlite3 *db, const char *username, const char *image_name, const char *image_ext, const char *base64_image_data);
 /*функции для операций над списками и JSON*/
 
 //односвязный список имен в JSON
