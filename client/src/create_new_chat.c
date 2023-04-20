@@ -20,6 +20,8 @@ GtkWidget *checkbox_btn;
 GtkWidget *chat_with_friend_grid;
 GtkWidget *chat_with_friend_scrolled;
 
+t_Friend *current_friend = NULL;
+
 t_list *chat_history_temp;
 
 int count = 0;
@@ -384,7 +386,6 @@ void update_chat_history(gpointer friend_data)
         while (chat_history_iter != NULL)
         {
 
-
             t_chat *chat_data = (t_chat *)chat_history_iter->data;
 
             int pos = chat_data->id;
@@ -444,17 +445,6 @@ void update_chat_history(gpointer friend_data)
         }
 
     }
-
-    //gtk_widget_unparent(transparent_widget);
-
-    // GtkAdjustment *v_adjustment = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled));
-    // double upper = gtk_adjustment_get_upper(v_adjustment);
-    // double page_size = gtk_adjustment_get_page_size(v_adjustment);
-    // gtk_adjustment_set_upper(v_adjustment, upper);
-    // gtk_adjustment_set_value(v_adjustment, upper - page_size);
-
-    // // Примените новое значение к GtkScrolledWindow
-    // gtk_scrolled_window_set_vadjustment(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled), v_adjustment);
     g_idle_add(scroll_to_bottom, chat_with_friend_scrolled);
 }
 
@@ -487,9 +477,13 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
 
     int last_child = 0;
 
+    if (current_friend != NULL) {
+        current_friend->in_chat = FALSE;
+    }
+
     t_Friend *friend_iter = friend_data;
-    
-    friend_iter->in_chat = true;
+    friend_iter->in_chat = TRUE;
+    current_friend = friend_iter;
 
     mx_printstr("show chat with : ");
     mx_printstr(friend_iter->username);
@@ -584,8 +578,6 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
 
         g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate), friend_iter);
 
-        // g_idle_add(scroll_to_bottom, chat_with_friend_scrolled);
-
         widget_styling(box, current_screen, "empty_chat_box");
         widget_styling(entry, current_screen, "empty_chat_label");
     }
@@ -619,6 +611,7 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
         widget_styling(box, current_screen, "empty_chat_box");
         widget_styling(entry, current_screen, "empty_chat_label");
     }
+
 }
 
 void update_show_chats_with_added_friends(t_list *friend_list) {
@@ -763,6 +756,7 @@ void show_chats_with_added_friends(t_list *friend_list)
         gpointer username_copy = (gpointer)friend_data->username;
 
         g_signal_connect(user_box_btn1, "clicked", G_CALLBACK(show_chat_with_friend), friend_data);
+
 
         widget_styling(user_box_btn1, current_screen, "user_box_btn");
 
