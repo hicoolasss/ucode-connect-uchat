@@ -58,6 +58,8 @@ static int get_username_status(void)
 
 static void log_in_btn_clicked(GtkWidget *widget, gpointer data)
 {
+
+    (void)widget;
     bool is_log_in_success = true;
 
     current_grid.is_log_in_clicked = TRUE;
@@ -168,8 +170,10 @@ static void log_in_btn_clicked(GtkWidget *widget, gpointer data)
 
 static void on_entry_activate(GtkEntry *entry)
 {
+    (void)entry;
     //gtk_entry_set_text(entry, "");
     gtk_widget_grab_focus(current_log_in.password); // Та-да! Курсор перемещается на второй виджет GtkEntry
+
 }
 
 void show_log_in(void)

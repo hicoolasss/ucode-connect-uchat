@@ -23,7 +23,8 @@
         "curl.h": "c",
         "ranges": "c",
         "span": "c",
-        "functional": "c"
+        "functional": "c",
+        "ctype.h": "c"
     },
     "editor.formatOnSave": true,
     "editor.formatOnSaveTimeout": 1500
