@@ -32,6 +32,7 @@ gpointer recv_func(gpointer data)
         else if (mx_strcmp(command, "<user_list>") == 0)
         {
             user_list = receive_list(current_client.ssl);
+            t_list* current = user_list;
             show_user_list_scrolled(user_list);
         }
         else if (mx_strcmp(command, "<friend_list>") == 0)

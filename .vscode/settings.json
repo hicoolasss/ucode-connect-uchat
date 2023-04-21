@@ -23,7 +23,11 @@
         "curl.h": "c",
         "ranges": "c",
         "span": "c",
-        "functional": "c"
+        "functional": "c",
+        "ctype.h": "c",
+        "unistd.h": "c",
+        "stdlib.h": "c",
+        "pango.h": "c"
     },
     "editor.formatOnSave": true,
     "editor.formatOnSaveTimeout": 1500

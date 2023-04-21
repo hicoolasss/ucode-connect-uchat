@@ -101,9 +101,9 @@ static int get_password_status(const char *confirm_password)
     return 0;
 }
 
-static void sign_inbtn_clicked()
+static void sign_inbtn_clicked(GtkWidget *btn)
 {
-
+    (void)btn;
     set_unvisible_auth();
     gtk_widget_set_visible(GTK_WIDGET(current_grid.log_in_conrainer), TRUE);
 }
@@ -111,17 +111,21 @@ static void sign_inbtn_clicked()
 static void username_to_password(GtkEntry *entry)
 {
     // gtk_entry_set_text(entry, "");
+    (void)entry;
     gtk_widget_grab_focus(current_registration.password); // Та-да! Курсор перемещается на второй виджет GtkEntry
 }
 
 static void password_to_confirm_password(GtkEntry *entry)
 {
     // gtk_entry_set_text(entry, "");
+    (void)entry;
     gtk_widget_grab_focus(current_registration.confirm_password); // Та-да! Курсор перемещается на второй виджет GtkEntry
 }
 
 static void sign_up_btn_clicked(GtkWidget *widget, gpointer entries_array)
 {
+
+    (void)widget;
 
     bool is_registration_success = true;
 

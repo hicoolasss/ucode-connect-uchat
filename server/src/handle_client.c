@@ -25,7 +25,6 @@ void *handle_client(void *args)
         }
         else
         {
-            // Преобразование строки в JSON-объект
             printf("%s\n", buf);
             cJSON *json = cJSON_Parse(buf);
             if (!json)
@@ -515,17 +514,19 @@ void *handle_client(void *args)
 
                 const char *base64_image_data = cJSON_GetObjectItem(json, "data")->valuestring;
 
-                size_t  image_data_size;
-                unsigned char  *image_data = base64_decode(base64_image_data, &image_data_size);
+                gsize image_data_size;
+                guchar *image_data = g_base64_decode(base64_image_data, &image_data_size);
 
                 int result = save_image_to_db(db, current_client->login, image_data, image_data_size);
                 if (result != 0)
                 {
                     SSL_write(current_client->ssl, "Avatar not saved", 17);
+                    g_free(image_data);
                     continue;
                 }
 
                 SSL_write(current_client->ssl, "Avatar saved", 13);
+                g_free(image_data);
             }
             // t_list *current = users_list;
             // while (current != NULL)

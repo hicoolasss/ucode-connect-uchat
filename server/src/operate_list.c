@@ -14,8 +14,22 @@ char *serialize_namelist(t_list *head)
 
     while (head != NULL)
     {
+        t_user *user = (t_user *)head->data;
         cJSON *json_node = cJSON_CreateObject();
-        cJSON_AddStringToObject(json_node, "name", ((t_user *)head->data)->username);
+        
+        cJSON_AddStringToObject(json_node, "name", user->username);
+
+        if (user->avatardata != NULL && user->avatardata_size > 0)
+        {
+            gchar *base64_avatardata = g_base64_encode(user->avatardata, user->avatardata_size);
+            cJSON_AddStringToObject(json_node, "avatardata", base64_avatardata);
+            g_free(base64_avatardata);
+        }
+        else
+        {
+            cJSON_AddNullToObject(json_node, "avatardata");
+        }
+
         cJSON_AddItemToArray(json_list, json_node);
         head = head->next;
     }
@@ -186,21 +200,3 @@ t_list *extract_group_and_friends_from_json(cJSON *json_object, char **group_nam
     return friends;
 }
 
-unsigned char *base64_decode(const char *input, size_t *out_length)
-{
-    BIO *b64, *bmem;
-    size_t length = strlen(input);
-
-    unsigned char *buffer = (unsigned char *)malloc(length);
-    memset(buffer, 0, length);
-
-    b64 = BIO_new(BIO_f_base64());
-    bmem = BIO_new_mem_buf(input, length);
-    bmem = BIO_push(b64, bmem);
-
-    *out_length = BIO_read(bmem, buffer, length);
-
-    BIO_free_all(bmem);
-
-    return buffer;
-}

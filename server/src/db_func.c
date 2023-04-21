@@ -22,8 +22,6 @@ void sql_create_db()
                             "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                             "username TEXT NOT NULL UNIQUE,"
                             "password TEXT NOT NULL,"
-                            "avatarname TEXT,"
-                            "avatar_ext TEXT,"
                             "avatardata BLOB);";
 
     rc = sqlite3_exec(db, sql_users, 0, 0, &err_msg);

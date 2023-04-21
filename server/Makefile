@@ -26,9 +26,9 @@ all: $(NAMEBIN) clean
 
 $(NAMEBIN): 
 	mkdir -p $(OBJDIR)
-	$(CC) $(CFLAGS) -c $(SRC_FILES)
+	$(CC) $(CFLAGS) $(shell pkg-config --cflags --libs glib-2.0) -c $(SRC_FILES)
 	mv *.o $(OBJDIR)
-	$(CC) $(CFLAGS) -o $(NAMEBIN) $(OBJS) $(LIB_FLAGS)
+	$(CC) $(CFLAGS) $(shell pkg-config --cflags --libs glib-2.0) -o $(NAMEBIN) $(OBJS) $(LIB_FLAGS) $(shell pkg-config --cflags --libs glib-2.0)
 
 clean:
 	rm -f $(OBJS)

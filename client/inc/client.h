@@ -8,6 +8,7 @@
 #endif
 
 #include <gtk/gtk.h>
+#include <ctype.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -171,15 +172,12 @@ typedef struct s_chat {
 
 } t_chat;
 
-typedef struct s_user {
-    const char *username;
+typedef struct s_user
+{
+    char *username;
+    void *avatardata;
+    int avatardata_size;
     char *lastmessage;
-    // char *firstname;
-    // char *lastname;
-
-    // char *avatarname;
-    // char *avatardata;
-    // int avatarsize;
 } t_user;
 
 typedef struct s_Friend {
@@ -261,6 +259,7 @@ void open_client_connection(char* server_IP, int port);
 void close_connection(SSL *ssl);
 int open_ssl_connection();
 int send_message_to_server(char *buffer);
+unsigned char *base64_decode(const char *input, int *out_length);
 char *convert_to_json(char *buffer);
 gpointer send_func(gpointer data);
 gpointer recv_func(gpointer data);
@@ -344,7 +343,7 @@ void show_search_bar(void);
 //add it to mini chat grid.
 //As a parametr get number of existed chats,
 // so it can attach it to grit in a right way
-void create_new_chat(gpointer user_data);
+void create_new_chat(GtkToggleButton *toggle_button, gpointer user_data);
 
 void create_new_group(const int i,
                       const char *new_groupname);

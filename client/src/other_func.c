@@ -82,10 +82,23 @@ t_list *deserialize_name_list(const char *json_str)
     cJSON_ArrayForEach(json_node, json_list)
     {
         cJSON *json_name = cJSON_GetObjectItem(json_node, "name");
+        cJSON *json_avatardata = cJSON_GetObjectItem(json_node, "avatardata");
+
         if (cJSON_IsString(json_name))
         {
             t_user *user = (t_user *)malloc(sizeof(t_user));
             user->username = mx_strdup(json_name->valuestring);
+
+            if (cJSON_IsString(json_avatardata))
+            {
+                user->avatardata = base64_decode(json_avatardata->valuestring, &user->avatardata_size);
+            }
+            else
+            {
+                user->avatardata = NULL;
+                user->avatardata_size = 0;
+            }
+
             if (user != NULL)
             {
                 mx_push_back(&user_list_temp, user);
@@ -98,16 +111,14 @@ t_list *deserialize_name_list(const char *json_str)
 
 t_list *receive_list(SSL *ssl)
 {
-    const int temp_size = 4096;
-    char temp[temp_size];
+    char temp[2000000];
 
-    int bytes_received = stable_recv(ssl, temp, temp_size - 1);
+    int bytes_received = stable_recv(ssl, temp, sizeof(temp));
     if (bytes_received <= 0)
     {
         return NULL;
     }
     temp[bytes_received] = '\0';
-    printf("%s\n", temp);
     return deserialize_name_list(temp);
 }
 
@@ -303,3 +314,22 @@ int stable_recv(SSL *ssl, void *buf, int size)
     return receive;
 }
 
+unsigned char *base64_decode(const char *input, int *out_length)
+{
+    BIO *b64, *bmem;
+    size_t length = strlen(input);
+
+    unsigned char *buffer = (unsigned char *)malloc(length);
+    memset(buffer, 0, length);
+
+    b64 = BIO_new(BIO_f_base64());
+    bmem = BIO_new_mem_buf(input, length);
+    bmem = BIO_push(b64, bmem);
+    BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
+
+    *out_length = BIO_read(bmem, buffer, length);
+
+    BIO_free_all(bmem);
+
+    return buffer;
+}

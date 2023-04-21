@@ -5,9 +5,6 @@ extern t_grid current_grid;
 extern t_avatar current_avatar;
 extern t_achievements current_achievements;
 
-static gboolean scrolled_to_bottom_show = FALSE;
-static gboolean scrolled_to_bottom_update = FALSE;
-
 extern t_list *all_messages_list;
 
 GdkPixbuf *scaled_avatar;
@@ -80,9 +77,10 @@ static void get_scaled_image_chats()
 
     scaled_avatar = circle_pixbuf;
 }
-void create_new_chat(gpointer user_data)
+void create_new_chat(GtkToggleButton *toggle_button, gpointer user_data)
 {
 
+    (void)toggle_button;
     cJSON *json = cJSON_CreateObject();
     cJSON_AddStringToObject(json, "login", current_client.login);
     cJSON_AddStringToObject(json, "command", "<add_friend>");
@@ -243,6 +241,7 @@ void show_user_list_scrolled(t_list *current)
         }
         pos++;
         // mx_printstr(((t_user*)current->data)->username);
+
         GtkWidget *user_info_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 
         GtkWidget *user_avatar = gtk_image_new_from_pixbuf(scaled_avatar);
@@ -311,17 +310,28 @@ static void on_entry_activate(GtkEntry *entry, gpointer friend_data)
     GtkEntryBuffer *text = gtk_entry_get_buffer(GTK_ENTRY(entry));
     const char *username = strdup(data->username);
     const char *message = g_strdup(gtk_entry_buffer_get_text(text));
-    // Теперь переменная text_copy содержит текст из виджета GtkEntry
-    // Вы можете использовать text_copy для дальнейших действий, например, отправки сообщения
 
     // printf("%s -> %s\n", username, message);
+    if (message == NULL)
+    {
+        return;
+    }
+    // Игнорировать начальные и конечные пробелы
+    while (isspace(*message))
+    {
+        message++;
+    }
+    if (*message == '\0')
+    {
+        return;
+    }
+
     cJSON *json = cJSON_CreateObject();
     cJSON_AddStringToObject(json, "command", "<send_message_in_chat>");
     cJSON_AddStringToObject(json, "friend", username);
     cJSON_AddStringToObject(json, "message", message);
 
     g_async_queue_push(message_queue, json);
-
 
     gtk_editable_set_text(GTK_EDITABLE(entry), "");
 }
@@ -359,7 +369,7 @@ void update_chat_history(gpointer friend_data)
 
     t_Friend *friend_iter = friend_data;
 
-    //show_friend_info(friend_data);
+    // show_friend_info(friend_data);
 
     mx_printstr("update chat with : ");
     mx_printstr(friend_iter->username);
@@ -435,6 +445,7 @@ void update_chat_history(gpointer friend_data)
 
 void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
 {
+    (void)btn;
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chats), FALSE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.empty_chat), FALSE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chat_with_friend), TRUE);
@@ -461,8 +472,7 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(chat_with_friend_scrolled), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
     gtk_widget_set_hexpand(chat_with_friend_scrolled, FALSE);
-     gtk_widget_set_hexpand(chat_with_friend_grid, FALSE);
-
+    gtk_widget_set_hexpand(chat_with_friend_grid, FALSE);
 
     int last_child = 0;
 
@@ -666,8 +676,6 @@ void update_show_chats_with_added_friends(t_list *friend_list)
         gtk_grid_attach(GTK_GRID(current_grid.chats_list_grid_child), user_box_btn1, 0, count, 1, 1);
         count++;
 
-        gpointer username_copy = (gpointer)friend_data->username;
-
         g_signal_connect(user_box_btn1, "clicked", G_CALLBACK(show_chat_with_friend), friend_data);
 
         widget_styling(user_box_btn1, current_screen, "user_box_btn");
@@ -722,7 +730,6 @@ void show_friend_info(gpointer data)
     widget_styling(is_online_label, current_screen, "is_online_label");
 
     widget_styling(user_info_grid, current_screen, "chats_list_grid");
-
 }
 
 void show_chats_with_added_friends(t_list *friend_list)
@@ -786,8 +793,6 @@ void show_chats_with_added_friends(t_list *friend_list)
 
         gtk_grid_attach(GTK_GRID(current_grid.chats_list_grid_child), user_box_btn1, 0, count, 1, 1);
         count++;
-
-        gpointer username_copy = (gpointer)friend_data->username;
 
         g_signal_connect(user_box_btn1, "clicked", G_CALLBACK(show_chat_with_friend), friend_data);
 
