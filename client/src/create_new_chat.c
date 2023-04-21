@@ -80,9 +80,10 @@ static void get_scaled_image_chats()
 
     scaled_avatar = circle_pixbuf;
 }
-void create_new_chat(gpointer user_data)
+void create_new_chat(GtkToggleButton *toggle_button, gpointer user_data)
 {
 
+    (void)toggle_button;
     cJSON *json = cJSON_CreateObject();
     cJSON_AddStringToObject(json, "login", current_client.login);
     cJSON_AddStringToObject(json, "command", "<add_friend>");
@@ -242,7 +243,8 @@ void show_user_list_scrolled(t_list *current)
             continue;
         }
         pos++;
-        // mx_printstr(((t_user*)current->data)->username);
+        //mx_printstr(((t_user*)current->data)->username);
+        
         GtkWidget *user_info_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 
         GtkWidget *user_avatar = gtk_image_new_from_pixbuf(scaled_avatar);
@@ -292,6 +294,8 @@ void show_user_list_scrolled(t_list *current)
         gtk_widget_set_margin_bottom(checkbox_btn, 13);
 
         // gtk_widget_set_size_request(checkbox_btn, 30, 30);
+
+        gpointer username = (gpointer)((t_user *)current->data)->username;
 
         gtk_grid_attach(GTK_GRID(user_list_grid), user_info_box, 0, pos, 1, 1);
 
@@ -435,6 +439,7 @@ void update_chat_history(gpointer friend_data)
 
 void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
 {
+    (void)btn;
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chats), FALSE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.empty_chat), FALSE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chat_with_friend), TRUE);

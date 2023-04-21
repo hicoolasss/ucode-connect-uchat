@@ -26,7 +26,7 @@ void *handle_client(void *args)
         }
         else
         {
-            // Преобразование строки в JSON-объект
+            printf("%s\n", buf);
             cJSON *json = cJSON_Parse(buf);
             if (!json)
             {
