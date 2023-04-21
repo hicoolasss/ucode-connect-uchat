@@ -96,29 +96,29 @@ static void get_your_profile_avatar()
   
   current_avatar.avatar = current_your_profile_avatar.avatar;
 
-  gchar *buffer = NULL;
-  gsize buffer_size;
-  GError *error = NULL;
-  if (!gdk_pixbuf_save_to_bufferv(circle_pixbuf, &buffer, &buffer_size, "png", NULL, NULL, &error))
-  {
-    // Обработка ошибки
-    g_error_free(error);
-    return;
-  }
+  // gchar *buffer = NULL;
+  // gsize buffer_size;
+  // GError *error = NULL;
+  // if (!gdk_pixbuf_save_to_bufferv(circle_pixbuf, &buffer, &buffer_size, "png", NULL, NULL, &error))
+  // {
+  //   // Обработка ошибки
+  //   g_error_free(error);
+  //   return;
+  // }
 
-  // Преобразование бинарных данных в строку Base64
-  gchar *base64_image_data = g_base64_encode((guchar *)buffer, buffer_size);
-  g_free(buffer);
+  // // Преобразование бинарных данных в строку Base64
+  // gchar *base64_image_data = g_base64_encode((guchar *)buffer, buffer_size);
+  // g_free(buffer);
 
-  // Создание JSON-объекта
-  cJSON *json_message = cJSON_CreateObject();
-  cJSON_AddStringToObject(json_message, "command", "<update_image>");
-  cJSON_AddStringToObject(json_message, "data", base64_image_data);
+  // // Создание JSON-объекта
+  // cJSON *json_message = cJSON_CreateObject();
+  // cJSON_AddStringToObject(json_message, "command", "<update_image>");
+  // cJSON_AddStringToObject(json_message, "data", base64_image_data);
 
-  g_async_queue_push(message_queue, json_message);
+  // g_async_queue_push(message_queue, json_message);
 
-  // cJSON_Delete(json_message);
-  g_free(base64_image_data);
+  // // cJSON_Delete(json_message);
+  // g_free(base64_image_data);
 }
 
 void on_open_response(GtkDialog *dialog, int response)

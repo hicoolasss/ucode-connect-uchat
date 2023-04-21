@@ -350,3 +350,9 @@ Error: Unable to receive data from server
 
 here
 
+here
+
+Error: Invalid JSON data received from server
+
+here
+
