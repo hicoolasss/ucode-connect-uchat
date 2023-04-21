@@ -7,11 +7,10 @@ void print_message(char *login, char *message);
 
 void *handle_client(void *args)
 {
-    write_logs("here\n");
     sql_create_db();
     sqlite3 *db = db_open();
     t_client *current_client = (t_client *)args;
-    char buf[16784];
+    char buf[200000];
     char *logs_buf = NULL;
     current_client->connected = false;
     bool is_run = false;
@@ -27,6 +26,7 @@ void *handle_client(void *args)
         else
         {
             // Преобразование строки в JSON-объект
+            printf("%s\n", buf);
             cJSON *json = cJSON_Parse(buf);
             if (!json)
             {
@@ -91,7 +91,7 @@ void *handle_client(void *args)
         else if (len == 0)
         {
             // mx_printstr(current_client->login);
-            SSL_write(current_client->ssl, "<logout>", 9);
+            // SSL_write(current_client->ssl, "<logout>", 9);
             remove_client(current_client->cl_socket);
             cli_count--;
             break;
@@ -99,8 +99,8 @@ void *handle_client(void *args)
         else
         {
             // Преобразование строки в JSON-объект
-            // mx_printstr(buf);
-            // mx_printchar('\n');
+            mx_printstr(buf);
+            mx_printchar('\n');
             cJSON *json = cJSON_Parse(buf);
 
             if (!json)

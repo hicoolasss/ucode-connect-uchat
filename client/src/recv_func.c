@@ -38,7 +38,6 @@ gpointer recv_func(gpointer data)
         {
             char temp[21474];
             int cmd = stable_recv(current_client.ssl, temp, sizeof(temp));
-            mx_printstr(temp);
             if (cmd <= 0)
             {
                 int error_code = SSL_get_error(current_client.ssl, cmd);
@@ -84,7 +83,7 @@ gpointer recv_func(gpointer data)
             char *friendname = cJSON_GetObjectItemCaseSensitive(json, "friendname")->valuestring;
 
             add_new_friend(&friend_list, friendname);
-            // mx_printstr(friendname);
+            mx_printstr(friendname);
         }
         else if (mx_strcmp(command, "<send_message_in_chat>") == 0)
         {
@@ -139,7 +138,7 @@ gpointer recv_func(gpointer data)
 
         else if (mx_strcmp(command, "<logout>") == 0)
         {
-            running = false;
+            running = false; 
             // break;
         }
         else if (mx_strcmp(command, "<create_group>") == 0)

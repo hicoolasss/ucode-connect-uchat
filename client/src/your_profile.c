@@ -71,6 +71,8 @@ static void get_your_profile_avatar()
   cJSON_AddStringToObject(json_message, "command", "<update_image>");
   cJSON_AddStringToObject(json_message, "data", base64_image_data);
 
+  char *json_string = cJSON_Print(json_message);
+  printf("%s\n", json_string);
   g_async_queue_push(message_queue, json_message);
 
   // cJSON_Delete(json_message);

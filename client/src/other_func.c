@@ -8,7 +8,6 @@ int send_message_to_server(char *buffer)
         mx_printstr("Error sending message.\n");
         return 1;
     }
-    memset(buffer, 0, mx_strlen(buffer));
     return 0;
 }
 
