@@ -55,7 +55,7 @@ static void get_scaled_image_chats()
     // GdkPixbuf *source_pixbuf = gdk_pixbuf_new_from_file(current_avatar.avatar, NULL);
     if (!current_avatar.avatar)
     {
-        g_print("Ошибка при загрузке изображения.\n");
+        g_print("Ошибка при загрузке изображения.3\n");
         return;
     }
 
@@ -604,7 +604,7 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
 
         gtk_widget_set_size_request(box, 452, 40);
 
-        gtk_grid_attach(GTK_GRID(current_grid.chat_with_friend), box, 0, 0, 1, 9999);
+        gtk_grid_attach(GTK_GRID(current_grid.chat_with_friend), box, 0, 9999, 1, 1);
 
         g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate), friend_iter);
 

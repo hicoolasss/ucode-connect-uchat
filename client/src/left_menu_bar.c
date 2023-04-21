@@ -11,7 +11,7 @@ void get_scaled_image()
     // GdkPixbuf *source_pixbuf = gdk_pixbuf_new_from_file(current_avatar.avatar, NULL);
     if (!current_avatar.avatar)
     {
-        g_print("Ошибка при загрузке изображения.\n");
+        g_print("Ошибка при загрузке изображения.1\n");
         return;
     }
 
@@ -32,32 +32,6 @@ void get_scaled_image()
     GdkPixbuf *circle_pixbuf = gdk_pixbuf_get_from_surface(surface, 0, 0, 67, 67);
 
     current_scaled_avatar.scaled_avatar = circle_pixbuf;
-
-//       gchar *buffer = NULL;
-//   gsize buffer_size;
-//   GError *error = NULL;
-//   if (!gdk_pixbuf_save_to_bufferv(circle_pixbuf, &buffer, &buffer_size, "png", NULL, NULL, &error))
-//   {
-//     // Обработка ошибки
-//     g_error_free(error);
-//     return;
-//   }
-
-//   // Преобразование бинарных данных в строку Base64
-//   gchar *base64_image_data = g_base64_encode((guchar *)buffer, buffer_size);
-//   g_free(buffer);
-
-//   // Создание JSON-объекта
-//   cJSON *json_message = cJSON_CreateObject();
-//   cJSON_AddStringToObject(json_message, "command", "<update_image>");
-//   cJSON_AddStringToObject(json_message, "data", base64_image_data);
-
-//   char *json_string = cJSON_Print(json_message);
-//   printf("%s\n", json_string);
-//   g_async_queue_push(message_queue, json_message);
-
-//   // cJSON_Delete(json_message);
-//   g_free(base64_image_data);
 }
 
 void your_profile_clicked()
@@ -106,7 +80,6 @@ void log_out_clicked()
 
 void show_left_menu_bar()
 {
-
     if (!current_avatar.avatar)
     {
         current_avatar.avatar = gdk_pixbuf_new_from_file("avatar1.png", NULL);

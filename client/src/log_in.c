@@ -180,7 +180,7 @@ void show_log_in(void)
 {
     current_log_in.box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
-    current_log_in.welcome = gtk_label_new_with_mnemonic("Welcome to the dark!");
+    current_log_in.welcome = gtk_label_new_with_mnemonic("Welcome to the TokyoNight!");
 
     current_log_in.log_in_button = gtk_button_new_with_mnemonic("Log in");
 

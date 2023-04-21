@@ -2,27 +2,7 @@
 
 extern t_screen current_screen;
 extern t_grid current_grid;
-// static void send_message(GtkEntry *message_entry) {
-//
-//         GtkEntryBuffer *buffer = gtk_entry_get_buffer(message_entry);
-//         const char *buf = gtk_entry_buffer_get_text(buffer);
-//         char *temp_buffer = mx_strdup(buf);
-//
-//
-//         int len = SSL_write(current_client.ssl, temp_buffer, mx_strlen(temp_buffer));
-//
-//         if (len < 0)
-//         {
-//             mx_printstr("Error sending message.\n");
-//         }
-//
-//         memset(temp_buffer, 0, sizeof(*temp_buffer));
-//
-//         GtkWidget *label = gtk_text_new_with_buffer(buffer);
-//
-//         gtk_grid_attach(GTK_GRID(current_grid.chats_scrolled), label, 0, 0, 1, 1);
-//
-// }
+
 
 void call_new_chat_and_add_iter()
 {
@@ -34,22 +14,6 @@ void call_new_chat_and_add_iter()
 
 static void create_new_chat_clicked()
 {
-
-    // cJSON *json = cJSON_CreateObject();
-    // cJSON_AddStringToObject(json, "login", current_client.login);
-    // cJSON_AddStringToObject(json, "command", "<user_list>");
-
-    // char *json_str = cJSON_Print(json);
-    // cJSON_Delete(json);
-
-    // send_message_to_server(json_str);
-
-    // while(user_list == NULL) {
-    //     user_list = receive_list(current_client.ssl);
-    // }
-
-    // mx_printstr(((t_user*)user_list->data)->username);
-
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chats), TRUE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.empty_chat), FALSE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chat_with_friend), FALSE);
