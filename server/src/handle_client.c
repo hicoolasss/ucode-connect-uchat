@@ -223,9 +223,10 @@ void *handle_client(void *args)
                             int cmd = SSL_write(ssl, command, mx_strlen(command));
                             if (cmd <= 0)
                             {
-                                int error_code = SSL_get_error(current_client->ssl, cmd);
-                                sprintf(logs_buf, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
-                                write_logs(logs_buf);
+                                // int error_code = SSL_get_error(current_client->ssl, cmd);
+                                // sprintf(logs_buf, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                                // write_logs(logs_buf);
+                                continue;
                             }
                             else
                             {
@@ -241,9 +242,7 @@ void *handle_client(void *args)
                             int cmd = SSL_write(ssl, command, mx_strlen(command));
                             if (cmd <= 0)
                             {
-                                int error_code = SSL_get_error(current_client->ssl, cmd);
-                                sprintf(logs_buf, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
-                                write_logs(logs_buf);
+                                continue;
                             }
                             else
                             {
@@ -278,9 +277,7 @@ void *handle_client(void *args)
                         int cmd = SSL_write(ssl, command, mx_strlen(command));
                         if (cmd <= 0)
                         {
-                            int error_code = SSL_get_error(current_client->ssl, cmd);
-                            sprintf(logs_buf, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
-                            write_logs(logs_buf);
+                            continue;
                         }
                         else
                         {
@@ -296,9 +293,7 @@ void *handle_client(void *args)
                         int cmd = SSL_write(ssl, command, mx_strlen(command));
                         if (cmd <= 0)
                         {
-                            int error_code = SSL_get_error(current_client->ssl, cmd);
-                            sprintf(logs_buf, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
-                            write_logs(logs_buf);
+                            continue;
                         }
                         else
                         {
@@ -355,9 +350,7 @@ void *handle_client(void *args)
                         int cmd = SSL_write(ssl, command, mx_strlen(command));
                         if (cmd <= 0)
                         {
-                            int error_code = SSL_get_error(current_client->ssl, cmd);
-                            sprintf(logs_buf, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
-                            write_logs(logs_buf);
+                            continue;
                         }
                         else
                         {
@@ -373,9 +366,7 @@ void *handle_client(void *args)
                         int cmd = SSL_write(ssl, command, mx_strlen(command));
                         if (cmd <= 0)
                         {
-                            int error_code = SSL_get_error(current_client->ssl, cmd);
-                            sprintf(logs_buf, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
-                            write_logs(logs_buf);
+                            continue;
                         }
                         else
                         {
@@ -417,9 +408,7 @@ void *handle_client(void *args)
                         int cmd = SSL_write(ssl, command, mx_strlen(command));
                         if (cmd <= 0)
                         {
-                            int error_code = SSL_get_error(current_client->ssl, cmd);
-                            sprintf(logs_buf, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
-                            write_logs(logs_buf);
+                            continue;
                         }
                         else
                         {
@@ -435,9 +424,7 @@ void *handle_client(void *args)
                         int cmd = SSL_write(ssl, command, mx_strlen(command));
                         if (cmd <= 0)
                         {
-                            int error_code = SSL_get_error(current_client->ssl, cmd);
-                            sprintf(logs_buf, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
-                            write_logs(logs_buf);
+                            continue;
                         }
                         else
                         {
@@ -480,10 +467,7 @@ void *handle_client(void *args)
                             int cmd = SSL_write(ssl, command, mx_strlen(command));
                             if (cmd <= 0)
                             {
-                                int error_code = SSL_get_error(current_client->ssl, cmd);
-                                sprintf(logs_buf, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
-                                write_logs(logs_buf);
-                                break;
+                                continue;
                             }
                             SSL_write(ssl, json_str, mx_strlen(json_str));
                         }
