@@ -24,3 +24,9 @@ Error: Unable to receive data from server
 
 Failed to get clients
 
+Error: Invalid JSON data received from server
+
+Error: Invalid JSON data received from server
+
+Error: Unable to receive data from server
+

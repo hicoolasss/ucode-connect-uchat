@@ -49,7 +49,7 @@ int register_user(sqlite3 *db, const char *username, const char *password)
     char *zErrMsg = 0;
     int rc;
     const char *sql_template = "INSERT INTO users (username, password, avatarname) VALUES ('%s', '%s', '%s');";
-    char *sql = sqlite3_mprintf(sql_template, username, password, "ucode-connect-uchat/avatar1.png");
+    char *sql = sqlite3_mprintf(sql_template, username, password, "avatar1.png");
 
     rc = sqlite3_exec(db, sql, 0, 0, &zErrMsg);
 

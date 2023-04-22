@@ -27,11 +27,11 @@ static void update_profile_pic_lmb()
 void send_avatar_to_db(gchar *filepath)
 {
   char *filename = basename(filepath);
-  char *new_path = g_strdup_printf("ucode-connect-uchat/%s",filename);
+  // char *new_path = g_strdup_printf("ucode-connect-uchat/%s",filename);
 
   cJSON *json = cJSON_CreateObject();
   cJSON_AddStringToObject(json, "command", "<update_image>");
-  cJSON_AddStringToObject(json, "filename", new_path);
+  cJSON_AddStringToObject(json, "filename", filename);
 
   g_async_queue_push(message_queue, json);
 }
