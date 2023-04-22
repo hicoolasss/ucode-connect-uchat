@@ -326,7 +326,7 @@ void show_registration()
 
     current_registration.box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
-    current_registration.welcome = gtk_label_new_with_mnemonic("Welcome to the dark!");
+    current_registration.welcome = gtk_label_new_with_mnemonic("Welcome to the TokyoNight!");
 
     current_registration.sign_up_btn = gtk_button_new_with_mnemonic("Sign up");
 

@@ -53,6 +53,11 @@ void show_home(void)
     show_empty_chat();
     show_create_new_chat_with_someone();
 
+    // cJSON *json1 = cJSON_CreateObject();
+    // cJSON_AddStringToObject(json1, "login", current_client.login);
+    // cJSON_AddStringToObject(json1, "command", "<user_list>");
+    // g_async_queue_push(message_queue, json1);
+
     // fill intro grids
     //  first_intro_screen();
     //  second_intro_screen();

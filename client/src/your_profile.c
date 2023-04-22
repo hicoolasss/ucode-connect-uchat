@@ -41,7 +41,7 @@ static void get_your_profile_avatar()
 
   if (!current_your_profile_avatar.avatar)
   {
-    g_print("Ошибка при загрузке изображения.\n");
+    g_print("Ошибка при загрузке изображения.2\n");
     return;
   }
 
@@ -73,12 +73,14 @@ void on_open_response(GtkDialog *dialog, int response)
     GtkFileChooser *chooser = GTK_FILE_CHOOSER(dialog);
     g_autoptr(GFile) file = gtk_file_chooser_get_file(chooser);
     gchar *filename = g_file_get_path(file);
+
     /* Загрузка изображения из файла */
     current_your_profile_avatar.avatar = gdk_pixbuf_new_from_file(filename, NULL);
 
     /* Обрезка изображения */
     get_your_profile_avatar();
     get_scaled_image();
+
     send_avatar_to_db(filename);
     gtk_image_set_from_pixbuf(GTK_IMAGE(avatar_img), current_your_profile_avatar.your_profile_avatar);
     update_profile_pic_lmb();

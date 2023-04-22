@@ -1,4 +1,24 @@
+<<<<<<< HEAD
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Invalid JSON data received from server
+
+Error: Unable to receive data from server
+=======
 Failed to bind to address
+>>>>>>> 4b8ed69a88c50753a0e142de820b77da3b8a2a8e
+
+Failed to get clients
+
+Error: Invalid JSON data received from server
+
+Error: Invalid JSON data received from server
 
 Error: Unable to receive data from server
 
