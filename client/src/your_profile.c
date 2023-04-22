@@ -19,7 +19,7 @@ static void update_profile_pic_lmb()
     gtk_widget_unparent(iter);
   }
 
-  //current_avatar.avatar = current_your_profile_avatar.avatar;
+  // current_avatar.avatar = current_your_profile_avatar.avatar;
 
   show_left_menu_bar();
 }
@@ -127,6 +127,20 @@ void choose_profile_avatar_btn_clicked()
 
   dialog = gtk_file_chooser_dialog_new("Open File", NULL, action, ("_Cancel"), GTK_RESPONSE_CANCEL, ("_Open"), GTK_RESPONSE_ACCEPT, NULL);
   gtk_window_set_transient_for(GTK_WINDOW(dialog), GTK_WINDOW(current_screen.screen));
+
+  // Установить начальную папку для диалога
+  const gchar *initial_folder = "resources/avatars/";
+  GFile *folder = g_file_new_for_path(initial_folder);
+  GError *error = NULL;
+  gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), folder, &error);
+
+  if (error) {
+      g_warning("Error setting current folder: %s", error->message);
+      g_error_free(error);
+  }
+
+  g_object_unref(folder);
+
   gtk_window_present(GTK_WINDOW(dialog));
 
   // Добавить фильтр изображений
@@ -138,6 +152,7 @@ void choose_profile_avatar_btn_clicked()
 
   g_signal_connect(dialog, "response", G_CALLBACK(on_open_response), NULL);
 }
+
 
 void show_your_profile()
 {
