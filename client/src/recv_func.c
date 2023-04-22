@@ -160,7 +160,13 @@ gpointer recv_func()
             char *avatarname = cJSON_GetObjectItemCaseSensitive(json, "avatarname")->valuestring;
 
             int result = update_user_avatar(user_list, username, avatarname);
-            if(result != 0) {
+            if (result != 0)
+            {
+                printf("User not found\n");
+            }
+            result = update_user_avatar(friend_list, username, avatarname);
+            if (result != 0)
+            {
                 printf("User not found\n");
             }
         }
