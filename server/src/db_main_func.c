@@ -48,8 +48,8 @@ int register_user(sqlite3 *db, const char *username, const char *password)
 
     char *zErrMsg = 0;
     int rc;
-    const char *sql_template = "INSERT INTO users (username, password) VALUES ('%s', '%s');";
-    char *sql = sqlite3_mprintf(sql_template, username, password);
+    const char *sql_template = "INSERT INTO users (username, password, avatarname) VALUES ('%s', '%s', '%s');";
+    char *sql = sqlite3_mprintf(sql_template, username, password, "avatar1.png");
 
     rc = sqlite3_exec(db, sql, 0, 0, &zErrMsg);
 
@@ -410,15 +410,15 @@ int sql_update_message_in_dialog(sqlite3 *db, int message_id, const char *old_me
     return 0;
 }
 
-int save_image_to_db(sqlite3 *db, const char *username, const unsigned char *image_data, size_t image_data_size)
+int save_image_to_db(sqlite3 *db, const char *username, const char *filename)
 {
-    if (!db || !username || !image_data)
-    {
-        return -1;
-    }
+    // if (!db || !username || !image_data)
+    // {
+    //     return -1;
+    // }
 
     sqlite3_stmt *stmt;
-    const char *sql = "UPDATE users SET avatardata = ? WHERE username = ?";
+    const char *sql = "UPDATE users SET avatarname = ? WHERE username = ?";
 
     int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
 
@@ -430,7 +430,7 @@ int save_image_to_db(sqlite3 *db, const char *username, const unsigned char *ima
         return -1;
     }
 
-    sqlite3_bind_blob(stmt, 1, image_data, image_data_size, SQLITE_TRANSIENT);
+    sqlite3_bind_text(stmt, 1, filename, -1, SQLITE_TRANSIENT);
     sqlite3_bind_text(stmt, 2, username, -1, SQLITE_TRANSIENT);
 
     if (sqlite3_step(stmt) != SQLITE_DONE)

@@ -18,18 +18,6 @@ char *serialize_namelist(t_list *head)
         cJSON *json_node = cJSON_CreateObject();
         
         cJSON_AddStringToObject(json_node, "name", user->username);
-
-        if (user->avatardata != NULL && user->avatardata_size > 0)
-        {
-            gchar *base64_avatardata = g_base64_encode(user->avatardata, user->avatardata_size);
-            cJSON_AddStringToObject(json_node, "avatardata", base64_avatardata);
-            g_free(base64_avatardata);
-        }
-        else
-        {
-            cJSON_AddNullToObject(json_node, "avatardata");
-        }
-
         cJSON_AddItemToArray(json_list, json_node);
         head = head->next;
     }

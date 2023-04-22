@@ -175,8 +175,7 @@ typedef struct s_chat {
 typedef struct s_user
 {
     char *username;
-    void *avatardata;
-    int avatardata_size;
+    char *avatarname;
     char *lastmessage;
 } t_user;
 

@@ -82,23 +82,13 @@ t_list *deserialize_name_list(const char *json_str)
     cJSON_ArrayForEach(json_node, json_list)
     {
         cJSON *json_name = cJSON_GetObjectItem(json_node, "name");
-        cJSON *json_avatardata = cJSON_GetObjectItem(json_node, "avatardata");
+        // cJSON *json_avatarname = cJSON_GetObjectItem(json_node, "avatarname");
 
         if (cJSON_IsString(json_name))
         {
             t_user *user = (t_user *)malloc(sizeof(t_user));
             user->username = mx_strdup(json_name->valuestring);
-
-            if (cJSON_IsString(json_avatardata))
-            {
-                user->avatardata = base64_decode(json_avatardata->valuestring, &user->avatardata_size);
-            }
-            else
-            {
-                user->avatardata = NULL;
-                user->avatardata_size = 0;
-            }
-
+            // user->avatarname = mx_strdup(json_avatarname->valuestring);
             if (user != NULL)
             {
                 mx_push_back(&user_list_temp, user);

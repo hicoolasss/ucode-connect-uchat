@@ -504,29 +504,43 @@ void *handle_client(void *args)
             }
             else if (mx_strcmp(command, "<update_image>") == 0)
             {
-                int cmd = SSL_write(current_client->ssl, command, mx_strlen(command));
-                if (cmd <= 0)
+                char *filename = cJSON_GetObjectItemCaseSensitive(json, "filename")->valuestring;
+                if (save_image_to_db(db, current_client->login, filename) != 0)
                 {
-                    char logbuf[32];
-                    sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
-                    write_logs(logbuf);
+                    int cmd = SSL_write(current_client->ssl, "Avatar not saved", 17);
+                    if (cmd <= 0)
+                    {
+                        int error_code = SSL_get_error(current_client->ssl, cmd);
+                        sprintf(logs_buf, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                        write_logs(logs_buf);
+                    }
                 }
-
-                const char *base64_image_data = cJSON_GetObjectItem(json, "data")->valuestring;
-
-                gsize image_data_size;
-                guchar *image_data = g_base64_decode(base64_image_data, &image_data_size);
-
-                int result = save_image_to_db(db, current_client->login, image_data, image_data_size);
-                if (result != 0)
+                else
                 {
-                    SSL_write(current_client->ssl, "Avatar not saved", 17);
-                    g_free(image_data);
-                    continue;
-                }
+                    cJSON *json_message = cJSON_CreateObject();
+                    cJSON_AddStringToObject(json_message, "username", current_client->login);
+                    cJSON_AddStringToObject(json_message, "filename", filename);
+                    char *json_str = cJSON_Print(json_message);
 
-                SSL_write(current_client->ssl, "Avatar saved", 13);
-                g_free(image_data);
+                    t_list *current = users_list;
+                    while (current != NULL)
+                    {
+                        if (((t_client *)current->data)->cl_socket != current_client->cl_socket)
+                        {
+                            SSL *ssl = ((t_client *)current->data)->ssl;
+                            int cmd = SSL_write(ssl, command, mx_strlen(command));
+                            if (cmd <= 0)
+                            {
+                                int error_code = SSL_get_error(current_client->ssl, cmd);
+                                sprintf(logs_buf, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                                write_logs(logs_buf);
+                                break;
+                            }
+                            SSL_write(ssl, json_str, mx_strlen(json_str));
+                        }
+                        current = current->next;
+                    }
+                }
             }
             // t_list *current = users_list;
             // while (current != NULL)
