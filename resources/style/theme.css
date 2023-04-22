@@ -1383,3 +1383,35 @@
 
     color: rgba(177, 186, 230, 0.85);
 }
+
+.time {
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 18px;
+    /* identical to box height */
+
+    color: rgba(255, 255, 255, 0.25);
+
+}
+
+.entry_box {
+    /* background: #212121;
+    border-radius: 10px; */
+}
+
+.entry_for_users_text {
+
+    background: #212121;
+    border-radius: 10px;
+
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 18px;
+    /* identical to box height */
+
+    color: #B1BAE6;
+}

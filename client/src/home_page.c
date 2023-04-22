@@ -22,8 +22,8 @@ void show_home(void)
     current_grid.your_profile = create_grid(1010, 667, "home");
     current_grid.home = create_grid(1010, 667, "home");
     current_grid.search_bar = create_grid(427, 59, "search_bar_grid");
-    current_grid.mini_groups = create_grid(427, 318, "mini_groups_grid");
-    current_grid.mini_chats = create_grid(427, 246, "mini_chats");
+    //current_grid.mini_groups = create_grid(427, 318, "mini_groups_grid");
+    current_grid.mini_chats = create_grid(427, 587, "mini_chats");
     current_grid.chats = create_grid(557, 667, "chats_list_grid");
     current_grid.empty_chat = create_grid(557, 667, "empty_chat_grid");
     current_grid.chat_with_friend = create_grid(557, 667, "empty_chat_grid");
@@ -48,7 +48,7 @@ void show_home(void)
     show_home_grid();
     show_settings();
     show_search_bar();
-    show_mini_groups();
+    //show_mini_groups();
     show_mini_chats();
     show_empty_chat();
     show_create_new_chat_with_someone();

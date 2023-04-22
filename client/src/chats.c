@@ -31,7 +31,7 @@ void show_mini_chats()
     GtkWidget *create_new_chat_btn = gtk_button_new();
     current_grid.chat_pos_count = 0;
 
-    current_grid.chats_list_grid_child = create_grid(400, 190, "chats_list_grid_child");
+    current_grid.chats_list_grid_child = create_grid(400, 587, "chats_list_grid_child");
 
     // GtkWidget *chats_list_grid = create_grid(400, 190, "chats_list_grid");
 
@@ -41,7 +41,7 @@ void show_mini_chats()
 
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(chats_list_grid_scrolled), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
-    gtk_widget_set_size_request(chats_list_grid_scrolled, 400, 190);
+    gtk_widget_set_size_request(chats_list_grid_scrolled, 400, 587);
 
     gtk_widget_set_margin_start(chats_list_grid_scrolled, 0);
     gtk_widget_set_margin_end(chats_list_grid_scrolled, 0);
