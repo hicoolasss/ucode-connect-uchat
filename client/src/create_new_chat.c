@@ -215,7 +215,6 @@ void show_user_list_scrolled(t_list *current)
 
     get_scaled_image_chats(current);
     t_list *current_friend = friend_list;
-    pthread_mutex_lock(&mutex_send);
     while (current != NULL)
     {
         gboolean should_continue = FALSE; // Add a flag to check if we should continue
@@ -304,7 +303,6 @@ void show_user_list_scrolled(t_list *current)
 
         current = current->next;
     }
-    pthread_mutex_unlock(&mutex_send);
 }
 
 static void on_entry_activate(GtkEntry *entry, gpointer friend_data)
@@ -725,7 +723,6 @@ void show_chats_with_added_friends(t_list *friend_list)
 
     t_list *current = friend_list;
 
-    pthread_mutex_lock(&mutex_send);
     while (current != NULL)
     {
         t_Friend *friend_data = (t_Friend *)current->data;
@@ -787,7 +784,6 @@ void show_chats_with_added_friends(t_list *friend_list)
 
         current = current->next;
     }
-    pthread_mutex_unlock(&mutex_send);
 }
 
 void show_create_new_chat_with_someone()
