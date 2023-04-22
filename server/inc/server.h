@@ -89,12 +89,7 @@ int get_user_id(sqlite3 *db, const char *login);
 int get_group_id(sqlite3 *db, const char *chatname);
 // получение имя из поля айди
 char *get_username_by_user_id(sqlite3 *db, int user_id);
-// запись чата
-int create_chat_record(sqlite3 *db, int chat_id, int sender_id, int recipient_id, const char *message);
-// создание нового чата
-int sql_create_new_group(sqlite3 *db, const char *chatname, const char *avatarname, const char *avatarblob, int avatarsize);
 // запись одиночного чата в бд
-//  int sql_record_message(sqlite3 *db, char *username, char *friendname, const char *message_text);
 t_chat *sql_record_message(sqlite3 *db, char *username, char *friendname, const char *message_text);
 // запись истории чата в односвязный список
 t_list *get_message_history(sqlite3 *db, int user_id, int friend_id);
@@ -102,8 +97,6 @@ t_list *get_message_history(sqlite3 *db, int user_id, int friend_id);
 char *get_last_message_from_dialog(sqlite3 *db, const char *username, const char *friendname);
 // достает из json название групы и список учасников групы
 t_list *extract_group_and_friends_from_json(cJSON *json_object, char **group_name);
-// создает группу из нескольких людей в бд
-int create_group_chat(sqlite3 *db, const char *group_name, t_list *users);
 // удаляет сообщение из чата по его айди
 int sql_delete_message_from_dialog(sqlite3 *db, int message_id, const char *username, const char *message);
 // изменяет сообщение в чате по его айди
@@ -126,6 +119,3 @@ char *convert_to_json(char *buffer, char *login);
 int send_namelist(SSL *ssl, t_list *head);
 // список друзей с их историей чата
 cJSON *create_json_from_friends_and_chats(t_list *friends, sqlite3 *db, char *username);
-
-/*generate id*/
-char *generate_uuid();

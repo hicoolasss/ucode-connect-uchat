@@ -25,11 +25,11 @@ t_list *get_clients(sqlite3 *db)
     while (sqlite3_step(stmt) == SQLITE_ROW)
     {
         const unsigned char *db_username = sqlite3_column_text(stmt, 0);
-        const unsigned char *db_avatardata = sqlite3_column_text(stmt, 1);
+        const unsigned char *avatarname = sqlite3_column_text(stmt, 1);
 
         t_user *user = (t_user *)malloc(sizeof(t_user));
         user->username = mx_strdup((const char *)db_username);
-        user->avatarname = mx_strdup((const char*)db_avatardata);
+        user->avatarname = mx_strdup((const char*)avatarname);
         if (user != NULL)
         {
             mx_push_back(&users_list, user);

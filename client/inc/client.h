@@ -260,8 +260,8 @@ int open_ssl_connection();
 int send_message_to_server(char *buffer);
 unsigned char *base64_decode(const char *input, int *out_length);
 char *convert_to_json(char *buffer);
-gpointer send_func(gpointer data);
-gpointer recv_func(gpointer data);
+gpointer send_func();
+gpointer recv_func();
 int stable_sending(SSL *ssl, void *buf, int size);
 int stable_recv(SSL *ssl, void *buf, int size);
 void add_new_friend(t_list **friend_list, const char *username);
@@ -274,7 +274,7 @@ t_list *deserialize_chathistory_list(const char *json_str);
 t_list *process_json_object(cJSON *json_object);
 cJSON *create_json_from_group_and_friends(const char *group_name, t_list *friends);
 t_list *extract_group_and_friends_from_json(cJSON *json_object, char **group_name);
-
+int update_user_avatar(t_list *list, const char *username, const char *avatarname);
 // load styles
 void loadstyles(void);
 // add style to widget

@@ -33,7 +33,6 @@ void *handle_client(void *args)
                 break;
             }
             // Извлечение данных из JSON-объекта
-
             char *login = cJSON_GetObjectItemCaseSensitive(json, "login")->valuestring;
             char *passwd = cJSON_GetObjectItemCaseSensitive(json, "password")->valuestring;
             char *status = cJSON_GetObjectItemCaseSensitive(json, "status")->valuestring;
@@ -88,8 +87,6 @@ void *handle_client(void *args)
         }
         else if (len == 0)
         {
-            // mx_printstr(current_client->login);
-            // SSL_write(current_client->ssl, "<logout>", 9);
             remove_client(current_client->cl_socket);
             cli_count--;
             break;
@@ -167,7 +164,6 @@ void *handle_client(void *args)
 
                 if (friends_list == NULL)
                 {
-                    // printf("User has no friends.\n");
                     SSL_write(current_client->ssl, "User has no friends", 20);
                 }
                 else
@@ -227,8 +223,9 @@ void *handle_client(void *args)
                             int cmd = SSL_write(ssl, command, mx_strlen(command));
                             if (cmd <= 0)
                             {
-                                int error_code = SSL_get_error(ssl, cmd);
-                                // fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                                int error_code = SSL_get_error(current_client->ssl, cmd);
+                                sprintf(logs_buf, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                                write_logs(logs_buf);
                             }
                             else
                             {
@@ -244,8 +241,9 @@ void *handle_client(void *args)
                             int cmd = SSL_write(ssl, command, mx_strlen(command));
                             if (cmd <= 0)
                             {
-                                int error_code = SSL_get_error(ssl, cmd);
-                                // fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                                int error_code = SSL_get_error(current_client->ssl, cmd);
+                                sprintf(logs_buf, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                                write_logs(logs_buf);
                             }
                             else
                             {
@@ -280,8 +278,9 @@ void *handle_client(void *args)
                         int cmd = SSL_write(ssl, command, mx_strlen(command));
                         if (cmd <= 0)
                         {
-                            int error_code = SSL_get_error(ssl, cmd);
-                            // fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                            int error_code = SSL_get_error(current_client->ssl, cmd);
+                            sprintf(logs_buf, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                            write_logs(logs_buf);
                         }
                         else
                         {
@@ -297,8 +296,9 @@ void *handle_client(void *args)
                         int cmd = SSL_write(ssl, command, mx_strlen(command));
                         if (cmd <= 0)
                         {
-                            int error_code = SSL_get_error(ssl, cmd);
-                            // fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                            int error_code = SSL_get_error(current_client->ssl, cmd);
+                            sprintf(logs_buf, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                            write_logs(logs_buf);
                         }
                         else
                         {
@@ -328,59 +328,6 @@ void *handle_client(void *args)
                     free(message_data);
                 }
             }
-            else if (mx_strcmp(command, "<create_group>") == 0)
-            {
-                char *groupname = NULL;
-                int cmd = SSL_write(current_client->ssl, command, mx_strlen(command));
-                if (cmd <= 0)
-                {
-                    int error_code = SSL_get_error(current_client->ssl, cmd);
-                    // fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
-                }
-                cJSON *json_group = cJSON_Parse(buf);
-                if (!json)
-                {
-                    // printf("Error: Invalid JSON data received from server\n");
-                    break;
-                }
-
-                t_list *group_members = extract_group_and_friends_from_json(json_group, &groupname);
-
-                int res = create_group_chat(db, groupname, group_members);
-                if (res != 0)
-                {
-                    SSL_write(current_client->ssl, "Error creating group", 21);
-                    break;
-                }
-                else
-                {
-                    char *json_str = cJSON_Print(json_group);
-                    t_list *current = group_members;
-                    while (current != NULL)
-                    {
-                        char *username = (char *)current->data;
-                        t_list *users_current = users_list;
-                        while (users_current != NULL)
-                        {
-                            t_client *client = (t_client *)users_current->data;
-                            if (strcmp(client->login, username) == 0 && client != current_client)
-                            {
-                                SSL *ssl = client->ssl;
-                                int cmd = SSL_write(ssl, json_str, mx_strlen(json_str));
-                                if (cmd <= 0)
-                                {
-                                    int error_code = SSL_get_error(ssl, cmd);
-                                    // fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
-                                }
-                                break;
-                            }
-                            users_current = users_current->next;
-                        }
-                        current = current->next;
-                    }
-                }
-                cJSON_Delete(json_group);
-            }
             else if (mx_strcmp(command, "<delete_message_in_chat>") == 0)
             {
                 char *message = cJSON_GetObjectItemCaseSensitive(json, "message")->valuestring;
@@ -390,7 +337,7 @@ void *handle_client(void *args)
 
                 if (sql_delete_message_from_dialog(db, message_id, username, message) == -1)
                 {
-                    // printf("Ошибка выполнения SQL\n");
+                    write_logs("Ошибка выполнения SQL\n");
                     continue;
                 }
 
@@ -408,8 +355,9 @@ void *handle_client(void *args)
                         int cmd = SSL_write(ssl, command, mx_strlen(command));
                         if (cmd <= 0)
                         {
-                            int error_code = SSL_get_error(ssl, cmd);
-                            // fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                            int error_code = SSL_get_error(current_client->ssl, cmd);
+                            sprintf(logs_buf, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                            write_logs(logs_buf);
                         }
                         else
                         {
@@ -425,8 +373,9 @@ void *handle_client(void *args)
                         int cmd = SSL_write(ssl, command, mx_strlen(command));
                         if (cmd <= 0)
                         {
-                            int error_code = SSL_get_error(ssl, cmd);
-                            // fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                            int error_code = SSL_get_error(current_client->ssl, cmd);
+                            sprintf(logs_buf, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                            write_logs(logs_buf);
                         }
                         else
                         {
@@ -450,7 +399,7 @@ void *handle_client(void *args)
 
                 if (sql_update_message_in_dialog(db, message_id, old_message, new_message, username) == -1)
                 {
-                    // printf("Ошибка выполнения SQL\n");
+                    write_logs("Ошибка выполнения SQL\n");
                     continue;
                 }
 
@@ -468,8 +417,9 @@ void *handle_client(void *args)
                         int cmd = SSL_write(ssl, command, mx_strlen(command));
                         if (cmd <= 0)
                         {
-                            int error_code = SSL_get_error(ssl, cmd);
-                            // fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                            int error_code = SSL_get_error(current_client->ssl, cmd);
+                            sprintf(logs_buf, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                            write_logs(logs_buf);
                         }
                         else
                         {
@@ -485,8 +435,9 @@ void *handle_client(void *args)
                         int cmd = SSL_write(ssl, command, mx_strlen(command));
                         if (cmd <= 0)
                         {
-                            int error_code = SSL_get_error(ssl, cmd);
-                            // fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                            int error_code = SSL_get_error(current_client->ssl, cmd);
+                            sprintf(logs_buf, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                            write_logs(logs_buf);
                         }
                         else
                         {
@@ -517,7 +468,7 @@ void *handle_client(void *args)
                 {
                     cJSON *json_message = cJSON_CreateObject();
                     cJSON_AddStringToObject(json_message, "username", current_client->login);
-                    cJSON_AddStringToObject(json_message, "filename", filename);
+                    cJSON_AddStringToObject(json_message, "avatarname", filename);
                     char *json_str = cJSON_Print(json_message);
 
                     t_list *current = users_list;
@@ -538,48 +489,9 @@ void *handle_client(void *args)
                         }
                         current = current->next;
                     }
+                    cJSON_Delete(json_message);
                 }
             }
-            // t_list *current = users_list;
-            // while (current != NULL)
-            // {
-            //     if (strcmp(((t_client *)current->data)->login, friendname) == 0)
-            //     {
-            //         SSL *ssl = ((t_client *)current->data)->ssl;
-            //         int cmd = SSL_write(ssl, command, mx_strlen(command));
-            //         if (cmd <= 0)
-            //         {
-            //             int error_code = SSL_get_error(ssl, cmd);
-            //             // fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
-            //         }
-            //         else
-            //         {
-            //             cJSON_AddStringToObject(json_message, "friendname", current_client->login);
-            //             char *json_str = cJSON_Print(json_message);
-            //             SSL_write(ssl, json_str, mx_strlen(json_str));
-            //             cJSON_DeleteItemFromObject(json_message, "friendname");
-            //         }
-            //     }
-            //     if (strcmp(((t_client *)current->data)->login, current_client->login) == 0 && strcmp(((t_client *)current->data)->login, friendname) != 0)
-            //     {
-            //         SSL *ssl = ((t_client *)current->data)->ssl;
-            //         int cmd = SSL_write(ssl, command, mx_strlen(command));
-            //         if (cmd <= 0)
-            //         {
-            //             int error_code = SSL_get_error(ssl, cmd);
-            //             // fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
-            //         }
-            //         else
-            //         {
-            //             cJSON_AddStringToObject(json_message, "friendname", friendname);
-            //             char *json_str = cJSON_Print(json_message);
-            //             SSL_write(ssl, json_str, mx_strlen(json_str));
-            //             cJSON_DeleteItemFromObject(json_message, "friendname");
-            //         }
-            //     }
-            //     current = current->next;
-            // }
-            // cJSON_Delete(json_message);
             cJSON_Delete(json);
         }
     }

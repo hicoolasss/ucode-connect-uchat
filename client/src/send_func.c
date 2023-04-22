@@ -1,6 +1,6 @@
 #include "../inc/client.h"
 
-gpointer send_func(gpointer data)
+gpointer send_func()
 {
     pthread_mutex_lock(&mutex_recv);
     while (!main_client.connected)
