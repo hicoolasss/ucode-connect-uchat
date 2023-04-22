@@ -6,7 +6,7 @@ sqlite3 *db_open()
 
     if (sqlite3_open(DB_NAME, &db) != SQLITE_OK)
     {
-        // mx_printerr("Cannot open database");
+        write_logs("Cannot open database");
         return NULL;
     }
     return db;
@@ -17,18 +17,19 @@ void sql_create_db()
     sqlite3 *db = db_open();
     char *err_msg = 0;
     int rc;
-
+    char *logs_buf = NULL;
     const char *sql_users = "CREATE TABLE IF NOT EXISTS users ("
                             "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                             "username TEXT NOT NULL UNIQUE,"
                             "password TEXT NOT NULL,"
-                            "avatardata BLOB);";
+                            "avatarname TEXT);";
 
     rc = sqlite3_exec(db, sql_users, 0, 0, &err_msg);
 
     if (rc != SQLITE_OK)
     {
-        // fprintf(stderr, "SQL error: %s\n", err_msg);
+        sprintf(logs_buf, "SQL error: %s\n", err_msg);
+        write_logs(logs_buf);
         sqlite3_free(err_msg);
         sqlite3_close(db);
         exit(rc);
@@ -45,60 +46,8 @@ void sql_create_db()
 
     if (rc != SQLITE_OK)
     {
-        // fprintf(stderr, "SQL error: %s\n", err_msg);
-        sqlite3_free(err_msg);
-        sqlite3_close(db);
-        exit(rc);
-    }
-
-    char *sql_create_new_chat = "CREATE TABLE IF NOT EXISTS newgroups ("
-                                "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                                "groupname TEXT NOT NULL,"
-                                "avatarname TEXT,"
-                                "avatar_ext TEXT,"
-                                "avatardata BLOB);";
-
-    rc = sqlite3_exec(db, sql_create_new_chat, 0, 0, &err_msg);
-
-    if (rc != SQLITE_OK)
-    {
-        // fprintf(stderr, "SQL error: %s\n", err_msg);
-        sqlite3_free(err_msg);
-        sqlite3_close(db);
-        exit(rc);
-    }
-
-    const char *sql_create_group_messages_table = "CREATE TABLE IF NOT EXISTS group_messages ("
-                                                  "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                                                  "group_id INTEGER NOT NULL,"
-                                                  "sender_id INTEGER NOT NULL,"
-                                                  "message TEXT NOT NULL,"
-                                                  "timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,"
-                                                  "FOREIGN KEY(group_id) REFERENCES groups(group_id),"
-                                                  "FOREIGN KEY(sender_id) REFERENCES users(id));";
-
-    rc = sqlite3_exec(db, sql_create_group_messages_table, 0, 0, &err_msg);
-
-    if (rc != SQLITE_OK)
-    {
-        // fprintf(stderr, "SQL error: %s\n", err_msg);
-        sqlite3_free(err_msg);
-        sqlite3_close(db);
-        exit(rc);
-    }
-
-    char *sql_group_info = "CREATE TABLE IF NOT EXISTS group_users ("
-                           "group_id INTEGER NOT NULL,"
-                           "user_id INTEGER NOT NULL,"
-                           "PRIMARY KEY(group_id, user_id),"
-                           "FOREIGN KEY(group_id) REFERENCES newgroups(id),"
-                           "FOREIGN KEY(user_id) REFERENCES users(id));";
-
-    rc = sqlite3_exec(db, sql_group_info, 0, 0, &err_msg);
-
-    if (rc != SQLITE_OK)
-    {
-        // fprintf(stderr, "SQL error: %s\n", err_msg);
+        sprintf(logs_buf, "SQL error: %s\n", err_msg);
+        write_logs(logs_buf);
         sqlite3_free(err_msg);
         sqlite3_close(db);
         exit(rc);
@@ -116,7 +65,8 @@ void sql_create_db()
     rc = sqlite3_exec(db, sql_create_table_dialogs, 0, 0, &err_msg);
     if (rc != SQLITE_OK)
     {
-        // fprintf(stderr, "SQL error: %s\n", err_msg);
+        sprintf(logs_buf, "SQL error: %s\n", err_msg);
+        write_logs(logs_buf);
         sqlite3_free(err_msg);
         sqlite3_close(db);
         exit(rc);
@@ -127,12 +77,14 @@ void sql_create_db()
 
 int is_friend(sqlite3 *db, int user_id, int friend_id)
 {
+    char *logs_buf = NULL;
     sqlite3_stmt *stmt;
     char *sql = "SELECT user_id, friend_id FROM friends WHERE user_id = ? AND friend_id = ?;";
     int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
     if (result != SQLITE_OK)
     {
-        // fprintf(stderr, "Error: %s\n", sqlite3_errmsg(db));
+        sprintf(logs_buf, "SQL error: %s\n", sqlite3_errmsg(db));
+        write_logs(logs_buf);
         return 0;
     }
 
@@ -152,6 +104,7 @@ int is_friend(sqlite3 *db, int user_id, int friend_id)
 
 int get_user_id(sqlite3 *db, const char *login)
 {
+    char *logs_buf = NULL;
     sqlite3_stmt *stmt;
     char *sql = "SELECT id FROM users WHERE username = ?";
     int user_id = -1;
@@ -159,7 +112,8 @@ int get_user_id(sqlite3 *db, const char *login)
     int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
     if (result != SQLITE_OK)
     {
-        // fprintf(stderr, "Error: %s\n", sqlite3_errmsg(db));
+        sprintf(logs_buf, "SQL error: %s\n", sqlite3_errmsg(db));
+        write_logs(logs_buf);
         return user_id;
     }
 
@@ -177,6 +131,7 @@ int get_user_id(sqlite3 *db, const char *login)
 
 int get_group_id(sqlite3 *db, const char *groupname)
 {
+    char *logs_buf = NULL;
     sqlite3_stmt *stmt;
     char *sql = "SELECT id FROM newgroups WHERE groupname = ?";
     int chat_id = -1;
@@ -184,7 +139,8 @@ int get_group_id(sqlite3 *db, const char *groupname)
     int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
     if (result != SQLITE_OK)
     {
-        // fprintf(stderr, "Error: %s\n", sqlite3_errmsg(db));
+        sprintf(logs_buf, "SQL error: %s\n", sqlite3_errmsg(db));
+        write_logs(logs_buf);
         return chat_id;
     }
 
@@ -202,13 +158,15 @@ int get_group_id(sqlite3 *db, const char *groupname)
 
 char *get_username_by_user_id(sqlite3 *db, int user_id)
 {
+    char *logs_buf = NULL;
     sqlite3_stmt *stmt;
     const unsigned char *name = NULL;
     const char *sql = "SELECT username FROM users WHERE id = ?;";
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK)
     {
-        // printf("Error SQL: %s\n", sqlite3_errmsg(db));
-        exit(0);
+        sprintf(logs_buf, "SQL error: %s\n", sqlite3_errmsg(db));
+        write_logs(logs_buf);
+        return NULL;
     }
 
     sqlite3_bind_int(stmt, 1, user_id);

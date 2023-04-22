@@ -21,7 +21,6 @@ static int get_username_status(void)
     char *json_str;
     json_str = registration(0);
     send_message_to_server(json_str);
-    mx_printstr(json_str);
     char buf[256];
 
     while (main_client.connected == false)
@@ -33,26 +32,26 @@ static int get_username_status(void)
         {
             return -1;
         }
-        else if (mx_strcmp(buf, "user not found\n") == 0)
+        else if (mx_strcmp(buf, "user not found") == 0)
         {
 
             return -2;
         }
-        else if (mx_strcmp(buf, "incorrect password\n") == 0)
+        else if (mx_strcmp(buf, "incorrect password") == 0)
         {
 
             return -5;
         }
-        else if (mx_strcmp(buf, "success\n") == 0)
+        else
         {
             pthread_mutex_lock(&mutex_recv);
             main_client.connected = true;
+            current_client.avatarname = mx_strdup(buf);
             pthread_cond_broadcast(&auth_cond);
             pthread_mutex_unlock(&mutex_recv);
             return 0;
         }
     }
-
     return 0;
 }
 
@@ -171,9 +170,8 @@ static void log_in_btn_clicked(GtkWidget *widget, gpointer data)
 static void on_entry_activate(GtkEntry *entry)
 {
     (void)entry;
-    //gtk_entry_set_text(entry, "");
+    // gtk_entry_set_text(entry, "");
     gtk_widget_grab_focus(current_log_in.password); // Та-да! Курсор перемещается на второй виджет GtkEntry
-
 }
 
 void show_log_in(void)

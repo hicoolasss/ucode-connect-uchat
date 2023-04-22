@@ -16,24 +16,12 @@ char *serialize_namelist(t_list *head)
     {
         t_user *user = (t_user *)head->data;
         cJSON *json_node = cJSON_CreateObject();
-        
+
         cJSON_AddStringToObject(json_node, "name", user->username);
-
-        if (user->avatardata != NULL && user->avatardata_size > 0)
-        {
-            gchar *base64_avatardata = g_base64_encode(user->avatardata, user->avatardata_size);
-            cJSON_AddStringToObject(json_node, "avatardata", base64_avatardata);
-            g_free(base64_avatardata);
-        }
-        else
-        {
-            cJSON_AddNullToObject(json_node, "avatardata");
-        }
-
+        cJSON_AddStringToObject(json_node, "avatarname", user->avatarname);
         cJSON_AddItemToArray(json_list, json_node);
         head = head->next;
     }
-
     char *serialized_list = cJSON_Print(json_list);
     cJSON_Delete(json_list);
     return serialized_list;
@@ -48,7 +36,6 @@ char *serialize_historylist(t_list *head)
         cJSON *json_node = cJSON_CreateObject();
         cJSON_AddNumberToObject(json_node, "message_id", ((t_chat *)head->data)->id);
         cJSON_AddStringToObject(json_node, "sender", ((t_chat *)head->data)->sender);
-        // cJSON_AddStringToObject(json_node, "recipient", ((t_chat *)head->data)->recipient);
         cJSON_AddStringToObject(json_node, "message", ((t_chat *)head->data)->message);
         cJSON_AddStringToObject(json_node, "timestamp", ((t_chat *)head->data)->timestamp);
         cJSON_AddItemToArray(json_list, json_node);

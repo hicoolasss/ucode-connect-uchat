@@ -13,7 +13,7 @@ t_list *get_clients(sqlite3 *db)
     int rc;
     sqlite3_stmt *stmt;
     t_list *users_list = NULL;
-    const char *sql = "SELECT username, avatardata FROM users;";
+    const char *sql = "SELECT username, avatarname FROM users;";
     rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
 
     if (rc != SQLITE_OK)
@@ -25,24 +25,11 @@ t_list *get_clients(sqlite3 *db)
     while (sqlite3_step(stmt) == SQLITE_ROW)
     {
         const unsigned char *db_username = sqlite3_column_text(stmt, 0);
-        const void *db_avatardata = sqlite3_column_blob(stmt, 1);
-        int db_avatardata_size = sqlite3_column_bytes(stmt, 1);
+        const unsigned char *avatarname = sqlite3_column_text(stmt, 1);
 
         t_user *user = (t_user *)malloc(sizeof(t_user));
         user->username = mx_strdup((const char *)db_username);
-
-        if (db_avatardata != NULL && db_avatardata_size > 0)
-        {
-            user->avatardata = malloc(db_avatardata_size);
-            memcpy(user->avatardata, db_avatardata, db_avatardata_size);
-            user->avatardata_size = db_avatardata_size;
-        }
-        else
-        {
-            user->avatardata = NULL;
-            user->avatardata_size = 0;
-        }
-
+        user->avatarname = mx_strdup((const char*)avatarname);
         if (user != NULL)
         {
             mx_push_back(&users_list, user);

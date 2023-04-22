@@ -24,46 +24,16 @@ static void update_profile_pic_lmb()
   show_left_menu_bar();
 }
 
-void send_avatar_to_db() {
+void send_avatar_to_db(gchar *filepath)
+{
+  char *filename = basename(filepath);
+  char *new_path = g_strdup_printf("ucode-connect-uchat/%s",filename);
 
-  GdkPixbuf *scaled_pixbuf = gdk_pixbuf_scale_simple(current_avatar.avatar, 60, 60, GDK_INTERP_BILINEAR);
-  // g_object_unref(current_avatar.avatar);
+  cJSON *json = cJSON_CreateObject();
+  cJSON_AddStringToObject(json, "command", "<update_image>");
+  cJSON_AddStringToObject(json, "filename", new_path);
 
-  // Создание поверхности Cairo для рисования
-  cairo_surface_t *surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, 60, 60);
-  cairo_t *cr = cairo_create(surface);
-
-  // Создание круглой области
-  cairo_arc(cr, 60 / 2.0, 60 / 2.0, 60 / 2.0, 0, 2 * G_PI);
-  cairo_clip(cr);
-  gdk_cairo_set_source_pixbuf(cr, scaled_pixbuf, 0, 0);
-  cairo_paint(cr);
-
-  GdkPixbuf *circle_pixbuf = gdk_pixbuf_get_from_surface(surface, 0, 0, 60, 60);
-
-  gchar *buffer = NULL;
-  gsize buffer_size;
-  GError *error = NULL;
-  if (!gdk_pixbuf_save_to_bufferv(circle_pixbuf, &buffer, &buffer_size, "png", NULL, NULL, &error))
-  {
-    // Обработка ошибки
-    g_error_free(error);
-    return;
-  }
-
-  // Преобразование бинарных данных в строку Base64
-  gchar *base64_image_data = g_base64_encode((guchar *)buffer, buffer_size);
-  g_free(buffer);
-
-  // Создание JSON-объекта
-  cJSON *json_message = cJSON_CreateObject();
-  cJSON_AddStringToObject(json_message, "command", "<update_image>");
-  cJSON_AddStringToObject(json_message, "data", base64_image_data);
-
-  g_async_queue_push(message_queue, json_message);
-
-  // cJSON_Delete(json_message);
-  g_free(base64_image_data);
+  g_async_queue_push(message_queue, json);
 }
 
 static void get_your_profile_avatar()
@@ -93,7 +63,6 @@ static void get_your_profile_avatar()
 
   current_your_profile_avatar.your_profile_avatar = circle_pixbuf;
 
-  
   current_avatar.avatar = current_your_profile_avatar.avatar;
 }
 
@@ -105,16 +74,18 @@ void on_open_response(GtkDialog *dialog, int response)
     g_autoptr(GFile) file = gtk_file_chooser_get_file(chooser);
     gchar *filename = g_file_get_path(file);
 
-
     /* Загрузка изображения из файла */
     current_your_profile_avatar.avatar = gdk_pixbuf_new_from_file(filename, NULL);
 
     /* Обрезка изображения */
     get_your_profile_avatar();
     get_scaled_image();
+
+    send_avatar_to_db(filename);
     gtk_image_set_from_pixbuf(GTK_IMAGE(avatar_img), current_your_profile_avatar.your_profile_avatar);
     update_profile_pic_lmb();
 
+    // g_free(new_path);
     g_free(filename);
   }
 

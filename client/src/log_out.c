@@ -6,8 +6,6 @@ extern t_grid current_grid;
 static void yes_btn_clicked()
 {
     // turn off client on server
-    char buf[256];
-
     cJSON *json = cJSON_CreateObject();
     cJSON_AddStringToObject(json, "login", current_client.login);
     cJSON_AddStringToObject(json, "command", "<logout>");
@@ -25,19 +23,12 @@ static void yes_btn_clicked()
     //     }
     //     else if (mx_strcmp(buf, "success\n") == 0)
     //     {
-    //         set_unvisible_all();
-    //         gtk_widget_remove_css_class(GTK_WIDGET(current_grid.main_grid), "main_grid_blurred");
-    //         gtk_widget_set_visible(GTK_WIDGET(current_grid.log_in_conrainer), TRUE);
-    //         break;
-    //     }
-    // }
-}
-
-static void logout()
-{
     set_unvisible_all();
     gtk_widget_remove_css_class(GTK_WIDGET(current_grid.main_grid), "main_grid_blurred");
     gtk_widget_set_visible(GTK_WIDGET(current_grid.log_in_conrainer), TRUE);
+    //         break;
+    //     }
+    // }
 }
 
 static void no_btn_clicked()

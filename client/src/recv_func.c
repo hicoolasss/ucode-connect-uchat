@@ -6,7 +6,7 @@ t_list *chat_history;
 
 void print_message(char *login, char *message);
 
-gpointer recv_func(gpointer data)
+gpointer recv_func()
 {
     char command[2048];
 
@@ -32,7 +32,6 @@ gpointer recv_func(gpointer data)
         else if (mx_strcmp(command, "<user_list>") == 0)
         {
             user_list = receive_list(current_client.ssl);
-            t_list* current = user_list;
             show_user_list_scrolled(user_list);
         }
         else if (mx_strcmp(command, "<friend_list>") == 0)
@@ -139,28 +138,8 @@ gpointer recv_func(gpointer data)
 
         else if (mx_strcmp(command, "<logout>") == 0)
         {
-            running = false; 
-            // break;
-        }
-        else if (mx_strcmp(command, "<create_group>") == 0)
-        {
-            char temp[16784];
-            char *group_name;
-            int len = stable_recv(current_client.ssl, temp, sizeof(temp));
-            if (len < 0)
-            {
-                printf("Error: Unable to receive data from server\n");
-                break;
-            }
-            printf("\n%s\n", temp);
-            cJSON *json_group = cJSON_Parse(temp);
-            if (!json_group)
-            {
-                printf("Error: Invalid JSON data received from server\n");
-                break;
-            }
-
-            t_list *group_list = extract_group_and_friends_from_json(json_group, &group_name);
+            running = false;
+            break;
         }
         else if (mx_strcmp(command, "<update_image>") == 0)
         {
@@ -171,7 +150,19 @@ gpointer recv_func(gpointer data)
                 printf("Error: Unable to receive data from server\n");
                 break;
             }
-            printf("\n%s\n", temp);
+            cJSON *json = cJSON_Parse(temp);
+            if (!json)
+            {
+                printf("Error: Invalid JSON data received from server\n");
+                break;
+            }
+            char *username = cJSON_GetObjectItemCaseSensitive(json, "username")->valuestring;
+            char *avatarname = cJSON_GetObjectItemCaseSensitive(json, "avatarname")->valuestring;
+
+            int result = update_user_avatar(user_list, username, avatarname);
+            if(result != 0) {
+                printf("User not found\n");
+            }
         }
     }
     return NULL;

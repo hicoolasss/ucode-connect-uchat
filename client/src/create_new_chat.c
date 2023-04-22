@@ -49,18 +49,18 @@ t_chat *find_last_message(t_list *message_list)
     return last_message;
 }
 
-static void get_scaled_image_chats()
+static void get_scaled_image_chats(t_list *current)
 {
 
-    // GdkPixbuf *source_pixbuf = gdk_pixbuf_new_from_file(current_avatar.avatar, NULL);
-    if (!current_avatar.avatar)
+    GdkPixbuf *source_pixbuf = gdk_pixbuf_new_from_file(((t_user *)current->data)->avatarname, NULL);
+    if (!source_pixbuf)
     {
         g_print("Ошибка при загрузке изображения.3\n");
         return;
     }
 
     // Масштабирование исходного изображения до размера аватара
-    GdkPixbuf *scaled_pixbuf = gdk_pixbuf_scale_simple(current_avatar.avatar, 60, 60, GDK_INTERP_BILINEAR);
+    GdkPixbuf *scaled_pixbuf = gdk_pixbuf_scale_simple(source_pixbuf, 60, 60, GDK_INTERP_BILINEAR);
     // g_object_unref(current_avatar.avatar);
 
     // Создание поверхности Cairo для рисования
@@ -212,7 +212,7 @@ void show_user_list_scrolled(t_list *current)
 
     int pos = 0;
 
-    get_scaled_image_chats();
+    get_scaled_image_chats(current);
     t_list *current_friend = friend_list;
     while (current != NULL)
     {
@@ -604,7 +604,7 @@ void update_show_chats_with_added_friends(t_list *friend_list)
 
         GtkWidget *username_label = gtk_label_new(friend_data->username);
 
-        get_scaled_image_chats();
+        //get_scaled_image_chats();
 
         GtkWidget *user_avatar = gtk_image_new_from_pixbuf(scaled_avatar);
 
@@ -661,7 +661,7 @@ void show_friend_info(gpointer data)
 
     GtkWidget *user_info_grid = create_grid(428, 75, NULL);
 
-    get_scaled_image_chats();
+    //get_scaled_image_chats();
 
     GtkWidget *user_avatar = gtk_image_new_from_pixbuf(scaled_avatar);
 
@@ -722,7 +722,9 @@ void show_chats_with_added_friends(t_list *friend_list)
 
         GtkWidget *username_label = gtk_label_new(friend_data->username);
 
-        get_scaled_image_chats();
+        //get_scaled_image_chats();
+
+        //friend_data->
 
         GtkWidget *user_avatar = gtk_image_new_from_pixbuf(scaled_avatar);
 
