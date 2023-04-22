@@ -160,7 +160,7 @@ typedef struct s_client {
     int id;
     char *login;
     const char *password;
-
+    char *avatarname;
 } t_client;
 
 typedef struct s_chat {

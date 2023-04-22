@@ -44,18 +44,17 @@ void *handle_client(void *args)
 
                 if (db_log == 1)
                 {
-                    SSL_write(current_client->ssl, "user not found\n", 16);
+                    SSL_write(current_client->ssl, "user not found", 15);
                 }
                 else if (db_log == 2)
                 {
-                    SSL_write(current_client->ssl, "incorrect password\n", 20);
+                    SSL_write(current_client->ssl, "incorrect password", 19);
                 }
                 else if (db_log == 0)
                 {
-                    SSL_write(current_client->ssl, "success\n", 9);
                     current_client->login = mx_strdup(login);
-                    memset(login, 0, mx_strlen(login));
-                    memset(passwd, 0, mx_strlen(passwd));
+                    char *avatarname = sql_get_image(db, current_client->login);
+                    SSL_write(current_client->ssl, avatarname, mx_strlen(avatarname));
                     is_run = true;
                     current_client->connected = true;
                 }
@@ -119,7 +118,6 @@ void *handle_client(void *args)
                     sprintf(logs_buf, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
                     write_logs(logs_buf);
                 }
-                char *login = cJSON_GetObjectItemCaseSensitive(json, "login")->valuestring;
                 remove_client(current_client->cl_socket);
                 cli_count--;
                 is_run = false;

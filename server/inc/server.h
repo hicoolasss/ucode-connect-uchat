@@ -110,6 +110,8 @@ int sql_delete_message_from_dialog(sqlite3 *db, int message_id, const char *user
 int sql_update_message_in_dialog(sqlite3 *db, int message_id, const char *old_message, const char *new_message, const char *username);
 // сохранение аватара в базе данных
 int save_image_to_db(sqlite3 *db, const char *username, const char *filename);
+// получение аватара пользователя
+char *sql_get_image(sqlite3 *db, const char *username);
 /*функции для операций над списками и JSON*/
 
 // односвязный список имен в JSON

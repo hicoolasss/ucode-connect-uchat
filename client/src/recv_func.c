@@ -171,7 +171,7 @@ gpointer recv_func(gpointer data)
                 printf("Error: Unable to receive data from server\n");
                 break;
             }
-            printf("\n%s\n", temp);
+            current_client.avatarname = mx_strdup(temp);
         }
     }
     return NULL;

@@ -444,3 +444,40 @@ int save_image_to_db(sqlite3 *db, const char *username, const char *filename)
     sqlite3_finalize(stmt);
     return 0;
 }
+
+char *sql_get_image(sqlite3 *db, const char *username) {
+    sqlite3_stmt *stmt;
+    char *filename = NULL;
+    const char *sql = "SELECT avatarname FROM users WHERE username = ?";
+     int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+
+    if (result != SQLITE_OK)
+    {
+        char logbuf[32];
+        sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
+        write_logs(logbuf);
+        filename = NULL;
+    }
+    sqlite3_bind_text(stmt, 1, username, -1, SQLITE_TRANSIENT);
+
+    result = sqlite3_step(stmt);
+    if (result == SQLITE_ROW)
+    {
+        const unsigned char *temp = sqlite3_column_text(stmt, 0);
+        filename = mx_strdup((const char *)temp);
+    }
+    else if (result == SQLITE_DONE)
+    {
+        filename = NULL;
+    }
+    else
+    {
+        char logbuf[32];
+        sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
+        write_logs(logbuf);
+        filename = NULL;
+    }
+
+    sqlite3_finalize(stmt);
+    return filename;
+}
