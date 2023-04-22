@@ -22,3 +22,5 @@ Error: Invalid JSON data received from server
 
 Error: Unable to receive data from server
 
+Failed to get clients
+

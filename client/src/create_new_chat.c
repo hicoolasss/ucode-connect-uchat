@@ -53,6 +53,7 @@ static void get_scaled_image_chats(t_list *current)
 {
 
     GdkPixbuf *source_pixbuf = gdk_pixbuf_new_from_file(((t_user *)current->data)->avatarname, NULL);
+    mx_printstr(((t_user *)current->data)->avatarname);
     if (!source_pixbuf)
     {
         g_print("Ошибка при загрузке изображения.3\n");
