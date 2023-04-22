@@ -17,6 +17,9 @@ void get_scaled_image()
 
     // Масштабирование исходного изображения до размера аватара
     GdkPixbuf *scaled_pixbuf = gdk_pixbuf_scale_simple(current_avatar.avatar, 67, 67, GDK_INTERP_BILINEAR);
+
+    mx_printstr(current_client.avatarname);
+    mx_printstr("\n");
     // g_object_unref(current_avatar.avatar);
 
     // Создание поверхности Cairo для рисования
@@ -82,7 +85,7 @@ void show_left_menu_bar()
 {
     if (!current_avatar.avatar)
     {
-        current_avatar.avatar = gdk_pixbuf_new_from_file("avatar1.png", NULL);
+        current_avatar.avatar = gdk_pixbuf_new_from_file(current_client.avatarname, NULL);
     }
 
     get_scaled_image();

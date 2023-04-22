@@ -19,7 +19,7 @@ static void update_profile_pic_lmb()
     gtk_widget_unparent(iter);
   }
 
-  current_avatar.avatar = current_your_profile_avatar.avatar;
+  //current_avatar.avatar = current_your_profile_avatar.avatar;
 
   show_left_menu_bar();
 }
@@ -34,6 +34,34 @@ void send_avatar_to_db(gchar *filepath)
   cJSON_AddStringToObject(json, "filename", filename);
 
   g_async_queue_push(message_queue, json);
+}
+
+static void get_your_profile_avatar_from_db()
+{
+  GdkPixbuf *source_pixbuf = gdk_pixbuf_new_from_file(current_client.avatarname, NULL);
+  if (!source_pixbuf)
+  {
+    g_print("Ошибка при загрузке изображения.2\n");
+    return;
+  }
+
+  // Масштабирование исходного изображения до размера аватара
+  GdkPixbuf *scaled_pixbuf = gdk_pixbuf_scale_simple(source_pixbuf, 200, 200, GDK_INTERP_BILINEAR);
+  // g_object_unref(current_avatar.avatar);
+
+  // Создание поверхности Cairo для рисования
+  cairo_surface_t *surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, 200, 200);
+  cairo_t *cr = cairo_create(surface);
+
+  // Создание круглой области
+  cairo_arc(cr, 200 / 2.0, 200 / 2.0, 200 / 2.0, 0, 2 * G_PI);
+  cairo_clip(cr);
+  gdk_cairo_set_source_pixbuf(cr, scaled_pixbuf, 0, 0);
+  cairo_paint(cr);
+
+  GdkPixbuf *circle_pixbuf = gdk_pixbuf_get_from_surface(surface, 0, 0, 200, 200);
+
+  current_your_profile_avatar.your_profile_avatar = circle_pixbuf;
 }
 
 static void get_your_profile_avatar()
@@ -130,7 +158,9 @@ void show_your_profile()
 
   // GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file("/home/criops/ucode-connect-uchat/avatar.png", NULL);
 
-  avatar_img = gtk_image_new_from_pixbuf(current_avatar.avatar);
+  get_your_profile_avatar_from_db();
+
+  avatar_img = gtk_image_new_from_pixbuf(current_your_profile_avatar.your_profile_avatar);
 
   GtkWidget *choose_profile_avatar_btn = gtk_button_new();
 
