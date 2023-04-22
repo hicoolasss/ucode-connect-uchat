@@ -214,6 +214,7 @@ void show_user_list_scrolled(t_list *current)
 
     get_scaled_image_chats();
     t_list *current_friend = friend_list;
+    pthread_mutex_lock(&mutex_send);
     while (current != NULL)
     {
         gboolean should_continue = FALSE; // Add a flag to check if we should continue
@@ -300,6 +301,7 @@ void show_user_list_scrolled(t_list *current)
 
         current = current->next;
     }
+    pthread_mutex_unlock(&mutex_send);
 }
 
 static void on_entry_activate(GtkEntry *entry, gpointer friend_data)
@@ -349,6 +351,8 @@ static gboolean scroll_to_bottom(gpointer user_data)
 
 void update_chat_history(gpointer friend_data)
 {
+    pthread_mutex_lock(&mutex_send);
+
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chats), FALSE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.empty_chat), FALSE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chat_with_friend), TRUE);
@@ -412,7 +416,6 @@ void update_chat_history(gpointer friend_data)
             }
             else
             {
-
                 const char *r_msg = chat_data->message;
 
                 GtkWidget *received_msg = gtk_label_new(r_msg);
@@ -441,6 +444,8 @@ void update_chat_history(gpointer friend_data)
         }
     }
     g_idle_add(scroll_to_bottom, chat_with_friend_scrolled);
+    
+    pthread_mutex_unlock(&mutex_send);
 }
 
 void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
@@ -486,7 +491,8 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
     show_friend_info(friend_data);
     friend_iter->in_chat = TRUE;
     current_friend = friend_iter;
-
+    
+    pthread_mutex_lock(&mutex_send);
     mx_printstr("show chat with : ");
     mx_printstr(friend_iter->username);
     mx_printstr("\n");
@@ -611,11 +617,12 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
         widget_styling(box, current_screen, "empty_chat_box");
         widget_styling(entry, current_screen, "empty_chat_label");
     }
+    pthread_mutex_unlock(&mutex_send);
 }
 
 void update_show_chats_with_added_friends(t_list *friend_list)
 {
-
+    pthread_mutex_lock(&mutex_send);
     GtkWidget *children, *iter;
 
     children = gtk_widget_get_first_child(current_grid.chats_list_grid_child);
@@ -624,7 +631,7 @@ void update_show_chats_with_added_friends(t_list *friend_list)
     {
         gtk_widget_unparent(iter);
     }
-
+    
     t_list *current = friend_list;
 
     while (current != NULL)
@@ -686,6 +693,7 @@ void update_show_chats_with_added_friends(t_list *friend_list)
 
         current = current->next;
     }
+    pthread_mutex_unlock(&mutex_send);
 }
 
 void show_friend_info(gpointer data)
@@ -745,6 +753,7 @@ void show_chats_with_added_friends(t_list *friend_list)
 
     t_list *current = friend_list;
 
+    pthread_mutex_lock(&mutex_send);
     while (current != NULL)
     {
         t_Friend *friend_data = (t_Friend *)current->data;
@@ -804,6 +813,7 @@ void show_chats_with_added_friends(t_list *friend_list)
 
         current = current->next;
     }
+    pthread_mutex_unlock(&mutex_send);
 }
 
 void show_create_new_chat_with_someone()

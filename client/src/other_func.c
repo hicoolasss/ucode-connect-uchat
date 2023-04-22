@@ -307,6 +307,7 @@ int stable_recv(SSL *ssl, void *buf, int size)
 int update_user_avatar(t_list *list, const char *username, const char *avatarname)
 {
     t_list *current = list;
+    pthread_mutex_lock(&mutex_send);
     while (current != NULL)
     {
         t_user *user = (t_user *)current->data;
@@ -317,5 +318,6 @@ int update_user_avatar(t_list *list, const char *username, const char *avatarnam
         }
         current = current->next;
     }
+    pthread_mutex_unlock(&mutex_send);
     return -1; // ошибка, юзер не найден
 }
