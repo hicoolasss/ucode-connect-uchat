@@ -45,18 +45,17 @@ int authenticate_user(sqlite3 *db, const char *username, const char *password)
 
 int register_user(sqlite3 *db, const char *username, const char *password)
 {
-
     char *zErrMsg = 0;
     int rc;
     const char *sql_template = "INSERT INTO users (username, password, avatarname) VALUES ('%s', '%s', '%s');";
-    char *sql = sqlite3_mprintf(sql_template, username, password, "avatar1.png");
+    char *sql = sqlite3_mprintf(sql_template, username, password, "resources/avatars/avatar1.png");
 
     rc = sqlite3_exec(db, sql, 0, 0, &zErrMsg);
 
     if (rc != SQLITE_OK)
     {
         char logbuf[32];
-        sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
+        sprintf(logbuf, "Error: %s\n", zErrMsg);
         write_logs(logbuf);
         sqlite3_free(zErrMsg);
         sqlite3_free(sql);

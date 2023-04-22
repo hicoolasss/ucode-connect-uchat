@@ -53,6 +53,7 @@ static void get_scaled_image_chats(t_list *current)
 {
 
     GdkPixbuf *source_pixbuf = gdk_pixbuf_new_from_file(((t_user *)current->data)->avatarname, NULL);
+    //mx_printstr(((t_user *)current->data)->avatarname);
     if (!source_pixbuf)
     {
         g_print("Ошибка при загрузке изображения.3\n");
@@ -244,6 +245,8 @@ void show_user_list_scrolled(t_list *current)
         // mx_printstr(((t_user*)current->data)->username);
 
         GtkWidget *user_info_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+        
+        get_scaled_image_chats(current);
 
         GtkWidget *user_avatar = gtk_image_new_from_pixbuf(scaled_avatar);
 
