@@ -490,14 +490,18 @@ void update_chat_history(gpointer friend_data)
 
                 const char *s_msg_time = format_time(chat_data->timestamp);
 
-                GtkWidget *sent_msg = gtk_label_new(s_msg);
+                GtkWidget *sent_msg = gtk_button_new_with_label(s_msg);
 
                 GtkWidget *sent_time = gtk_label_new(s_msg_time);
 
-                gtk_label_set_wrap(GTK_LABEL(sent_msg), TRUE);
-                gtk_label_set_wrap_mode(GTK_LABEL(sent_msg), PANGO_WRAP_WORD_CHAR);
-                gtk_label_set_max_width_chars(GTK_LABEL(sent_msg), 60);
-                gtk_label_set_selectable(GTK_LABEL(sent_msg), FALSE);
+                GtkWidget *edit_btn = gtk_button_new();
+
+                GtkWidget *delete_btn = gtk_button_new();
+
+                // gtk_label_set_wrap(GTK_LABEL(sent_msg), TRUE);
+                // gtk_label_set_wrap_mode(GTK_LABEL(sent_msg), PANGO_WRAP_WORD_CHAR);
+                // gtk_label_set_max_width_chars(GTK_LABEL(sent_msg), 60);
+                // gtk_label_set_selectable(GTK_LABEL(sent_msg), FALSE);
 
                 gtk_widget_set_hexpand(sent_msg, TRUE);
 
@@ -508,14 +512,27 @@ void update_chat_history(gpointer friend_data)
                 GtkWidget *sent_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
                 gtk_box_append(GTK_BOX(sent_box), sent_time);
                 gtk_box_append(GTK_BOX(sent_box), sent_msg);
+                // gtk_box_append(GTK_BOX(sent_box), edit_btn);
+                // gtk_box_append(GTK_BOX(sent_box), delete_btn);
+
+                gtk_widget_set_size_request(edit_btn, 16, 16);
+                gtk_widget_set_size_request(delete_btn, 16, 16);
 
                 gtk_widget_set_margin_top(sent_box, 15);
 
                 gtk_widget_set_halign(sent_box, GTK_ALIGN_END);
                 gtk_grid_attach(GTK_GRID(chat_with_friend_grid), sent_box, 1, 9999 + pos, 1, 1);
 
-                widget_styling(sent_msg, current_screen, "message");
+                widget_styling(sent_msg, current_screen, "sent_message");
                 widget_styling(sent_time, current_screen, "time");
+                widget_styling(edit_btn, current_screen, "edit_btn");
+                widget_styling(delete_btn, current_screen, "delete_btn");
+
+                SentMessageData *sent_message_data = malloc(sizeof(SentMessageData));
+                sent_message_data->chat_data = chat_data;
+                sent_message_data->sent_box = sent_box;
+
+                g_signal_connect(sent_msg, "clicked", G_CALLBACK(on_sent_msg_clicked), sent_message_data);
             }
             else
             {
@@ -547,7 +564,7 @@ void update_chat_history(gpointer friend_data)
                 gtk_widget_set_halign(received_box, GTK_ALIGN_START);
                 gtk_grid_attach(GTK_GRID(chat_with_friend_grid), received_box, 0, 9999 + pos, 1, 1);
 
-                widget_styling(received_msg, current_screen, "message");
+                widget_styling(received_msg, current_screen, "received_message");
 
                 widget_styling(received_time, current_screen, "time");
             }
@@ -657,11 +674,10 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
             gtk_widget_set_halign(sent_box, GTK_ALIGN_END);
             gtk_grid_attach(GTK_GRID(chat_with_friend_grid), sent_box, 1, 9999 + pos, 1, 1);
 
-            widget_styling(sent_msg, current_screen, "message");
+            widget_styling(sent_msg, current_screen, "sent_message");
             widget_styling(sent_time, current_screen, "time");
             widget_styling(edit_btn, current_screen, "edit_btn");
             widget_styling(delete_btn, current_screen, "delete_btn");
-
 
             SentMessageData *sent_message_data = malloc(sizeof(SentMessageData));
             sent_message_data->chat_data = chat_data;
@@ -699,7 +715,7 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
             gtk_widget_set_halign(received_box, GTK_ALIGN_START);
             gtk_grid_attach(GTK_GRID(chat_with_friend_grid), received_box, 0, 9999 + pos, 1, 1);
 
-            widget_styling(received_msg, current_screen, "message");
+            widget_styling(received_msg, current_screen, "received_message");
 
             widget_styling(received_time, current_screen, "time");
         }
