@@ -117,6 +117,7 @@ cJSON *create_json_from_friends_and_chats(t_list *friends, sqlite3 *db, char *us
     {
         cJSON *friend_chat = cJSON_CreateObject();
         cJSON_AddStringToObject(friend_chat, "name", ((t_user *)iter->data)->username);
+        cJSON_AddStringToObject(friend_chat, "avatarname", ((t_user *)iter->data)->avatarname);
         if (((t_user *)iter->data)->lastmessage != NULL)
         {
             cJSON_AddStringToObject(friend_chat, "lastmessage", ((t_user *)iter->data)->lastmessage);
@@ -186,4 +187,3 @@ t_list *extract_group_and_friends_from_json(cJSON *json_object, char **group_nam
 
     return friends;
 }
-

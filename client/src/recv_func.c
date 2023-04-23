@@ -55,7 +55,7 @@ gpointer recv_func()
                 break;
             }
             friend_list = process_json_object(received_json);
-
+            
             show_chats_with_added_friends(friend_list);
 
             cJSON_Delete(received_json);

@@ -29,7 +29,7 @@ t_list *get_clients(sqlite3 *db)
 
         t_user *user = (t_user *)malloc(sizeof(t_user));
         user->username = mx_strdup((const char *)db_username);
-        user->avatarname = mx_strdup((const char*)avatarname);
+        user->avatarname = mx_strdup((const char *)avatarname);
         if (user != NULL)
         {
             mx_push_back(&users_list, user);
@@ -38,7 +38,6 @@ t_list *get_clients(sqlite3 *db)
     sqlite3_finalize(stmt);
     return users_list;
 }
-
 
 t_list *get_friends(sqlite3 *db, const char *username)
 {
@@ -59,7 +58,7 @@ t_list *get_friends(sqlite3 *db, const char *username)
     {
         int friend_id = sqlite3_column_int(stmt, 0);
         char sql2[100];
-        sprintf(sql2, "SELECT * FROM users WHERE id='%d'", friend_id);
+        sprintf(sql2, "SELECT username, avatarname FROM users WHERE id='%d'", friend_id);
         sqlite3_stmt *stmt2;
         int result2 = sqlite3_prepare_v2(db, sql2, -1, &stmt2, NULL);
         if (result2 != SQLITE_OK)
@@ -71,7 +70,8 @@ t_list *get_friends(sqlite3 *db, const char *username)
         }
         if (sqlite3_step(stmt2) == SQLITE_ROW)
         {
-            const char *friendname = (const char *)sqlite3_column_text(stmt2, 1);
+            const char *friendname = (const char *)sqlite3_column_text(stmt2, 0);
+            const char *avatarname = (const char *)sqlite3_column_text(stmt2, 1);
             char *lastmessage = get_last_message_from_dialog(db, username, friendname);
             t_user *friend_person = (t_user *)malloc(sizeof(t_user));
             if (lastmessage != NULL)
@@ -81,6 +81,10 @@ t_list *get_friends(sqlite3 *db, const char *username)
             else
                 friend_person->lastmessage = NULL;
             friend_person->username = mx_strdup((const char *)friendname);
+            if (avatarname != NULL)
+            {
+                friend_person->avatarname = mx_strdup((const char *)avatarname);
+            }
             if (friend_person != NULL)
             {
                 mx_push_back(&friend_list, friend_person);
