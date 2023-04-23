@@ -1347,13 +1347,16 @@
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
-    background-color: #13131A;
+    background: #13131A;
 
 
     padding-left: 10px;
     padding-right: 10px;
     padding-bottom: 10px;
     padding-top: 10px;
+
+    box-shadow: none;
+    border: transparent;
 
     margin-left: 10px;
     margin-right: 10px;
@@ -1362,6 +1365,10 @@
 
 }
 
+.message:active {
+    transform: translateY(2px) translateX(1px);
+    box-shadow: 0 0 0 0 @big-log-in-button-shadow-active;
+}
 
 .username_label_in_chat {
 
@@ -1414,4 +1421,40 @@
     /* identical to box height */
 
     color: #B1BAE6;
+}
+
+.edit_btn {
+    border-color: transparent;
+    background: none;
+    background-repeat: no-repeat;
+    background-image: url(../../resources/images/edit\ \(1\).svg);
+    background-color: transparent;
+    background-position: center;
+    outline-color: transparent;
+    box-shadow: none;
+
+}
+
+.delete_btn {
+    border-color: transparent;
+    background: none;
+    background-repeat: no-repeat;
+    background-image: url(../../resources/images/delete\ \(1\).svg);
+    background-color: transparent;
+    background-position: center;
+    outline-color: transparent;
+    box-shadow: none;
+
+}
+
+.cancel_btn {
+    border-color: transparent;
+    background: none;
+    background-repeat: no-repeat;
+    background-image: url(../../resources/images/cancel\ \(3\).svg);
+    background-color: transparent;
+    background-position: center;
+    outline-color: transparent;
+    box-shadow: none;
+
 }

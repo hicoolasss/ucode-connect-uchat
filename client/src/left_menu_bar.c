@@ -54,12 +54,11 @@ void home_clicked()
 void chats_clicked()
 {
     set_unvisible_all();
-
+    show_empty_chat();
     gtk_widget_set_visible(GTK_WIDGET(current_grid.left_menu_bar), TRUE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chats_container), TRUE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chats), FALSE);
-    gtk_widget_set_visible(GTK_WIDGET(current_grid.empty_chat), TRUE);
-    gtk_widget_set_visible(GTK_WIDGET(current_grid.chat_with_friend), FALSE);
+    gtk_widget_set_visible(GTK_WIDGET(current_grid.chat_with_friend), TRUE);
 }
 
 void settings_clicked()

@@ -148,13 +148,13 @@ gpointer recv_func()
             if (len < 0)
             {
                 printf("Error: Unable to receive data from server\n");
-                break;
+                continue;
             }
             cJSON *json = cJSON_Parse(temp);
             if (!json)
             {
                 printf("Error: Invalid JSON data received from server\n");
-                break;
+                continue;
             }
             char *username = cJSON_GetObjectItemCaseSensitive(json, "username")->valuestring;
             char *avatarname = cJSON_GetObjectItemCaseSensitive(json, "avatarname")->valuestring;

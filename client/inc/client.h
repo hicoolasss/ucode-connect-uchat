@@ -398,6 +398,11 @@ typedef struct {
     GtkWidget *chat_grid;
 } t_chat_info;
 
+typedef struct {
+    t_chat *chat_data;
+    GtkWidget *sent_box;
+} SentMessageData;
+
 
 
 

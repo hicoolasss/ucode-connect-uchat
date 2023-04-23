@@ -14,9 +14,11 @@ void call_new_chat_and_add_iter()
 
 static void create_new_chat_clicked()
 {
+    //show_empty_chat();
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chats), TRUE);
-    gtk_widget_set_visible(GTK_WIDGET(current_grid.empty_chat), FALSE);
+    //gtk_widget_set_visible(GTK_WIDGET(current_grid.empty_chat), FALSE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.chat_with_friend), FALSE);
+
 
     cJSON *json = cJSON_CreateObject();
     cJSON_AddStringToObject(json, "login", current_client.login);
@@ -26,12 +28,14 @@ static void create_new_chat_clicked()
 
 void show_mini_chats()
 {
+
     GtkWidget *chats_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     GtkWidget *chats_label = gtk_label_new("Chats");
     GtkWidget *create_new_chat_btn = gtk_button_new();
     current_grid.chat_pos_count = 0;
 
-    current_grid.chats_list_grid_child = create_grid(400, 587, "chats_list_grid_child");
+    current_grid.chats_list_grid_child = create_grid(400, 530, "chats_list_grid_child");
+    gtk_widget_set_hexpand(current_grid.chats_list_grid_child, FALSE);
 
     // GtkWidget *chats_list_grid = create_grid(400, 190, "chats_list_grid");
 
@@ -41,7 +45,7 @@ void show_mini_chats()
 
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(chats_list_grid_scrolled), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
-    gtk_widget_set_size_request(chats_list_grid_scrolled, 400, 587);
+    gtk_widget_set_size_request(chats_list_grid_scrolled, 400, 530);
 
     gtk_widget_set_margin_start(chats_list_grid_scrolled, 0);
     gtk_widget_set_margin_end(chats_list_grid_scrolled, 0);
