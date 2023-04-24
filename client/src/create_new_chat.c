@@ -90,35 +90,35 @@ const char *format_time(const char *timestamp)
     return formatted_time;
 }
 
-// static void get_scaled_image_chats_for_friend_list(t_Friend *current)
-// {
+static void get_scaled_image_chats_for_friend_list(t_Friend *current)
+{
 
-//     GdkPixbuf *source_pixbuf = gdk_pixbuf_new_from_file(current->avatarname, NULL);
-//     // mx_printstr(((t_user *)current->data)->avatarname);
-//     if (!source_pixbuf)
-//     {
-//         g_print("Ошибка при загрузке изображения.3\n");
-//         return;
-//     }
+    GdkPixbuf *source_pixbuf = gdk_pixbuf_new_from_file(current->avatarname, NULL);
+    // mx_printstr(((t_user *)current->data)->avatarname);
+    if (!source_pixbuf)
+    {
+        g_print("Ошибка при загрузке изображения.3\n");
+        return;
+    }
 
-//     // Масштабирование исходного изображения до размера аватара
-//     GdkPixbuf *scaled_pixbuf = gdk_pixbuf_scale_simple(source_pixbuf, 60, 60, GDK_INTERP_BILINEAR);
-//     // g_object_unref(current_avatar.avatar);
+    // Масштабирование исходного изображения до размера аватара
+    GdkPixbuf *scaled_pixbuf = gdk_pixbuf_scale_simple(source_pixbuf, 60, 60, GDK_INTERP_BILINEAR);
+    // g_object_unref(current_avatar.avatar);
 
-//     // Создание поверхности Cairo для рисования
-//     cairo_surface_t *surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, 60, 60);
-//     cairo_t *cr = cairo_create(surface);
+    // Создание поверхности Cairo для рисования
+    cairo_surface_t *surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, 60, 60);
+    cairo_t *cr = cairo_create(surface);
 
-//     // Создание круглой области
-//     cairo_arc(cr, 60 / 2.0, 60 / 2.0, 60 / 2.0, 0, 2 * G_PI);
-//     cairo_clip(cr);
-//     gdk_cairo_set_source_pixbuf(cr, scaled_pixbuf, 0, 0);
-//     cairo_paint(cr);
+    // Создание круглой области
+    cairo_arc(cr, 60 / 2.0, 60 / 2.0, 60 / 2.0, 0, 2 * G_PI);
+    cairo_clip(cr);
+    gdk_cairo_set_source_pixbuf(cr, scaled_pixbuf, 0, 0);
+    cairo_paint(cr);
 
-//     GdkPixbuf *circle_pixbuf = gdk_pixbuf_get_from_surface(surface, 0, 0, 60, 60);
+    GdkPixbuf *circle_pixbuf = gdk_pixbuf_get_from_surface(surface, 0, 0, 60, 60);
 
-//     scaled_avatar = circle_pixbuf;
-// }
+    scaled_avatar = circle_pixbuf;
+}
 
 void create_new_chat(GtkToggleButton *toggle_button, gpointer user_data)
 {
@@ -781,7 +781,7 @@ void update_show_chats_with_added_friends(t_list *friend_list)
 
         GtkWidget *username_label = gtk_label_new(friend_data->username);
 
-        // get_scaled_image_chats();
+        get_scaled_image_chats_for_friend_list(friend_data);
 
         GtkWidget *user_avatar = gtk_image_new_from_pixbuf(scaled_avatar);
 
@@ -839,7 +839,7 @@ void show_friend_info(gpointer data)
 
     GtkWidget *user_info_grid = create_grid(428, 75, NULL);
 
-    // get_scaled_image_chats();
+    get_scaled_image_chats_for_friend_list(friend_data);
 
     GtkWidget *user_avatar = gtk_image_new_from_pixbuf(scaled_avatar);
 
@@ -900,7 +900,7 @@ void show_chats_with_added_friends(t_list *friend_list)
 
         GtkWidget *username_label = gtk_label_new(friend_data->username);
 
-        // get_scaled_image_chats_for_friend_list(friend_data);
+        get_scaled_image_chats_for_friend_list(friend_data);
 
         GtkWidget *user_avatar = gtk_image_new_from_pixbuf(scaled_avatar);
 
