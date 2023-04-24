@@ -82,7 +82,7 @@ void add_message_to_chat_history(t_list **friend_list, const char *username, t_c
     update_show_chats_with_added_friends(*friend_list);
 }
 
-void add_new_friend(t_list **friend_list, const char *username)
+void add_new_friend(t_list **friend_list, const char *username, const char *avatarname)
 {
     if (!friend_list || !username)
         return;
@@ -106,6 +106,7 @@ void add_new_friend(t_list **friend_list, const char *username)
     friend_data->lastmessage = "Nothing here...";
     friend_data->chat_history = NULL;
     friend_data->in_chat = false;
+    friend_data->avatarname = mx_strdup(avatarname);
 
     t_list *new_friend_node = (t_list *)malloc(sizeof(t_list));
     if (!new_friend_node)

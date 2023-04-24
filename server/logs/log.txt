@@ -1,0 +1,2 @@
+Error sending command: error:00000005:lib(0)::reason(5)
+

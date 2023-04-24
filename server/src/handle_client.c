@@ -217,7 +217,8 @@ void *handle_client(void *args)
                 else
                 {
                     cJSON *json = cJSON_CreateObject();
-
+                    char *avatarname = sql_get_image(db, friendname);
+                    cJSON_AddStringToObject(json, "avatarname", avatarname);
                     t_list *current = users_list;
                     while (current != NULL)
                     {
