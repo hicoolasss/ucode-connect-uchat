@@ -59,12 +59,12 @@ void send_message_to_all_clients(char *message, int current_socket, char *login)
         if (((t_client *)current->data)->cl_socket != current_socket && ((t_client *)current->data)->connected == true)
         {
             SSL *ssl = ((t_client *)current->data)->ssl;
-            SSL_write(ssl, json_str, mx_strlen(json_str));
+            SSL_write(ssl, json_str, strlen(json_str));
         }
         current = current->next;
     }
     pthread_mutex_unlock(&clients_mutex);
-    memset(json_str, 0, mx_strlen(json_str));
+    memset(json_str, 0, strlen(json_str));
 }
 
 char *convert_to_json(char *buffer, char *login)
