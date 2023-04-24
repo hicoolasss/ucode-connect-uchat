@@ -65,6 +65,7 @@ void free_client(t_client **client, t_list **users_list);
 void daemon_server();
 void write_logs(char *message);
 void write_json_error(SSL *ssl, int cmd);
+void write_ssl_error(SSL *ssl, int cmd);
 /*функции для операций над базой данных SQL*/
 
 // авторизация

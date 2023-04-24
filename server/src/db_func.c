@@ -56,7 +56,7 @@ void sql_create_db()
     char sql_create_table_dialogs[] = "CREATE TABLE IF NOT EXISTS dialogs ("
                                       "id INTEGER PRIMARY KEY AUTOINCREMENT,"
                                       "user_id INTEGER NOT NULL,"
-                                      "friend_id TEXT NOT NULL,"
+                                      "friend_id INTEGER NOT NULL,"
                                       "message TEXT NOT NULL,"
                                       "timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,"
                                       "FOREIGN KEY(user_id) REFERENCES users(id),"

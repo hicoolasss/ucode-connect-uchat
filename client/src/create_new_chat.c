@@ -17,9 +17,13 @@ GtkWidget *checkbox_btn;
 GtkWidget *chat_with_friend_grid;
 GtkWidget *chat_with_friend_scrolled;
 
+GtkWidget *entry;
+
 t_Friend *current_friend = NULL;
 
 t_list *chat_history_temp;
+
+bool for_edit = FALSE;
 
 int count = 0;
 int temp_count = 0;
@@ -363,11 +367,14 @@ void show_user_list_scrolled(t_list *current)
 static void on_entry_activate(GtkEntry *entry, gpointer friend_data)
 {
 
+    mx_printstr("otpravka\n");
+
     t_Friend *data = friend_data;
 
-    GtkEntryBuffer *text = gtk_entry_get_buffer(GTK_ENTRY(entry));
+    // ((t_chat*)data->chat_history)->
+
     const char *username = strdup(data->username);
-    const char *message = g_strdup(gtk_entry_buffer_get_text(text));
+    const char *message = gtk_editable_get_text(GTK_EDITABLE(entry));
 
     // printf("%s -> %s\n", username, message);
     if (message == NULL)
@@ -394,6 +401,34 @@ static void on_entry_activate(GtkEntry *entry, gpointer friend_data)
     gtk_editable_set_text(GTK_EDITABLE(entry), "");
 }
 
+static void on_entry_activate_for_editing(GtkEntry *entry, gpointer user_data)
+{
+    mx_printstr("on_entry_activate_for_editing\n");
+
+    SentMessageData *sent_message_data = (SentMessageData *)user_data;
+    t_chat *chat_data = sent_message_data->chat_data;
+    t_Friend *friend_data = sent_message_data->friend_data;
+
+    char *username = friend_data->username;
+    char *sender = chat_data->sender;
+    int message_id = chat_data->id;
+    char *old_message = chat_data->message;
+
+    const char *new_message = gtk_editable_get_text(GTK_EDITABLE(entry));
+
+    cJSON *json = cJSON_CreateObject();
+    cJSON_AddStringToObject(json, "command", "<update_message_in_chat>");
+    cJSON_AddStringToObject(json, "friendname", username);
+    cJSON_AddStringToObject(json, "sender", sender);
+    cJSON_AddStringToObject(json, "old_message", old_message);
+    cJSON_AddStringToObject(json, "new_message", new_message);
+    cJSON_AddNumberToObject(json, "message_id", message_id);
+
+    g_async_queue_push(message_queue, json);
+
+    // gtk_editable_set_text(GTK_EDITABLE(entry), "");
+}
+
 static gboolean scroll_to_bottom(gpointer user_data)
 {
     GtkScrolledWindow *scrolled_window = GTK_SCROLLED_WINDOW(user_data);
@@ -415,7 +450,6 @@ static void on_delete_msg_clicked(GtkWidget *btn, gpointer user_data)
     char *message = chat_data->message;
     int message_id = chat_data->id;
 
-
     cJSON *json = cJSON_CreateObject();
     cJSON_AddStringToObject(json, "command", "<delete_message_in_chat>");
     cJSON_AddStringToObject(json, "friendname", username);
@@ -424,16 +458,34 @@ static void on_delete_msg_clicked(GtkWidget *btn, gpointer user_data)
     cJSON_AddNumberToObject(json, "message_id", message_id);
 
     g_async_queue_push(message_queue, json);
+}
 
+static void on_edit_msg_clicked(GtkWidget *btn, gpointer user_data)
+{
+
+    mx_printstr("on_edit_msg_clicked\n");
+
+    SentMessageData *sent_message_data = (SentMessageData *)user_data;
+    t_chat *chat_data = sent_message_data->chat_data;
+    t_Friend *friend_data = sent_message_data->friend_data;
+
+    for_edit = TRUE;
+
+    gtk_editable_set_text(GTK_EDITABLE(entry), chat_data->message);
+
+    if (for_edit) {
+        mx_printstr("true\n");
+        g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate_for_editing), user_data);
+    }
 }
 
 static void on_sent_msg_clicked(GtkWidget *btn, gpointer user_data)
 {
 
     SentMessageData *sent_message_data = (SentMessageData *)user_data;
-    //t_chat *chat_data = sent_message_data->chat_data;
+    // t_chat *chat_data = sent_message_data->chat_data;
 
-    //t_Friend *friend_data = sent_message_data->friend_data;
+    // t_Friend *friend_data = sent_message_data->friend_data;
 
     GtkWidget *box = sent_message_data->sent_box;
 
@@ -467,6 +519,8 @@ static void on_sent_msg_clicked(GtkWidget *btn, gpointer user_data)
     widget_styling(cancel_btn, current_screen, "cancel_btn");
 
     g_signal_connect(delete_btn, "clicked", G_CALLBACK(on_delete_msg_clicked), user_data);
+
+    g_signal_connect(edit_btn, "clicked", G_CALLBACK(on_edit_msg_clicked), user_data);
 }
 
 void update_chat_history(gpointer friend_data)
@@ -754,7 +808,7 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
 
     // GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
-    GtkWidget *entry = gtk_entry_new();
+    entry = gtk_entry_new();
 
     gtk_entry_set_placeholder_text(GTK_ENTRY(entry), "Write somethings...");
 
@@ -778,7 +832,13 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
     gtk_grid_attach(GTK_GRID(current_grid.chat_with_friend), chat_with_friend_scrolled, 0, 0, 2, 9999 - last_child);
     gtk_grid_attach(GTK_GRID(current_grid.chat_with_friend), entry, 0, 9999 - last_child, 2, 1);
 
+    handler_id *handler_id = malloc(sizeof(handler_id));
+
+    handler_id->friend_data = friend_iter;
+    handler_id->id = 0;
+   
     g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate), friend_iter);
+    
 
     // widget_styling(box, current_screen, "entry_box");
     widget_styling(entry, current_screen, "entry_for_users_text");

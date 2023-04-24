@@ -11,7 +11,6 @@ void *handle_client(void *args)
     sqlite3 *db = db_open();
     t_client *current_client = (t_client *)args;
     char buf[200000];
-    char *logs_buf = NULL;
     current_client->connected = false;
     bool is_run = false;
     while (is_run == false)
@@ -116,9 +115,7 @@ void *handle_client(void *args)
                 int cmd = SSL_write(current_client->ssl, command, mx_strlen(command));
                 if (cmd <= 0)
                 {
-                    int error_code = SSL_get_error(current_client->ssl, cmd);
-                    snprintf(logs_buf, sizeof(logs_buf), "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
-                    write_logs(logs_buf);
+                    write_json_error(current_client->ssl, cmd);
                 }
                 remove_client(current_client->cl_socket);
                 cli_count--;
@@ -129,9 +126,7 @@ void *handle_client(void *args)
                 int cmd = SSL_write(current_client->ssl, command, mx_strlen(command));
                 if (cmd <= 0)
                 {
-                    int error_code = SSL_get_error(current_client->ssl, cmd);
-                    snprintf(logs_buf, sizeof(logs_buf), "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
-                    write_logs(logs_buf);
+                    write_json_error(current_client->ssl, cmd);
                 }
                 t_list *clients = get_clients(db);
                 if (clients == NULL)
@@ -143,9 +138,7 @@ void *handle_client(void *args)
                 int result = send_namelist(current_client->ssl, clients);
                 if (result <= 0)
                 {
-                    int error_code = SSL_get_error(current_client->ssl, result);
-                    snprintf(logs_buf, sizeof(logs_buf), "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
-                    write_logs(logs_buf);
+                    write_json_error(current_client->ssl, cmd);
                 }
                 // Освобождаем память, выделенную для списка
                 while (clients != NULL)
@@ -161,9 +154,7 @@ void *handle_client(void *args)
                 int cmd = SSL_write(current_client->ssl, command, mx_strlen(command));
                 if (cmd <= 0)
                 {
-                    int error_code = SSL_get_error(current_client->ssl, cmd);
-                    snprintf(logs_buf, sizeof(logs_buf), "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
-                    write_logs(logs_buf);
+                    write_json_error(current_client->ssl, cmd);
                 }
                 t_list *friends_list = get_friends(db, current_client->login);
 
@@ -185,9 +176,7 @@ void *handle_client(void *args)
                     if (bytes_written <= 0)
                     {
                         // Обработка ошибки
-                        int error_code = SSL_get_error(current_client->ssl, bytes_written);
-                        snprintf(logs_buf, sizeof(logs_buf), "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
-                        write_logs(logs_buf);
+                        write_json_error(current_client->ssl, cmd);
                     }
                     // Освободить память, выделенную для строки JSON
                     cJSON_free(json_string);
@@ -205,11 +194,6 @@ void *handle_client(void *args)
             {
                 char *friendname = cJSON_GetObjectItemCaseSensitive(json, "friend")->valuestring;
 
-                if (len < 0)
-                {
-                    write_logs("Error: Unable to receive data from server\n");
-                    break;
-                }
                 if (add_friend(db, current_client->login, friendname) == 0)
                 {
                     SSL_write(current_client->ssl, "already your friend", 20);
@@ -279,9 +263,7 @@ void *handle_client(void *args)
                         int cmd = SSL_write(ssl, command, mx_strlen(command));
                         if (cmd <= 0)
                         {
-                            int error_code = SSL_get_error(ssl, cmd);
-                            snprintf(logs_buf, sizeof(logs_buf), "Error sending command: %s\n", ERR_error_string(error_code, NULL));
-                            write_logs(logs_buf);
+                            write_ssl_error(ssl, cmd);
                         }
                         else
                         {
@@ -301,9 +283,7 @@ void *handle_client(void *args)
                         int cmd = SSL_write(ssl, command, mx_strlen(command));
                         if (cmd <= 0)
                         {
-                            int error_code = SSL_get_error(ssl, cmd);
-                            snprintf(logs_buf, sizeof(logs_buf), "Error sending command: %s\n", ERR_error_string(error_code, NULL));
-                            write_logs(logs_buf);
+                            write_json_error(ssl, cmd);
                         }
                         else
                         {
@@ -459,9 +439,7 @@ void *handle_client(void *args)
                     int cmd = SSL_write(current_client->ssl, "Avatar not saved", 17);
                     if (cmd <= 0)
                     {
-                        int error_code = SSL_get_error(current_client->ssl, cmd);
-                        snprintf(logs_buf, sizeof(logs_buf), "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
-                        write_logs(logs_buf);
+                        write_ssl_error(current_client->ssl, cmd);
                     }
                 }
                 else

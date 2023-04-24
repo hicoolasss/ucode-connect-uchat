@@ -29,6 +29,28 @@ void write_json_error(SSL *ssl, int cmd)
     {
         int error_code = SSL_get_error(ssl, cmd);
         char logs_buf[512];
+        int logs_len = snprintf(logs_buf, sizeof(logs_buf), "Error sending JSON: %s\n", ERR_error_string(error_code, NULL));
+        if (logs_len < (int)sizeof(logs_buf))
+        {
+            write_logs(logs_buf);
+        }
+        else
+        {
+            write_logs("Error: logs buffer too small\n");
+        }
+    }
+    else
+    {
+        write_logs("Error: SSL connection is NULL\n");
+    }
+}
+
+void write_ssl_error(SSL *ssl, int cmd)
+{
+    if (ssl != NULL)
+    {
+        int error_code = SSL_get_error(ssl, cmd);
+        char logs_buf[512];
         int logs_len = snprintf(logs_buf, sizeof(logs_buf), "Error sending command: %s\n", ERR_error_string(error_code, NULL));
         if (logs_len < (int)sizeof(logs_buf))
         {
