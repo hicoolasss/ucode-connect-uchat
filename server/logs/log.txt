@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Failed to bind to address
 
 Failed to bind to address
@@ -20,5 +21,11 @@ Failed to bind to address
 
 Error sending command: error:00000005:lib(0)::reason(5)
 
+=======
+>>>>>>> e58cad3fd96a234ce53f4b2883eecf73606e0247
 Error sending command: error:00000005:lib(0)::reason(5)
+
+Failed to bind to address
+
+Failed to bind to address
 
