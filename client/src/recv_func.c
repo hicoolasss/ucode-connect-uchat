@@ -20,6 +20,7 @@ gpointer recv_func()
 
     while (running)
     {
+        memset(command, 0, sizeof(command));
         int len = stable_recv(current_client.ssl, command, sizeof(command));
         printf("\n%d ->", len);
         printf(" %s\n", command);
@@ -211,7 +212,6 @@ gpointer recv_func()
 
             update_message(friend_list, friendname, message_id, message);
         }
-        memset(command, 0, sizeof(command));
     }
     return NULL;
 }
