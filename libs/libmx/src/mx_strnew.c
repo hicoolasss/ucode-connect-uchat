@@ -5,7 +5,7 @@ char *mx_strnew(const int size) {
         return NULL;
     char *string = (char*)malloc((size + 1)  * sizeof(char));
     for(int i = 0; i < size; i++) {
-        string[i + 1] = '\0';
+        string[i] = '\0';
     }
     return string;
 }

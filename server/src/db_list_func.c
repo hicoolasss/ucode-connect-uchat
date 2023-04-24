@@ -1,13 +1,5 @@
 #include "../inc/server.h"
 
-// t_user *create_user_list(const char *db_username)
-// {
-//     t_user *clients = (t_user *)malloc(sizeof(t_user));
-//     clients->username = mx_strdup((const char *)db_username);
-//     mx_push_back(&client_list, clients);
-//     return clients;
-// }
-
 t_list *get_clients(sqlite3 *db)
 {
     int rc;
@@ -18,7 +10,9 @@ t_list *get_clients(sqlite3 *db)
 
     if (rc != SQLITE_OK)
     {
-        // fprintf(stderr, "SQL error: %s\n", sqlite3_errmsg(db));
+        char logbuf[32];
+        sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
+        write_logs(logbuf);
         return NULL;
     }
 
@@ -48,10 +42,11 @@ t_list *get_friends(sqlite3 *db, const char *username)
     int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
     if (result != SQLITE_OK)
     {
-        // fprintf(stderr, "Error: failed to execute statement: %s.\n", sqlite3_errmsg(db));
+        char logbuf[32];
+        sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
+        write_logs(logbuf);
         return NULL;
     }
-    // t_list *head = NULL;
     t_list *friend_list = NULL;
 
     while (sqlite3_step(stmt) == SQLITE_ROW)
@@ -63,7 +58,9 @@ t_list *get_friends(sqlite3 *db, const char *username)
         int result2 = sqlite3_prepare_v2(db, sql2, -1, &stmt2, NULL);
         if (result2 != SQLITE_OK)
         {
-            // fprintf(stderr, "Error: failed to execute statement: %s.\n", sqlite3_errmsg(db));
+            char logbuf[32];
+            sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
+            write_logs(logbuf);
             sqlite3_finalize(stmt2);
             sqlite3_finalize(stmt);
             return NULL;
@@ -103,7 +100,9 @@ t_list *get_message_history(sqlite3 *db, int user_id, int friend_id)
 
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK)
     {
-        // printf("Ошибка подготовки SQL: %s\n", sqlite3_errmsg(db));
+        char logbuf[32];
+        sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
+        write_logs(logbuf);
         return NULL;
     }
     t_list *chat_recording = NULL;
@@ -130,7 +129,6 @@ t_list *get_message_history(sqlite3 *db, int user_id, int friend_id)
         {
             mx_push_back(&chat_recording, chat_record);
         }
-        // printf("[%s] %d: %s\n", timestamp, sender_id, text);
     }
 
     sqlite3_finalize(stmt);

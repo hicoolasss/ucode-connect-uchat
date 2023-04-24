@@ -53,7 +53,7 @@ void *handle_client(void *args)
                 {
                     current_client->login = mx_strdup(login);
                     char *avatarname = sql_get_image(db, current_client->login);
-                    SSL_write(current_client->ssl, avatarname, mx_strlen(avatarname));
+                    SSL_write(current_client->ssl, avatarname, strlen(avatarname));
                     is_run = true;
                     current_client->connected = true;
                 }
@@ -69,8 +69,8 @@ void *handle_client(void *args)
                 {
                     SSL_write(current_client->ssl, "registered\n", 12);
                     current_client->login = mx_strdup(login);
-                    memset(login, 0, mx_strlen(login));
-                    memset(passwd, 0, mx_strlen(passwd));
+                    memset(login, 0, strlen(login));
+                    memset(passwd, 0, strlen(passwd));
                 }
             }
             cJSON_Delete(json);
@@ -87,6 +87,7 @@ void *handle_client(void *args)
         }
         else if (len == 0)
         {
+            printf("exit\n");
             remove_client(current_client->cl_socket);
             cli_count--;
             break;
@@ -106,7 +107,7 @@ void *handle_client(void *args)
 
             char *command = cJSON_GetObjectItemCaseSensitive(json, "command")->valuestring;
 
-            if (mx_strcmp(command, "<logout>") == 0)
+            if (strcmp(command, "<logout>") == 0)
             {
                 int cmd = SSL_write(current_client->ssl, command, mx_strlen(command));
                 if (cmd <= 0)
@@ -119,7 +120,7 @@ void *handle_client(void *args)
                 cli_count--;
                 is_run = false;
             }
-            else if (mx_strcmp(command, "<user_list>") == 0)
+            else if (strcmp(command, "<user_list>") == 0)
             {
                 int cmd = SSL_write(current_client->ssl, command, mx_strlen(command));
                 if (cmd <= 0)
@@ -151,7 +152,7 @@ void *handle_client(void *args)
                     free(temp);
                 }
             }
-            else if (mx_strcmp(command, "<friend_list>") == 0)
+            else if (strcmp(command, "<friend_list>") == 0)
             {
                 int cmd = SSL_write(current_client->ssl, command, mx_strlen(command));
                 if (cmd <= 0)
@@ -196,7 +197,7 @@ void *handle_client(void *args)
                     }
                 }
             }
-            else if (mx_strcmp(command, "<add_friend>") == 0)
+            else if (strcmp(command, "<add_friend>") == 0)
             {
                 char *friendname = cJSON_GetObjectItemCaseSensitive(json, "friend")->valuestring;
 
@@ -257,7 +258,7 @@ void *handle_client(void *args)
                     cJSON_Delete(json);
                 }
             }
-            else if (mx_strcmp(command, "<send_message_in_chat>") == 0)
+            else if (strcmp(command, "<send_message_in_chat>") == 0)
             {
                 char *friendname = cJSON_GetObjectItemCaseSensitive(json, "friend")->valuestring;
                 char *message = cJSON_GetObjectItemCaseSensitive(json, "message")->valuestring;
@@ -323,7 +324,7 @@ void *handle_client(void *args)
                     free(message_data);
                 }
             }
-            else if (mx_strcmp(command, "<delete_message_in_chat>") == 0)
+            else if (strcmp(command, "<delete_message_in_chat>") == 0)
             {
                 char *message = cJSON_GetObjectItemCaseSensitive(json, "message")->valuestring;
                 char *username = cJSON_GetObjectItemCaseSensitive(json, "sender")->valuestring;
@@ -379,7 +380,7 @@ void *handle_client(void *args)
                 }
                 cJSON_Delete(json_message);
             }
-            else if (mx_strcmp(command, "<update_message_in_chat>") == 0)
+            else if (strcmp(command, "<update_message_in_chat>") == 0)
             {
                 char *new_message = cJSON_GetObjectItemCaseSensitive(json, "new_message")->valuestring;
                 char *old_message = cJSON_GetObjectItemCaseSensitive(json, "old_message")->valuestring;
@@ -436,7 +437,7 @@ void *handle_client(void *args)
                 }
                 cJSON_Delete(json_message);
             }
-            else if (mx_strcmp(command, "<update_image>") == 0)
+            else if (strcmp(command, "<update_image>") == 0)
             {
                 char *filename = cJSON_GetObjectItemCaseSensitive(json, "filename")->valuestring;
                 if (save_image_to_db(db, current_client->login, filename) != 0)

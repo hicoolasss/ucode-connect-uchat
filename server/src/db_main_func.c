@@ -144,6 +144,7 @@ t_chat *sql_record_message(sqlite3 *db, char *username, char *friendname, const 
         char logbuf[32];
         sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
         write_logs(logbuf);
+        sqlite3_finalize(stmt);
         return NULL;
     }
     sqlite3_bind_int(stmt, 1, message_id);
@@ -161,6 +162,8 @@ t_chat *sql_record_message(sqlite3 *db, char *username, char *friendname, const 
         char logbuf[32];
         sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
         write_logs(logbuf);
+        sqlite3_finalize(stmt);
+        return NULL;
     }
     sqlite3_finalize(stmt);
     return message_data;
@@ -177,6 +180,7 @@ char *get_last_message_from_dialog(sqlite3 *db, const char *username, const char
         char logbuf[32];
         sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
         write_logs(logbuf);
+        sqlite3_finalize(stmt);
         return NULL;
     }
 
@@ -220,6 +224,7 @@ int sql_delete_message_from_dialog(sqlite3 *db, int message_id, const char *user
         char logbuf[32];
         sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
         write_logs(logbuf);
+        sqlite3_finalize(stmt);
         return -1;
     }
 
@@ -252,6 +257,7 @@ int sql_update_message_in_dialog(sqlite3 *db, int message_id, const char *old_me
         char logbuf[32];
         sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
         write_logs(logbuf);
+        sqlite3_finalize(stmt);
         return -1;
     }
 
@@ -287,6 +293,7 @@ int save_image_to_db(sqlite3 *db, const char *username, const char *filename)
         char logbuf[32];
         sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
         write_logs(logbuf);
+        sqlite3_finalize(stmt);
         return -1;
     }
 
@@ -298,6 +305,7 @@ int save_image_to_db(sqlite3 *db, const char *username, const char *filename)
         char logbuf[32];
         sprintf(logbuf, "Error: %s\n", sqlite3_errmsg(db));
         write_logs(logbuf);
+        sqlite3_finalize(stmt);
         return -1;
     }
 
