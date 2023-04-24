@@ -403,6 +403,7 @@ typedef struct {
 
 typedef struct {
     t_chat *chat_data;
+    t_Friend *friend_data;
     GtkWidget *sent_box;
 } SentMessageData;
 

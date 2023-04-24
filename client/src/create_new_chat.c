@@ -405,11 +405,35 @@ static gboolean scroll_to_bottom(gpointer user_data)
     return FALSE; // Возвращаем FALSE, чтобы удалить функцию из очереди выполнения
 }
 
+static void on_delete_msg_clicked(GtkWidget *btn, gpointer user_data)
+{
+    SentMessageData *sent_message_data = (SentMessageData *)user_data;
+    t_chat *chat_data = sent_message_data->chat_data;
+    t_Friend *friend_data = sent_message_data->friend_data;
+    char *username = friend_data->username;
+    char *sender = chat_data->sender;
+    char *message = chat_data->message;
+    int message_id = chat_data->id;
+
+
+    cJSON *json = cJSON_CreateObject();
+    cJSON_AddStringToObject(json, "command", "<delete_message_in_chat>");
+    cJSON_AddStringToObject(json, "friendname", username);
+    cJSON_AddStringToObject(json, "sender", sender);
+    cJSON_AddStringToObject(json, "message", message);
+    cJSON_AddNumberToObject(json, "message_id", message_id);
+
+    g_async_queue_push(message_queue, json);
+
+}
+
 static void on_sent_msg_clicked(GtkWidget *btn, gpointer user_data)
 {
 
     SentMessageData *sent_message_data = (SentMessageData *)user_data;
-    t_chat *chat_data = sent_message_data->chat_data;
+    //t_chat *chat_data = sent_message_data->chat_data;
+
+    //t_Friend *friend_data = sent_message_data->friend_data;
 
     GtkWidget *box = sent_message_data->sent_box;
 
@@ -441,6 +465,8 @@ static void on_sent_msg_clicked(GtkWidget *btn, gpointer user_data)
     widget_styling(edit_btn, current_screen, "edit_btn");
     widget_styling(delete_btn, current_screen, "delete_btn");
     widget_styling(cancel_btn, current_screen, "cancel_btn");
+
+    g_signal_connect(delete_btn, "clicked", G_CALLBACK(on_delete_msg_clicked), user_data);
 }
 
 void update_chat_history(gpointer friend_data)
@@ -531,6 +557,7 @@ void update_chat_history(gpointer friend_data)
                 SentMessageData *sent_message_data = malloc(sizeof(SentMessageData));
                 sent_message_data->chat_data = chat_data;
                 sent_message_data->sent_box = sent_box;
+                sent_message_data->friend_data = friend_iter;
 
                 g_signal_connect(sent_msg, "clicked", G_CALLBACK(on_sent_msg_clicked), sent_message_data);
             }
@@ -682,6 +709,7 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
             SentMessageData *sent_message_data = malloc(sizeof(SentMessageData));
             sent_message_data->chat_data = chat_data;
             sent_message_data->sent_box = sent_box;
+            sent_message_data->friend_data = friend_iter;
 
             g_signal_connect(sent_msg, "clicked", G_CALLBACK(on_sent_msg_clicked), sent_message_data);
         }

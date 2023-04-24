@@ -1390,11 +1390,16 @@
 
 }
 
-.message:active {
+.sent_message:active {
     transform: translateY(2px) translateX(1px);
     box-shadow: 0 0 0 0 @big-log-in-button-shadow-active;
 }
 
+
+.received_message:active {
+    transform: translateY(2px) translateX(1px);
+    box-shadow: 0 0 0 0 @big-log-in-button-shadow-active;
+}
 .username_label_in_chat {
 
     font-family: 'JetBrains Mono';

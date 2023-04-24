@@ -357,9 +357,30 @@ void delete_message(t_list *friend_list, char *username, int message_id, char *m
 
         friend_current = friend_current->next;
     }
+
+    t_Friend *friend_data = NULL;
+    t_list *temp = friend_list;
+
+    // Найти друзей с заданным именем пользователя
+    while (temp)
+    {
+        friend_data = (t_Friend *)temp->data;
+        if (mx_strcmp(friend_data->username, username) == 0)
+        {
+            break;
+        }
+        temp = temp->next;
+    }
+    if (friend_data->in_chat) {
+
+        update_chat_history(friend_data);
+    }
+
+    update_show_chats_with_added_friends(friend_list);
 }
 
-void update_message(t_list *friend_list, char *username, int old_message_id, char *new_message_text) {
+void 
+update_message(t_list *friend_list, char *username, int old_message_id, char *new_message_text) {
     t_list *friend_current = friend_list;
 
     while (friend_current != NULL) {
