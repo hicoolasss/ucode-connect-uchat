@@ -20,7 +20,6 @@ gpointer recv_func()
 
     while (running)
     {
-        memset(command, 0, sizeof(command));
         int len = stable_recv(current_client.ssl, command, sizeof(command));
         printf("\n%d ->", len);
         printf(" %s\n", command);
@@ -55,7 +54,7 @@ gpointer recv_func()
                 break;
             }
             friend_list = process_json_object(received_json);
-            
+
             show_chats_with_added_friends(friend_list);
 
             cJSON_Delete(received_json);
@@ -170,6 +169,49 @@ gpointer recv_func()
                 printf("User not found\n");
             }
         }
+        else if (mx_strcmp(command, "<delete_message_in_chat>") == 0)
+        {
+            char temp[8392];
+            int len = stable_recv(current_client.ssl, temp, sizeof(temp));
+            if (len < 0)
+            {
+                printf("Error: Unable to receive data from server\n");
+                continue;
+            }
+            cJSON *json = cJSON_Parse(temp);
+            if (!json)
+            {
+                printf("Error: Invalid JSON data received from server\n");
+                continue;
+            }
+            char *message = cJSON_GetObjectItemCaseSensitive(json, "message")->valuestring;
+            char *friendname = cJSON_GetObjectItemCaseSensitive(json, "friendname")->valuestring;
+            int message_id = cJSON_GetObjectItemCaseSensitive(json, "message_id")->valueint;
+
+            delete_message(friend_list, friendname, message_id, message);
+        }
+        else if (mx_strcmp(command, "<update_message_in_chat>") == 0)
+        {
+            char temp[8392];
+            int len = stable_recv(current_client.ssl, temp, sizeof(temp));
+            if (len < 0)
+            {
+                printf("Error: Unable to receive data from server\n");
+                continue;
+            }
+            cJSON *json = cJSON_Parse(temp);
+            if (!json)
+            {
+                printf("Error: Invalid JSON data received from server\n");
+                continue;
+            }
+            char *message = cJSON_GetObjectItemCaseSensitive(json, "new_message")->valuestring;
+            char *friendname = cJSON_GetObjectItemCaseSensitive(json, "friendname")->valuestring;
+            int message_id = cJSON_GetObjectItemCaseSensitive(json, "message_id")->valueint;
+
+            update_message(friend_list, friendname, message_id, message);
+        }
+        memset(command, 0, sizeof(command));
     }
     return NULL;
 }

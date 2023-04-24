@@ -323,3 +323,64 @@ int update_user_avatar(t_list *list, const char *username, const char *avatarnam
     pthread_mutex_unlock(&mutex_send);
     return -1; // ошибка, юзер не найден
 }
+
+void delete_message(t_list *friend_list, char *username, int message_id, char *message_text) {
+    t_list *friend_current = friend_list;
+
+    while (friend_current != NULL) {
+        t_Friend *friend = (t_Friend *)friend_current->data;
+
+        if (strcmp(friend->username, username) == 0) {
+            t_list *current = friend->chat_history;
+            t_list *previous = NULL;
+
+            while (current != NULL) {
+                t_chat *message = (t_chat *)current->data;
+                if (message->id == message_id && strcmp(message->message, message_text) == 0) {
+                    if (previous == NULL) {
+                        friend->chat_history = current->next;
+                    } else {
+                        previous->next = current->next;
+                    }
+
+                    free(message->message);
+                    free(message);
+                    free(current);
+                    break;
+                }
+
+                previous = current;
+                current = current->next;
+            }
+            break;
+        }
+
+        friend_current = friend_current->next;
+    }
+}
+
+void update_message(t_list *friend_list, char *username, int old_message_id, char *new_message_text) {
+    t_list *friend_current = friend_list;
+
+    while (friend_current != NULL) {
+        t_Friend *friend = (t_Friend *)friend_current->data;
+
+        if (strcmp(friend->username, username) == 0) {
+            t_list *current = friend->chat_history;
+
+            while (current != NULL) {
+                t_chat *message = (t_chat *)current->data;
+                if (message->id == old_message_id) {
+                    free(message->message);
+                    message->message = strdup(new_message_text);
+                    break;
+                }
+
+                current = current->next;
+            }
+            break;
+        }
+
+        friend_current = friend_current->next;
+    }
+}

@@ -337,9 +337,8 @@ void *handle_client(void *args)
                 }
 
                 cJSON *json_message = cJSON_CreateObject();
-                cJSON_AddStringToObject(json_message, "sender", username);
                 cJSON_AddStringToObject(json_message, "message", message);
-                cJSON_AddNumberToObject(json_message, "id", message_id);
+                cJSON_AddNumberToObject(json_message, "message_id", message_id);
 
                 t_list *current = users_list;
                 while (current != NULL)
@@ -395,9 +394,8 @@ void *handle_client(void *args)
                 }
 
                 cJSON *json_message = cJSON_CreateObject();
-                cJSON_AddStringToObject(json_message, "sender", username);
                 cJSON_AddStringToObject(json_message, "new_message", new_message);
-                cJSON_AddNumberToObject(json_message, "id", message_id);
+                cJSON_AddNumberToObject(json_message, "message_id", message_id);
 
                 t_list *current = users_list;
                 while (current != NULL)
