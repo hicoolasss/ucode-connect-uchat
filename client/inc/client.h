@@ -397,6 +397,8 @@ void show_friend_info(gpointer data);
 
 void update_current_chat(t_chat *chat_data, const char *friendname);
 
+void on_sent_msg_clicked(GtkWidget *btn, gpointer user_data);
+
 typedef struct {
     gpointer chat_history;
     gpointer username_copy;
