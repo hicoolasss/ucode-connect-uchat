@@ -15,6 +15,8 @@ int main(int argc, char **argv)
     }
     int port = atoi(argv[1]);
 
+    struct sockaddr_in cli_addr;
+
     // daemon_server();
 
     // close(STDIN_FILENO);
@@ -47,7 +49,6 @@ int main(int argc, char **argv)
     // }
     socklen_t adr_size = sizeof(cli_addr);
 
-    int client_id = 0;
     int client_fd;
     struct sockaddr_in adr = {0};
     int serv_fd = open_server_connection(port, &adr, adr_size);
@@ -95,8 +96,7 @@ int main(int argc, char **argv)
     //     pthread_create(&thread, NULL, handle_client, new_client);
     //     pthread_join(thread, NULL);
     // }
-    // SSL_CTX_free(ctx);
-    // close(server_fd);
-    pthread_exit(NULL);
+    SSL_CTX_free(ctx);
+    close(client_fd);
     return 0;
 }
