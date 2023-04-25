@@ -47,20 +47,20 @@ void close_connection(SSL *ssl) {
 }
 
 int open_ssl_connection() {
-    SSL *ssl;
+    // SSL *ssl;
     SSL_library_init();
 
     open_client_connection(main_client.ip, main_client.port);
-    ssl = SSL_new(main_client.context);
-    SSL_set_mode(ssl, SSL_MODE_ASYNC);
-    if (SSL_set_fd(ssl, current_client.serv_fd) == 0) {
+    current_client.ssl = SSL_new(main_client.context);
+    SSL_set_mode(current_client.ssl, SSL_MODE_ASYNC);
+    if (SSL_set_fd(current_client.ssl, current_client.serv_fd) == 0) {
         perror("ERROR: socket descriptor attachment failed!\n");
         ERR_print_errors_fp(stderr);
         return -1;
     }
-    current_client.ssl = ssl;
+    // current_client.ssl = ssl;
 
-    if (SSL_connect(ssl) == -1) {
+    if (SSL_connect(current_client.ssl) == -1) {
         ERR_print_errors_fp(stderr);
         return -1;
     }
