@@ -1,4 +1,13 @@
 <<<<<<< HEAD
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+=======
+<<<<<<< HEAD
 Failed to bind to address
 
 Failed to bind to address
@@ -20,6 +29,7 @@ Failed to bind to address
 Failed to bind to address
 
 Error sending command: error:00000005:lib(0)::reason(5)
+>>>>>>> b68227e906dda088928c35683f4788c085fac0e6
 
 =======
 >>>>>>> e58cad3fd96a234ce53f4b2883eecf73606e0247

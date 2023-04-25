@@ -8,6 +8,17 @@ void show_home(void)
     // main box
     //    current_grid.main_grid = create_grid(1200, 760, NULL);
 
+    pthread_mutex_init(&mutex_recv, NULL);
+    pthread_mutex_init(&mutex_send, NULL);
+    pthread_mutex_init(&command_queue_mutex, NULL);
+
+    gpointer send_func(gpointer data);
+    gpointer recv_func(gpointer data);
+
+    send_thread = g_thread_new("send_thread", send_func, NULL);
+    printf("send start\n");
+    receive_thread = g_thread_new("receive_thread", recv_func, NULL);
+    printf("recv start\n");
     gtk_widget_set_hexpand(current_grid.main_grid, TRUE);
     gtk_widget_set_vexpand(current_grid.main_grid, TRUE);
 

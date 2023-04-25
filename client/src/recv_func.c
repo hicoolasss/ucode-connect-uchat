@@ -10,16 +10,17 @@ gpointer recv_func()
 {
     char command[2048];
 
-    pthread_mutex_lock(&mutex_recv);
-    while (!main_client.connected)
-    {
-        pthread_cond_wait(&auth_cond, &mutex_recv);
-    }
-    // Здесь пользователь авторизован, и поток может продолжить работу с мьютексом
-    pthread_mutex_unlock(&mutex_recv);
+    // pthread_mutex_lock(&mutex_recv);
+    // while (!main_client.connected)
+    // {
+    //     pthread_cond_wait(&auth_cond, &mutex_recv);
+    // }
+    // // Здесь пользователь авторизован, и поток может продолжить работу с мьютексом
+    // pthread_mutex_unlock(&mutex_recv);
 
     while (running)
     {
+        printf("here\n");
         memset(command, 0, sizeof(command));
         int len = stable_recv(current_client.ssl, command, sizeof(command));
         printf("\n%d ->", len);
@@ -139,8 +140,13 @@ gpointer recv_func()
 
         else if (mx_strcmp(command, "<logout>") == 0)
         {
-            running = false;
-            break;
+            pthread_mutex_lock(&mutex_recv);
+            clear_friend_list(friend_list);
+            clear_user_list(user_list);
+            printf("Exit\n");
+            main_client.connected = false;
+            pthread_mutex_unlock(&mutex_recv);
+            g_thread_exit(NULL);
         }
         else if (mx_strcmp(command, "<update_image>") == 0)
         {

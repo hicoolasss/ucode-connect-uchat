@@ -63,7 +63,7 @@ int main(int argc, char **argv)
         pthread_mutex_init(&clients_mutex, NULL);
         t_client *new_client = create_new_client(cli_addr, client_fd, ssl);
         pthread_create(&thread, NULL, handle_client, new_client);
-        pthread_detach(thread);
+        pthread_join(thread, NULL);
     }
     SSL_CTX_free(ctx);
     close(server_fd);
