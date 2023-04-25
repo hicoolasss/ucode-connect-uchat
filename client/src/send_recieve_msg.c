@@ -9,11 +9,23 @@ t_list *all_messages_list = NULL;
 
 extern GtkWidget *chat_with_friend_grid;
 
-void add_message_to_chat_history(t_list **friend_list, const char *username, t_chat *new_chat)
+t_list *mx_list_last(t_list *list) {
+    if (!list) {
+        return NULL;
+    }
+
+    while (list->next) {
+        list = list->next;
+    }
+
+    return list;
+}
+
+t_list *add_message_to_chat_history(t_list **friend_list, const char *username, t_chat *new_chat)
 {
     if (!friend_list || !new_chat)
     {
-        return;
+        return NULL;
     }
 
     t_Friend *friend_data = NULL;
@@ -36,7 +48,7 @@ void add_message_to_chat_history(t_list **friend_list, const char *username, t_c
         friend_data = (t_Friend *)malloc(sizeof(t_Friend));
         if (!friend_data)
         {
-            return;
+            return NULL;
         }
 
         friend_data->username = mx_strdup(username);
@@ -48,19 +60,21 @@ void add_message_to_chat_history(t_list **friend_list, const char *username, t_c
         if (!new_friend_node)
         {
             free(friend_data);
-            return;
+            return NULL;
         }
 
         new_friend_node->data = friend_data;
         new_friend_node->next = *friend_list;
         *friend_list = new_friend_node;
+
+        return new_friend_node;
     }
 
     // Добавить новую историю чата в найденном (или созданном) друге
     t_chat *chat_copy = (t_chat *)malloc(sizeof(t_chat));
     if (!chat_copy)
     {
-        return;
+        return NULL;
     }
 
     chat_copy->id = new_chat->id;
@@ -74,12 +88,7 @@ void add_message_to_chat_history(t_list **friend_list, const char *username, t_c
     // Обновить последнее сообщение для друга
     friend_data->lastmessage = mx_strdup(new_chat->message);
 
-    if (friend_data->in_chat) {
-
-        update_chat_history(friend_data);
-    }
-
-    update_show_chats_with_added_friends(*friend_list);
+    return friend_data->chat_history ? mx_list_last(friend_data->chat_history) : NULL;
 }
 
 void add_new_friend(t_list **friend_list, const char *username, const char *avatarname)

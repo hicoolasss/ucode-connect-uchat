@@ -387,11 +387,13 @@ void show_chats_with_added_friends(t_list *friend_list);
 void update_chat_history(gpointer friend_data);
 gboolean send_receive_msg(gpointer user_data);
 
-void add_message_to_chat_history(t_list **friend_list, const char *username, t_chat *new_chat);
+t_list *add_message_to_chat_history(t_list **friend_list, const char *username, t_chat *new_chat);
 
 void update_show_chats_with_added_friends(t_list *friend_list);
 
 void show_friend_info(gpointer data);
+
+void update_current_chat(t_chat *chat_data, char *friendname);
 
 typedef struct {
     gpointer chat_history;
@@ -409,6 +411,7 @@ typedef struct {
     t_Friend *friend_data;
     GtkWidget *sent_box;
     GtkWidget *entry;
+    char *friendname;
 } SentMessageData;
 
 

@@ -445,7 +445,16 @@ static void on_delete_msg_clicked(GtkWidget *btn, gpointer user_data)
     SentMessageData *sent_message_data = (SentMessageData *)user_data;
     t_chat *chat_data = sent_message_data->chat_data;
     t_Friend *friend_data = sent_message_data->friend_data;
-    char *username = friend_data->username;
+
+    
+    char *username = NULL;
+
+    if (friend_data)
+    {
+        username = g_strdup(friend_data->username);
+    } else {
+        username = g_strdup(sent_message_data->friendname);
+    }
     char *sender = chat_data->sender;
     char *message = chat_data->message;
     int message_id = chat_data->id;
@@ -473,7 +482,8 @@ static void on_edit_msg_clicked(GtkWidget *btn, gpointer user_data)
 
     gtk_editable_set_text(GTK_EDITABLE(entry), chat_data->message);
 
-    if (for_edit) {
+    if (for_edit)
+    {
         mx_printstr("true\n");
         g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate_for_editing), user_data);
     }
@@ -660,6 +670,98 @@ void update_chat_history(gpointer friend_data)
     pthread_mutex_unlock(&mutex_send);
 }
 
+void update_current_chat(t_chat *chat_data, char *friendname)
+{
+    g_idle_add(scroll_to_bottom, chat_with_friend_scrolled);
+
+    if (strcmp(chat_data->sender, current_client.login) == 0)
+    {
+        const char *s_msg = chat_data->message;
+
+        const char *s_msg_time = format_time(chat_data->timestamp);
+
+        GtkWidget *sent_msg = gtk_button_new_with_label(s_msg);
+
+        GtkWidget *sent_time = gtk_label_new(s_msg_time);
+
+        GtkWidget *edit_btn = gtk_button_new();
+
+        GtkWidget *delete_btn = gtk_button_new();
+
+        // gtk_label_set_wrap(GTK_LABEL(sent_msg), TRUE);
+        // gtk_label_set_wrap_mode(GTK_LABEL(sent_msg), PANGO_WRAP_WORD_CHAR);
+        // gtk_label_set_max_width_chars(GTK_LABEL(sent_msg), 60);
+        // gtk_label_set_selectable(GTK_LABEL(sent_msg), FALSE);
+
+        gtk_widget_set_hexpand(sent_msg, TRUE);
+
+        gtk_widget_set_halign(sent_msg, GTK_ALIGN_END); // Выравнивание received_msg по левому краю
+
+        gtk_widget_set_halign(sent_time, GTK_ALIGN_START); // Выравнивание received_time по левому краю
+
+        GtkWidget *sent_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+        gtk_box_append(GTK_BOX(sent_box), sent_time);
+        gtk_box_append(GTK_BOX(sent_box), sent_msg);
+        // gtk_box_append(GTK_BOX(sent_box), edit_btn);
+        // gtk_box_append(GTK_BOX(sent_box), delete_btn);
+
+        gtk_widget_set_size_request(edit_btn, 16, 16);
+        gtk_widget_set_size_request(delete_btn, 16, 16);
+
+        gtk_widget_set_margin_top(sent_box, 15);
+
+        gtk_widget_set_halign(sent_box, GTK_ALIGN_END);
+        gtk_grid_attach(GTK_GRID(chat_with_friend_grid), sent_box, 1, 9999 + chat_data->id, 1, 1);
+
+        widget_styling(sent_msg, current_screen, "sent_message");
+        widget_styling(sent_time, current_screen, "time");
+        widget_styling(edit_btn, current_screen, "edit_btn");
+        widget_styling(delete_btn, current_screen, "delete_btn");
+
+        SentMessageData *sent_message_data = malloc(sizeof(SentMessageData));
+        sent_message_data->chat_data = chat_data;
+        sent_message_data->friend_data = NULL;
+        sent_message_data->sent_box = sent_box;
+        sent_message_data->friendname = friendname;
+
+        g_signal_connect(sent_msg, "clicked", G_CALLBACK(on_sent_msg_clicked), sent_message_data);
+    }
+    else
+    {
+        const char *r_msg = chat_data->message;
+
+        const char *r_msg_time = format_time(chat_data->timestamp);
+
+        GtkWidget *received_msg = gtk_label_new(r_msg);
+
+        GtkWidget *received_time = gtk_label_new(r_msg_time);
+
+        gtk_widget_set_halign(received_msg, GTK_ALIGN_START); // Выравнивание received_msg по левому краю
+
+        gtk_widget_set_halign(received_time, GTK_ALIGN_END); // Выравнивание received_time по левому краю
+
+        gtk_label_set_wrap(GTK_LABEL(received_msg), TRUE);
+        gtk_label_set_wrap_mode(GTK_LABEL(received_msg), PANGO_WRAP_WORD_CHAR);
+        gtk_label_set_max_width_chars(GTK_LABEL(received_msg), 60);
+        gtk_label_set_selectable(GTK_LABEL(received_msg), FALSE);
+
+        gtk_widget_set_hexpand(received_msg, TRUE);
+
+        GtkWidget *received_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+        gtk_box_append(GTK_BOX(received_box), received_msg);
+        gtk_box_append(GTK_BOX(received_box), received_time);
+
+        gtk_widget_set_margin_top(received_box, 15);
+
+        gtk_widget_set_halign(received_box, GTK_ALIGN_START);
+        gtk_grid_attach(GTK_GRID(chat_with_friend_grid), received_box, 0, 9999 + chat_data->id, 1, 1);
+
+        widget_styling(received_msg, current_screen, "received_message");
+
+        widget_styling(received_time, current_screen, "time");
+    }
+}
+
 void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
 {
     (void)btn;
@@ -832,13 +934,12 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
     gtk_grid_attach(GTK_GRID(current_grid.chat_with_friend), chat_with_friend_scrolled, 0, 0, 2, 9999 - last_child);
     gtk_grid_attach(GTK_GRID(current_grid.chat_with_friend), entry, 0, 9999 - last_child, 2, 1);
 
-    handler_id *handler_id = malloc(sizeof(handler_id));
+    // handler_id *handler_id = malloc(sizeof(handler_id));
 
-    handler_id->friend_data = friend_iter;
-    handler_id->id = 0;
-   
+    // handler_id->friend_data = friend_iter;
+    // handler_id->id = 0;
+
     g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate), friend_iter);
-    
 
     // widget_styling(box, current_screen, "entry_box");
     widget_styling(entry, current_screen, "entry_for_users_text");

@@ -157,21 +157,15 @@ void choose_profile_avatar_btn_clicked()
 void show_your_profile()
 {
 
-  GtkWidget *profile_help_grid = create_grid(474, 602, "profile_help_box");
-  GtkWidget *profile_grid_for_img = create_grid(200, 200, "profile_grid_for_img");
-  // GtkWidget *profile_grid_scale = create_grid(251, 20, "profile_grid_scale");
-  GtkWidget *profile_grid_body = create_grid(474, 385, "profile_grid_body");
+  // GtkWidget *profile_help_grid = create_grid(474, 602, "profile_help_box");
+  // GtkWidget *profile_grid_for_img = create_grid(200, 200, "profile_grid_for_img");
+  // GtkWidget *profile_grid_body = create_grid(474, 385, "profile_grid_body");
 
-  gtk_grid_attach(GTK_GRID(current_grid.your_profile), profile_help_grid, 0, 0, 1, 1);
-  gtk_grid_set_row_spacing(GTK_GRID(profile_help_grid), 10);
-  gtk_grid_attach(GTK_GRID(profile_help_grid), profile_grid_for_img, 0, 0, 1, 1);
-  // gtk_grid_attach(GTK_GRID(profile_help_grid), profile_grid_scale, 0, 1, 1, 1);
-  gtk_grid_attach(GTK_GRID(profile_help_grid), profile_grid_body, 0, 1, 1, 1);
+ //gtk_grid_attach(GTK_GRID(current_grid.your_profile), profile_help_grid, 0, 0, 1, 1);
+  // gtk_grid_set_row_spacing(GTK_GRID(profile_help_grid), 10);
+  // gtk_grid_attach(GTK_GRID(profile_help_grid), profile_grid_for_img, 0, 0, 1, 1);
+  // gtk_grid_attach(GTK_GRID(profile_help_grid), profile_grid_body, 0, 1, 1, 1);
 
-  // GtkWidget *profile_avatar_icon = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-  //  get_your_profile_avatar();
-
-  // GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file("/home/criops/ucode-connect-uchat/avatar.png", NULL);
 
   get_your_profile_avatar_from_db();
 
@@ -180,12 +174,6 @@ void show_your_profile()
   GtkWidget *choose_profile_avatar_btn = gtk_button_new();
 
   gtk_button_set_child(GTK_BUTTON(choose_profile_avatar_btn), avatar_img);
-
-  // GtkWidget *exp_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-
-  // GtkWidget *mini_exp_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
-
-  // GtkWidget *exp_count_label = gtk_label_new("50/100 EXP");
 
   GtkWidget *profile_grid_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
@@ -207,25 +195,23 @@ void show_your_profile()
 
   gtk_entry_set_placeholder_text(GTK_ENTRY(bio_entry), "Write something about you...");
 
-  gtk_grid_attach(GTK_GRID(profile_grid_for_img), choose_profile_avatar_btn, 0, 0, 1, 1);
+
+
+
+  gtk_grid_attach(GTK_GRID(current_grid.your_profile), choose_profile_avatar_btn, 0, 0, 1, 1);
 
   gtk_widget_set_size_request(choose_profile_avatar_btn, 200, 200);
 
-  // gtk_grid_attach(GTK_GRID(profile_grid_scale), exp_box, 0, 0, 1, 1);
+  gtk_grid_attach(GTK_GRID(current_grid.your_profile), profile_grid_vbox, 0, 1, 1, 1);
 
-  // gtk_widget_set_size_request(exp_box, 250, 20);
-
-  // gtk_box_append(GTK_BOX(exp_box), mini_exp_box);
-
-  // gtk_widget_set_size_request(mini_exp_box, 125, 20);
-
-  // gtk_widget_set_halign(exp_count_label, GTK_ALIGN_CENTER);
-
-  // gtk_grid_attach(GTK_GRID(profile_grid_scale), exp_count_label, 0, 0, 1, 1);
-
-  gtk_grid_attach(GTK_GRID(profile_grid_body), profile_grid_vbox, 0, 0, 1, 1);
+  gtk_widget_set_margin_start(profile_grid_vbox, 87);
+  gtk_widget_set_margin_end(profile_grid_vbox, 87);
+  gtk_widget_set_margin_top(profile_grid_vbox, 9);
+  gtk_widget_set_margin_bottom(profile_grid_vbox, 48);
 
   gtk_widget_set_size_request(profile_grid_vbox, 474, 358);
+  
+  gtk_widget_set_hexpand(name_label, TRUE);
 
   gtk_widget_set_halign(name_label, GTK_ALIGN_CENTER);
 
@@ -263,20 +249,25 @@ void show_your_profile()
 
   gtk_box_append(GTK_BOX(profile_grid_vbox), bio_box);
 
+  gtk_widget_set_margin_start(bio_box, 87);
+  gtk_widget_set_margin_end(bio_box, 87);
   gtk_widget_set_margin_top(bio_box, 9);
+  gtk_widget_set_margin_bottom(bio_box, 48);
 
   gtk_widget_set_size_request(bio_box, 300, 120);
 
-  gtk_grid_attach(GTK_GRID(profile_grid_body), bio_entry, 0, 0, 1, 1);
+  gtk_box_append(GTK_BOX(bio_box), bio_entry);
 
-  gtk_widget_set_margin_start(bio_entry, 95);
-  gtk_widget_set_margin_end(bio_entry, 163);
-  gtk_widget_set_margin_top(bio_entry, 201);
-  gtk_widget_set_margin_bottom(bio_entry, 135);
+  gtk_widget_set_margin_start(bio_entry, 7);
+  gtk_widget_set_margin_end(bio_entry, 77);
+  gtk_widget_set_margin_top(bio_entry, 11);
+  gtk_widget_set_margin_bottom(bio_entry, 87);
 
   gtk_widget_set_size_request(bio_entry, 216, 22);
 
   widget_styling(choose_profile_avatar_btn, current_screen, "choose_profile_avatar_btn");
+
+  widget_styling(profile_grid_vbox, current_screen, "profile_grid_body");
   // widget_styling(avatar_img, current_screen, "avatar_img");
   // widget_styling(mini_exp_box, current_screen, "mini_exp_box");
   // widget_styling(exp_count_label, current_screen, "exp_count_label");
