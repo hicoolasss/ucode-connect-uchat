@@ -60,7 +60,11 @@ extern pthread_mutex_t clients_mutex;
 extern pthread_mutex_t logs_mutex;
 extern _Atomic unsigned int cli_count;
 SSL_CTX *SSL_STX_Init();
-t_client *create_new_client(const struct sockaddr_in adr, int client_fd, SSL *ssl);
+int open_server_connection(int port, struct sockaddr_in *adr, socklen_t adrlen);
+void close_server(EVP_PKEY *pkey, X509 *x509, SSL_CTX *context);
+void close_connection(SSL *ssl);
+
+t_client *create_new_client(const struct sockaddr_in adr, int client_fd);
 void *handle_client(void *args);
 void free_client(t_client **client, t_list **users_list);
 void daemon_server();
