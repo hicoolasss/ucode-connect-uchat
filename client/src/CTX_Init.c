@@ -66,13 +66,13 @@ int open_ssl_connection() {
     }
 
     //printf("SSL: Connected to server with chipher: %s\n", SSL_get_cipher(ssl));
-    X509 *cert = SSL_get_peer_certificate(ssl);
-    if (cert == NULL) {
-        printf("SSL: No certificates configured.\n");
-    }
-    else {
-        X509_free(cert);
-    }
+    // X509 *cert = SSL_get_peer_certificate(ssl);
+    // if (cert == NULL) {
+    //     printf("SSL: No certificates configured.\n");
+    // }
+    // else {
+    //     X509_free(cert);
+    // }
     main_client.loaded = true;
     return 0;
 }

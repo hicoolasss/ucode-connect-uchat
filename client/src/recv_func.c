@@ -122,8 +122,6 @@ gpointer recv_func()
                 update_current_chat(chat, friendname);
                 // printf("%s\n", chat->message);
             }
-
-
             t_chat *data = message_data;
             if (data)
             {

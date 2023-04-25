@@ -449,8 +449,7 @@ static void on_entry_activate_for_editing(GtkEntry *entry, gpointer user_data)
 
     g_async_queue_push(message_queue, json);
 
-    //gtk_editable_set_text(GTK_EDITABLE(entry), "");
-    
+    // gtk_editable_set_text(GTK_EDITABLE(entry), "");
 }
 
 static gboolean scroll_to_bottom(gpointer user_data)
@@ -510,7 +509,48 @@ static void on_edit_msg_clicked(GtkWidget *btn, gpointer user_data)
     g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate_for_editing), user_data);
 }
 
-static void on_sent_msg_clicked(GtkWidget *btn, gpointer user_data)
+static void on_cancel_btn_clicked(GtkWidget *btn, gpointer user_data)
+{
+
+    mx_printstr("on_cancel_btn_clicked\n");
+
+    SentMessageData *sent_message_data = (SentMessageData *)user_data;
+    GtkWidget *box = sent_message_data->sent_box;
+
+    gtk_widget_unparent(box);
+
+    GtkWidget *children, *iter;
+
+    children = gtk_widget_get_first_child(box);
+
+    for (iter = children; iter != NULL; iter = gtk_widget_get_last_child(box))
+    {
+        gtk_widget_unparent(iter);
+    }
+
+    const char *s_msg = sent_message_data->chat_data->message;
+
+    const char *s_msg_time = format_time(sent_message_data->chat_data->timestamp);
+
+    GtkWidget *sent_msg = gtk_button_new_with_label(s_msg);
+
+    GtkWidget *sent_time = gtk_label_new(s_msg_time);
+
+    gtk_box_append(GTK_BOX(box), sent_time);
+    gtk_box_append(GTK_BOX(box), sent_msg);
+
+    widget_styling(sent_msg, current_screen, "sent_message");
+    widget_styling(sent_time, current_screen, "time");
+
+    // Прикрепление виджета к новому контейнеру
+    gtk_grid_attach(GTK_GRID(chat_with_friend_grid), box, 1, 9999 + sent_message_data->chat_data->id, 1, 1);
+
+    g_signal_connect(sent_msg, "clicked", G_CALLBACK(on_sent_msg_clicked), user_data);
+
+
+}
+
+void on_sent_msg_clicked(GtkWidget *btn, gpointer user_data)
 {
 
     SentMessageData *sent_message_data = (SentMessageData *)user_data;
@@ -552,6 +592,8 @@ static void on_sent_msg_clicked(GtkWidget *btn, gpointer user_data)
     g_signal_connect(delete_btn, "clicked", G_CALLBACK(on_delete_msg_clicked), user_data);
 
     g_signal_connect(edit_btn, "clicked", G_CALLBACK(on_edit_msg_clicked), user_data);
+
+    g_signal_connect(cancel_btn, "clicked", G_CALLBACK(on_cancel_btn_clicked), user_data);
 
     // Отключаем обработчик сигнала для отправки сообщения
     g_signal_handlers_disconnect_by_func(entry, (gpointer)G_CALLBACK(on_entry_activate), sent_message_data);

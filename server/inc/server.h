@@ -6,15 +6,16 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
-#include <openssl/ssl.h>
 #include <pthread.h>
 #include <strings.h>
 #include <stdatomic.h>
+
 #include "../../libs/libmx/inc/libmx.h"
 #include "../../libs/cjson/inc/cJSON.h"
 #include "../../libs/openssl/openssl/ssl.h"
-#include "sqlite3.h"
-#include <openssl/err.h>
+#include "../../libs/openssl/openssl/err.h"
+#include "../../libs/Sqlite3/sqlite3.h"
+
 #include <sys/stat.h>
 #include <sys/types.h>
 #define PORT 8080

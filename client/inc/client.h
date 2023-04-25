@@ -21,16 +21,18 @@
 #include <pthread.h>
 #include <sys/types.h>
 #include <signal.h>
-#include <openssl/err.h>
-#include <openssl/ssl.h>
 #include <pango/pangocairo.h>
 #include <pango/pango.h>
 #include <math.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <curl/curl.h>
 #include <jansson.h>
-#include "../../libs/libmx/inc/libmx.h"
+
 #include "../../libs/cjson/inc/cJSON.h"
+#include "../../libs/libmx/inc/libmx.h"
+#include "../../libs/openssl/openssl/err.h"
+#include "../../libs/openssl/openssl/ssl.h"
+#include "../../libs/openssl/openssl/sha.h"
 
 #define MAX_CLIENTS 100
 #define BUFFER_SZ 2048
@@ -394,6 +396,8 @@ void update_show_chats_with_added_friends(t_list *friend_list);
 void show_friend_info(gpointer data);
 
 void update_current_chat(t_chat *chat_data, const char *friendname);
+
+void on_sent_msg_clicked(GtkWidget *btn, gpointer user_data);
 
 typedef struct {
     gpointer chat_history;
