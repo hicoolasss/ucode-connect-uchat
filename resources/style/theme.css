@@ -252,7 +252,7 @@
     margin: 47px 0px 48px 0px;
     background: @all-containers-bg;
     /* border: 1px solid @all-containers-borders-bg; */
-    border: 1px solid green;
+    border: 1px solid @all-containers-borders-bg;
     border-radius: 20px;
 }
 
@@ -970,8 +970,7 @@
 
 .choose_profile_avatar_btn {
     border-radius: 50%;
-    border-color: transparent;
-    background: black;
+    border: 1px solid @all-containers-borders-bg;
     padding: 0px;
     border-width: 0px;
     box-shadow: none;

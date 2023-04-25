@@ -113,7 +113,9 @@ gpointer recv_func()
             message_data->id = json_message_id->valueint;
             message_data->timestamp = mx_strdup(json_message_timestamp->valuestring);
 
-            add_message_to_chat_history(&friend_list, friendname, message_data);
+            //add_message_to_chat_history(&friend_list, friendname, message_data);
+
+            update_current_chat(message_data, friendname);
 
             t_chat *data = message_data;
             if (data)
