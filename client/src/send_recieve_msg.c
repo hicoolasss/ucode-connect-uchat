@@ -89,6 +89,7 @@ t_list *add_message_to_chat_history(t_list **friend_list, const char *username, 
     friend_data->lastmessage = mx_strdup(new_chat->message);
 
     return friend_data->chat_history ? mx_list_last(friend_data->chat_history) : NULL;
+
 }
 
 void add_new_friend(t_list **friend_list, const char *username, const char *avatarname)
