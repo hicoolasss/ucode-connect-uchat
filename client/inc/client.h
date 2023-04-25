@@ -408,8 +408,14 @@ typedef struct {
     t_chat *chat_data;
     t_Friend *friend_data;
     GtkWidget *sent_box;
+    GtkWidget *entry;
 } SentMessageData;
 
+
+typedef struct {
+    t_Friend *friend_data;
+    int id;
+} handler_id;
 
 
 
