@@ -15,7 +15,8 @@ pthread_mutex_t command_queue_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t auth_cond = PTHREAD_COND_INITIALIZER;
 
 GAsyncQueue *message_queue;
-
+GThread *send_thread;
+GThread *receive_thread;
 volatile gboolean running = TRUE;
 
 // int send_all(SSL *sockfd, char *buf, int len);
@@ -107,27 +108,39 @@ int main(int argc, char **argv)
     int stat = 0;
 
     // pthread_t rec_th, send_th;
-    pthread_mutex_init(&mutex_recv, NULL);
-    pthread_mutex_init(&mutex_send, NULL);
-    pthread_mutex_init(&command_queue_mutex, NULL);
+    // pthread_mutex_init(&mutex_recv, NULL);
+    // pthread_mutex_init(&mutex_send, NULL);
+    // pthread_mutex_init(&command_queue_mutex, NULL);
 
-    gpointer send_func(gpointer data);
-    gpointer recv_func(gpointer data);
+    // gpointer send_func(gpointer data);
+    // gpointer recv_func(gpointer data);
 
     message_queue = g_async_queue_new();
-    
-    GThread *send_thread = g_thread_new("send_thread", send_func, NULL);
-    GThread *receive_thread = g_thread_new("receive_thread", recv_func, NULL);
-    
+
+    // GThread *send_thread = g_thread_new("send_thread", send_func, NULL);
+    // GThread *receive_thread = g_thread_new("receive_thread", recv_func, NULL);
+
     app = gtk_application_new("com.github.darkchat", G_APPLICATION_DEFAULT_FLAGS);
     g_signal_connect(app, "activate", G_CALLBACK(app_activate), NULL);
     stat = g_application_run(G_APPLICATION(app), FALSE, NULL);
 
-    pthread_mutex_lock(&mutex_recv);
-    running = false;
-    pthread_mutex_unlock(&mutex_recv);
-    g_thread_join(send_thread);
-    g_thread_join(receive_thread);
+    // pthread_mutex_lock(&mutex_recv);
+    // running = false;
+    // pthread_mutex_unlock(&mutex_recv);
+
+    // if (send_thread != NULL)
+    // {
+    //     g_thread_join(send_thread);
+    //     g_thread_unref(send_thread);
+    //     send_thread = NULL;
+    // }
+
+    // if (receive_thread != NULL)
+    // {
+    //     g_thread_join(receive_thread);
+    //     g_thread_unref(receive_thread);
+    //     receive_thread = NULL;
+    // }
 
     while (friend_list != NULL)
     {

@@ -1,5 +1,5 @@
 CC = clang
-CFLAGS = -std=c11 -Wall -Wextra -Wpedantic -pthread -gdwarf-4 -lsqlite3 -fsanitize=address
+CFLAGS = -std=c11 -Wall -Wextra -Wpedantic -pthread -gdwarf-4 -lsqlite3 -fsanitize=address -O1 -fno-omit-frame-pointer -fsanitize=leak
 
 OBJDIR = obj
 SRCDIR = src

@@ -167,7 +167,8 @@ t_list *process_json_object(cJSON *json_object)
         {
             new_friend->lastmessage = mx_strdup(json_lastmessage->valuestring);
         }
-        else new_friend->lastmessage = "Nothing here...";
+        else
+            new_friend->lastmessage = "Nothing here...";
         new_friend->in_chat = false;
         new_friend->chat_history = NULL; // Инициализация указателя на историю чата
         new_friend->in_chat = false;
@@ -324,22 +325,30 @@ int update_user_avatar(t_list *list, const char *username, const char *avatarnam
     return -1; // ошибка, юзер не найден
 }
 
-void delete_message(t_list *friend_list, char *username, int message_id, char *message_text) {
+void delete_message(t_list *friend_list, char *username, int message_id, char *message_text)
+{
     t_list *friend_current = friend_list;
 
-    while (friend_current != NULL) {
+    while (friend_current != NULL)
+    {
         t_Friend *friend = (t_Friend *)friend_current->data;
 
-        if (strcmp(friend->username, username) == 0) {
+        if (strcmp(friend->username, username) == 0)
+        {
             t_list *current = friend->chat_history;
             t_list *previous = NULL;
 
-            while (current != NULL) {
+            while (current != NULL)
+            {
                 t_chat *message = (t_chat *)current->data;
-                if (message->id == message_id && strcmp(message->message, message_text) == 0) {
-                    if (previous == NULL) {
+                if (message->id == message_id && strcmp(message->message, message_text) == 0)
+                {
+                    if (previous == NULL)
+                    {
                         friend->chat_history = current->next;
-                    } else {
+                    }
+                    else
+                    {
                         previous->next = current->next;
                     }
 
@@ -371,7 +380,8 @@ void delete_message(t_list *friend_list, char *username, int message_id, char *m
         }
         temp = temp->next;
     }
-    if (friend_data->in_chat) {
+    if (friend_data->in_chat)
+    {
 
         update_chat_history(friend_data);
     }
@@ -379,19 +389,23 @@ void delete_message(t_list *friend_list, char *username, int message_id, char *m
     update_show_chats_with_added_friends(friend_list);
 }
 
-void 
-update_message(t_list *friend_list, char *username, int old_message_id, char *new_message_text) {
+void update_message(t_list *friend_list, char *username, int old_message_id, char *new_message_text)
+{
     t_list *friend_current = friend_list;
 
-    while (friend_current != NULL) {
+    while (friend_current != NULL)
+    {
         t_Friend *friend = (t_Friend *)friend_current->data;
 
-        if (strcmp(friend->username, username) == 0) {
+        if (strcmp(friend->username, username) == 0)
+        {
             t_list *current = friend->chat_history;
 
-            while (current != NULL) {
+            while (current != NULL)
+            {
                 t_chat *message = (t_chat *)current->data;
-                if (message->id == old_message_id) {
+                if (message->id == old_message_id)
+                {
                     free(message->message);
                     message->message = strdup(new_message_text);
                     break;
@@ -403,5 +417,47 @@ update_message(t_list *friend_list, char *username, int old_message_id, char *ne
         }
 
         friend_current = friend_current->next;
+    }
+}
+
+void clear_friend_list(t_list *list)
+{
+    while (list)
+    {
+        t_list *temp = list;
+        t_Friend *friend = (t_Friend *)temp->data;
+        free(friend->username);
+        free(friend->avatarname);
+        free(friend->lastmessage);
+        if (friend->chat_history != NULL)
+        {
+            t_list *current_history = friend->chat_history;
+            while (current_history)
+            {
+                t_chat *temp_history = current_history->data;
+                free(temp_history->message);
+                free(temp_history->sender);
+                free(temp_history->timestamp);
+                current_history = current_history->next;
+            }
+        }
+        list = list->next;
+        // free(friend);
+        // free(temp);
+    }
+}
+
+void clear_user_list(t_list *list)
+{
+    t_list *temp = list;
+
+    while (temp)
+    {
+        t_user *current = (t_user *)temp->data;
+        free(current->avatarname);
+        free(current->lastmessage);
+        free(current->username);
+
+        temp = temp->next;
     }
 }

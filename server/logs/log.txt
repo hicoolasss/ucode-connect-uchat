@@ -1,2 +1,8 @@
-Error sending command: error:00000005:lib(0)::reason(5)
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
 
