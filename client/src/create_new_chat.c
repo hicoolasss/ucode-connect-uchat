@@ -416,6 +416,7 @@ static void on_entry_activate_for_editing(GtkEntry *entry, gpointer user_data)
     {
         return;
     }
+
     mx_printstr("on_entry_activate_for_editing\n");
 
     SentMessageData *sent_message_data = (SentMessageData *)user_data;
@@ -447,6 +448,8 @@ static void on_entry_activate_for_editing(GtkEntry *entry, gpointer user_data)
     cJSON_AddNumberToObject(json, "message_id", message_id);
 
     g_async_queue_push(message_queue, json);
+
+    //gtk_editable_set_text(GTK_EDITABLE(entry), "");
     
 }
 
