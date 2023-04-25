@@ -670,7 +670,7 @@ void update_chat_history(gpointer friend_data)
     pthread_mutex_unlock(&mutex_send);
 }
 
-void update_current_chat(t_chat *chat_data, char *friendname)
+void update_current_chat(t_chat *chat_data, const char *friendname)
 {
     g_idle_add(scroll_to_bottom, chat_with_friend_scrolled);
 
