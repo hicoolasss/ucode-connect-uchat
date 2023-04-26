@@ -49,6 +49,17 @@ void widget_restyling(GtkWidget *widget, t_screen screen, const char *name_of_re
     gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(screen.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
 }
 
+static gboolean on_app_close_request(GtkWindow *window, gpointer data)
+{
+    // Выполните здесь любые действия, необходимые перед выходом из приложения.
+    // Например, освободите ресурсы или сохраните настройки.
+
+    mx_printstr("exit success");
+
+    // Верните FALSE, чтобы разрешить приложению завершить работу.
+    return FALSE;
+}
+
 static void app_activate(GApplication *app)
 {
 
@@ -56,8 +67,9 @@ static void app_activate(GApplication *app)
 
     gtk_window_set_title(GTK_WINDOW(current_screen.screen), "TokyoNight chat");
     gtk_window_set_default_size(GTK_WINDOW(current_screen.screen), 1200, 760);
-    // gtk_window_set_resizable(GTK_WINDOW(current_screen.screen), TRUE);
-    //  load default colorscheme
+
+    g_signal_connect(current_screen.screen, "close-request", G_CALLBACK(on_app_close_request), NULL);
+
     change_scheme_to_any_color("#171722",
                                "#212130",
                                "#B1BAE6",

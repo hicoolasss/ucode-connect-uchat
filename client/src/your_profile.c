@@ -148,6 +148,7 @@ void choose_profile_avatar_btn_clicked()
   GtkFileFilter *image_filter = gtk_file_filter_new();
   gtk_file_filter_add_pattern(image_filter, "*.png");
   gtk_file_filter_add_pattern(image_filter, "*.jpg");
+  gtk_file_filter_add_pattern(image_filter, "*.JPG");
   gtk_file_filter_add_pattern(image_filter, "*.jpeg");
   gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), image_filter);
 
