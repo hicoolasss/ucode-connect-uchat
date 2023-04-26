@@ -212,7 +212,7 @@ void show_home_grid()
 
     current_home.chat_gpt_desc_label = gtk_label_new("This thing needs no introduction.");
 
-    current_home.chat_grid = create_grid(700, 472, "achievements_box");
+    current_home.chat_grid = create_grid(700, 472, "chat_gpt_scrolled");
 
     GtkWidget *chat_scrolled = gtk_scrolled_window_new();
 

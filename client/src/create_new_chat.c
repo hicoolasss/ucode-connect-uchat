@@ -23,8 +23,6 @@ t_Friend *current_friend = NULL;
 
 t_list *chat_history_temp;
 
-static gboolean editing_mode = FALSE;
-
 int count = 0;
 int temp_count = 0;
 
@@ -448,8 +446,6 @@ static void on_entry_activate_for_editing(GtkEntry *entry, gpointer user_data)
     cJSON_AddNumberToObject(json, "message_id", message_id);
 
     g_async_queue_push(message_queue, json);
-
-    // gtk_editable_set_text(GTK_EDITABLE(entry), "");
 }
 
 static gboolean scroll_to_bottom(gpointer user_data)
@@ -465,6 +461,7 @@ static gboolean scroll_to_bottom(gpointer user_data)
 
 static void on_delete_msg_clicked(GtkWidget *btn, gpointer user_data)
 {
+    (void)btn;
     SentMessageData *sent_message_data = (SentMessageData *)user_data;
     t_chat *chat_data = sent_message_data->chat_data;
     t_Friend *friend_data = sent_message_data->friend_data;
@@ -495,23 +492,27 @@ static void on_delete_msg_clicked(GtkWidget *btn, gpointer user_data)
 
 static void on_edit_msg_clicked(GtkWidget *btn, gpointer user_data)
 {
-
+    (void)btn;
     mx_printstr("on_edit_msg_clicked\n");
 
     SentMessageData *sent_message_data = (SentMessageData *)user_data;
     t_chat *chat_data = sent_message_data->chat_data;
-    t_Friend *friend_data = sent_message_data->friend_data;
+    //t_Friend *friend_data = sent_message_data->friend_data;
 
     g_object_set_data(G_OBJECT(entry), "editing_mode", GINT_TO_POINTER(TRUE));
 
     gtk_editable_set_text(GTK_EDITABLE(entry), chat_data->message);
 
-    g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate_for_editing), user_data);
+    // Отключаем обработчик сигнала для отправки сообщения
+    g_signal_handlers_disconnect_by_func(entry, (gpointer)G_CALLBACK(on_entry_activate), sent_message_data);
+
+    // Подключаем обработчик сигнала для редактирования сообщения
+    g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate_for_editing), sent_message_data);
 }
 
 static void on_cancel_btn_clicked(GtkWidget *btn, gpointer user_data)
 {
-
+    (void)btn;
     mx_printstr("on_cancel_btn_clicked\n");
 
     SentMessageData *sent_message_data = (SentMessageData *)user_data;
@@ -552,7 +553,7 @@ static void on_cancel_btn_clicked(GtkWidget *btn, gpointer user_data)
 
 void on_sent_msg_clicked(GtkWidget *btn, gpointer user_data)
 {
-
+    (void)btn;
     SentMessageData *sent_message_data = (SentMessageData *)user_data;
     g_object_set_data(G_OBJECT(entry), "editing_mode", GINT_TO_POINTER(FALSE));
 
@@ -569,7 +570,7 @@ void on_sent_msg_clicked(GtkWidget *btn, gpointer user_data)
         gtk_widget_unparent(iter);
     }
 
-    const char *msg = gtk_button_get_label(GTK_BUTTON(btn));
+    //const char *msg = gtk_button_get_label(GTK_BUTTON(btn));
 
     GtkWidget *edit_btn = gtk_button_new();
 
@@ -594,12 +595,6 @@ void on_sent_msg_clicked(GtkWidget *btn, gpointer user_data)
     g_signal_connect(edit_btn, "clicked", G_CALLBACK(on_edit_msg_clicked), user_data);
 
     g_signal_connect(cancel_btn, "clicked", G_CALLBACK(on_cancel_btn_clicked), user_data);
-
-    // Отключаем обработчик сигнала для отправки сообщения
-    g_signal_handlers_disconnect_by_func(entry, (gpointer)G_CALLBACK(on_entry_activate), sent_message_data);
-
-    // Подключаем обработчик сигнала для редактирования сообщения
-    g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate_for_editing), sent_message_data);
 
     gtk_widget_grab_focus(entry);
 }
@@ -1153,7 +1148,7 @@ void show_friend_info(gpointer data)
 
     widget_styling(is_online_label, current_screen, "is_online_label");
 
-    widget_styling(user_info_grid, current_screen, "chats_list_grid");
+    widget_styling(user_info_grid, current_screen, NULL);
 }
 
 void show_chats_with_added_friends(t_list *friend_list)
@@ -1264,17 +1259,11 @@ void show_create_new_chat_with_someone()
 
     gtk_grid_attach(GTK_GRID(current_grid.chats), user_list_grid_scrolled, 0, 2, 1, 1);
 
-    // gtk_widget_set_margin_start(create_new_chat_with_someone_label, 175);
-    // gtk_widget_set_margin_end(create_new_chat_with_someone_label, 175);
     gtk_widget_set_margin_top(create_new_chat_with_someone_label, 83);
 
     gtk_widget_set_halign(create_new_chat_with_someone_label, GTK_ALIGN_CENTER);
 
     gtk_widget_set_hexpand(create_new_chat_with_someone_label, TRUE);
-
-    // gtk_widget_set_margin_start(user_list_grid_scrolled, 53);
-    // gtk_widget_set_margin_end(user_list_grid_scrolled, 53);
-    // gtk_widget_set_margin_top(user_list_grid_scrolled, 49);
 
     gtk_widget_set_halign(user_list_grid_scrolled, GTK_ALIGN_CENTER);
     gtk_widget_set_valign(user_list_grid_scrolled, GTK_ALIGN_CENTER);
