@@ -1509,6 +1509,19 @@
     color: #B6B6E1;
 }
 
+.lastmessage {
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 19px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #B6B6E1;
+}
+
 .chat_gpt_send_btn {
     border-color: transparent;
     background: none;
