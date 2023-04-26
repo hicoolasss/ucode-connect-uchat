@@ -1148,7 +1148,7 @@ void show_friend_info(gpointer data)
 
     widget_styling(is_online_label, current_screen, "is_online_label");
 
-    widget_styling(user_info_grid, current_screen, NULL);
+    widget_styling(user_info_grid, current_screen, "NULL");
 }
 
 void show_chats_with_added_friends(t_list *friend_list)

@@ -436,6 +436,8 @@ void update_message(t_list *friend_list, char *username, int old_message_id, cha
     {
         update_chat_history(friend_data);
     }
+    update_show_chats_with_added_friends(friend_list);
+
 }
 
 void clear_friend_list(t_list *list)
