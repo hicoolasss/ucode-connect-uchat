@@ -463,8 +463,6 @@ void clear_friend_list(t_list *list)
             }
         }
         list = list->next;
-        // free(friend);
-        // free(temp);
     }
 }
 
