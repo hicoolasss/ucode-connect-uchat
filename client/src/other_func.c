@@ -448,7 +448,8 @@ void clear_friend_list(t_list *list)
         t_Friend *friend = (t_Friend *)temp->data;
         free(friend->username);
         free(friend->avatarname);
-        free(friend->lastmessage);
+        if (friend->lastmessage != NULL || mx_strcmp(friend->lastmessage, "Nothing here...") != 0)
+            free(friend->lastmessage);
         if (friend->chat_history != NULL)
         {
             t_list *current_history = friend->chat_history;
