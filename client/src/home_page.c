@@ -31,6 +31,7 @@ void show_home(void)
     // the children of the main grid
     current_grid.left_menu_bar = create_grid(124, 667, "left_menu_bar");
     current_grid.your_profile = create_grid(1010, 667, "home");
+
     current_grid.home = create_grid(1010, 667, "home");
     current_grid.search_bar = create_grid(427, 59, "search_bar_grid");
     //current_grid.mini_groups = create_grid(427, 318, "mini_groups_grid");
@@ -107,6 +108,8 @@ void show_home(void)
 
     // gtk_widget_set_margin_start(current_grid.home, 23);
     gtk_widget_set_margin_end(current_grid.home, 21);
+    gtk_widget_set_margin_end(current_grid.your_profile, 21);
+    gtk_widget_set_margin_end(current_grid.settings, 21);
 
     // set unvisible all
     set_unvisible_all();

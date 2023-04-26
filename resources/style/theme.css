@@ -1399,6 +1399,7 @@
     transform: translateY(2px) translateX(1px);
     box-shadow: 0 0 0 0 @big-log-in-button-shadow-active;
 }
+
 .username_label_in_chat {
 
     font-family: 'JetBrains Mono';
@@ -1449,6 +1450,7 @@
     line-height: 18px;
     /* identical to box height */
 
+    border: 1px solid @all-containers-borders-bg;
     color: #B1BAE6;
 }
 
@@ -1486,4 +1488,34 @@
     outline-color: transparent;
     box-shadow: none;
 
+}
+
+.chat_gpt_scrolled {
+    background: #171722;
+    border: 1px solid rgba(122, 162, 247, 0.35);
+    border-radius: 20px;
+}
+
+.chat_gpt_message {
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #B6B6E1;
+}
+
+.chat_gpt_send_btn {
+    border-color: transparent;
+    background: none;
+    background-repeat: no-repeat;
+    background-image: url(../../resources/images/send.png);
+    background-color: transparent;
+    background-position: center;
+    outline-color: transparent;
+    box-shadow: none;
 }

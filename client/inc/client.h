@@ -97,6 +97,7 @@ typedef struct s_home {
     GtkWidget *chat_gpt_entry_box;
     GtkWidget *chat_gpt_send_btn;
     GtkWidget *chat_gpt_entry;
+    GtkWidget *chat_grid;
 
 } t_home;
 

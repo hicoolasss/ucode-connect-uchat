@@ -166,6 +166,10 @@ void show_your_profile()
   // gtk_grid_attach(GTK_GRID(profile_help_grid), profile_grid_for_img, 0, 0, 1, 1);
   // gtk_grid_attach(GTK_GRID(profile_help_grid), profile_grid_body, 0, 1, 1, 1);
 
+  gtk_widget_set_halign(current_grid.your_profile, GTK_ALIGN_FILL);
+    gtk_widget_set_hexpand(current_grid.your_profile, TRUE);
+    gtk_widget_set_vexpand(current_grid.your_profile, TRUE);
+
 
   get_your_profile_avatar_from_db();
 
@@ -200,14 +204,24 @@ void show_your_profile()
 
   gtk_grid_attach(GTK_GRID(current_grid.your_profile), choose_profile_avatar_btn, 0, 0, 1, 1);
 
+  gtk_widget_set_hexpand(choose_profile_avatar_btn, TRUE);
+
+  gtk_widget_set_halign(choose_profile_avatar_btn, GTK_ALIGN_CENTER);
+
+  gtk_widget_set_margin_top(choose_profile_avatar_btn, 9);
+
   gtk_widget_set_size_request(choose_profile_avatar_btn, 200, 200);
 
   gtk_grid_attach(GTK_GRID(current_grid.your_profile), profile_grid_vbox, 0, 1, 1, 1);
 
-  gtk_widget_set_margin_start(profile_grid_vbox, 87);
-  gtk_widget_set_margin_end(profile_grid_vbox, 87);
+  gtk_widget_set_margin_start(profile_grid_vbox, 268);
+  gtk_widget_set_margin_end(profile_grid_vbox, 268);
   gtk_widget_set_margin_top(profile_grid_vbox, 9);
   gtk_widget_set_margin_bottom(profile_grid_vbox, 48);
+
+  gtk_widget_set_hexpand(profile_grid_vbox, TRUE);
+
+  gtk_widget_set_halign(profile_grid_vbox, GTK_ALIGN_CENTER);
 
   gtk_widget_set_size_request(profile_grid_vbox, 474, 358);
   
