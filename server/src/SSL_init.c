@@ -14,7 +14,7 @@ SSL_CTX *SSL_STX_Init() {
     }
 
     if (SSL_CTX_use_certificate_file(ctx, "server/ssl/certificate.crt", SSL_FILETYPE_PEM) <= 0) {
-        ERR_print_errors_fp(stderr);
+        // ERR_print_errors_fp(stderr);
         exit(EXIT_FAILURE);
     }
 
@@ -51,16 +51,16 @@ int open_server_connection(int port, struct sockaddr_in *adr, socklen_t adrlen) 
     //(*adr).sin_addr.s_addr = inet_addr("127.0.0.1");
 
     if(setsockopt(serv_fd, SOL_SOCKET,(SO_REUSEADDR),(char*)&option,sizeof(option)) < 0){ //indus magic
-		perror("ERROR: setsockopt failed");
+		write_logs("ERROR: setsockopt failed");
         return EXIT_FAILURE;
 	}
 
     if (bind(serv_fd, (struct sockaddr*)&(*adr), adrlen) < 0 ) {
-        perror("ERROR: Socket binding failed\n");
+        write_logs("ERROR: Socket binding failed\n");
         abort();
     }
     if ( listen(serv_fd, INT_MAX) < 0) {
-        perror("ERROR: Can't configure listening port\n");
+        write_logs("ERROR: Can't configure listening port\n");
         abort();
     }
 

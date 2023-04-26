@@ -19,6 +19,7 @@ char *serialize_namelist(t_list *head)
 
         cJSON_AddStringToObject(json_node, "name", user->username);
         cJSON_AddStringToObject(json_node, "avatarname", user->avatarname);
+        cJSON_AddBoolToObject(json_node, "connected", user->connected);
         cJSON_AddItemToArray(json_list, json_node);
         head = head->next;
     }
@@ -186,4 +187,28 @@ t_list *extract_group_and_friends_from_json(cJSON *json_object, char **group_nam
     }
 
     return friends;
+}
+
+void send_offline_status(t_list *current, char *username)
+{
+
+    while (current)
+    {
+
+        if (strcmp(((t_client *)current->data)->login, username) != 0)
+        {
+            SSL *ssl = ((t_client *)current->data)->ssl;
+            int cmd = SSL_write(ssl, "<Offline>", 10);
+            if (cmd <= 0)
+            {
+                write_ssl_error(ssl, cmd);
+            }
+            cmd = SSL_write(ssl, username, mx_strlen(username));
+            if (cmd <= 0)
+            {
+                write_ssl_error(ssl, cmd);
+            }
+        }
+        current = current->next;
+    }
 }

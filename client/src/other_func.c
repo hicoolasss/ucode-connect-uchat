@@ -83,12 +83,15 @@ t_list *deserialize_name_list(const char *json_str)
     {
         cJSON *json_name = cJSON_GetObjectItem(json_node, "name");
         cJSON *json_avatarname = cJSON_GetObjectItem(json_node, "avatarname");
-
         if (cJSON_IsString(json_name))
         {
             t_user *user = (t_user *)malloc(sizeof(t_user));
             user->username = mx_strdup(json_name->valuestring);
             user->avatarname = mx_strdup(json_avatarname->valuestring);
+            if (cJSON_IsTrue(cJSON_GetObjectItem(json_node, "connected")))
+                user->connected = true;
+            else
+                user->connected = false;
             if (user != NULL)
             {
                 mx_push_back(&user_list_temp, user);
@@ -171,7 +174,6 @@ t_list *process_json_object(cJSON *json_object)
             new_friend->lastmessage = "Nothing here...";
         new_friend->in_chat = false;
         new_friend->chat_history = NULL; // Инициализация указателя на историю чата
-        new_friend->in_chat = false;
         if (new_friend != NULL)
         {
             mx_push_back(&friend, new_friend);
@@ -471,7 +473,7 @@ void clear_user_list(t_list *list)
     {
         t_user *current = (t_user *)temp->data;
         free(current->avatarname);
-        free(current->lastmessage);
+        // free(current->lastmessage);
         free(current->username);
 
         temp = temp->next;

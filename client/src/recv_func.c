@@ -10,14 +10,6 @@ gpointer recv_func()
 {
     char command[2048];
 
-    // pthread_mutex_lock(&mutex_recv);
-    // while (!main_client.connected)
-    // {
-    //     pthread_cond_wait(&auth_cond, &mutex_recv);
-    // }
-    // // Здесь пользователь авторизован, и поток может продолжить работу с мьютексом
-    // pthread_mutex_unlock(&mutex_recv);
-
     while (running)
     {
         printf("here\n");
@@ -30,9 +22,35 @@ gpointer recv_func()
             printf("Error: Unable to receive data from server\n");
             break;
         }
+        else if (mx_strcmp(command, "<Offline>") == 0)
+        {
+            char *temp[32];
+            int cmd = stable_recv(current_client.ssl, temp, sizeof(temp));
+            if (cmd <= 0)
+            {
+                int error_code = SSL_get_error(current_client.ssl, cmd);
+                fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                break;
+            }
+            t_list *current = user_list;
+            while (current)
+            {
+                if(mx_strcmp(((t_user*)current->data)->username, (const char*)temp) == 0)
+                {
+                    ((t_user*)current->data)->connected = false;
+                }
+                current = current->next;
+            }
+        }
         else if (mx_strcmp(command, "<user_list>") == 0)
         {
             user_list = receive_list(current_client.ssl);
+            t_list *current = user_list;
+            while (current)
+            {
+                printf("%d", ((t_user *)current->data)->connected);
+                current = current->next;
+            }
             show_user_list_scrolled(user_list);
         }
         else if (mx_strcmp(command, "<friend_list>") == 0)

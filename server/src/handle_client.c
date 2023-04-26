@@ -15,7 +15,7 @@ void *handle_client(void *args)
     bool is_run = false;
     while (1)
     {
-        printf("here\n");
+        // printf("here\n");
         is_run = false;
         while (is_run == false)
         {
@@ -34,7 +34,7 @@ void *handle_client(void *args)
             }
             else
             {
-                printf("%s\n", buf);
+                // printf("%s\n", buf);
                 cJSON *json = cJSON_Parse(buf);
                 if (!json)
                 {
@@ -103,8 +103,8 @@ void *handle_client(void *args)
             else
             {
                 // Преобразование строки в JSON-объект
-                mx_printstr(buf);
-                mx_printchar('\n');
+                // mx_printstr(buf);
+                // mx_printchar('\n');
                 cJSON *json = cJSON_Parse(buf);
 
                 if (!json)
@@ -138,7 +138,14 @@ void *handle_client(void *args)
                         write_logs("Failed to get clients\n");
                         break;
                     }
-
+                    t_list *current = users_list;
+                    while (current != NULL)
+                    {
+                        if(strcmp(((t_client *)current->data)->login, ((t_user*)clients->data)->username) == 0 && strcmp(((t_client *)current->data)->login, current_client->login) != 0) {
+                            ((t_user*)clients->data)->connected = ((t_client *)current->data)->connected;
+                        }
+                        current = current->next;
+                    }
                     int result = send_namelist(current_client->ssl, clients);
                     if (result <= 0)
                     {
@@ -153,6 +160,17 @@ void *handle_client(void *args)
                         free(temp);
                     }
                 }
+                // else if (strcmp(command, "<send_connect_status>") == 0)
+                // {
+                //     char *friendname = cJSON_GetObjectItemCaseSensitive(json, "friend")->valuestring;
+                //     t_list *current = users_list;
+                //     while (current != NULL)
+                //     {
+                //         if(strcmp(((t_client *)current->data)->login, friendname) == 0);
+
+                //         current = current->next;
+                //     }
+                // }
                 else if (strcmp(command, "<friend_list>") == 0)
                 {
                     int cmd = SSL_write(current_client->ssl, command, mx_strlen(command));
@@ -478,11 +496,4 @@ void *handle_client(void *args)
         }
     }
     return NULL;
-}
-void print_message(char *login, char *message)
-{
-    mx_printstr(login);
-    mx_printstr(" -> ");
-    mx_printstr(message);
-    mx_printchar('\n');
 }

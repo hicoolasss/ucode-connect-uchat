@@ -181,6 +181,7 @@ typedef struct s_user
     char *username;
     char *avatarname;
     char *lastmessage;
+    bool connected;
 } t_user;
 
 typedef struct s_Friend {

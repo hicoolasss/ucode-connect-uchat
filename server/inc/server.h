@@ -53,6 +53,7 @@ typedef struct s_user
     char *username;
     char *avatarname;
     char *lastmessage;
+    bool connected;
 } t_user;
 
 extern t_list *users_list;
@@ -71,6 +72,7 @@ void daemon_server();
 void write_logs(char *message);
 void write_json_error(SSL *ssl, int cmd);
 void write_ssl_error(SSL *ssl, int cmd);
+void send_offline_status(t_list *current, char *username);
 /*функции для операций над базой данных SQL*/
 
 // авторизация

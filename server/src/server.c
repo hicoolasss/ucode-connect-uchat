@@ -79,7 +79,7 @@ int main(int argc, char **argv)
         struct sockaddr_in cli_addr;
         socklen_t adr_size = sizeof(cli_addr);
         int client_fd = accept(server_fd, (struct sockaddr *)&cli_addr, &adr_size);
-        printf("SSL: client accepted\n");
+        // printf("SSL: client accepted\n");
 
         pthread_t thread;
         pthread_mutex_init(&clients_mutex, NULL);

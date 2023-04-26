@@ -24,6 +24,7 @@ t_list *get_clients(sqlite3 *db)
         t_user *user = (t_user *)malloc(sizeof(t_user));
         user->username = mx_strdup((const char *)db_username);
         user->avatarname = mx_strdup((const char *)avatarname);
+        user->connected = false;
         if (user != NULL)
         {
             mx_push_back(&users_list, user);
