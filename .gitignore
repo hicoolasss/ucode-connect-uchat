@@ -52,5 +52,6 @@ Mkfile.old
 dkms.conf
 
 *.db
-uchat
-uchat_server
+/uchat
+/uchat_server
+*.txt
