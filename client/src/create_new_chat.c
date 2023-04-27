@@ -457,7 +457,6 @@ static void on_entry_activate_for_editing(GtkEntry *entry, gpointer user_data)
     g_async_queue_push(message_queue, json);
 
     gtk_editable_set_text(GTK_EDITABLE(entry), "");
-
 }
 
 static gboolean scroll_to_bottom(gpointer user_data)
@@ -1175,9 +1174,21 @@ void show_friend_info(gpointer data)
 
     GtkWidget *user_avatar = gtk_image_new_from_pixbuf(scaled_avatar);
 
+    mx_printstr(friend_data->username);
     GtkWidget *username_label = gtk_label_new(friend_data->username);
 
-    GtkWidget *is_online_label = gtk_label_new("Offline");
+
+    GtkWidget *is_online_label;
+
+    if (!friend_data->connected)
+    {
+
+        is_online_label = gtk_label_new("Offline");
+    }
+    else
+    {
+        is_online_label = gtk_label_new("Online");
+    }
 
     gtk_grid_attach(GTK_GRID(user_info_grid), user_avatar, 0, 0, 1, 2);
 
