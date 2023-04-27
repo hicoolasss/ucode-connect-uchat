@@ -88,6 +88,8 @@ t_list *add_message_to_chat_history(t_list **friend_list, const char *username, 
     // Обновить последнее сообщение для друга
     friend_data->lastmessage = mx_strdup(new_chat->message);
 
+    update_show_chats_with_added_friends(*friend_list);
+
     return friend_data->chat_history ? mx_list_last(friend_data->chat_history) : NULL;
 
 }
