@@ -383,10 +383,11 @@ static void on_entry_activate(GtkEntry *entry, gpointer friend_data)
     const char *username = strdup(data->username);
     const char *message = gtk_editable_get_text(GTK_EDITABLE(entry));
 
-    if (strcmp(message, "I love you, baby!") == 0) {
+    if (strcmp(message, "I love you, baby!") == 0)
+    {
         current_achievements.loving = true;
         update_show_achievements();
-    } 
+    }
 
     // printf("%s -> %s\n", username, message);
     if (message == NULL)
@@ -454,6 +455,9 @@ static void on_entry_activate_for_editing(GtkEntry *entry, gpointer user_data)
     cJSON_AddNumberToObject(json, "message_id", message_id);
 
     g_async_queue_push(message_queue, json);
+
+    gtk_editable_set_text(GTK_EDITABLE(entry), "");
+
 }
 
 static gboolean scroll_to_bottom(gpointer user_data)
@@ -1101,15 +1105,13 @@ void update_show_chats_with_added_friends(t_list *friend_list)
         gtk_label_set_ellipsize(GTK_LABEL(last_msg_label), PANGO_ELLIPSIZE_END); // Установите обрезку текста с многоточием.
         gtk_label_set_wrap(GTK_LABEL(last_msg_label), FALSE);
 
-
         gtk_grid_attach(GTK_GRID(user_box_grid), user_avatar, 0, 0, 1, 2);
 
         GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
         gtk_box_append(GTK_BOX(box), username_label);
         gtk_box_append(GTK_BOX(box), last_msg_label);
-        
+
         gtk_grid_attach(GTK_GRID(user_box_grid), box, 1, 0, 1, 1);
-        
 
         gtk_widget_set_margin_start(box, 8);
 
@@ -1122,7 +1124,7 @@ void update_show_chats_with_added_friends(t_list *friend_list)
         // gtk_widget_set_halign(user_box_btn1, GTK_ALIGN_CENTER);
         // gtk_widget_set_hexpand(user_box_btn1, TRUE);
         gtk_widget_set_vexpand(user_box_btn1, FALSE);
-        gtk_widget_set_vexpand(user_box_grid, FALSE);    
+        gtk_widget_set_vexpand(user_box_grid, FALSE);
 
         gtk_widget_set_margin_start(user_box_btn1, 13);
         gtk_widget_set_margin_end(user_box_btn1, 14);
@@ -1156,7 +1158,7 @@ void update_show_chats_with_added_friends(t_list *friend_list)
 
         widget_styling(last_msg_label, current_screen, "lastmessage");
 
-        //widget_styling(box, current_screen, "chats_list_grid");
+        // widget_styling(box, current_screen, "chats_list_grid");
 
         current = current->next;
     }
@@ -1266,15 +1268,13 @@ void show_chats_with_added_friends(t_list *friend_list)
         gtk_label_set_ellipsize(GTK_LABEL(last_msg_label), PANGO_ELLIPSIZE_END); // Установите обрезку текста с многоточием.
         gtk_label_set_wrap(GTK_LABEL(last_msg_label), FALSE);
 
-
         gtk_grid_attach(GTK_GRID(user_box_grid), user_avatar, 0, 0, 1, 2);
 
         GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
         gtk_box_append(GTK_BOX(box), username_label);
         gtk_box_append(GTK_BOX(box), last_msg_label);
-        
+
         gtk_grid_attach(GTK_GRID(user_box_grid), box, 1, 0, 1, 1);
-        
 
         gtk_widget_set_margin_start(box, 8);
 
@@ -1287,7 +1287,7 @@ void show_chats_with_added_friends(t_list *friend_list)
         // gtk_widget_set_halign(user_box_btn1, GTK_ALIGN_CENTER);
         // gtk_widget_set_hexpand(user_box_btn1, TRUE);
         gtk_widget_set_vexpand(user_box_btn1, FALSE);
-        gtk_widget_set_vexpand(user_box_grid, FALSE);    
+        gtk_widget_set_vexpand(user_box_grid, FALSE);
 
         gtk_widget_set_margin_start(user_box_btn1, 13);
         gtk_widget_set_margin_end(user_box_btn1, 14);
@@ -1321,7 +1321,7 @@ void show_chats_with_added_friends(t_list *friend_list)
 
         widget_styling(last_msg_label, current_screen, "lastmessage");
 
-        //widget_styling(box, current_screen, "chats_list_grid");
+        // widget_styling(box, current_screen, "chats_list_grid");
 
         current = current->next;
     }

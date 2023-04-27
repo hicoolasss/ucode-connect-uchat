@@ -44,6 +44,8 @@ gpointer recv_func()
                 }
                 current = current->next;
             }
+            t_Friend *friend_data = ((t_Friend *)current->data);
+            show_friend_info(friend_data);
             printf("%s disconnected", temp);
         }
         else if (mx_strcmp(command, "<Online>") == 0)
@@ -62,6 +64,9 @@ gpointer recv_func()
                 if (mx_strcmp(((t_Friend *)current->data)->username, temp) == 0)
                 {
                     ((t_Friend *)current->data)->connected = true;
+                    t_Friend *friend_data = ((t_Friend *)current->data);
+                    show_friend_info(friend_data);
+                    break;
                 }
                 current = current->next;
             }
