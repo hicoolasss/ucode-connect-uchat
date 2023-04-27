@@ -67,6 +67,7 @@ gpointer recv_func()
             }
             if (mx_strcmp("User has no friends", temp) == 0)
             {
+                printf("User has no friends");
                 continue;
             }
             cJSON *received_json = cJSON_Parse(temp);
@@ -168,7 +169,6 @@ gpointer recv_func()
             clear_user_list(user_list);
             printf("Exit\n");
             main_client.connected = false;
-            running = false;
             pthread_mutex_unlock(&mutex_recv);
             g_thread_exit(NULL);
         }
