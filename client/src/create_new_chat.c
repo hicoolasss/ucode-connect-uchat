@@ -457,6 +457,13 @@ static void on_entry_activate_for_editing(GtkEntry *entry, gpointer user_data)
     g_async_queue_push(message_queue, json);
 
     gtk_editable_set_text(GTK_EDITABLE(entry), "");
+
+    g_signal_handlers_disconnect_by_func(entry, (gpointer)G_CALLBACK(on_entry_activate_for_editing), user_data);
+
+    // Включаем обработчик сигнала для отправки сообщения
+    g_signal_connect(entry, "activate", G_CALLBACK(on_entry_activate), user_data);
+
+    g_object_set_data(G_OBJECT(entry), "editing_mode", GINT_TO_POINTER(FALSE));
 }
 
 static gboolean scroll_to_bottom(gpointer user_data)
