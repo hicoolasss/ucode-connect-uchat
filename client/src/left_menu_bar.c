@@ -4,6 +4,7 @@ extern t_screen current_screen;
 extern t_grid current_grid;
 extern t_avatar current_avatar;
 extern t_scaled_avatar current_scaled_avatar;
+extern t_achievements current_achievements;
 
 void get_scaled_image()
 {
@@ -73,6 +74,9 @@ void achievements_clicked()
     set_unvisible_all();
     gtk_widget_set_visible(GTK_WIDGET(current_grid.left_menu_bar), TRUE);
     gtk_widget_set_visible(GTK_WIDGET(current_grid.achievements), TRUE);
+
+    current_achievements.explorer = true;
+    update_show_achievements();
 }
 
 void log_out_clicked()

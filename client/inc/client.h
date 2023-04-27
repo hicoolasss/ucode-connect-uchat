@@ -181,7 +181,6 @@ typedef struct s_user
     char *username;
     char *avatarname;
     char *lastmessage;
-    bool connected;
 } t_user;
 
 typedef struct s_Friend {
@@ -189,6 +188,7 @@ typedef struct s_Friend {
     char *avatarname;
     char *lastmessage;
     bool in_chat;
+    bool connected;
     
     t_list *chat_history;
 } t_Friend;
@@ -236,7 +236,7 @@ typedef struct s_achievements {
     bool fickle;
     bool milka; //xDDDD
     bool loving;
-    //bool vicious; unusable
+    bool secretive;
     bool smart;
     bool mission_impossible;
 
@@ -401,6 +401,8 @@ void update_current_chat(t_chat *chat_data, const char *friendname);
 
 void on_sent_msg_clicked(GtkWidget *btn, gpointer user_data);
 
+void update_show_achievements();
+
 typedef struct {
     gpointer chat_history;
     gpointer username_copy;
@@ -422,6 +424,7 @@ typedef struct {
     bool for_edit;
 
 } SentMessageData;
+
 
 
 

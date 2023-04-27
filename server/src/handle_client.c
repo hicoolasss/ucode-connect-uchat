@@ -34,7 +34,6 @@ void *handle_client(void *args)
             }
             else
             {
-                // printf("%s\n", buf);
                 cJSON *json = cJSON_Parse(buf);
                 if (!json)
                 {
@@ -103,8 +102,6 @@ void *handle_client(void *args)
             else
             {
                 // Преобразование строки в JSON-объект
-                // mx_printstr(buf);
-                // mx_printchar('\n');
                 cJSON *json = cJSON_Parse(buf);
 
                 if (!json)
@@ -137,15 +134,6 @@ void *handle_client(void *args)
                     {
                         write_logs("Failed to get clients\n");
                         break;
-                    }
-                    t_list *current = users_list;
-                    while (current != NULL)
-                    {
-                        if (strcmp(((t_client *)current->data)->login, ((t_user *)clients->data)->username) == 0 && strcmp(((t_client *)current->data)->login, current_client->login) != 0)
-                        {
-                            ((t_user *)clients->data)->connected = ((t_client *)current->data)->connected;
-                        }
-                        current = current->next;
                     }
                     int result = send_namelist(current_client->ssl, clients);
                     if (result <= 0)
@@ -187,6 +175,16 @@ void *handle_client(void *args)
                     }
                     else
                     {
+                        t_list *current = users_list;
+                        while (current != NULL)
+                        {
+                            if (strcmp(((t_client *)current->data)->login, ((t_user *)friends_list->data)->username) == 0 && strcmp(((t_client *)current->data)->login, current_client->login) != 0)
+                            {
+                                ((t_user *)friends_list->data)->connected = ((t_client *)current->data)->connected;
+                            }
+                            current = current->next;
+                        }
+
                         cJSON *json = create_json_from_friends_and_chats(friends_list, db, current_client->login);
 
                         char *json_string = cJSON_Print(json);

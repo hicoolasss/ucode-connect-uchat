@@ -88,10 +88,10 @@ t_list *deserialize_name_list(const char *json_str)
             t_user *user = (t_user *)malloc(sizeof(t_user));
             user->username = mx_strdup(json_name->valuestring);
             user->avatarname = mx_strdup(json_avatarname->valuestring);
-            if (cJSON_IsTrue(cJSON_GetObjectItem(json_node, "connected")))
-                user->connected = true;
-            else
-                user->connected = false;
+            // if (cJSON_IsTrue(cJSON_GetObjectItem(json_node, "connected")))
+            //     user->connected = true;
+            // else
+            //     user->connected = false;
             if (user != NULL)
             {
                 mx_push_back(&user_list_temp, user);

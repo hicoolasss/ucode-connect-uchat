@@ -2,6 +2,9 @@
 
 extern t_screen current_screen;
 extern t_grid current_grid;
+extern t_achievements current_achievements;
+
+
 t_avatar current_avatar;
 t_scaled_avatar current_scaled_avatar;
 t_your_profile_avatar current_your_profile_avatar;
@@ -98,6 +101,10 @@ void on_open_response(GtkDialog *dialog, int response)
 {
   if (response == GTK_RESPONSE_ACCEPT)
   {
+
+    current_achievements.fickle = true;
+    update_show_achievements();
+
     GtkFileChooser *chooser = GTK_FILE_CHOOSER(dialog);
     g_autoptr(GFile) file = gtk_file_chooser_get_file(chooser);
     gchar *filename = g_file_get_path(file);
