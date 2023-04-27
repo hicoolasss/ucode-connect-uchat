@@ -88,10 +88,10 @@ t_list *deserialize_name_list(const char *json_str)
             t_user *user = (t_user *)malloc(sizeof(t_user));
             user->username = mx_strdup(json_name->valuestring);
             user->avatarname = mx_strdup(json_avatarname->valuestring);
-            if (cJSON_IsTrue(cJSON_GetObjectItem(json_node, "connected")))
-                user->connected = true;
-            else
-                user->connected = false;
+            // if (cJSON_IsTrue(cJSON_GetObjectItem(json_node, "connected")))
+            //     user->connected = true;
+            // else
+            //     user->connected = false;
             if (user != NULL)
             {
                 mx_push_back(&user_list_temp, user);
@@ -162,8 +162,11 @@ t_list *process_json_object(cJSON *json_object)
         cJSON *json_friend_username = cJSON_GetObjectItem(json_friend, "name");
         cJSON *json_lastmessage = cJSON_GetObjectItem(json_friend, "lastmessage");
         cJSON *json_friend_avatarname = cJSON_GetObjectItem(json_friend, "avatarname");
-
         t_Friend *new_friend = (t_Friend *)malloc(sizeof(t_Friend));         // Изменено на t_Friend
+        if (cJSON_IsTrue(cJSON_GetObjectItem(json_friend_list, "connected")))
+            new_friend->connected = true;
+        else
+            new_friend->connected = false;
         new_friend->username = mx_strdup(json_friend_username->valuestring); // Использование strdup для копирования строки
         new_friend->avatarname = mx_strdup(json_friend_avatarname->valuestring);
         if (json_lastmessage->valuestring != NULL)

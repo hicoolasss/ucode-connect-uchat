@@ -1,7 +1,3 @@
-ERROR: Socket binding failed
-
-Error: Unable to receive data from server
-
 Error: Unable to receive data from server
 
 ERROR: Socket binding failed
@@ -12,6 +8,7 @@ ERROR: Socket binding failed
 
 Error: Unable to receive data from server
 
+<<<<<<< HEAD
 ERROR: Socket binding failed
 
 Error: Unable to receive data from server
@@ -3780,4 +3777,8 @@ Error: Unable to receive data from server
 Error: Unable to receive data from server
 
 Error: Unable to receive data from server
+
+=======
+>>>>>>> 73464865373c057114ea78c602be4faab7386bb8
+ERROR: Socket binding failed
 

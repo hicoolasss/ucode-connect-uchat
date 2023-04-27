@@ -438,7 +438,7 @@ void show_registration()
 
     gtk_window_present(GTK_WINDOW(current_screen.screen));
 
-    free(entry_arr);
+    //free(entry_arr);
 }
 
 void show_success_registration(void)

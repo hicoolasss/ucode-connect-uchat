@@ -71,17 +71,6 @@ static gboolean on_app_close_request(GtkWindow *window, gpointer data)
         g_thread_unref(receive_thread);
         receive_thread = NULL;
     }
-    // running = false;
-    // main_client.connected = false;
-    // main_client.loaded = false;
-    // clear_friend_list(friend_list);
-    // clear_user_list(user_list);
-    // close_connection(current_client.ssl);
-    // close(current_client.serv_fd);
-    // // SSL_free(current_client.ssl);
-    // SSL_CTX_free(main_client.context);
-    // g_thread_join(send_thread);
-    // g_thread_join(receive_thread);
     mx_printstr("exit success");
 
     // Верните FALSE, чтобы разрешить приложению завершить работу.

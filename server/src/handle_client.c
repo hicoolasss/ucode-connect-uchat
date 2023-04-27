@@ -34,7 +34,6 @@ void *handle_client(void *args)
             }
             else
             {
-                // printf("%s\n", buf);
                 cJSON *json = cJSON_Parse(buf);
                 if (!json)
                 {
@@ -65,6 +64,24 @@ void *handle_client(void *args)
                         SSL_write(current_client->ssl, avatarname, strlen(avatarname));
                         is_run = true;
                         current_client->connected = true;
+                        t_list *current = users_list;
+                        while (current != NULL)
+                        {
+                            if (strcmp(((t_client *)current->data)->login, current_client->login) != 0)
+                            {
+                                SSL *ssl = ((t_client *)current->data)->ssl;
+                                int cmd = SSL_write(ssl, "<Online>", 10);
+                                if (cmd <= 0)
+                                {
+                                    write_json_error(ssl, cmd);
+                                }
+                                cmd = SSL_write(ssl, current_client->login, mx_strlen(current_client->login));
+                                if (cmd <= 0)
+                                {
+                                    write_json_error(ssl, cmd);
+                                }
+                            }
+                        }
                     }
                 }
                 else if (mx_atoi(status) == 1)
@@ -103,8 +120,6 @@ void *handle_client(void *args)
             else
             {
                 // Преобразование строки в JSON-объект
-                // mx_printstr(buf);
-                // mx_printchar('\n');
                 cJSON *json = cJSON_Parse(buf);
 
                 if (!json)
@@ -122,6 +137,24 @@ void *handle_client(void *args)
                     {
                         write_json_error(current_client->ssl, cmd);
                     }
+                    t_list *current = users_list;
+                    while (current != NULL)
+                    {
+                        if (strcmp(((t_client *)current->data)->login, current_client->login) != 0)
+                        {
+                            SSL *ssl = ((t_client *)current->data)->ssl;
+                            cmd = SSL_write(ssl, "<Offline>", 10);
+                            if (cmd <= 0)
+                            {
+                                write_json_error(ssl, cmd);
+                            }
+                            cmd = SSL_write(ssl, current_client->login, mx_strlen(current_client->login));
+                            if (cmd <= 0)
+                            {
+                                write_json_error(ssl, cmd);
+                            }
+                        }
+                    }
                     is_run = false;
                     break;
                 }
@@ -137,15 +170,6 @@ void *handle_client(void *args)
                     {
                         write_logs("Failed to get clients\n");
                         break;
-                    }
-                    t_list *current = users_list;
-                    while (current != NULL)
-                    {
-                        if (strcmp(((t_client *)current->data)->login, ((t_user *)clients->data)->username) == 0 && strcmp(((t_client *)current->data)->login, current_client->login) != 0)
-                        {
-                            ((t_user *)clients->data)->connected = ((t_client *)current->data)->connected;
-                        }
-                        current = current->next;
                     }
                     int result = send_namelist(current_client->ssl, clients);
                     if (result <= 0)
@@ -187,6 +211,16 @@ void *handle_client(void *args)
                     }
                     else
                     {
+                        t_list *current = friends_list;
+                        while (current != NULL)
+                        {
+                            if (strcmp(((t_client *)current->data)->login, ((t_user *)friends_list->data)->username) == 0 && strcmp(((t_client *)current->data)->login, current_client->login) != 0)
+                            {
+                                ((t_user *)friends_list->data)->connected = ((t_client *)current->data)->connected;
+                            }
+                            current = current->next;
+                        }
+
                         cJSON *json = create_json_from_friends_and_chats(friends_list, db, current_client->login);
 
                         char *json_string = cJSON_Print(json);

@@ -27,7 +27,7 @@ gpointer recv_func()
         }
         else if (mx_strcmp(command, "<Offline>") == 0)
         {
-            char *temp[32];
+            char temp[32];
             int cmd = stable_recv(current_client.ssl, temp, sizeof(temp));
             if (cmd <= 0)
             {
@@ -35,25 +35,41 @@ gpointer recv_func()
                 fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
                 break;
             }
-            t_list *current = user_list;
+            t_list *current = friend_list;
             while (current)
             {
-                if(mx_strcmp(((t_user*)current->data)->username, (const char*)temp) == 0)
+                if (mx_strcmp(((t_Friend *)current->data)->username, temp) == 0)
                 {
-                    ((t_user*)current->data)->connected = false;
+                    ((t_Friend *)current->data)->connected = false;
                 }
                 current = current->next;
             }
+            printf("%s disconnected", temp);
+        }
+        else if (mx_strcmp(command, "<Online>") == 0)
+        {
+            char temp[32];
+            int cmd = stable_recv(current_client.ssl, temp, sizeof(temp));
+            if (cmd <= 0)
+            {
+                int error_code = SSL_get_error(current_client.ssl, cmd);
+                fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                break;
+            }
+            t_list *current = friend_list;
+            while (current)
+            {
+                if (mx_strcmp(((t_Friend *)current->data)->username, temp) == 0)
+                {
+                    ((t_Friend *)current->data)->connected = true;
+                }
+                current = current->next;
+            }
+            printf("%s connected", temp);
         }
         else if (mx_strcmp(command, "<user_list>") == 0)
         {
             user_list = receive_list(current_client.ssl);
-            t_list *current = user_list;
-            while (current)
-            {
-                printf("%d", ((t_user *)current->data)->connected);
-                current = current->next;
-            }
             show_user_list_scrolled(user_list);
         }
         else if (mx_strcmp(command, "<friend_list>") == 0)
@@ -68,6 +84,7 @@ gpointer recv_func()
             }
             if (mx_strcmp("User has no friends", temp) == 0)
             {
+                printf("User has no friends");
                 continue;
             }
             cJSON *received_json = cJSON_Parse(temp);
@@ -77,6 +94,13 @@ gpointer recv_func()
                 break;
             }
             friend_list = process_json_object(received_json);
+
+            t_list *current = friend_list;
+            while (current)
+            {
+                printf("%d", ((t_Friend *)current->data)->connected);
+                current = current->next;
+            }
 
             show_chats_with_added_friends(friend_list);
 
@@ -133,13 +157,12 @@ gpointer recv_func()
             message_data->sender = mx_strdup(json_sender->valuestring);
             message_data->message = mx_strdup(json_message_text->valuestring);
             message_data->id = json_message_id->valueint;
-            
 
-            if (message_data->id > 5000) {
+            if (message_data->id > 5000)
+            {
                 current_achievements.milka = true;
                 update_show_achievements();
             }
-
 
             message_data->timestamp = mx_strdup(json_message_timestamp->valuestring);
 
@@ -177,7 +200,6 @@ gpointer recv_func()
             clear_user_list(user_list);
             printf("Exit\n");
             main_client.connected = false;
-            running = false;
             pthread_mutex_unlock(&mutex_recv);
             g_thread_exit(NULL);
         }

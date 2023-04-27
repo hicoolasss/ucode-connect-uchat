@@ -19,7 +19,6 @@ char *serialize_namelist(t_list *head)
 
         cJSON_AddStringToObject(json_node, "name", user->username);
         cJSON_AddStringToObject(json_node, "avatarname", user->avatarname);
-        cJSON_AddBoolToObject(json_node, "connected", user->connected);
         cJSON_AddItemToArray(json_list, json_node);
         head = head->next;
     }
@@ -119,6 +118,7 @@ cJSON *create_json_from_friends_and_chats(t_list *friends, sqlite3 *db, char *us
         cJSON *friend_chat = cJSON_CreateObject();
         cJSON_AddStringToObject(friend_chat, "name", ((t_user *)iter->data)->username);
         cJSON_AddStringToObject(friend_chat, "avatarname", ((t_user *)iter->data)->avatarname);
+        cJSON_AddBoolToObject(friend_chat, "connected", ((t_user *)iter->data)->connected);
         if (((t_user *)iter->data)->lastmessage != NULL)
         {
             cJSON_AddStringToObject(friend_chat, "lastmessage", ((t_user *)iter->data)->lastmessage);
