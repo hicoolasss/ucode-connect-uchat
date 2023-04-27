@@ -41,12 +41,14 @@ gpointer recv_func()
                 if (mx_strcmp(((t_Friend *)current->data)->username, temp) == 0)
                 {
                     ((t_Friend *)current->data)->connected = false;
+                    t_Friend *friend_data = ((t_Friend *)current->data);
+                    printf("%s disconnected / ", friend_data->username);
+                    printf("%s\n", friend_data->avatarname);
+                    show_friend_info(friend_data);
+                    break;
                 }
                 current = current->next;
             }
-            t_Friend *friend_data = ((t_Friend *)current->data);
-            show_friend_info(friend_data);
-            printf("%s disconnected", temp);
         }
         else if (mx_strcmp(command, "<Online>") == 0)
         {
@@ -64,12 +66,14 @@ gpointer recv_func()
                 if (mx_strcmp(((t_Friend *)current->data)->username, temp) == 0)
                 {
                     ((t_Friend *)current->data)->connected = true;
+                    t_Friend *friend_data = ((t_Friend *)current->data);
+                    printf("%s connected / ", friend_data->username);
+                    printf("%s\n", friend_data->avatarname);
+                    show_friend_info(friend_data);
+                    break;
                 }
                 current = current->next;
             }
-            t_Friend *friend_data = ((t_Friend *)current->data);
-            show_friend_info(friend_data);
-            printf("%s connected", temp);
         }
         else if (mx_strcmp(command, "<user_list>") == 0)
         {
