@@ -383,10 +383,10 @@ static void on_entry_activate(GtkEntry *entry, gpointer friend_data)
     const char *username = strdup(data->username);
     const char *message = gtk_editable_get_text(GTK_EDITABLE(entry));
 
-    // if (strcmp(message, "I love you, baby!")) {
-    //     current_achievements.loving = true;
-    //     update_show_achievements();
-    // } 
+    if (strcmp(message, "I love you, baby!") == 0) {
+        current_achievements.loving = true;
+        update_show_achievements();
+    } 
 
     // printf("%s -> %s\n", username, message);
     if (message == NULL)
@@ -470,6 +470,10 @@ static gboolean scroll_to_bottom(gpointer user_data)
 static void on_delete_msg_clicked(GtkWidget *btn, gpointer user_data)
 {
     (void)btn;
+
+    current_achievements.secretive = true;
+    update_show_achievements();
+
     SentMessageData *sent_message_data = (SentMessageData *)user_data;
     t_chat *chat_data = sent_message_data->chat_data;
     t_Friend *friend_data = sent_message_data->friend_data;

@@ -14,6 +14,15 @@ static void scrolled_window_styling(GtkWidget *widget, t_screen screen, const ch
     gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(screen.provider), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 }
 
+static void on_achievements_btn_clicked(GtkWidget *btn, gpointer user_data)
+{
+
+    (void)btn;
+    (void)user_data;
+    current_achievements.smart = true;
+    update_show_achievements();
+}
+
 void show_achievements()
 {
 
@@ -82,9 +91,9 @@ void show_achievements()
     // 6th box
     GtkWidget *vicious_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
-    GtkWidget *vicious_label = gtk_label_new("Vicious");
+    GtkWidget *vicious_label = gtk_label_new("Secretive");
 
-    GtkWidget *vicious_desc_label = gtk_label_new("Block someone");
+    GtkWidget *vicious_desc_label = gtk_label_new("Delete message");
 
     // 7th box
     GtkWidget *smart_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
@@ -446,14 +455,14 @@ void show_achievements()
     widget_styling(first_step_label, current_screen, "achievement_label_text");
     widget_styling(first_step_desc_label, current_screen, "achievement_desc_text");
 
-    if (current_achievements.first_step)
-    {
-        widget_styling(btn_0, current_screen, "complete_btn");
-    }
-    else
-    {
-        widget_styling(btn_0, current_screen, "unfinished_btn");
-    }
+    // if (current_achievements.first_step)
+    // {
+    widget_styling(btn_0, current_screen, "unfinished_btn");
+    //}
+    // else
+    //{
+    //  widget_styling(btn_0, current_screen, "unfinished_btn");
+    //}
 
     widget_styling(explorer_box, current_screen, "achievement_card");
     widget_styling(explorer_label, current_screen, "achievement_label_text");
@@ -470,7 +479,7 @@ void show_achievements()
     widget_styling(fickle_desc_label, current_screen, "achievement_desc_text");
 
     // if () {
-    widget_styling(btn_2, current_screen, "complete_btn");
+    widget_styling(btn_2, current_screen, "unfinished_btn");
     //} else {
     // widget_styling(btn_2, current_screen, "unfinished_btn");
     //}
@@ -480,7 +489,7 @@ void show_achievements()
     widget_styling(argument_with_a_women_desc_label, current_screen, "achievement_desc_text");
 
     // if () {
-    widget_styling(btn_3, current_screen, "complete_btn");
+    widget_styling(btn_3, current_screen, "unfinished_btn");
     //} else {
     // widget_styling(btn_3, current_screen, "unfinished_btn");
     //}
@@ -490,7 +499,7 @@ void show_achievements()
     widget_styling(loving_desc_label, current_screen, "achievement_desc_text");
 
     // if () {
-    widget_styling(btn_4, current_screen, "complete_btn");
+    widget_styling(btn_4, current_screen, "unfinished_btn");
     //} else {
     // widget_styling(btn_4, current_screen, "unfinished_btn");
     //}
@@ -500,7 +509,7 @@ void show_achievements()
     widget_styling(vicious_desc_label, current_screen, "achievement_desc_text");
 
     // if () {
-    widget_styling(btn_5, current_screen, "complete_btn");
+    widget_styling(btn_5, current_screen, "unfinished_btn");
     //} else {
     // widget_styling(btn_5, current_screen, "unfinished_btn");
     //}
@@ -510,7 +519,7 @@ void show_achievements()
     widget_styling(smart_desc_label, current_screen, "achievement_desc_text");
 
     // if () {
-    widget_styling(btn_6, current_screen, "complete_btn");
+    widget_styling(btn_6, current_screen, "unfinished_btn");
     //} else {
     // widget_styling(btn_6, current_screen, "unfinished_btn");
     //}
@@ -608,9 +617,9 @@ void update_show_achievements()
     // 6th box
     GtkWidget *vicious_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 
-    GtkWidget *vicious_label = gtk_label_new("Vicious");
+    GtkWidget *vicious_label = gtk_label_new("Secretive");
 
-    GtkWidget *vicious_desc_label = gtk_label_new("Block someone");
+    GtkWidget *vicious_desc_label = gtk_label_new("Delete message");
 
     // 7th box
     GtkWidget *smart_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
@@ -1037,21 +1046,27 @@ void update_show_achievements()
     widget_styling(vicious_label, current_screen, "achievement_label_text");
     widget_styling(vicious_desc_label, current_screen, "achievement_desc_text");
 
-    // if () {
-    widget_styling(btn_5, current_screen, "complete_btn");
-    //} else {
-    // widget_styling(btn_5, current_screen, "unfinished_btn");
-    //}
+    if (current_achievements.secretive)
+    {
+        widget_styling(btn_5, current_screen, "complete_btn");
+    }
+    else
+    {
+        widget_styling(btn_5, current_screen, "unfinished_btn");
+    }
 
     widget_styling(smart_box, current_screen, "achievement_card");
     widget_styling(smart_label, current_screen, "achievement_label_text");
     widget_styling(smart_desc_label, current_screen, "achievement_desc_text");
 
-    // if () {
-    widget_styling(btn_6, current_screen, "complete_btn");
-    //} else {
-    // widget_styling(btn_6, current_screen, "unfinished_btn");
-    //}
+    if (current_achievements.smart)
+    {
+        widget_styling(btn_6, current_screen, "complete_btn");
+    }
+    else
+    {
+        widget_styling(btn_6, current_screen, "unfinished_btn");
+    }
 
     widget_styling(mission_impossible_box, current_screen, "achievement_card");
     widget_styling(mission_impossible_label, current_screen, "achievement_label_text");
@@ -1065,4 +1080,6 @@ void update_show_achievements()
 
     widget_styling(second_hbox, current_screen, "second_hbox");
     widget_styling(loving_box, current_screen, "achievement_card");
+    
+    g_signal_connect(achievements_label_btn, "clicked", G_CALLBACK(on_achievements_btn_clicked), NULL);
 }

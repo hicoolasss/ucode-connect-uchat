@@ -236,7 +236,7 @@ typedef struct s_achievements {
     bool fickle;
     bool milka; //xDDDD
     bool loving;
-    //bool vicious; unusable
+    bool secretive;
     bool smart;
     bool mission_impossible;
 
