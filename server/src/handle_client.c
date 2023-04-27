@@ -64,6 +64,24 @@ void *handle_client(void *args)
                         SSL_write(current_client->ssl, avatarname, strlen(avatarname));
                         is_run = true;
                         current_client->connected = true;
+                        t_list *current = users_list;
+                        while (current != NULL)
+                        {
+                            if (strcmp(((t_client *)current->data)->login, current_client->login) != 0)
+                            {
+                                SSL *ssl = ((t_client *)current->data)->ssl;
+                                int cmd = SSL_write(ssl, "<Online>", 10);
+                                if (cmd <= 0)
+                                {
+                                    write_json_error(ssl, cmd);
+                                }
+                                cmd = SSL_write(ssl, current_client->login, mx_strlen(current_client->login));
+                                if (cmd <= 0)
+                                {
+                                    write_json_error(ssl, cmd);
+                                }
+                            }
+                        }
                     }
                 }
                 else if (mx_atoi(status) == 1)
@@ -118,6 +136,24 @@ void *handle_client(void *args)
                     if (cmd <= 0)
                     {
                         write_json_error(current_client->ssl, cmd);
+                    }
+                    t_list *current = users_list;
+                    while (current != NULL)
+                    {
+                        if (strcmp(((t_client *)current->data)->login, current_client->login) != 0)
+                        {
+                            SSL *ssl = ((t_client *)current->data)->ssl;
+                            cmd = SSL_write(ssl, "<Offline>", 10);
+                            if (cmd <= 0)
+                            {
+                                write_json_error(ssl, cmd);
+                            }
+                            cmd = SSL_write(ssl, current_client->login, mx_strlen(current_client->login));
+                            if (cmd <= 0)
+                            {
+                                write_json_error(ssl, cmd);
+                            }
+                        }
                     }
                     is_run = false;
                     break;
@@ -175,7 +211,7 @@ void *handle_client(void *args)
                     }
                     else
                     {
-                        t_list *current = users_list;
+                        t_list *current = friends_list;
                         while (current != NULL)
                         {
                             if (strcmp(((t_client *)current->data)->login, ((t_user *)friends_list->data)->username) == 0 && strcmp(((t_client *)current->data)->login, current_client->login) != 0)

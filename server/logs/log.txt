@@ -1,2 +1,10 @@
 Error: Unable to receive data from server
 
+ERROR: Socket binding failed
+
+Error: Unable to receive data from server
+
+ERROR: Socket binding failed
+
+Error: Unable to receive data from server
+
