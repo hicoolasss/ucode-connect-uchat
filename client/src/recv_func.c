@@ -44,7 +44,10 @@ gpointer recv_func()
                     t_Friend *friend_data = ((t_Friend *)current->data);
                     printf("%s disconnected / ", friend_data->username);
                     printf("%s\n", friend_data->avatarname);
-                    show_friend_info(friend_data);
+                    if (friend_data->in_chat)
+                    {
+                        update_show_friend_info(friend_data);
+                    }
                     break;
                 }
                 current = current->next;
@@ -69,7 +72,10 @@ gpointer recv_func()
                     t_Friend *friend_data = ((t_Friend *)current->data);
                     printf("%s connected / ", friend_data->username);
                     printf("%s\n", friend_data->avatarname);
-                    show_friend_info(friend_data);
+                    if (friend_data->in_chat)
+                    {
+                        update_show_friend_info(friend_data);
+                    }
                     break;
                 }
                 current = current->next;

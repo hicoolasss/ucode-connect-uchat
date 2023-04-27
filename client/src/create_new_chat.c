@@ -1171,6 +1171,73 @@ void update_show_chats_with_added_friends(t_list *friend_list)
     pthread_mutex_unlock(&mutex_send);
 }
 
+void update_show_friend_info(gpointer data)
+{
+    t_Friend *friend_data = data;
+    
+    GtkWidget *children;
+
+    children = gtk_widget_get_first_child(current_grid.chat_with_friend);
+
+    gtk_widget_unparent(children);
+
+    GtkWidget *user_info_grid = create_grid(428, 75, NULL);
+
+    get_scaled_image_chats_for_friend_list(friend_data);
+
+    GtkWidget *user_avatar = gtk_image_new_from_pixbuf(scaled_avatar);
+
+    mx_printstr(friend_data->username);
+    GtkWidget *username_label = gtk_label_new(friend_data->username);
+
+
+    GtkWidget *is_online_label;
+
+    if (!friend_data->connected)
+    {
+
+        is_online_label = gtk_label_new("Offline");
+    }
+    else
+    {
+        is_online_label = gtk_label_new("Online");
+    }
+
+    gtk_grid_attach(GTK_GRID(user_info_grid), user_avatar, 0, 0, 1, 2);
+
+    GtkWidget *labels_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    gtk_box_append(GTK_BOX(labels_box), username_label);
+    gtk_box_append(GTK_BOX(labels_box), is_online_label);
+
+    gtk_grid_attach(GTK_GRID(user_info_grid), labels_box, 1, 0, 1, 1);
+
+    gtk_grid_attach(GTK_GRID(current_grid.chat_with_friend), user_info_grid, 0, 0, 1, 1);
+
+    gtk_widget_set_hexpand(current_grid.chat_with_friend, FALSE);
+
+    gtk_widget_set_margin_start(user_avatar, 22);
+    gtk_widget_set_margin_top(user_avatar, 10);
+    gtk_widget_set_margin_bottom(user_avatar, 10);
+
+    gtk_widget_set_size_request(user_avatar, 60, 60);
+
+    gtk_widget_set_margin_start(labels_box, 13);
+    gtk_widget_set_margin_top(labels_box, 15);
+
+    gtk_widget_set_margin_top(is_online_label, 15);
+
+    gtk_widget_set_halign(is_online_label, GTK_ALIGN_START);
+    gtk_widget_set_halign(username_label, GTK_ALIGN_START);
+
+    widget_styling(username_label, current_screen, "chat_gpt_message");
+
+    widget_styling(is_online_label, current_screen, "is_online_label");
+
+    // widget_styling(user_info_grid, current_screen, "chats_list_grid");
+
+    // widget_styling(labels_box, current_screen, "chats_list_grid");
+}
+
 void show_friend_info(gpointer data)
 {
     t_Friend *friend_data = data;
