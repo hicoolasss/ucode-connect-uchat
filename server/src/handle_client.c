@@ -62,9 +62,9 @@ void *handle_client(void *args)
                         current_client->login = mx_strdup(login);
                         char *avatarname = sql_get_image(db, current_client->login);
                         SSL_write(current_client->ssl, avatarname, strlen(avatarname));
+                        t_list *current = users_list;
                         is_run = true;
                         current_client->connected = true;
-                        t_list *current = users_list;
                         while (current != NULL)
                         {
                             if (strcmp(((t_client *)current->data)->login, current_client->login) != 0)
@@ -81,6 +81,7 @@ void *handle_client(void *args)
                                     write_json_error(ssl, cmd);
                                 }
                             }
+                            current = current->next;
                         }
                     }
                 }
@@ -154,9 +155,10 @@ void *handle_client(void *args)
                                 write_json_error(ssl, cmd);
                             }
                         }
+                        current = current->next;
                     }
                     is_run = false;
-                    break;
+                    // break;
                 }
                 else if (strcmp(command, "<user_list>") == 0)
                 {
@@ -185,17 +187,6 @@ void *handle_client(void *args)
                         free(temp);
                     }
                 }
-                // else if (strcmp(command, "<send_connect_status>") == 0)
-                // {
-                //     char *friendname = cJSON_GetObjectItemCaseSensitive(json, "friend")->valuestring;
-                //     t_list *current = users_list;
-                //     while (current != NULL)
-                //     {
-                //         if(strcmp(((t_client *)current->data)->login, friendname) == 0);
-
-                //         current = current->next;
-                //     }
-                // }
                 else if (strcmp(command, "<friend_list>") == 0)
                 {
                     int cmd = SSL_write(current_client->ssl, command, mx_strlen(command));
@@ -211,16 +202,22 @@ void *handle_client(void *args)
                     }
                     else
                     {
-                        t_list *current = friends_list;
-                        while (current != NULL)
+                        t_list *current_friend = friends_list;
+                        while (current_friend != NULL)
                         {
-                            if (strcmp(((t_client *)current->data)->login, ((t_user *)friends_list->data)->username) == 0 && strcmp(((t_client *)current->data)->login, current_client->login) != 0)
+                            char *username = ((t_user *)current_friend->data)->username;
+                            t_list *current_user = users_list;
+                            while (current_user != NULL)
                             {
-                                ((t_user *)friends_list->data)->connected = ((t_client *)current->data)->connected;
+                                if (strcmp(((t_client *)current_user->data)->login, username) == 0)
+                                {
+                                    ((t_client *)current_user->data)->connected = ((t_user *)current_friend->data)->connected;
+                                    break;
+                                }
+                                current_user = current_user->next;
                             }
-                            current = current->next;
+                            current_friend = current_friend->next;
                         }
-
                         cJSON *json = create_json_from_friends_and_chats(friends_list, db, current_client->login);
 
                         char *json_string = cJSON_Print(json);

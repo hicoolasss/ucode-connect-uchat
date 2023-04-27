@@ -67,7 +67,7 @@ int main(int argc, char **argv)
     {
         return EXIT_FAILURE;
     }
-    daemon_server();
+    // daemon_server();
     int port = atoi(argv[1]);
     struct sockaddr_in cli_addr;
     socklen_t adr_size = sizeof(cli_addr);

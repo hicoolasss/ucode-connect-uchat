@@ -45,11 +45,11 @@ static int get_username_status(void)
     while (1)
     {
         // int len = recv_all(current_client.ssl, buf, sizeof(buf));
-        printf("Thread %lu trying to lock mutex\n", pthread_self());
-        pthread_mutex_lock(&mutex_recv);
+        // printf("Thread %lu trying to lock mutex\n", pthread_self());
+        // pthread_mutex_lock(&mutex_recv);
         int len = SSL_read(current_client.ssl, buf, sizeof(buf));
-        pthread_mutex_unlock(&mutex_recv);
-        printf("Thread %lu trying to unlock mutex\n", pthread_self());
+        // pthread_mutex_unlock(&mutex_recv);
+        // printf("Thread %lu trying to unlock mutex\n", pthread_self());
         if (len < 0)
         {
 
@@ -438,7 +438,7 @@ void show_registration()
 
     gtk_window_present(GTK_WINDOW(current_screen.screen));
 
-    free(entry_arr);
+    //free(entry_arr);
 }
 
 void show_success_registration(void)

@@ -196,8 +196,10 @@ gpointer recv_func()
         else if (mx_strcmp(command, "<logout>") == 0)
         {
             pthread_mutex_lock(&mutex_recv);
-            clear_friend_list(friend_list);
-            clear_user_list(user_list);
+            if (friend_list)
+                clear_friend_list(friend_list);
+            if (user_list)
+                clear_user_list(user_list);
             printf("Exit\n");
             main_client.connected = false;
             pthread_mutex_unlock(&mutex_recv);
