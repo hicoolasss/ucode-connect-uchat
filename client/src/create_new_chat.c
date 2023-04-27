@@ -497,7 +497,7 @@ static void on_edit_msg_clicked(GtkWidget *btn, gpointer user_data)
 
     SentMessageData *sent_message_data = (SentMessageData *)user_data;
     t_chat *chat_data = sent_message_data->chat_data;
-    //t_Friend *friend_data = sent_message_data->friend_data;
+    // t_Friend *friend_data = sent_message_data->friend_data;
 
     g_object_set_data(G_OBJECT(entry), "editing_mode", GINT_TO_POINTER(TRUE));
 
@@ -547,8 +547,6 @@ static void on_cancel_btn_clicked(GtkWidget *btn, gpointer user_data)
     gtk_grid_attach(GTK_GRID(chat_with_friend_grid), box, 1, 9999 + sent_message_data->chat_data->id, 1, 1);
 
     g_signal_connect(sent_msg, "clicked", G_CALLBACK(on_sent_msg_clicked), user_data);
-
-
 }
 
 void on_sent_msg_clicked(GtkWidget *btn, gpointer user_data)
@@ -570,7 +568,7 @@ void on_sent_msg_clicked(GtkWidget *btn, gpointer user_data)
         gtk_widget_unparent(iter);
     }
 
-    //const char *msg = gtk_button_get_label(GTK_BUTTON(btn));
+    // const char *msg = gtk_button_get_label(GTK_BUTTON(btn));
 
     GtkWidget *edit_btn = gtk_button_new();
 
@@ -1152,7 +1150,7 @@ void show_friend_info(gpointer data)
     widget_styling(is_online_label, current_screen, "is_online_label");
 
     // widget_styling(user_info_grid, current_screen, "chats_list_grid");
-    
+
     // widget_styling(labels_box, current_screen, "chats_list_grid");
 }
 
@@ -1185,21 +1183,46 @@ void show_chats_with_added_friends(t_list *friend_list)
 
         GtkWidget *user_avatar = gtk_image_new_from_pixbuf(scaled_avatar);
 
-        GtkWidget *last_msg_label = gtk_label_new(friend_data->lastmessage);
+        t_list *last_chat = friend_data->chat_history;
+
+        while (last_chat != NULL && last_chat->next != NULL)
+        {
+            last_chat = last_chat->next;
+        }
+
+        GtkWidget *last_msg_label;
+
+        if (last_chat != NULL && strcmp(((t_chat *)last_chat->data)->sender, current_client.login) == 0)
+        {
+            char *last_msg_you_sent = g_strconcat("You: ", friend_data->lastmessage, NULL);
+
+            last_msg_label = gtk_label_new(last_msg_you_sent);
+
+            g_free(last_msg_you_sent); // Освободите память, выделенную для строки last_msg_you_sent
+        }
+        else
+        {
+            last_msg_label = gtk_label_new(friend_data->lastmessage);
+        }
+
+        // gtk_label_set_width_chars(GTK_LABEL(last_msg_label), 30); // Установите максимальную ширину символов.
+        gtk_label_set_max_width_chars(GTK_LABEL(last_msg_label), 30);
+        gtk_label_set_ellipsize(GTK_LABEL(last_msg_label), PANGO_ELLIPSIZE_END); // Установите обрезку текста с многоточием.
+        gtk_label_set_wrap(GTK_LABEL(last_msg_label), FALSE);
 
         gtk_grid_attach(GTK_GRID(user_box_grid), user_avatar, 0, 0, 1, 2);
 
         gtk_grid_attach(GTK_GRID(user_box_grid), box, 1, 0, 1, 1);
 
         gtk_box_append(GTK_BOX(box), username_label);
-        
+
         gtk_box_append(GTK_BOX(box), last_msg_label);
 
         gtk_widget_set_margin_start(box, 8);
 
         gtk_widget_set_size_request(box, 200, 80);
 
-        //gtk_grid_attach(GTK_GRID(user_box_grid), last_msg_label, 1, 1, 1, 1);
+        // gtk_grid_attach(GTK_GRID(user_box_grid), last_msg_label, 1, 1, 1, 1);
 
         gtk_button_set_child(GTK_BUTTON(user_box_btn1), user_box_grid);
 
@@ -1219,11 +1242,11 @@ void show_chats_with_added_friends(t_list *friend_list)
 
         gtk_widget_set_halign(username_label, GTK_ALIGN_START);
         gtk_widget_set_margin_top(username_label, 15);
-        //gtk_widget_set_margin_start(username_label, 10);
+        // gtk_widget_set_margin_start(username_label, 10);
 
         gtk_widget_set_halign(last_msg_label, GTK_ALIGN_START);
         gtk_widget_set_margin_top(last_msg_label, 10);
-       // gtk_widget_set_margin_start(last_msg_label, 10);
+        // gtk_widget_set_margin_start(last_msg_label, 10);
 
         gtk_widget_set_size_request(user_avatar, 60, 60);
 
@@ -1236,9 +1259,9 @@ void show_chats_with_added_friends(t_list *friend_list)
 
         widget_styling(username_label, current_screen, "chat_gpt_message");
 
-        widget_styling(last_msg_label, current_screen, "chat_gpt_message");
+        widget_styling(last_msg_label, current_screen, "lastmessage");
 
-        //widget_styling(box, current_screen, "chats_list_grid");
+        // widget_styling(box, current_screen, "chats_list_grid");
 
         current = current->next;
     }

@@ -132,3 +132,1398 @@ ERROR: Socket binding failed
 
 Error: Unable to receive data from server
 
+<<<<<<< HEAD
+=======
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error sending command: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending command: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending command: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending command: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending command: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending command: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending command: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending command: error:00000005:lib(0)::reason(5)
+
+Error sending command: error:00000005:lib(0)::reason(5)
+
+Error sending command: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending command: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending command: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending command: error:00000005:lib(0)::reason(5)
+
+Error sending command: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending command: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending command: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending command: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending command: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending command: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error sending command: error:00000005:lib(0)::reason(5)
+
+Error sending command: error:00000005:lib(0)::reason(5)
+
+Error sending command: error:00000005:lib(0)::reason(5)
+
+Error sending command: error:00000005:lib(0)::reason(5)
+
+Error sending command: error:00000005:lib(0)::reason(5)
+
+Error sending command: error:00000005:lib(0)::reason(5)
+
+Error sending command: error:00000005:lib(0)::reason(5)
+
+Error sending command: error:00000005:lib(0)::reason(5)
+
+Error sending command: error:00000005:lib(0)::reason(5)
+
+Error sending command: error:00000005:lib(0)::reason(5)
+
+Error sending command: error:00000005:lib(0)::reason(5)
+
+Error sending command: error:00000005:lib(0)::reason(5)
+
+Error sending command: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+>>>>>>> ad0e4720d0eebc2464e3ba0a9d9dfaca8abea655
+ERROR: Socket binding failed
+
+Error: Unable to receive data from server
+
