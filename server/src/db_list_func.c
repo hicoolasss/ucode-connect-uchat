@@ -83,7 +83,6 @@ t_list *get_friends(sqlite3 *db, const char *username)
             {
                 friend_person->avatarname = mx_strdup((const char *)avatarname);
             }
-            printf("%s\n", friend_person->avatarname);
             if (friend_person != NULL)
             {
                 mx_push_back(&friend_list, friend_person);
