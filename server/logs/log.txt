@@ -1,0 +1,134 @@
+ERROR: Socket binding failed
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+ERROR: Socket binding failed
+
+Error: Unable to receive data from server
+
+ERROR: Socket binding failed
+
+Error: Unable to receive data from server
+
+ERROR: Socket binding failed
+
+Error: Unable to receive data from server
+
+ERROR: Socket binding failed
+
+Error: Unable to receive data from server
+
+ERROR: Socket binding failed
+
+Error: Unable to receive data from server
+
+ERROR: Socket binding failed
+
+Error: Unable to receive data from server
+
+ERROR: Socket binding failed
+
+Error: Unable to receive data from server
+
+ERROR: Socket binding failed
+
+Error: Unable to receive data from server
+
+ERROR: Socket binding failed
+
+Error: Unable to receive data from server
+
+ERROR: Socket binding failed
+
+Error: Unable to receive data from server
+
+ERROR: Socket binding failed
+
+Error: Unable to receive data from server
+
+ERROR: Socket binding failed
+
+Error: Unable to receive data from server
+
+ERROR: Socket binding failed
+
+Error: Unable to receive data from server
+
+ERROR: Socket binding failed
+
+Error: Unable to receive data from server
+
+ERROR: Socket binding failed
+
+Error sending JSON: error:00000001:lib(0)::reason(1)
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000001:lib(0)::reason(1)
+
+Error: Unable to receive data from server
+
+ERROR: Socket binding failed
+
+Error sending JSON: error:00000001:lib(0)::reason(1)
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+ERROR: Socket binding failed
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+ERROR: Socket binding failed
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+ERROR: Socket binding failed
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+ERROR: Socket binding failed
+
+Error: Unable to receive data from server
+
+ERROR: Socket binding failed
+
+Error: Unable to receive data from server
+
+ERROR: Socket binding failed
+
+Error: Unable to receive data from server
+
+ERROR: Socket binding failed
+
+Error: Unable to receive data from server
+
+ERROR: Socket binding failed
+
+Error: Unable to receive data from server
+
+ERROR: Socket binding failed
+
+Error: Unable to receive data from server
+
+ERROR: Socket binding failed
+
+Error: Unable to receive data from server
+
+ERROR: Socket binding failed
+
+Error: Unable to receive data from server
+
+ERROR: Socket binding failed
+
+Error: Unable to receive data from server
+

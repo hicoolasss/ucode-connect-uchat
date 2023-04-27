@@ -265,14 +265,14 @@ void show_home_grid()
 
     gtk_widget_set_halign(current_home.chat_gpt_desc_label, GTK_ALIGN_CENTER);
 
-    gtk_widget_set_margin_top(current_home.chat_gpt_desc_label, 23);
+    gtk_widget_set_margin_top(current_home.chat_gpt_desc_label, 10);
     // gtk_widget_set_margin_bottom(current_home.chat_gpt_desc_label, 24);
 
     gtk_widget_set_halign(current_home.chat_gpt_box_for_label, GTK_ALIGN_CENTER);
     gtk_widget_set_margin_top(current_home.chat_gpt_box_for_label, 17);
 
     gtk_widget_set_halign(chat_scrolled, GTK_ALIGN_CENTER);
-    gtk_widget_set_margin_top(chat_scrolled, 17);
+    gtk_widget_set_margin_top(chat_scrolled, 10);
     gtk_widget_set_margin_bottom(chat_scrolled, 17);
 
     gtk_widget_set_halign(current_home.chat_gpt_response, GTK_ALIGN_CENTER);

@@ -2,7 +2,7 @@
 
 int send_message_to_server(char *buffer)
 {
-    int len = stable_sending(current_client.ssl, buffer, mx_strlen(buffer));
+    int len = SSL_write(current_client.ssl, buffer, mx_strlen(buffer));
     if (len < 0)
     {
         mx_printstr("Error sending message.\n");
@@ -264,6 +264,12 @@ int stable_sending(SSL *ssl, void *buf, int size)
     {
         while ((receive = send_all(ssl, buf, size)) < 0)
         {
+            int ssl_shutdown = SSL_get_shutdown(ssl);
+            if ((ssl_shutdown & SSL_SENT_SHUTDOWN) || (ssl_shutdown & SSL_RECEIVED_SHUTDOWN))
+            {
+                printf("SSL connection has been closed\n");
+                return -1;
+            }
             main_client.loaded = false;
             close_connection(current_client.ssl);
             printf("Trying to reconnect\n");
@@ -290,6 +296,12 @@ int stable_recv(SSL *ssl, void *buf, int size)
     {
         while ((receive = SSL_read(ssl, buf, size)) <= 0)
         {
+            int ssl_shutdown = SSL_get_shutdown(ssl);
+            if ((ssl_shutdown & SSL_SENT_SHUTDOWN) || (ssl_shutdown & SSL_RECEIVED_SHUTDOWN))
+            {
+                printf("SSL connection has been closed\n");
+                return -1;
+            }
             main_client.loaded = false;
             printf("Trying to reconnect\n");
             close_connection(current_client.ssl);
@@ -438,7 +450,6 @@ void update_message(t_list *friend_list, char *username, int old_message_id, cha
     }
 
     update_show_chats_with_added_friends(friend_list);
-
 }
 
 void clear_friend_list(t_list *list)
@@ -449,8 +460,8 @@ void clear_friend_list(t_list *list)
         t_Friend *friend = (t_Friend *)temp->data;
         free(friend->username);
         free(friend->avatarname);
-        if (friend->lastmessage != NULL || mx_strcmp(friend->lastmessage, "Nothing here...") != 0)
-            free(friend->lastmessage);
+        // if (friend->lastmessage != NULL || mx_strcmp(friend->lastmessage, "Nothing here...") != 0)
+        //     free(friend->lastmessage);
         if (friend->chat_history != NULL)
         {
             t_list *current_history = friend->chat_history;

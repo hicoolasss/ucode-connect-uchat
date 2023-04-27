@@ -17,7 +17,6 @@ pthread_cond_t auth_cond = PTHREAD_COND_INITIALIZER;
 GAsyncQueue *message_queue;
 GThread *send_thread;
 GThread *receive_thread;
-volatile gboolean running = TRUE;
 
 // int send_all(SSL *sockfd, char *buf, int len);
 // int recv_all(SSL *sockfd, char *buf, int len);
@@ -53,7 +52,36 @@ static gboolean on_app_close_request(GtkWindow *window, gpointer data)
 {
     // Выполните здесь любые действия, необходимые перед выходом из приложения.
     // Например, освободите ресурсы или сохраните настройки.
+    cJSON *json = cJSON_CreateObject();
+    cJSON_AddStringToObject(json, "login", current_client.login);
+    cJSON_AddStringToObject(json, "command", "<logout>");
 
+    g_async_queue_push(message_queue, json);
+
+    if (send_thread != NULL)
+    {
+        g_thread_join(send_thread);
+        g_thread_unref(send_thread);
+        send_thread = NULL;
+    }
+
+    if (receive_thread != NULL)
+    {
+        g_thread_join(receive_thread);
+        g_thread_unref(receive_thread);
+        receive_thread = NULL;
+    }
+    // running = false;
+    // main_client.connected = false;
+    // main_client.loaded = false;
+    // clear_friend_list(friend_list);
+    // clear_user_list(user_list);
+    // close_connection(current_client.ssl);
+    // close(current_client.serv_fd);
+    // // SSL_free(current_client.ssl);
+    // SSL_CTX_free(main_client.context);
+    // g_thread_join(send_thread);
+    // g_thread_join(receive_thread);
     mx_printstr("exit success");
 
     // Верните FALSE, чтобы разрешить приложению завершить работу.
@@ -141,9 +169,9 @@ int main(int argc, char **argv)
         free(tmp);
     }
 
-    close(current_client.serv_fd);
-    SSL_free(current_client.ssl);
-    SSL_CTX_free(main_client.context);
+    // close(current_client.serv_fd);
+    // SSL_free(current_client.ssl);
+    // SSL_CTX_free(main_client.context);
 
     return stat;
 }

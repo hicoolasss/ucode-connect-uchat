@@ -34,7 +34,7 @@ void show_home(void)
 
     current_grid.home = create_grid(1010, 667, "home");
     current_grid.search_bar = create_grid(427, 59, "search_bar_grid");
-    //current_grid.mini_groups = create_grid(427, 318, "mini_groups_grid");
+    // current_grid.mini_groups = create_grid(427, 318, "mini_groups_grid");
     current_grid.mini_chats = create_grid(427, 587, "mini_chats");
     current_grid.chats = create_grid(557, 667, "empty_chat_grid");
     current_grid.chat_with_friend = create_grid(557, 667, "empty_chat_grid");
@@ -46,20 +46,19 @@ void show_home(void)
     current_grid.second_intro_screen = create_grid(1200, 760, "intro_flash_light");
     current_grid.third_intro_screen = create_grid(586, 544, NULL);
 
-    //gtk_widget_set_margin_start(create_new_chat_with_someone_label, 175);
+    // gtk_widget_set_margin_start(create_new_chat_with_someone_label, 175);
     gtk_widget_set_margin_end(current_grid.chats, 30);
     gtk_widget_set_margin_end(current_grid.chat_with_friend, 30);
 
     // gtk_widget_set_margin_start(current_grid.mini_chats, 20);
     // gtk_widget_set_margin_end(current_grid.mini_chats, 20);
-    //gtk_widget_set_margin_top(create_new_chat_with_someone_label, 83);
+    // gtk_widget_set_margin_top(create_new_chat_with_someone_label, 83);
 
-        
     cJSON *json = cJSON_CreateObject();
     cJSON_AddStringToObject(json, "login", current_client.login);
     cJSON_AddStringToObject(json, "command", "<friend_list>");
     g_async_queue_push(message_queue, json);
-    
+
     // fill all grids
     show_left_menu_bar();
     show_achievements();
@@ -93,11 +92,11 @@ void show_home(void)
     gtk_grid_attach(GTK_GRID(current_grid.chats_container), current_grid.three_rows_container, 0, 0, 1, 1);
     gtk_grid_set_row_spacing(GTK_GRID(current_grid.three_rows_container), 23);
     gtk_grid_attach(GTK_GRID(current_grid.three_rows_container), current_grid.search_bar, 0, 0, 1, 1);
-    //gtk_grid_attach(GTK_GRID(current_grid.three_rows_container), current_grid.mini_groups, 0, 1, 1, 1);
+    // gtk_grid_attach(GTK_GRID(current_grid.three_rows_container), current_grid.mini_groups, 0, 1, 1, 1);
     gtk_grid_attach(GTK_GRID(current_grid.three_rows_container), current_grid.mini_chats, 0, 1, 1, 1);
     gtk_grid_set_column_spacing(GTK_GRID(current_grid.chats_container), 21);
     gtk_grid_attach(GTK_GRID(current_grid.chats_container), current_grid.chats, 1, 0, 1, 1);
-    //gtk_grid_attach(GTK_GRID(current_grid.chats_container), current_grid.empty_chat, 1, 0, 1, 1);
+    // gtk_grid_attach(GTK_GRID(current_grid.chats_container), current_grid.empty_chat, 1, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(current_grid.chats_container), current_grid.chat_with_friend, 1, 0, 1, 1);
 
     gtk_grid_attach(GTK_GRID(current_grid.main_grid), current_grid.your_profile, 1, 0, 1, 1);
@@ -118,8 +117,14 @@ void show_home(void)
     {
         // gtk_widget_set_visible(GTK_WIDGET(current_grid.intro_grid), TRUE);
         // set_first_intro_screen_visible();
+        // gtk_widget_set_visible(GTK_WIDGET(current_grid.home), TRUE);
+        // gtk_widget_set_visible(GTK_WIDGET(current_grid.left_menu_bar), TRUE);
+        // gtk_widget_set_visible(GTK_WIDGET(current_grid.chats_container), TRUE);
+        show_empty_chat();
         gtk_widget_set_visible(GTK_WIDGET(current_grid.left_menu_bar), TRUE);
-        gtk_widget_set_visible(GTK_WIDGET(current_grid.home), TRUE);
+        gtk_widget_set_visible(GTK_WIDGET(current_grid.chats_container), TRUE);
+        gtk_widget_set_visible(GTK_WIDGET(current_grid.chats), FALSE);
+        gtk_widget_set_visible(GTK_WIDGET(current_grid.chat_with_friend), TRUE);
     }
     else
     {

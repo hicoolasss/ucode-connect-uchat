@@ -141,8 +141,9 @@ void *handle_client(void *args)
                     t_list *current = users_list;
                     while (current != NULL)
                     {
-                        if(strcmp(((t_client *)current->data)->login, ((t_user*)clients->data)->username) == 0 && strcmp(((t_client *)current->data)->login, current_client->login) != 0) {
-                            ((t_user*)clients->data)->connected = ((t_client *)current->data)->connected;
+                        if (strcmp(((t_client *)current->data)->login, ((t_user *)clients->data)->username) == 0 && strcmp(((t_client *)current->data)->login, current_client->login) != 0)
+                        {
+                            ((t_user *)clients->data)->connected = ((t_client *)current->data)->connected;
                         }
                         current = current->next;
                     }

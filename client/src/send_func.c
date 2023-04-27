@@ -18,6 +18,7 @@ gpointer send_func()
         send_message_to_server(json_str);
         if(strcmp(logout, "<logout>") == 0) {
             printf("Exit\n");
+            running = false;
             g_thread_exit(NULL);
         }
     }

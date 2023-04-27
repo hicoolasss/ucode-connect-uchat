@@ -1140,15 +1140,20 @@ void show_friend_info(gpointer data)
     gtk_widget_set_size_request(user_avatar, 60, 60);
 
     gtk_widget_set_margin_start(labels_box, 13);
-    gtk_widget_set_margin_top(labels_box, 22);
+    gtk_widget_set_margin_top(labels_box, 15);
 
-    gtk_widget_set_margin_top(is_online_label, 5);
+    gtk_widget_set_margin_top(is_online_label, 15);
 
-    widget_styling(username_label, current_screen, "username_label_in_chat");
+    gtk_widget_set_halign(is_online_label, GTK_ALIGN_START);
+    gtk_widget_set_halign(username_label, GTK_ALIGN_START);
+
+    widget_styling(username_label, current_screen, "chat_gpt_message");
 
     widget_styling(is_online_label, current_screen, "is_online_label");
 
-    widget_styling(user_info_grid, current_screen, "NULL");
+    // widget_styling(user_info_grid, current_screen, "chats_list_grid");
+    
+    // widget_styling(labels_box, current_screen, "chats_list_grid");
 }
 
 void show_chats_with_added_friends(t_list *friend_list)
@@ -1172,6 +1177,8 @@ void show_chats_with_added_friends(t_list *friend_list)
 
         GtkWidget *user_box_grid = create_grid(400, 80, NULL);
 
+        GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+
         GtkWidget *username_label = gtk_label_new(friend_data->username);
 
         get_scaled_image_chats_for_friend_list(friend_data);
@@ -1182,9 +1189,17 @@ void show_chats_with_added_friends(t_list *friend_list)
 
         gtk_grid_attach(GTK_GRID(user_box_grid), user_avatar, 0, 0, 1, 2);
 
-        gtk_grid_attach(GTK_GRID(user_box_grid), username_label, 1, 0, 1, 1);
+        gtk_grid_attach(GTK_GRID(user_box_grid), box, 1, 0, 1, 1);
 
-        gtk_grid_attach(GTK_GRID(user_box_grid), last_msg_label, 1, 1, 1, 1);
+        gtk_box_append(GTK_BOX(box), username_label);
+        
+        gtk_box_append(GTK_BOX(box), last_msg_label);
+
+        gtk_widget_set_margin_start(box, 8);
+
+        gtk_widget_set_size_request(box, 200, 80);
+
+        //gtk_grid_attach(GTK_GRID(user_box_grid), last_msg_label, 1, 1, 1, 1);
 
         gtk_button_set_child(GTK_BUTTON(user_box_btn1), user_box_grid);
 
@@ -1203,10 +1218,12 @@ void show_chats_with_added_friends(t_list *friend_list)
         gtk_widget_set_margin_bottom(user_avatar, 10);
 
         gtk_widget_set_halign(username_label, GTK_ALIGN_START);
-        gtk_widget_set_margin_top(username_label, 5);
+        gtk_widget_set_margin_top(username_label, 15);
+        //gtk_widget_set_margin_start(username_label, 10);
 
-        gtk_widget_set_valign(last_msg_label, GTK_ALIGN_START);
-        gtk_widget_set_margin_top(last_msg_label, 5);
+        gtk_widget_set_halign(last_msg_label, GTK_ALIGN_START);
+        gtk_widget_set_margin_top(last_msg_label, 10);
+       // gtk_widget_set_margin_start(last_msg_label, 10);
 
         gtk_widget_set_size_request(user_avatar, 60, 60);
 
@@ -1217,9 +1234,11 @@ void show_chats_with_added_friends(t_list *friend_list)
 
         widget_styling(user_box_btn1, current_screen, "user_box_btn");
 
-        widget_styling(username_label, current_screen, "username_label_in_chats");
+        widget_styling(username_label, current_screen, "chat_gpt_message");
 
-        widget_styling(last_msg_label, current_screen, "last_msg_label");
+        widget_styling(last_msg_label, current_screen, "chat_gpt_message");
+
+        //widget_styling(box, current_screen, "chats_list_grid");
 
         current = current->next;
     }

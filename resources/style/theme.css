@@ -1293,7 +1293,7 @@
 
 .user_box_btn {
     border-radius: 20px;
-    border: 1px solid #7AA2F7;
+    border: 1px solid rgba(122, 162, 247, 0.35);
 
     background-color: transparent;
     background: transparent;
@@ -1450,7 +1450,7 @@
     line-height: 18px;
     /* identical to box height */
 
-    border: 1px solid @all-containers-borders-bg;
+    border: 1px solid #212121;
     color: #B1BAE6;
 }
 
@@ -1518,4 +1518,15 @@
     background-position: center;
     outline-color: transparent;
     box-shadow: none;
+}
+
+
+.is_online_label {
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 18px;
+
+    color: #B6B6E1;
 }

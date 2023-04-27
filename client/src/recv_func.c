@@ -4,6 +4,8 @@ t_list *friend_list;
 t_list *user_list;
 t_list *chat_history;
 
+volatile gboolean running = TRUE;
+
 void print_message(char *login, char *message);
 
 gpointer recv_func()
@@ -14,7 +16,7 @@ gpointer recv_func()
     {
         printf("here\n");
         memset(command, 0, sizeof(command));
-        int len = stable_recv(current_client.ssl, command, sizeof(command));
+        int len = SSL_read(current_client.ssl, command, sizeof(command));
         printf("\n%d ->", len);
         printf(" %s\n", command);
         if (len < 0)
@@ -159,7 +161,6 @@ gpointer recv_func()
             }
             memset(temp, 0, sizeof(temp));
         }
-
         else if (mx_strcmp(command, "<logout>") == 0)
         {
             pthread_mutex_lock(&mutex_recv);
@@ -167,6 +168,7 @@ gpointer recv_func()
             clear_user_list(user_list);
             printf("Exit\n");
             main_client.connected = false;
+            running = false;
             pthread_mutex_unlock(&mutex_recv);
             g_thread_exit(NULL);
         }
@@ -242,6 +244,7 @@ gpointer recv_func()
             update_message(friend_list, friendname, message_id, message);
         }
     }
+    g_print("Поток завершен.\n");
     return NULL;
 }
 
