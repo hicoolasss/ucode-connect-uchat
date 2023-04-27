@@ -67,10 +67,10 @@ void *handle_client(void *args)
                         current_client->connected = true;
                         while (current != NULL)
                         {
-                            if (strcmp(((t_client *)current->data)->login, current_client->login) != 0)
+                            if (strcmp(((t_client *)current->data)->login, current_client->login) != 0 && ((t_client *)current->data)->connected == true)
                             {
                                 SSL *ssl = ((t_client *)current->data)->ssl;
-                                int cmd = SSL_write(ssl, "<Online>", 10);
+                                int cmd = SSL_write(ssl, "<Online>", 9);
                                 if (cmd <= 0)
                                 {
                                     write_json_error(ssl, cmd);
@@ -141,7 +141,7 @@ void *handle_client(void *args)
                     t_list *current = users_list;
                     while (current != NULL)
                     {
-                        if (strcmp(((t_client *)current->data)->login, current_client->login) != 0)
+                        if (strcmp(((t_client *)current->data)->login, current_client->login) != 0 && ((t_client *)current->data)->connected == true)
                         {
                             SSL *ssl = ((t_client *)current->data)->ssl;
                             cmd = SSL_write(ssl, "<Offline>", 10);
