@@ -401,6 +401,8 @@ void update_current_chat(t_chat *chat_data, const char *friendname);
 
 void on_sent_msg_clicked(GtkWidget *btn, gpointer user_data);
 
+void update_show_achievements();
+
 typedef struct {
     gpointer chat_history;
     gpointer username_copy;
@@ -422,6 +424,7 @@ typedef struct {
     bool for_edit;
 
 } SentMessageData;
+
 
 
 

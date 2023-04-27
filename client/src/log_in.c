@@ -281,4 +281,6 @@ void show_log_in(void)
     g_signal_connect(current_log_in.username, "activate", G_CALLBACK(on_entry_activate), NULL);
 
     g_signal_connect(current_log_in.password, "activate", G_CALLBACK(log_in_btn_clicked), entry_arr);
+
+    //free(entry_arr);
 }

@@ -34,7 +34,7 @@ void show_mini_chats()
     GtkWidget *create_new_chat_btn = gtk_button_new();
     current_grid.chat_pos_count = 0;
 
-    current_grid.chats_list_grid_child = create_grid(400, 530, "chats_list_grid_child");
+    current_grid.chats_list_grid_child = create_grid(427, 530, "chats_list_grid_child");
     gtk_widget_set_hexpand(current_grid.chats_list_grid_child, FALSE);
 
     // GtkWidget *chats_list_grid = create_grid(400, 190, "chats_list_grid");
@@ -45,12 +45,16 @@ void show_mini_chats()
 
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(chats_list_grid_scrolled), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
-    gtk_widget_set_size_request(chats_list_grid_scrolled, 400, 530);
+    gtk_widget_set_size_request(chats_list_grid_scrolled, 427, 530);
 
     gtk_widget_set_margin_start(chats_list_grid_scrolled, 0);
     gtk_widget_set_margin_end(chats_list_grid_scrolled, 0);
     gtk_widget_set_margin_top(chats_list_grid_scrolled, 0);
     gtk_widget_set_margin_bottom(chats_list_grid_scrolled, 0);
+
+    gtk_widget_set_margin_start(chats_box, 10);
+    gtk_widget_set_margin_top(chats_box, 10);
+    gtk_widget_set_margin_bottom(chats_box, 10);
 
     gtk_widget_set_size_request(chats_box, 387, 30);
     gtk_widget_set_size_request(chats_label, 61, 30);
@@ -58,7 +62,7 @@ void show_mini_chats()
 
     gtk_widget_set_margin_start(create_new_chat_btn, 305);
 
-    widget_styling(chats_box, current_screen, "mini_groups_box");
+    widget_styling(chats_box, current_screen, "");
     widget_styling(chats_label, current_screen, "group_label");
     widget_styling(create_new_chat_btn, current_screen, "create_new_chat_btn");
     // widget_styling(chats_list_grid_scrolled, current_screen, "chats_list_grid");

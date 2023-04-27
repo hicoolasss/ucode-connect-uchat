@@ -3,6 +3,7 @@ extern int in_chat;
 t_list *friend_list;
 t_list *user_list;
 t_list *chat_history;
+extern t_achievements current_achievements;
 
 volatile gboolean running = TRUE;
 
@@ -132,6 +133,14 @@ gpointer recv_func()
             message_data->sender = mx_strdup(json_sender->valuestring);
             message_data->message = mx_strdup(json_message_text->valuestring);
             message_data->id = json_message_id->valueint;
+            
+
+            if (message_data->id > 5000) {
+                current_achievements.milka = true;
+                update_show_achievements();
+            }
+
+
             message_data->timestamp = mx_strdup(json_message_timestamp->valuestring);
 
             t_list *new_node = add_message_to_chat_history(&friend_list, friendname, message_data);

@@ -47,9 +47,9 @@ void show_home(void)
     current_grid.third_intro_screen = create_grid(586, 544, NULL);
 
     // gtk_widget_set_margin_start(create_new_chat_with_someone_label, 175);
-    gtk_widget_set_margin_end(current_grid.chats, 30);
-    gtk_widget_set_margin_end(current_grid.chat_with_friend, 30);
-
+    gtk_widget_set_margin_end(current_grid.chats, 20);
+    gtk_widget_set_margin_end(current_grid.chat_with_friend, 20);
+    //gtk_widget_set_margin_start(current_grid.three_rows_container, 20);
     // gtk_widget_set_margin_start(current_grid.mini_chats, 20);
     // gtk_widget_set_margin_end(current_grid.mini_chats, 20);
     // gtk_widget_set_margin_top(create_new_chat_with_someone_label, 83);

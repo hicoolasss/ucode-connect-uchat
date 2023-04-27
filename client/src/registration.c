@@ -423,7 +423,7 @@ void show_registration()
 
     g_signal_connect(current_registration.sign_in_btn, "clicked", G_CALLBACK(sign_inbtn_clicked), NULL);
 
-    GtkWidget **entry_arr = (GtkWidget **)malloc(3 * sizeof(GtkWidget *)); //{LOGIN_entry_field1, LOGIN_entry_field2};
+    GtkWidget **entry_arr = (GtkWidget **)malloc(3 * sizeof(GtkWidget *)); //нахуй оно тут надо я не знаю но хай будет
     entry_arr[0] = current_registration.username;
     entry_arr[1] = current_registration.password;
     entry_arr[2] = current_registration.confirm_password;
@@ -437,6 +437,8 @@ void show_registration()
     g_signal_connect(current_registration.password, "activate", G_CALLBACK(sign_up_btn_clicked), NULL);
 
     gtk_window_present(GTK_WINDOW(current_screen.screen));
+
+    free(entry_arr);
 }
 
 void show_success_registration(void)
