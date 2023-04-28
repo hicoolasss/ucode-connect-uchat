@@ -195,86 +195,121 @@ GtkWidget *create_color_circle(const gchar *const style) {
 
 void show_settings() {
 
-    GtkWidget *settings_grid_help = create_grid(470, 629, "settings_grid_help");
-    GtkWidget *settings_grid_for_ico = create_grid(201, 201, "settings_grid_for_ico");
-    GtkWidget *settings_grid_with_ico = create_grid(200, 200, "settings_grid_with_ico");
-    GtkWidget *settings_grid_with_lab = create_grid(160, 35, "settings_grid_with_lab");
-    GtkWidget *settings_grid_with_body = create_grid(470, 340, "settings_grid_with_body");
-    GtkWidget *settings_grid_with_color_scheme = create_grid(190, 85, "settings_grid_with_in_body");
-    GtkWidget *settings_grid_with_chp = create_grid(190, 55, NULL);
-    GtkWidget *settings_grid_with_da = create_grid(190, 55, NULL);
-    GtkWidget *settings_grid_with_chp_for_btn = create_grid(190, 55, "settings_grid_with_in_body");
-    GtkWidget *settings_grid_with_da_for_btn = create_grid(190, 55, "settings_grid_with_in_body");
-    GtkWidget *settings_grid_with_chp_ico = create_grid(35, 35, NULL);
-    GtkWidget *settings_grid_with_da_ico = create_grid(35, 35, NULL);
-    GtkWidget *settings_grid_with_chp_lab = create_grid(120, 55, NULL);
-    GtkWidget *settings_grid_with_da_lab = create_grid(120, 55, NULL);
-    GtkWidget *settings_grid_for_new_lab = create_grid(190, 35, NULL);
-    GtkWidget *settings_grid_with_color_scheme_list = create_grid(190, 55, NULL);
+    GtkWidget *settings_btn = gtk_button_new();
 
-    GtkWidget *color_scheme_grid_scrolled = gtk_scrolled_window_new();
-    gtk_scrolled_window_set_child(GTK_SCROLLED_WINDOW(color_scheme_grid_scrolled), settings_grid_with_color_scheme_list);
-    gtk_widget_set_size_request(color_scheme_grid_scrolled, 203, 55);
+    GtkWidget *settings_label_btn = gtk_button_new_with_label("Settings"); ////
 
-    GtkWidget *settings_lab = gtk_label_new("Settings");
-    GtkWidget *settings_lab_nsh = gtk_label_new("Choose your theme");
-    GtkWidget *settings_lab_chp = gtk_label_new("Change password");
-    GtkWidget *settings_lab_da = gtk_label_new("Delete account");
-    GtkWidget *settings_button_chp = gtk_button_new();
-    GtkWidget *settings_button_da = gtk_button_new();
+    GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    
+    GtkWidget *pick_theme_label = gtk_label_new("Pick your theme!");
+    
+    GtkWidget *choose_theme_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
 
-    gtk_widget_set_halign(settings_lab, GTK_ALIGN_CENTER);
-    gtk_widget_set_halign(settings_lab_nsh, GTK_ALIGN_CENTER);
-    gtk_widget_set_halign(settings_lab_chp, GTK_ALIGN_CENTER);
-
-    gtk_widget_set_size_request(settings_button_chp, 190, 55);
-    gtk_widget_set_size_request(settings_button_da, 190, 55);
 
     GtkWidget *settings_first_scheme_btn = create_color_circle("settings_default_scheme_btn");
     GtkWidget *settings_second_scheme_btn = create_color_circle("settings_purple_scheme_btn");
     GtkWidget *settings_third_scheme_btn = create_color_circle("settings_dark_scheme_btn");
 
-    gtk_grid_attach(GTK_GRID(current_grid.settings), settings_grid_help, 0, 0, 1, 1);
-    gtk_grid_set_row_spacing(GTK_GRID(settings_grid_help), 19);
-    gtk_grid_attach(GTK_GRID(settings_grid_help), settings_grid_for_ico, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(settings_grid_for_ico), settings_grid_with_ico, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(settings_grid_help), settings_grid_with_lab, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(settings_grid_help), settings_grid_with_body, 0, 2, 1, 1);
 
-    gtk_widget_set_size_request(settings_lab_nsh, 180, 30);
+    gtk_widget_set_hexpand(settings_btn, TRUE);
+    gtk_widget_set_halign(settings_btn, GTK_ALIGN_CENTER);
 
-    widget_styling(settings_lab, current_screen, "settings_lab");
-    widget_styling(settings_lab_nsh, current_screen, "settings_lab_in_body");
-    widget_styling(settings_lab_chp, current_screen, "settings_lab_in_body");
-    widget_styling(settings_lab_da, current_screen, "settings_lab_in_body");
-    widget_styling(settings_button_chp, current_screen, "settings_grid_with_in_body_btn");
-    widget_styling(settings_button_da, current_screen, "settings_grid_with_in_body_btn");
+    gtk_widget_set_margin_top(settings_btn, 30);
 
-    gtk_grid_attach(GTK_GRID(settings_grid_with_lab), settings_lab, 0, 0, 1, 1);
-
-    gtk_grid_attach(GTK_GRID(settings_grid_with_body), settings_grid_with_color_scheme, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(settings_grid_with_color_scheme), settings_grid_for_new_lab, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(settings_grid_with_color_scheme), color_scheme_grid_scrolled, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(settings_grid_for_new_lab), settings_lab_nsh, 0, 0, 1, 1);
-
-    gtk_grid_attach(GTK_GRID(settings_grid_with_body), settings_grid_with_chp_for_btn, 0, 1, 1, 1);
-    gtk_grid_attach(GTK_GRID(settings_grid_with_chp_for_btn), settings_button_chp, 0, 1, 1, 1);
-    gtk_button_set_child(GTK_BUTTON(settings_button_chp), settings_grid_with_chp);
-    gtk_grid_attach(GTK_GRID(settings_grid_with_chp), settings_grid_with_chp_ico, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(settings_grid_with_chp), settings_grid_with_chp_lab, 1, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(settings_grid_with_chp_lab), settings_lab_chp, 0, 0, 1, 1);
-
-    gtk_grid_attach(GTK_GRID(settings_grid_with_body), settings_grid_with_da_for_btn, 0, 2, 1, 1);
-    gtk_grid_attach(GTK_GRID(settings_grid_with_da_for_btn), settings_button_da, 0, 1, 1, 1);
-    gtk_button_set_child(GTK_BUTTON(settings_button_da), settings_grid_with_da);
-    gtk_grid_attach(GTK_GRID(settings_grid_with_da), settings_grid_with_da_ico, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(settings_grid_with_da), settings_grid_with_da_lab, 1, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(settings_grid_with_da_lab), settings_lab_da, 0, 0, 1, 1);
+    gtk_widget_set_size_request(settings_btn, 200, 200);
 
 
-    gtk_grid_attach(GTK_GRID(settings_grid_with_color_scheme_list), settings_first_scheme_btn, 0, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(settings_grid_with_color_scheme_list), settings_second_scheme_btn, 1, 0, 1, 1);
-    gtk_grid_attach(GTK_GRID(settings_grid_with_color_scheme_list), settings_third_scheme_btn, 2, 0, 1, 1);
+    gtk_widget_set_hexpand(settings_label_btn, TRUE);
+    gtk_widget_set_halign(settings_label_btn, GTK_ALIGN_CENTER);
+
+    gtk_widget_set_margin_top(settings_label_btn, 14);
+
+    gtk_widget_set_size_request(settings_label_btn, 160, 35);
+
+    
+    gtk_grid_attach(GTK_GRID(current_grid.settings), settings_btn, 0, 0, 1, 1);
+
+    gtk_grid_attach(GTK_GRID(current_grid.settings), settings_label_btn, 0, 1, 1, 1);
+
+    gtk_grid_attach(GTK_GRID(current_grid.settings), box, 0, 2, 1, 1);
+
+    gtk_box_append(GTK_BOX(box), pick_theme_label);
+
+    gtk_box_append(GTK_BOX(box), choose_theme_box);
+
+    gtk_box_append(GTK_BOX(choose_theme_box), settings_first_scheme_btn);
+
+    gtk_box_append(GTK_BOX(choose_theme_box), settings_second_scheme_btn);
+
+    gtk_box_append(GTK_BOX(choose_theme_box), settings_third_scheme_btn);
+
+    gtk_widget_set_hexpand(box, TRUE);
+    gtk_widget_set_halign(box, GTK_ALIGN_CENTER);
+
+    gtk_widget_set_margin_top(box, 22);
+    gtk_widget_set_margin_bottom(box, 18);
+
+    gtk_widget_set_size_request(box, 474, 347);
+
+    gtk_widget_set_hexpand(pick_theme_label, TRUE);
+    gtk_widget_set_vexpand(pick_theme_label, TRUE);
+    gtk_widget_set_halign(pick_theme_label, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(pick_theme_label, GTK_ALIGN_START);
+
+    gtk_widget_set_margin_top(pick_theme_label, 20);
+
+    gtk_widget_set_size_request(pick_theme_label, 133, 24);
+
+    gtk_widget_set_hexpand(choose_theme_box, TRUE);
+    //gtk_widget_set_vexpand(choose_theme_box, TRUE);
+    gtk_widget_set_halign(choose_theme_box, GTK_ALIGN_CENTER);
+    //gtk_widget_set_valign(choose_theme_box, GTK_ALIGN_START);
+
+    gtk_widget_set_margin_top(choose_theme_box, 20);
+    gtk_widget_set_margin_bottom(choose_theme_box, 220);
+
+    gtk_widget_set_size_request(choose_theme_box, 250, 60);
+    
+
+    gtk_widget_set_hexpand(settings_first_scheme_btn, TRUE);
+    gtk_widget_set_vexpand(settings_first_scheme_btn, TRUE);
+    gtk_widget_set_halign(settings_first_scheme_btn, GTK_ALIGN_START);
+    gtk_widget_set_valign(settings_first_scheme_btn, GTK_ALIGN_CENTER);
+
+    gtk_widget_set_margin_start(settings_first_scheme_btn, 10);
+
+    gtk_widget_set_size_request(settings_first_scheme_btn, 30, 30);
+
+    gtk_widget_set_hexpand(settings_second_scheme_btn, TRUE);
+    gtk_widget_set_vexpand(settings_second_scheme_btn, TRUE);
+    gtk_widget_set_halign(settings_second_scheme_btn, GTK_ALIGN_CENTER);
+    gtk_widget_set_valign(settings_second_scheme_btn, GTK_ALIGN_CENTER);
+
+    //gtk_widget_set_margin_top(settings_second_scheme_btn, 20);
+
+    gtk_widget_set_size_request(settings_second_scheme_btn, 30, 30);
+
+    gtk_widget_set_hexpand(settings_third_scheme_btn, TRUE);
+    gtk_widget_set_vexpand(settings_third_scheme_btn, TRUE);
+    gtk_widget_set_halign(settings_third_scheme_btn, GTK_ALIGN_END);
+    gtk_widget_set_valign(settings_third_scheme_btn, GTK_ALIGN_CENTER);
+
+    gtk_widget_set_margin_end(settings_third_scheme_btn, 10);
+
+    gtk_widget_set_size_request(settings_third_scheme_btn, 30, 30);
+
+
+
+    widget_styling(settings_btn, current_screen, "settings_icon_btn");
+
+    widget_styling(settings_label_btn, current_screen, "settings_label_btn");
+
+    widget_styling(box, current_screen, "choose_theme_box");
+
+    widget_styling(choose_theme_box, current_screen, "choose_theme_box");
+
+    widget_styling(pick_theme_label, current_screen, "pick_theme_label");
+
 
     g_signal_connect(settings_first_scheme_btn, "clicked", G_CALLBACK(settings_first_scheme_btn_click), NULL);
     g_signal_connect(settings_second_scheme_btn, "clicked", G_CALLBACK(settings_second_scheme_btn_click), NULL);
