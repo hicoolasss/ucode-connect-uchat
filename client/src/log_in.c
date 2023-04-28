@@ -21,12 +21,13 @@ static int get_username_status(void)
     char *json_str;
     json_str = registration(0);
     send_message_to_server(json_str);
-    char buf[256];
+    char buf[512];
 
     while (main_client.connected == false)
     {
         pthread_mutex_lock(&mutex_recv);
-        int len = SSL_read(current_client.ssl, buf, sizeof(buf));
+        int len = SSL_read(current_client.ssl, buf, sizeof(buf) - 1); // Оставьте место для нулевого символа
+        buf[len] = '\0';                                              // Добавьте нулевой символ
         pthread_mutex_unlock(&mutex_recv);
         if (len < 0)
         {
@@ -46,7 +47,7 @@ static int get_username_status(void)
         {
             pthread_mutex_lock(&mutex_recv);
             main_client.connected = true;
-            current_client.avatarname = mx_strdup(buf);
+            current_client.avatarname = g_strdup(buf);
             pthread_cond_broadcast(&auth_cond);
             pthread_mutex_unlock(&mutex_recv);
             return 0;
@@ -282,5 +283,5 @@ void show_log_in(void)
 
     g_signal_connect(current_log_in.password, "activate", G_CALLBACK(log_in_btn_clicked), entry_arr);
 
-    //free(entry_arr);
+    // free(entry_arr);
 }

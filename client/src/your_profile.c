@@ -4,7 +4,6 @@ extern t_screen current_screen;
 extern t_grid current_grid;
 extern t_achievements current_achievements;
 
-
 t_avatar current_avatar;
 t_scaled_avatar current_scaled_avatar;
 t_your_profile_avatar current_your_profile_avatar;
@@ -41,7 +40,9 @@ void send_avatar_to_db(gchar *filepath)
 
 static void get_your_profile_avatar_from_db()
 {
+  //printf("Path:%s\n", current_client.avatarname);
   GdkPixbuf *source_pixbuf = gdk_pixbuf_new_from_file(current_client.avatarname, NULL);
+
   if (!source_pixbuf)
   {
     g_print("Ошибка при загрузке изображения.2\n");
@@ -69,10 +70,9 @@ static void get_your_profile_avatar_from_db()
 
 static void get_your_profile_avatar()
 {
-
   if (!current_your_profile_avatar.avatar)
   {
-    g_print("Ошибка при загрузке изображения.2\n");
+    g_print("Ошибка при загрузке изображения.3\n");
     return;
   }
 
@@ -169,15 +169,14 @@ void show_your_profile()
   // GtkWidget *profile_grid_for_img = create_grid(200, 200, "profile_grid_for_img");
   // GtkWidget *profile_grid_body = create_grid(474, 385, "profile_grid_body");
 
- //gtk_grid_attach(GTK_GRID(current_grid.your_profile), profile_help_grid, 0, 0, 1, 1);
-  // gtk_grid_set_row_spacing(GTK_GRID(profile_help_grid), 10);
-  // gtk_grid_attach(GTK_GRID(profile_help_grid), profile_grid_for_img, 0, 0, 1, 1);
-  // gtk_grid_attach(GTK_GRID(profile_help_grid), profile_grid_body, 0, 1, 1, 1);
+  // gtk_grid_attach(GTK_GRID(current_grid.your_profile), profile_help_grid, 0, 0, 1, 1);
+  //  gtk_grid_set_row_spacing(GTK_GRID(profile_help_grid), 10);
+  //  gtk_grid_attach(GTK_GRID(profile_help_grid), profile_grid_for_img, 0, 0, 1, 1);
+  //  gtk_grid_attach(GTK_GRID(profile_help_grid), profile_grid_body, 0, 1, 1, 1);
 
   gtk_widget_set_halign(current_grid.your_profile, GTK_ALIGN_FILL);
-    gtk_widget_set_hexpand(current_grid.your_profile, TRUE);
-    gtk_widget_set_vexpand(current_grid.your_profile, TRUE);
-
+  gtk_widget_set_hexpand(current_grid.your_profile, TRUE);
+  gtk_widget_set_vexpand(current_grid.your_profile, TRUE);
 
   get_your_profile_avatar_from_db();
 
@@ -207,9 +206,6 @@ void show_your_profile()
 
   gtk_entry_set_placeholder_text(GTK_ENTRY(bio_entry), "Write something about you...");
 
-
-
-
   gtk_grid_attach(GTK_GRID(current_grid.your_profile), choose_profile_avatar_btn, 0, 0, 1, 1);
 
   gtk_widget_set_hexpand(choose_profile_avatar_btn, TRUE);
@@ -232,7 +228,7 @@ void show_your_profile()
   gtk_widget_set_halign(profile_grid_vbox, GTK_ALIGN_CENTER);
 
   gtk_widget_set_size_request(profile_grid_vbox, 474, 358);
-  
+
   gtk_widget_set_hexpand(name_label, TRUE);
 
   gtk_widget_set_halign(name_label, GTK_ALIGN_CENTER);

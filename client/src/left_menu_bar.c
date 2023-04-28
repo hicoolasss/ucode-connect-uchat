@@ -9,15 +9,15 @@ extern t_achievements current_achievements;
 void get_scaled_image()
 {
 
-    // GdkPixbuf *source_pixbuf = gdk_pixbuf_new_from_file(current_avatar.avatar, NULL);
-    if (!current_avatar.avatar)
+    GdkPixbuf *source_pixbuf =  gdk_pixbuf_new_from_file(current_client.avatarname, NULL);
+    if (!source_pixbuf)
     {
         g_print("Ошибка при загрузке изображения.1\n");
         return;
     }
 
     // Масштабирование исходного изображения до размера аватара
-    GdkPixbuf *scaled_pixbuf = gdk_pixbuf_scale_simple(current_avatar.avatar, 67, 67, GDK_INTERP_BILINEAR);
+    GdkPixbuf *scaled_pixbuf = gdk_pixbuf_scale_simple(source_pixbuf, 67, 67, GDK_INTERP_BILINEAR);
 
     mx_printstr(current_client.avatarname);
     mx_printstr("\n");
@@ -86,9 +86,16 @@ void log_out_clicked()
 
 void show_left_menu_bar()
 {
-    if (!current_avatar.avatar)
+    // printf("Path:%s\n", current_client.avatarname);
+    
+    GError *error = NULL;
+    //current_avatar.avatar = gdk_pixbuf_new_from_file(current_client.avatarname, &error);
+
+    if (error)
     {
-        current_avatar.avatar = gdk_pixbuf_new_from_file(current_client.avatarname, NULL);
+        g_print("Ошибка при загрузке изображения: %s\n", error->message);
+        g_error_free(error);
+        return;
     }
 
     get_scaled_image();
