@@ -27,7 +27,8 @@
         "ctype.h": "c",
         "unistd.h": "c",
         "stdlib.h": "c",
-        "pango.h": "c"
+        "pango.h": "c",
+        "random": "c"
     },
     "editor.formatOnSave": true,
     "editor.formatOnSaveTimeout": 1500

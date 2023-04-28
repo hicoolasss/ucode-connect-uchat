@@ -1,9 +1,10 @@
+#pragma once
 #define min(a, b) ((a) < (b) ? (a) : (b))
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
 #endif
 
-#ifndef _GNU_SOURCE
+#ifdef __linux__
 #define _GNU_SOURCE 1
 #endif
 
@@ -28,11 +29,19 @@
 #include <curl/curl.h>
 #include <jansson.h>
 
+#ifdef __linux__
 #include "../../libs/cjson/inc/cJSON.h"
 #include "../../libs/libmx/inc/libmx.h"
 #include "../../libs/openssl/openssl/err.h"
 #include "../../libs/openssl/openssl/ssl.h"
 #include "../../libs/openssl/openssl/sha.h"
+#elif defined(__APPLE__)
+#include "../libs/cjson/inc/cJSON.h"
+#include "../libs/libmx/inc/libmx.h"
+#include "../libs/openssl/openssl/err.h"
+#include "../libs/openssl/openssl/ssl.h"
+#include "../libs/openssl/openssl/sha.h"
+#endif
 
 #define MAX_CLIENTS 100
 #define BUFFER_SZ 2048

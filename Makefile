@@ -15,6 +15,25 @@ OBJS = $(OBJDIR)/*.o
 
 all: $(LIBMX) $(CJSON) $(SERVER) $(CLIENT) reinstall
 
+install:
+ifdef __APPLE__
+	brew update
+	brew install gtk4
+	brew install libevent
+	brew install openssl@1.1
+	brew install jansson
+	brew install sqlite3
+else ifndef __linux__
+	sudo apt update
+	sudo apt install libsqlite3-dev
+	sudo apt install libcurl4-openssl-dev
+	sudo apt install libgtk-4-dev
+	sudo apt install libevent-dev
+	sudo apt install libssl-dev
+	sudo apt install libjansson-dev
+endif
+
+
 $(LIBMX): 
 	$(info $@ compiling...)
 	@make -sC $(LIBMX_DIR)
