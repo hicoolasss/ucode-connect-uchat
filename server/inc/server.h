@@ -20,7 +20,7 @@
 #include <sys/types.h>
 #define PORT 8080
 #define MAX_CLIENTS 100
-#define DB_NAME "server/src/chat.db"
+#define DB_NAME "server/database/chat.db"
 // #include"../../data_base/head_db.h"
 
 typedef struct s_client
