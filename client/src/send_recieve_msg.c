@@ -125,6 +125,10 @@ void delete_message(t_list **friend_list, char *username, int message_id, char *
 {
     t_list *friend_current = *friend_list;
 
+    int id = message_id;
+
+    const char *msg = message_text;
+
     while (friend_current != NULL)
     {
         t_Friend *friend = (t_Friend *)friend_current->data;
@@ -139,6 +143,7 @@ void delete_message(t_list **friend_list, char *username, int message_id, char *
                 t_chat *message = (t_chat *)current->data;
                 if (message->id == message_id && strcmp(message->message, message_text) == 0)
                 {
+                    //msg = g_strdup(message_text);
                     if (previous == NULL)
                     {
                         friend->chat_history = current->next;
@@ -147,7 +152,6 @@ void delete_message(t_list **friend_list, char *username, int message_id, char *
                     {
                         previous->next = current->next;
                     }
-
                     free(message->message);
                     free(message);
                     free(current);
@@ -178,13 +182,17 @@ void delete_message(t_list **friend_list, char *username, int message_id, char *
     }
     if (friend_data->in_chat)
     {
+        //update_current_chat_while_delete(friend_data, id, msg);
         update_chat_history(friend_data);
     }
+
+
     t_list *current_chat = friend_data->chat_history;
     t_list *last_node = mx_list_last(current_chat);
     free(friend_data->lastmessage);
     friend_data->lastmessage = mx_strdup(((t_chat *)last_node->data)->message);
     update_show_chats_with_added_friends(*friend_list);
+    //update_current_show_chats_with_added_friends(friend_data, id, msg);
 }
 
 void update_message(t_list **friend_list, char *username, int old_message_id, char *new_message_text)

@@ -414,6 +414,8 @@ void update_show_friend_info(gpointer data);
 
 void update_show_achievements();
 
+void update_current_chat_while_delete(t_Friend *friend_data, int old_message_id, const char *msg);
+
 typedef struct {
     gpointer chat_history;
     gpointer username_copy;
@@ -435,6 +437,14 @@ typedef struct {
     bool for_edit;
 
 } SentMessageData;
+
+// typedef struct {
+    
+//     GtkWidget *sent_box;
+//     const char *msg;
+
+// } sent_container_with_btns;
+
 
 
 

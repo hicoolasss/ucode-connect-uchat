@@ -762,7 +762,7 @@ void update_current_chat(t_chat *chat_data, const char *friendname)
 {
     if (strcmp(chat_data->sender, current_client.login) == 0)
     {
-        const char *s_msg = chat_data->message;
+        const char *s_msg = g_strdup(chat_data->message);
 
         const char *s_msg_time = format_time(chat_data->timestamp);
 
@@ -813,6 +813,8 @@ void update_current_chat(t_chat *chat_data, const char *friendname)
         sent_message_data_edit->for_edit = TRUE;
         sent_message_data_edit->entry = entry;
         sent_message_data_edit->friendname = friendname;
+
+        g_object_set_data(G_OBJECT(sent_box), "s_msg", (gpointer)s_msg);
 
         g_signal_connect(sent_msg, "clicked", G_CALLBACK(on_sent_msg_clicked), sent_message_data_edit);
     }
@@ -911,7 +913,7 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
 
         if (strcmp(chat_data->sender, current_client.login) == 0)
         {
-            const char *s_msg = chat_data->message;
+            const char *s_msg = g_strdup(chat_data->message);
 
             const char *s_msg_time = format_time(chat_data->timestamp);
 
@@ -962,6 +964,10 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
             sent_message_data_edit->for_edit = TRUE;
             sent_message_data_edit->entry = entry;
             sent_message_data_edit->friendname = NULL;
+
+            g_object_set_data(G_OBJECT(sent_box), "s_msg", (gpointer)s_msg);
+             
+            printf("s_msg: %s\n", s_msg);
 
             g_signal_connect(sent_msg, "clicked", G_CALLBACK(on_sent_msg_clicked), sent_message_data_edit);
             // free(sent_message_data_edit);
@@ -1056,9 +1062,51 @@ void show_chat_with_friend(GtkWidget *btn, gpointer friend_data)
     pthread_mutex_unlock(&mutex_send);
 }
 
+void update_current_chat_while_delete(t_Friend *friend_data, int old_message_id, const char *msg)
+{
+    t_list *deleted_message_data = friend_data->chat_history;
+    t_chat *current_chat = NULL;
+
+    while (deleted_message_data != NULL)
+    {
+        current_chat = (t_chat *)deleted_message_data->data;
+
+        if (current_chat->id == old_message_id)
+        {
+            // Найдено сообщение с old_message_id
+            break;
+        }
+
+        deleted_message_data = deleted_message_data->next;
+    }
+
+    GtkWidget *children, *sent_box, *btn;
+
+    GtkWidget *children_temp, *btn_temp;
+
+    children = gtk_widget_get_first_child(chat_with_friend_grid);
+
+    GtkWidget *second_child = gtk_widget_get_next_sibling(children);
+
+    for (sent_box = second_child; sent_box != NULL; sent_box = gtk_widget_get_next_sibling(sent_box))
+    {
+        btn = gtk_widget_get_last_child(sent_box); // sent_msg_btn
+
+        const char *deleted_message_text = g_object_get_data(G_OBJECT(sent_box), "s_msg");
+
+
+        if (strcmp(msg, deleted_message_text) == 0)
+        {
+            gtk_widget_unparent(sent_box);
+            break;
+        }
+    }
+}
+
 void update_show_chats_with_added_friends(t_list *friend_list)
 {
     pthread_mutex_lock(&mutex_send);
+
     GtkWidget *children, *iter;
 
     children = gtk_widget_get_first_child(current_grid.chats_list_grid_child);
@@ -1174,7 +1222,7 @@ void update_show_chats_with_added_friends(t_list *friend_list)
 void update_show_friend_info(gpointer data)
 {
     t_Friend *friend_data = data;
-    
+
     GtkWidget *children;
 
     children = gtk_widget_get_first_child(current_grid.chat_with_friend);
@@ -1189,7 +1237,6 @@ void update_show_friend_info(gpointer data)
 
     mx_printstr(friend_data->username);
     GtkWidget *username_label = gtk_label_new(friend_data->username);
-
 
     GtkWidget *is_online_label;
 
@@ -1250,7 +1297,6 @@ void show_friend_info(gpointer data)
 
     mx_printstr(friend_data->username);
     GtkWidget *username_label = gtk_label_new(friend_data->username);
-
 
     GtkWidget *is_online_label;
 
