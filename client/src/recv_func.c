@@ -267,7 +267,7 @@ gpointer recv_func()
             char *friendname = cJSON_GetObjectItemCaseSensitive(json, "friendname")->valuestring;
             int message_id = cJSON_GetObjectItemCaseSensitive(json, "message_id")->valueint;
 
-            delete_message(friend_list, friendname, message_id, message);
+            delete_message(&friend_list, friendname, message_id, message);
         }
         else if (mx_strcmp(command, "<update_message_in_chat>") == 0)
         {
@@ -288,7 +288,7 @@ gpointer recv_func()
             char *friendname = cJSON_GetObjectItemCaseSensitive(json, "friendname")->valuestring;
             int message_id = cJSON_GetObjectItemCaseSensitive(json, "message_id")->valueint;
 
-            update_message(friend_list, friendname, message_id, message);
+            update_message(&friend_list, friendname, message_id, message);
         }
     }
     g_print("Поток завершен.\n");

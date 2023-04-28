@@ -283,8 +283,8 @@ t_list *process_json_object(cJSON *json_object);
 cJSON *create_json_from_group_and_friends(const char *group_name, t_list *friends);
 t_list *extract_group_and_friends_from_json(cJSON *json_object, char **group_name);
 int update_user_avatar(t_list *list, const char *username, const char *avatarname);
-void delete_message(t_list *friend_list, char *username, int message_id, char *message_text);
-void update_message(t_list *friend_list, char *username, int old_message_id, char *new_message_text);
+void delete_message(t_list **friend_list, char *username, int message_id, char *message_text);
+void update_message(t_list **friend_list, char *username, int old_message_id, char *new_message_text);
 void clear_friend_list(t_list *list);
 void clear_user_list(t_list *list);
 // load styles

@@ -19,6 +19,7 @@ void mx_pop_front(t_list **head);
 int mx_list_size(t_list *list);
 t_list *mx_sort_list(t_list *list, bool (*cmp)(void *a, void *b));
 void mx_clear_list(t_list **list);
+t_list *mx_list_last(t_list *list);
 
 void mx_printchar(char c);
 void mx_print_unicode(wchar_t c);

@@ -9,18 +9,6 @@ t_list *all_messages_list = NULL;
 
 extern GtkWidget *chat_with_friend_grid;
 
-t_list *mx_list_last(t_list *list) {
-    if (!list) {
-        return NULL;
-    }
-
-    while (list->next) {
-        list = list->next;
-    }
-
-    return list;
-}
-
 t_list *add_message_to_chat_history(t_list **friend_list, const char *username, t_chat *new_chat)
 {
     if (!friend_list || !new_chat)
@@ -91,7 +79,6 @@ t_list *add_message_to_chat_history(t_list **friend_list, const char *username, 
     update_show_chats_with_added_friends(*friend_list);
 
     return friend_data->chat_history ? mx_list_last(friend_data->chat_history) : NULL;
-
 }
 
 void add_new_friend(t_list **friend_list, const char *username, const char *avatarname)
@@ -131,5 +118,125 @@ void add_new_friend(t_list **friend_list, const char *username, const char *avat
     new_friend_node->next = *friend_list;
     *friend_list = new_friend_node;
 
+    update_show_chats_with_added_friends(*friend_list);
+}
+
+void delete_message(t_list **friend_list, char *username, int message_id, char *message_text)
+{
+    t_list *friend_current = *friend_list;
+
+    while (friend_current != NULL)
+    {
+        t_Friend *friend = (t_Friend *)friend_current->data;
+
+        if (strcmp(friend->username, username) == 0)
+        {
+            t_list *current = friend->chat_history;
+            t_list *previous = NULL;
+
+            while (current != NULL)
+            {
+                t_chat *message = (t_chat *)current->data;
+                if (message->id == message_id && strcmp(message->message, message_text) == 0)
+                {
+                    if (previous == NULL)
+                    {
+                        friend->chat_history = current->next;
+                    }
+                    else
+                    {
+                        previous->next = current->next;
+                    }
+
+                    free(message->message);
+                    free(message);
+                    free(current);
+                    break;
+                }
+
+                previous = current;
+                current = current->next;
+            }
+            break;
+        }
+
+        friend_current = friend_current->next;
+    }
+
+    t_Friend *friend_data = NULL;
+    t_list *temp = *friend_list;
+
+    // Найти друзей с заданным именем пользователя
+    while (temp)
+    {
+        friend_data = (t_Friend *)temp->data;
+        if (mx_strcmp(friend_data->username, username) == 0)
+        {
+            break;
+        }
+        temp = temp->next;
+    }
+    if (friend_data->in_chat)
+    {
+        update_chat_history(friend_data);
+    }
+    t_list *current_chat = friend_data->chat_history;
+    t_list *last_node = mx_list_last(current_chat);
+    free(friend_data->lastmessage);
+    friend_data->lastmessage = mx_strdup(((t_chat *)last_node->data)->message);
+    update_show_chats_with_added_friends(*friend_list);
+}
+
+void update_message(t_list **friend_list, char *username, int old_message_id, char *new_message_text)
+{
+    t_list *friend_current = *friend_list;
+
+    while (friend_current != NULL)
+    {
+        t_Friend *friend = (t_Friend *)friend_current->data;
+
+        if (strcmp(friend->username, username) == 0)
+        {
+            t_list *current = friend->chat_history;
+
+            while (current != NULL)
+            {
+                t_chat *message = (t_chat *)current->data;
+                if (message->id == old_message_id)
+                {
+                    free(message->message);
+                    message->message = strdup(new_message_text);
+                    break;
+                }
+
+                current = current->next;
+            }
+            break;
+        }
+
+        friend_current = friend_current->next;
+    }
+
+    t_Friend *friend_data = NULL;
+    t_list *temp = *friend_list;
+
+    // Найти друзей с заданным именем пользователя
+    while (temp)
+    {
+        friend_data = (t_Friend *)temp->data;
+        if (mx_strcmp(friend_data->username, username) == 0)
+        {
+            break;
+        }
+        temp = temp->next;
+    }
+    if (friend_data->in_chat)
+    {
+        update_chat_history(friend_data);
+    }
+    t_list *current_chat = friend_data->chat_history;
+    t_list *last_node = mx_list_last(current_chat);
+    free(friend_data->lastmessage);
+    friend_data->lastmessage = mx_strdup(((t_chat *)last_node->data)->message);
     update_show_chats_with_added_friends(*friend_list);
 }
