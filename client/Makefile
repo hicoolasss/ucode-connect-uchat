@@ -20,15 +20,16 @@ SSL_INC_FILES:= $(SSL_DIR)
 
 LIB_FLAGS = -lmx -lssl -lcjson -lsqlite3 -lcrypto\
 			-L$(LIBMX_DIR) $(LIBMX_NAME)\
-			-L$(CJSON_DIR) $(CJSON_NAME)
+			-L$(CJSON_DIR) $(CJSON_NAME)\
+			-L$(SSL_FILES) -I$(SSL_INC_FILES)
 
 all:  $(NAMEBIN) clean
 
 $(NAMEBIN): 
 	mkdir -p $(OBJDIR)
-	$(CC) $(CFLAGS) -I$(SSL_INC_FILES) `pkg-config --cflags gtk4` -c $(SRC_FILES)
+	$(CC) $(CFLAGS) `pkg-config --cflags gtk4` -I$(SSL_DIR) -c $(SRC_FILES)
 	mv *.o $(OBJDIR)
-	$(CC) $(CFLAGS) -I$(SSL_INC_FILES) `pkg-config --cflags gtk4` -o $(NAMEBIN) $(OBJS) $(LIB_FLAGS) -L$(SSL_FILES) -lcurl `pkg-config --libs gtk4`
+	$(CC) $(CFLAGS) -I$(SSL_INC_FILES) `pkg-config --cflags gtk4` -o $(NAMEBIN) $(OBJS) $(LIB_FLAGS) -lcurl `pkg-config --libs gtk4`
 
 clean:
 	rm -f $(OBJS)
