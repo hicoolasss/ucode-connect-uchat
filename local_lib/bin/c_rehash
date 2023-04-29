@@ -12,7 +12,7 @@
 # Perl c_rehash script, scan all files in a directory
 # and add symbolic links to their hash values.
 
-my $dir = "/home/kali/ucode-connect-uchat/local_lib";
+my $dir = "/home/kali/ucode-connect-uchat/local_lib/ssl";
 my $prefix = "/home/kali/ucode-connect-uchat/local_lib";
 
 my $errorcount = 0;

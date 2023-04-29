@@ -28,7 +28,10 @@
         "unistd.h": "c",
         "stdlib.h": "c",
         "pango.h": "c",
-        "random": "c"
+        "random": "c",
+        "macros.h": "c",
+        "opensslconf.h": "c",
+        "opensslv.h": "c"
     },
     "editor.formatOnSave": true,
     "editor.formatOnSaveTimeout": 1500
