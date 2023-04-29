@@ -13,17 +13,19 @@ CJSON = $(CJSON_DIR)/cjson.a
 SRC = $(SRCDIR)/*.c
 OBJS = $(OBJDIR)/*.o
 
+OS := $(shell uname)
+
 all: $(LIBMX) $(CJSON) $(SERVER) $(CLIENT) reinstall
 
 install:
-ifdef __APPLE__
+ifeq ($(OS),Darwin)
 	brew update
 	brew install gtk4
 	brew install libevent
 	brew install openssl@1.1
 	brew install jansson
 	brew install sqlite3
-else ifndef __linux__
+else ifeq ($(OS),Linux)
 	sudo apt update
 	sudo apt install libsqlite3-dev
 	sudo apt install libcurl4-openssl-dev
@@ -32,7 +34,6 @@ else ifndef __linux__
 	sudo apt install libssl-dev
 	sudo apt install libjansson-dev
 endif
-
 
 $(LIBMX): 
 	$(info $@ compiling...)
@@ -50,13 +51,11 @@ $(CLIENT):
 	$(info $@ compiling...)
 	@make -sC $(CLIENT_DIR)
 
-
 clean:
 	@rm -rf $(SERVER)
 	@rm -rf $(CLIENT)
 	@rm -rf $(OBJS)
 	@rm -rf $(OBJDIR)
-	#rm -rf $(CJSON)
 
 uninstall:
 	@printf "\r\33[2K$(SERVER_DIR) \033[32;1mcompiling...\033[0m\n"
