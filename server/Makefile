@@ -14,8 +14,14 @@ LIBMX_NAME = $(LIBMX_DIR)/libmx.a
 CJSON_DIR = ../libs/cjson
 CJSON_NAME = $(CJSON_DIR)/cjson.a
 
+<<<<<<< HEAD
 SQLITE_DIR = ../libs/SQLite3
 SQLITE_NAME = $(SQLITE_DIR)/sql.a
+=======
+SSL_DIR = ../local-lib/include/openssl
+SSL_FILES:= ../local-lib/lib
+SSL_INC_FILES:= $(SSL_DIR)
+>>>>>>> 12a7bf294c48294388378d3f8220293d3fbb9ce4
 
 SSL_DIR:= ../libs/openssl
 SSL_FILES = ../libs/openssl/openssl

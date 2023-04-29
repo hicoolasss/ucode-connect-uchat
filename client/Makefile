@@ -14,8 +14,13 @@ LIBMX_NAME = $(LIBMX_DIR)/libmx.a
 CJSON_DIR = ../libs/cjson
 CJSON_NAME = $(CJSON_DIR)/cjson.a
 
+<<<<<<< HEAD
 SSL_DIR:= ../libs/openssl
 SSL_FILES = ../libs/openssl/openssl
+=======
+SSL_DIR = ../local-lib/include/openssl
+SSL_FILES:= ../local-lib/lib
+>>>>>>> 12a7bf294c48294388378d3f8220293d3fbb9ce4
 SSL_INC_FILES:= $(SSL_DIR)
 LCRYPTO = $(SSL_DIR)/libcrypto.a
 LIBSSL = $(SSL_DIR)/libssl.a
