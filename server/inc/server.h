@@ -1,13 +1,11 @@
 #pragma once
 #include <stdio.h>
-#include <glib.h>
+// #include <glib.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <sys/socket.h>
-#ifdef __linux__
 #include <netinet/in.h>
-#endif
 #include <pthread.h>
 #include <strings.h>
 #include <stdatomic.h>

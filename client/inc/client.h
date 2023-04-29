@@ -12,9 +12,7 @@
 #include <gio/gio.h>
 #include <ctype.h>
 #include <sys/socket.h>
-#ifdef __linux__
 #include <netinet/in.h>
-#endif
 #include <arpa/inet.h>
 #include <stdio.h>
 #include <stdlib.h>
