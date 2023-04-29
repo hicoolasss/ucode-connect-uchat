@@ -36,6 +36,7 @@ typedef struct s_client
     char *login;
     char *passwd;
     bool connected;
+    bool load;
 } t_client;
 
 typedef struct s_chat

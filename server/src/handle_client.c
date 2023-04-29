@@ -13,7 +13,7 @@ void *handle_client(void *args)
     char buf[200000];
     current_client->connected = false;
     bool is_run = false;
-    while (1)
+    while (current_client->load)
     {
         // printf("here\n");
         is_run = false;
@@ -21,7 +21,7 @@ void *handle_client(void *args)
         {
             memset(buf, 0, sizeof(buf));
             int len = SSL_read(current_client->ssl, buf, sizeof(buf) - 1);
-            if (len <= 0)
+            if (len < 0)
             {
                 write_logs("Error: Unable to receive data from server\n");
                 remove_client(current_client->cl_socket);
@@ -31,6 +31,7 @@ void *handle_client(void *args)
                 cli_count--;
                 is_run = false;
                 pthread_exit(NULL);
+                break;
             }
             else
             {

@@ -93,11 +93,12 @@ int main(int argc, char **argv)
             continue;
         }
         new_client->ssl = ssl;
-
+        new_client->load = true;
         pthread_create(&thread, NULL, handle_client, new_client);
         pthread_detach(thread);
+        write_logs("client disconnected");
     }
-
+write_logs("server off");
     SSL_CTX_free(ctx);
     close(server_fd);
     return 0;
