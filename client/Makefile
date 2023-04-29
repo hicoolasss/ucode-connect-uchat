@@ -14,8 +14,8 @@ LIBMX_NAME = $(LIBMX_DIR)/libmx.a
 CJSON_DIR = ../libs/cjson
 CJSON_NAME = $(CJSON_DIR)/cjson.a
 
-SSL_DIR = ../local_lib/include/openssl
-SSL_FILES:= ../local_lib/lib
+SSL_DIR = ../local-lib/include/openssl
+SSL_FILES:= ../local-lib/lib
 SSL_INC_FILES:= $(SSL_DIR)
 
 LIB_FLAGS = -lmx -lssl -lcjson -lsqlite3 -lcrypto \
