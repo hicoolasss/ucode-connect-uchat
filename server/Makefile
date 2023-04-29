@@ -29,7 +29,7 @@ $(NAMEBIN):
 	mkdir -p $(OBJDIR)
 	$(CC) $(CFLAGS) $(shell pkg-config --cflags --libs glib-2.0) -I$(SSL_DIR) -c $(SRC_FILES)
 	mv *.o $(OBJDIR)
-	$(CC) $(CFLAGS) $(shell pkg-config --cflags --libs glib-2.0) -o $(NAMEBIN) $(OBJS) $(LIB_FLAGS) $(shell pkg-config --cflags --libs glib-2.0)
+	$(CC) $(CFLAGS) -I$(SSL_INC_FILES) $(shell pkg-config --cflags --libs glib-2.0) -o $(NAMEBIN) $(OBJS) $(LIB_FLAGS) $(shell pkg-config --cflags --libs glib-2.0)
 
 clean:
 	rm -f $(OBJS)

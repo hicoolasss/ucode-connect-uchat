@@ -31,7 +31,11 @@
         "random": "c",
         "macros.h": "c",
         "opensslconf.h": "c",
-        "opensslv.h": "c"
+        "opensslv.h": "c",
+        "err.h": "c",
+        "sha.h": "c",
+        "cjson.h": "c",
+        "pthread.h": "c"
     },
     "editor.formatOnSave": true,
     "editor.formatOnSaveTimeout": 1500

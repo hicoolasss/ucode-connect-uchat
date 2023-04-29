@@ -17,8 +17,8 @@
   <li><a href="#DESCRIPTION">DESCRIPTION</a></li>
   <li><a href="#FLAGS">FLAGS</a></li>
   <li><a href="#RETURN-VALUES">RETURN VALUES</a></li>
-  <li><a href="#SEE-ALSO">SEE ALSO</a></li>
   <li><a href="#HISTORY">HISTORY</a></li>
+  <li><a href="#SEE-ALSO">SEE ALSO</a></li>
   <li><a href="#COPYRIGHT">COPYRIGHT</a></li>
 </ul>
 
@@ -41,7 +41,7 @@ int BIO_closesocket(int sock);</code></pre>
 
 <p>BIO_socket() creates a socket in the domain <b>domain</b>, of type <b>socktype</b> and <b>protocol</b>. Socket <b>options</b> are currently unused, but is present for future use.</p>
 
-<p>BIO_bind() binds the source address and service to a socket and may be useful before calling BIO_connect(). The options may include <b>BIO_SOCK_REUSEADDR</b>, which is described in <a href="#FLAGS">&quot;FLAGS&quot;</a> below.</p>
+<p>BIO_bind() binds the source address and service to a socket and may be useful before calling BIO_connect(). The options may include <b>BIO_SOCK_REUSADDR</b>, which is described in <a href="#FLAGS">&quot;FLAGS&quot;</a> below.</p>
 
 <p>BIO_connect() connects <b>sock</b> to the address and service given by <b>addr</b>. Connection <b>options</b> may be zero or any combination of <b>BIO_SOCK_KEEPALIVE</b>, <b>BIO_SOCK_NONBLOCK</b> and <b>BIO_SOCK_NODELAY</b>. The flags are described in <a href="#FLAGS">&quot;FLAGS&quot;</a> below.</p>
 
@@ -64,7 +64,7 @@ int BIO_closesocket(int sock);</code></pre>
 <dt id="BIO_SOCK_NONBLOCK">BIO_SOCK_NONBLOCK</dt>
 <dd>
 
-<p>Sets the socket to nonblocking mode.</p>
+<p>Sets the socket to non-blocking mode.</p>
 
 </dd>
 <dt id="BIO_SOCK_NODELAY">BIO_SOCK_NODELAY</dt>
@@ -99,19 +99,19 @@ int BIO_closesocket(int sock);</code></pre>
 
 <p>BIO_accept_ex() returns the accepted socket on success or <b>INVALID_SOCKET</b> (-1) on error. When an error has occurred, the OpenSSL error stack will hold the error data and errno has the system error.</p>
 
-<h1 id="SEE-ALSO">SEE ALSO</h1>
-
-<p><a href="../man3/BIO_ADDR.html">BIO_ADDR(3)</a></p>
-
 <h1 id="HISTORY">HISTORY</h1>
 
 <p>BIO_gethostname(), BIO_get_port(), BIO_get_host_ip(), BIO_get_accept_socket() and BIO_accept() were deprecated in OpenSSL 1.1.0. Use the functions described above instead.</p>
 
+<h1 id="SEE-ALSO">SEE ALSO</h1>
+
+<p><a href="../man3/BIO_ADDR.html">BIO_ADDR(3)</a></p>
+
 <h1 id="COPYRIGHT">COPYRIGHT</h1>
 
-<p>Copyright 2016-2020 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Copyright 2016-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
 
-<p>Licensed under the Apache License 2.0 (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
+<p>Licensed under the OpenSSL license (the &quot;License&quot;). You may not use this file except in compliance with the License. You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
 
 
 </body>

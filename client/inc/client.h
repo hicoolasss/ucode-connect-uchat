@@ -28,7 +28,6 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <curl/curl.h>
 #include <jansson.h>
-
 #include "../../libs/cjson/inc/cJSON.h"
 #include "../../libs/libmx/inc/libmx.h"
 #include "../../local_lib/include/openssl/err.h"
