@@ -25,6 +25,7 @@ ifeq ($(OS),Darwin)
 	brew install openssl@1.1
 	brew install jansson
 	brew install sqlite3
+	brew install glib
 else ifeq ($(OS),Linux)
 	sudo apt update
 	sudo apt install libsqlite3-dev
@@ -33,6 +34,7 @@ else ifeq ($(OS),Linux)
 	sudo apt install libevent-dev
 	sudo apt install libssl-dev
 	sudo apt install libjansson-dev
+	sudo apt install libglib2.0-dev
 endif
 
 $(LIBMX): 
