@@ -23,12 +23,12 @@ LIBSSL = $(SSL_DIR)/libssl.a
 
 LIB_FLAGS =	-L$(LIBMX_DIR) $(LIBMX_NAME) \
 			-L$(CJSON_DIR) $(CJSON_NAME) \
-			-L$(SSL_FILES) $(LCRYPTO) $(LIBSSL) -lcrypto -lssl
+			-L$(SSL_DIR) $(LCRYPTO) $(LIBSSL)
 
 all:  $(NAMEBIN) clean
 $(NAMEBIN): 
 	mkdir -p $(OBJDIR)
-	$(CC) $(CFLAGS) `pkg-config --cflags gtk4` -c $(SRC_FILES) -I $(SSL_DIR)
+	$(CC) $(CFLAGS) `pkg-config --cflags gtk4` -c $(SRC_FILES) -I $(SSL_INC_FILES)
 	mv *.o $(OBJDIR)
 	$(CC) $(CFLAGS) `pkg-config --cflags gtk4` -o $(NAMEBIN) $(OBJS) $(LIB_FLAGS) -lpthread -lcurl `pkg-config --libs gtk4`
 

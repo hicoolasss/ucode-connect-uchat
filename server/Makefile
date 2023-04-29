@@ -26,14 +26,14 @@ LIBSSL = $(SSL_DIR)/libssl.a
 LIB_FLAGS =	-L$(LIBMX_DIR) $(LIBMX_NAME) \
 			-L$(CJSON_DIR) $(CJSON_NAME) \
 			-L$(SQLITE_DIR) $(SQLITE_NAME) \
-			-L$(SSL_FILES) $(LCRYPTO) $(LIBSSL)
+			-L$(SSL_DIR) $(LCRYPTO) $(LIBSSL)
 
 all: $(NAMEBIN) clean
 
 $(NAMEBIN): 
 	mkdir -p $(OBJDIR)
-	$(CC) $(CFLAGS) $(shell pkg-config --cflags --libs glib-2.0) -I$(SSL_DIR) -c $(SSL_DIR)
-	mv *.o $(OBJDIR)
+	$(CC) $(CFLAGS) $(shell pkg-config --cflags --libs glib-2.0) -I$(SSL_INC_FILES) -c $(SRC_FILES)
+	mv *.o $(OBJS)
 	$(CC) $(CFLAGS) $(shell pkg-config --cflags --libs glib-2.0) -o $(NAMEBIN) $(OBJS) $(LIB_FLAGS) $(shell pkg-config --cflags --libs glib-2.0) -lcurl -lpthread
 
 clean:
