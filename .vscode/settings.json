@@ -35,7 +35,8 @@
         "err.h": "c",
         "sha.h": "c",
         "cjson.h": "c",
-        "pthread.h": "c"
+        "pthread.h": "c",
+        "sqlite3.h": "c"
     },
     "editor.formatOnSave": true,
     "editor.formatOnSaveTimeout": 1500

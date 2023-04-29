@@ -1,5 +1,5 @@
 CC = clang
-CFLAGS = -std=c11 -Wall -Wextra -Wpedantic -pthread -gdwarf-4
+CFLAGS = -std=c11 -Wall -Wextra -Wpedantic -gdwarf-4
 
 OBJDIR = obj
 SRCDIR = src
@@ -14,22 +14,22 @@ LIBMX_NAME = $(LIBMX_DIR)/libmx.a
 CJSON_DIR = ../libs/cjson
 CJSON_NAME = $(CJSON_DIR)/cjson.a
 
-SSL_DIR = ../local_lib/include/openssl
-SSL_FILES:= ../local_lib/lib
+SSL_DIR:= ../libs/openssl
+SSL_FILES = ../libs/openssl/openssl
 SSL_INC_FILES:= $(SSL_DIR)
+LCRYPTO = $(SSL_DIR)/libcrypto.a
+LIBSSL = $(SSL_DIR)/libssl.a
 
-LIB_FLAGS = -lmx -lssl -lcjson -lsqlite3 -lcrypto \
-			-L$(LIBMX_DIR) $(LIBMX_NAME) \
+LIB_FLAGS =	-L$(LIBMX_DIR) $(LIBMX_NAME) \
 			-L$(CJSON_DIR) $(CJSON_NAME) \
-			-L$(SSL_FILES) -I$(SSL_INC_FILES)
+			-L$(SSL_FILES) $(LCRYPTO) $(LIBSSL) -lcrypto -lssl
 
 all:  $(NAMEBIN) clean
-
 $(NAMEBIN): 
 	mkdir -p $(OBJDIR)
-	$(CC) $(CFLAGS) `pkg-config --cflags gtk4` -I$(SSL_DIR) -c $(SRC_FILES)
+	$(CC) $(CFLAGS) `pkg-config --cflags gtk4` -c $(SRC_FILES) -I $(SSL_DIR)
 	mv *.o $(OBJDIR)
-	$(CC) $(CFLAGS) -I$(SSL_INC_FILES) `pkg-config --cflags gtk4` -o $(NAMEBIN) $(OBJS) $(LIB_FLAGS) -lcurl `pkg-config --libs gtk4`
+	$(CC) $(CFLAGS) `pkg-config --cflags gtk4` -o $(NAMEBIN) $(OBJS) $(LIB_FLAGS) -lpthread -lcurl `pkg-config --libs gtk4`
 
 clean:
 	rm -f $(OBJS)

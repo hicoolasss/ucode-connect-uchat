@@ -30,9 +30,9 @@
 #include <jansson.h>
 #include "../../libs/cjson/inc/cJSON.h"
 #include "../../libs/libmx/inc/libmx.h"
-#include "../../local_lib/include/openssl/err.h"
-#include "../../local_lib/include/openssl/ssl.h"
-#include "../../local_lib/include/openssl/sha.h"
+#include "../../libs/openssl/openssl/err.h"
+#include "../../libs/openssl/openssl/ssl.h"
+#include "../../libs/openssl/openssl/sha.h"
 
 #define MAX_CLIENTS 100
 #define BUFFER_SZ 2048

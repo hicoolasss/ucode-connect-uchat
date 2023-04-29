@@ -10,12 +10,15 @@ LIBMX = $(LIBMX_DIR)/libmx.a
 CJSON_DIR = libs/cjson
 CJSON = $(CJSON_DIR)/cjson.a
 
+SQLITE_DIR = libs/SQLite3
+SQLITE = $(SQLITE_DIR)/sql.a
+
 SRC = $(SRCDIR)/*.c
 OBJS = $(OBJDIR)/*.o
 
 OS := $(shell uname)
 
-all: $(LIBMX) $(CJSON) $(SERVER) $(CLIENT) reinstall
+all: $(LIBMX) $(CJSON) $(SQLITE) $(SERVER) $(CLIENT) reinstall
 
 install:
 ifeq ($(OS),Darwin)
@@ -37,6 +40,7 @@ else ifeq ($(OS),Linux)
 	sudo apt install libjansson-dev
 	sudo apt install libglib2.0-dev
 	sudo apt-get install pkg-config
+	sudo apt-get install libc6-dev
 endif
 
 $(LIBMX): 
@@ -46,6 +50,10 @@ $(LIBMX):
 $(CJSON):
 	$(info $@ compiling...)
 	@make -sC $(CJSON_DIR)
+
+$(SQLITE_DIR)/sql.a:
+	$(info $@ compiling...)
+	@make -C $(SQLITE_DIR)
 
 $(SERVER): 
 	$(info $@ compiling...)
