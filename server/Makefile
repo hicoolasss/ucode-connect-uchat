@@ -1,5 +1,5 @@
 CC = clang
-CFLAGS = -std=c11 -Wall -Wextra -Wpedantic -pthread -gdwarf-4 -lsqlite3
+CFLAGS = -std=c11 -Wall -Wextra -Wpedantic -pthread -gdwarf-4
 
 OBJDIR = obj
 SRCDIR = src
@@ -20,16 +20,15 @@ SSL_INC_FILES:= $(SSL_DIR)
 
 LIB_FLAGS = -lmx -lssl -lcjson -lsqlite3 -lcrypto\
 			-L$(LIBMX_DIR) $(LIBMX_NAME)\
-			-L$(CJSON_DIR) $(CJSON_NAME)\
-			-L$(SSL_FILES) -I$(SSL_INC_FILES)
+			-L$(CJSON_DIR) $(CJSON_NAME)
 
 all: $(NAMEBIN) clean
 
 $(NAMEBIN): 
 	mkdir -p $(OBJDIR)
-	$(CC) $(CFLAGS) $(shell pkg-config --cflags --libs glib-2.0) -c $(SRC_FILES)
+	$(CC) $(CFLAGS) -I$(SSL_INC_FILES) $(shell pkg-config --cflags --libs glib-2.0) -c $(SRC_FILES)
 	mv *.o $(OBJDIR)
-	$(CC) $(CFLAGS) $(shell pkg-config --cflags --libs glib-2.0) -o $(NAMEBIN) $(OBJS) $(LIB_FLAGS) $(shell pkg-config --cflags --libs glib-2.0)
+	$(CC) $(CFLAGS) -I$(SSL_INC_FILES) $(shell pkg-config --cflags --libs glib-2.0) -o $(NAMEBIN) $(OBJS) $(LIB_FLAGS) -L$(SSL_FILES) $(shell pkg-config --cflags --libs glib-2.0)
 
 clean:
 	rm -f $(OBJS)
