@@ -1,5 +1,5 @@
 /*
- * Copyright 1999-2018 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1999-2019 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the OpenSSL license (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -10,10 +10,10 @@
 #ifndef HEADER_X509V3_H
 # define HEADER_X509V3_H
 
-# include <openssl/bio.h>
-# include <openssl/x509.h>
-# include <openssl/conf.h>
-# include <openssl/x509v3err.h>
+# include "bio.h"
+# include "x509.h"
+# include "conf.h"
+# include "x509v3err.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -497,10 +497,10 @@ DECLARE_ASN1_FUNCTIONS(OTHERNAME)
 DECLARE_ASN1_FUNCTIONS(EDIPARTYNAME)
 int OTHERNAME_cmp(OTHERNAME *a, OTHERNAME *b);
 void GENERAL_NAME_set0_value(GENERAL_NAME *a, int type, void *value);
-void *GENERAL_NAME_get0_value(GENERAL_NAME *a, int *ptype);
+void *GENERAL_NAME_get0_value(const GENERAL_NAME *a, int *ptype);
 int GENERAL_NAME_set0_othername(GENERAL_NAME *gen,
                                 ASN1_OBJECT *oid, ASN1_TYPE *value);
-int GENERAL_NAME_get0_otherName(GENERAL_NAME *gen,
+int GENERAL_NAME_get0_otherName(const GENERAL_NAME *gen,
                                 ASN1_OBJECT **poid, ASN1_TYPE **pvalue);
 
 char *i2s_ASN1_OCTET_STRING(X509V3_EXT_METHOD *method,
@@ -661,6 +661,8 @@ uint32_t X509_get_key_usage(X509 *x);
 uint32_t X509_get_extended_key_usage(X509 *x);
 const ASN1_OCTET_STRING *X509_get0_subject_key_id(X509 *x);
 const ASN1_OCTET_STRING *X509_get0_authority_key_id(X509 *x);
+const GENERAL_NAMES *X509_get0_authority_issuer(X509 *x);
+const ASN1_INTEGER *X509_get0_authority_serial(X509 *x);
 
 int X509_PURPOSE_get_count(void);
 X509_PURPOSE *X509_PURPOSE_get0(int idx);

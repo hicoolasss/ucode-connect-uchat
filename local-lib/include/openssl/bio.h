@@ -1,5 +1,5 @@
 /*
- * Copyright 1995-2018 The OpenSSL Project Authors. All Rights Reserved.
+ * Copyright 1995-2020 The OpenSSL Project Authors. All Rights Reserved.
  *
  * Licensed under the OpenSSL license (the "License").  You may not use
  * this file except in compliance with the License.  You can obtain a copy
@@ -10,19 +10,15 @@
 #ifndef HEADER_BIO_H
 # define HEADER_BIO_H
 
-# include <openssl/e_os2.h>
+# include "e_os2.h"
 
 # ifndef OPENSSL_NO_STDIO
 #  include <stdio.h>
 # endif
 # include <stdarg.h>
 
-# include <openssl/crypto.h>
-# include <openssl/bioerr.h>
-
-# ifndef OPENSSL_NO_SCTP
-#  include <openssl/e_os2.h>
-# endif
+# include "crypto.h"
+# include "bioerr.h"
 
 #ifdef  __cplusplus
 extern "C" {
@@ -173,6 +169,7 @@ extern "C" {
  */
 # define BIO_FLAGS_MEM_RDONLY    0x200
 # define BIO_FLAGS_NONCLEAR_RST  0x400
+# define BIO_FLAGS_IN_EOF        0x800
 
 typedef union bio_addr_st BIO_ADDR;
 typedef struct bio_addrinfo_st BIO_ADDRINFO;

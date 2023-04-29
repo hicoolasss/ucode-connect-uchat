@@ -10,21 +10,21 @@
 #ifndef HEADER_DSA_H
 # define HEADER_DSA_H
 
-# include <openssl/opensslconf.h>
+# include "opensslconf.h"
 
 # ifndef OPENSSL_NO_DSA
 # ifdef  __cplusplus
 extern "C" {
 # endif
-# include <openssl/e_os2.h>
-# include <openssl/bio.h>
-# include <openssl/crypto.h>
-# include <openssl/ossl_typ.h>
-# include <openssl/bn.h>
+# include "e_os2.h"
+# include "bio.h"
+# include "crypto.h"
+# include "ossl_typ.h"
+# include "bn.h"
 # if OPENSSL_API_COMPAT < 0x10100000L
-#  include <openssl/dh.h>
+#  include "dh.h"
 # endif
-# include <openssl/dsaerr.h>
+# include "dsaerr.h"
 
 # ifndef OPENSSL_DSA_MAX_MODULUS_BITS
 #  define OPENSSL_DSA_MAX_MODULUS_BITS   10000
@@ -162,6 +162,12 @@ DH *DSA_dup_DH(const DSA *r);
 # define EVP_PKEY_CTX_set_dsa_paramgen_bits(ctx, nbits) \
         EVP_PKEY_CTX_ctrl(ctx, EVP_PKEY_DSA, EVP_PKEY_OP_PARAMGEN, \
                                 EVP_PKEY_CTRL_DSA_PARAMGEN_BITS, nbits, NULL)
+# define EVP_PKEY_CTX_set_dsa_paramgen_q_bits(ctx, qbits) \
+        EVP_PKEY_CTX_ctrl(ctx, EVP_PKEY_DSA, EVP_PKEY_OP_PARAMGEN, \
+                                EVP_PKEY_CTRL_DSA_PARAMGEN_Q_BITS, qbits, NULL)
+# define EVP_PKEY_CTX_set_dsa_paramgen_md(ctx, md) \
+        EVP_PKEY_CTX_ctrl(ctx, EVP_PKEY_DSA, EVP_PKEY_OP_PARAMGEN, \
+                                EVP_PKEY_CTRL_DSA_PARAMGEN_MD, 0, (void *)(md))
 
 # define EVP_PKEY_CTRL_DSA_PARAMGEN_BITS         (EVP_PKEY_ALG_CTRL + 1)
 # define EVP_PKEY_CTRL_DSA_PARAMGEN_Q_BITS       (EVP_PKEY_ALG_CTRL + 2)

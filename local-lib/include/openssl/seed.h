@@ -35,11 +35,11 @@
 #ifndef HEADER_SEED_H
 # define HEADER_SEED_H
 
-# include <openssl/opensslconf.h>
+# include "opensslconf.h"
 
 # ifndef OPENSSL_NO_SEED
-# include <openssl/e_os2.h>
-# include <openssl/crypto.h>
+# include "e_os2.h"
+# include "crypto.h"
 
 #ifdef  __cplusplus
 extern "C" {
@@ -52,7 +52,7 @@ extern "C" {
 #  endif
 # endif
 
-# include <sys/types.h>
+# include "types.h"
 
 # define SEED_BLOCK_SIZE 16
 # define SEED_KEY_LENGTH 16

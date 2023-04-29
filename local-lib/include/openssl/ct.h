@@ -10,13 +10,13 @@
 #ifndef HEADER_CT_H
 # define HEADER_CT_H
 
-# include <openssl/opensslconf.h>
+# include "opensslconf.h"
 
 # ifndef OPENSSL_NO_CT
-# include <openssl/ossl_typ.h>
-# include <openssl/safestack.h>
-# include <openssl/x509.h>
-# include <openssl/cterr.h>
+# include "ossl_typ.h"
+# include "safestack.h"
+# include "x509.h"
+# include "cterr.h"
 # ifdef  __cplusplus
 extern "C" {
 # endif
@@ -463,8 +463,6 @@ __owur int CTLOG_STORE_load_file(CTLOG_STORE *store, const char *file);
 
 /*
  * Loads the default CT log list into a |store|.
- * See internal/cryptlib.h for the environment variable and file path that are
- * consulted to find the default file.
  * Returns 1 if loading is successful, or 0 otherwise.
  */
 __owur int CTLOG_STORE_load_default_file(CTLOG_STORE *store);
