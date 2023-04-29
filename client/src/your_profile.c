@@ -28,7 +28,7 @@ static void update_profile_pic_lmb()
 
 void send_avatar_to_db(gchar *filepath)
 {
-  char *filename = basename(filepath);
+  char *filename = g_basename(filepath);
   char *new_path = g_strdup_printf("resources/avatars/%s", filename);
 
   cJSON *json = cJSON_CreateObject();
