@@ -12,7 +12,9 @@
 #include <gio/gio.h>
 #include <ctype.h>
 #include <sys/socket.h>
+#ifdef __linux__
 #include <netinet/in.h>
+#endif
 #include <arpa/inet.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,19 +31,11 @@
 #include <curl/curl.h>
 #include <jansson.h>
 
-#ifdef __linux__
 #include "../../libs/cjson/inc/cJSON.h"
 #include "../../libs/libmx/inc/libmx.h"
 #include "../../libs/openssl/openssl/err.h"
 #include "../../libs/openssl/openssl/ssl.h"
 #include "../../libs/openssl/openssl/sha.h"
-#elif defined(__APPLE__)
-#include "../libs/cjson/inc/cJSON.h"
-#include "../libs/libmx/inc/libmx.h"
-#include "../libs/openssl/openssl/err.h"
-#include "../libs/openssl/openssl/ssl.h"
-#include "../libs/openssl/openssl/sha.h"
-#endif
 
 #define MAX_CLIENTS 100
 #define BUFFER_SZ 2048

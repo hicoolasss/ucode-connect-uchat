@@ -5,15 +5,18 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/socket.h>
+#ifdef __linux__
 #include <netinet/in.h>
+#endif
 #include <pthread.h>
 #include <strings.h>
 #include <stdatomic.h>
 
-#include "../../libs/libmx/inc/libmx.h"
 #include "../../libs/cjson/inc/cJSON.h"
-#include "../../libs/openssl/openssl/ssl.h"
+#include "../../libs/libmx/inc/libmx.h"
 #include "../../libs/openssl/openssl/err.h"
+#include "../../libs/openssl/openssl/ssl.h"
+#include "../../libs/openssl/openssl/sha.h"
 #include "../../libs/Sqlite3/sqlite3.h"
 
 #include <sys/stat.h>
@@ -21,6 +24,7 @@
 #define PORT 8080
 #define MAX_CLIENTS 100
 #define DB_NAME "server/database/chat.db"
+
 // #include"../../data_base/head_db.h"
 
 typedef struct s_client

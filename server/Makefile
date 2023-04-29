@@ -22,13 +22,17 @@ LIB_FLAGS = -lmx -lssl -lcjson -lsqlite3 -lcrypto\
 			-L$(LIBMX_DIR) $(LIBMX_NAME)\
 			-L$(CJSON_DIR) $(CJSON_NAME)\
 
+OS := $(shell uname)
+
+GLIB_FLAGS := $(shell pkg-config --cflags --libs glib-2.0)
+
 all: $(NAMEBIN) clean
 
 $(NAMEBIN): 
 	mkdir -p $(OBJDIR)
-	$(CC) $(CFLAGS) $(shell pkg-config --cflags --libs glib-2.0) -c $(SRC_FILES)
+	$(CC) $(CFLAGS) $(GLIB_FLAGS) -c $(SRC_FILES)
 	mv *.o $(OBJDIR)
-	$(CC) $(CFLAGS) $(shell pkg-config --cflags --libs glib-2.0) -o $(NAMEBIN) $(OBJS) $(LIB_FLAGS) $(shell pkg-config --cflags --libs glib-2.0)
+	$(CC) $(CFLAGS) $(GLIB_FLAGS) -o $(NAMEBIN) $(OBJS) $(LIB_FLAGS) $(GLIB_FLAGS)
 
 clean:
 	rm -f $(OBJS)
