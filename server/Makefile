@@ -33,7 +33,7 @@ all: $(NAMEBIN) clean
 $(NAMEBIN): 
 	mkdir -p $(OBJDIR)
 	$(CC) $(CFLAGS) $(shell pkg-config --cflags --libs glib-2.0) -I$(SSL_INC_FILES) -c $(SRC_FILES)
-	mv *.o $(OBJS)
+	mv *.o $(OBJDIR)/
 	$(CC) $(CFLAGS) $(shell pkg-config --cflags --libs glib-2.0) -o $(NAMEBIN) $(OBJS) $(LIB_FLAGS) $(shell pkg-config --cflags --libs glib-2.0) -lcurl -lpthread
 
 clean:
