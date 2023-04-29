@@ -22,10 +22,11 @@ ifeq ($(OS),Darwin)
 	brew update
 	brew install gtk4
 	brew install libevent
-	brew install openssl@1.1
+	brew install openssl
 	brew install jansson
 	brew install sqlite3
 	brew install glib
+	brew install pkg-config
 else ifeq ($(OS),Linux)
 	sudo apt update
 	sudo apt install libsqlite3-dev
@@ -35,6 +36,7 @@ else ifeq ($(OS),Linux)
 	sudo apt install libssl-dev
 	sudo apt install libjansson-dev
 	sudo apt install libglib2.0-dev
+	sudo apt-get install pkg-config
 endif
 
 $(LIBMX): 
