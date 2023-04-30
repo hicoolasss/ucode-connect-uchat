@@ -12,11 +12,13 @@
 
 #include "../../libs/cjson/inc/cJSON.h"
 #include "../../libs/libmx/inc/libmx.h"
-
-#include "../../libs/openssl/openssl/err.h"
-#include "../../libs/openssl/openssl/ssl.h"
-#include "../../libs/openssl/openssl/sha.h"
 #include "../../libs/SQLite3/inc/sqlite3.h"
+
+#include <openssl/ssl.h>
+#include <openssl/rsa.h>
+#include <openssl/x509.h>
+#include <openssl/evp.h>
+#include <openssl/sha.h>
 
 #include <sys/stat.h>
 #include <sys/types.h>

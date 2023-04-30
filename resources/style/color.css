@@ -1,66 +1,66 @@
 /*AUTH START*/
 /*window background*/
-@define-color bg-win-col #171722;
+@define-color bg-win-col #383a59;
 
 /*auth main box background*/
-@define-color bg-auth-main-box #212130;
+@define-color bg-auth-main-box #21222c;
 
 /*all text*/
-@define-color bit-text-col #B1BAE6;
+@define-color bit-text-col #ffffff;
 
 /*text in achievements*/
-@define-color small-text-col #7AA2F7;
+@define-color small-text-col #bd93f9;
 
 /*auth inputs background*/
-@define-color auth-input-bg-col #434461;
+@define-color auth-input-bg-col #282a36;
 
 /*auth inputs border color*/
-@define-color auth-input-border-col #434461;
+@define-color auth-input-border-col #6272a4;
 
 /*auth inputs border color hover*/
-@define-color auth-input-border-col-hover #6E78A8;
+@define-color auth-input-border-col-hover #bd93f9;
 
 /*big log in button*/
-@define-color big-log-in-button-bg #13131A;
+@define-color big-log-in-button-bg #6272a4;
 
 /*big log in button hover shadow*/
-@define-color big-log-in-button-shadow-hover #565F89;
+@define-color big-log-in-button-shadow-hover #bd93f9;
 
 /*big log in button active shadow*/
-@define-color big-log-in-button-shadow-active #565F89;
+@define-color big-log-in-button-shadow-active #bd93f9;
 
 /*sign button text color*/
 @define-color sign-btn-text-col #565F89;
 
 /*sign button text color*/
-@define-color sign-btn-text-col-hover #0269A4;
+@define-color sign-btn-text-col-hover #8be9fd;
 
 /*AUTH END*/
 
 /*all containers bg*/
-@define-color all-containers-bg #13131A;
+@define-color all-containers-bg #383a59;
 
 /*right chat container bg*/
-@define-color right-chat-container-bg #171722;
+@define-color right-chat-container-bg #50527f;
 
 /*all containers borders in rgba*/
-@define-color all-containers-borders-bg rgba(122, 162, 247, 0.35);
+@define-color all-containers-borders-bg #bd93f9;
 
 /*left menu bar icon background*/
-@define-color left-menu-bar-icon-background #4A4A66;
+@define-color left-menu-bar-icon-background #44475a;
 
 /*left menu bar icon hovers*/
-@define-color left-menu-bar-icon-hover #7AA2F7;
+@define-color left-menu-bar-icon-hover #575a72;
 
 /*chat and group label text color*/
-@define-color chat-and-group-label-text-color rgba(122, 162, 247, 0.5);
+@define-color chat-and-group-label-text-color #bd93f9;
 
 /*log out container bg*/
-@define-color log-out-container-bg #212130;
+@define-color log-out-container-bg #383a59;
 
 /*log out yes border*/
-@define-color log-out-yes-border #434461;
+@define-color log-out-yes-border #bd93f9;
 
 /*log out no border*/
-@define-color log-out-no-border #13131A;
+@define-color log-out-no-border #5e343d;
 

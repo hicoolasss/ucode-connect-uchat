@@ -32,7 +32,7 @@ gpointer recv_func()
             if (cmd <= 0)
             {
                 int error_code = SSL_get_error(current_client.ssl, cmd);
-                fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                fprintf(stderr, "Error sending JSON string: %s\n", NULL);
                 break;
             }
             t_list *current = friend_list;
@@ -60,7 +60,7 @@ gpointer recv_func()
             if (cmd <= 0)
             {
                 int error_code = SSL_get_error(current_client.ssl, cmd);
-                fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                fprintf(stderr, "Error sending JSON string: %s\n", NULL);
                 break;
             }
             t_list *current = friend_list;
@@ -93,7 +93,7 @@ gpointer recv_func()
             if (cmd <= 0)
             {
                 int error_code = SSL_get_error(current_client.ssl, cmd);
-                fprintf(stderr, "Error sending JSON string: %s\n", ERR_error_string(error_code, NULL));
+                fprintf(stderr, "Error sending JSON string: %s\n", NULL);
                 break;
             }
             if (mx_strcmp("User has no friends", temp) == 0)

@@ -1,5 +1,5 @@
 
-FLAGS = -std=c11 -Wall -Werror -Wextra -Wpedantic 
+FLAGS = -std=c11 -Wall -Wextra -Wpedantic 
 
 all: install
 

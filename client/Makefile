@@ -14,23 +14,24 @@ LIBMX_NAME = $(LIBMX_DIR)/libmx.a
 CJSON_DIR = ../libs/cjson
 CJSON_NAME = $(CJSON_DIR)/cjson.a
 
-SSL_DIR:= ../libs/openssl
-SSL_FILES = ../libs/openssl/openssl
-
-SSL_INC_FILES:= $(SSL_DIR)
-LCRYPTO = $(SSL_DIR)/libcrypto.a
-LIBSSL = $(SSL_DIR)/libssl.a
 
 LIB_FLAGS =	-L$(LIBMX_DIR) $(LIBMX_NAME) \
 			-L$(CJSON_DIR) $(CJSON_NAME) \
-			-L$(SSL_DIR) $(LCRYPTO) $(LIBSSL)
+			-I /opt/homebrew/Cellar/openssl@3/3.1.0/include \
+		    -L /opt/homebrew/Cellar/openssl@3/3.1.0/lib \
+			-lpthread -lcurl
 
-all:  $(NAMEBIN) clean
+INCLUDES = -I./
+INCS =  $(INCLUDES) `pkg-config --cflags gtk4`  `pkg-config --cflags libevent` `pkg-config --cflags jansson` -I `brew --prefix openssl@3`/include
+LIBS =  `pkg-config --libs gtk4` `pkg-config --libs libevent` `pkg-config --libs jansson`  -L `brew --prefix openssl@3`/lib -lsqlite3 $(LIB_FLAGS) -lssl -lcrypto
+
+all: $(NAMEBIN) clean
+
 $(NAMEBIN): 
 	mkdir -p $(OBJDIR)
-	$(CC) $(CFLAGS) `pkg-config --cflags gtk4` -c $(SRC_FILES) -I $(SSL_INC_FILES)
-	mv *.o $(OBJDIR)
-	$(CC) $(CFLAGS) `pkg-config --cflags gtk4` -o $(NAMEBIN) $(OBJS) $(LIB_FLAGS) -lpthread -lcurl `pkg-config --libs gtk4`
+	$(CC) $(CFLAGS) $(shell pkg-config --cflags --libs glib-2.0) $(INCS) -c $(SRC_FILES)
+	mv *.o $(OBJDIR)/
+	$(CC) $(CFLAGS) $(shell pkg-config --cflags --libs glib-2.0) $(INCS) $(LIBS) -o $(NAMEBIN) $(OBJS) $(shell pkg-config --cflags --libs glib-2.0) -lcurl -lpthread
 
 clean:
 	rm -f $(OBJS)

@@ -21,16 +21,16 @@ OS := $(shell uname)
 all: $(LIBMX) $(CJSON) $(SQLITE) $(SERVER) $(CLIENT) reinstall
 
 install:
-ifeq ($(OS),Darwin)
+ifeq ($(OS), Darwin)
 	brew update
 	brew install gtk4
 	brew install libevent
-	brew install openssl
+	brew install openssl@3
 	brew install jansson
 	brew install sqlite3
 	brew install glib
 	brew install pkg-config
-else ifeq ($(OS),Linux)
+else ifeq ($(OS), Linux)
 	sudo apt update
 	sudo apt install libsqlite3-dev
 	sudo apt install libcurl4-openssl-dev

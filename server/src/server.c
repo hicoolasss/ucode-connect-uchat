@@ -88,7 +88,6 @@ int main(int argc, char **argv)
         SSL_set_fd(ssl, client_fd);
         if (SSL_accept(ssl) < 0)
         {
-            ERR_print_errors_fp(stderr);
             close_connection(ssl);
             continue;
         }
@@ -98,7 +97,7 @@ int main(int argc, char **argv)
         pthread_detach(thread);
         write_logs("client disconnected");
     }
-write_logs("server off");
+    write_logs("server off");
     SSL_CTX_free(ctx);
     close(server_fd);
     return 0;

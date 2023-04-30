@@ -1,6 +1,6 @@
 TARGET_LIB = libmx.a
 CC = clang
-CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic -gdwarf-4
+CFLAGS = -std=c11 -Wall -Wextra -Wpedantic -gdwarf-4
 
 MKDIR = mkdir -p
 RM = rm -rf

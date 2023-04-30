@@ -28,28 +28,34 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <curl/curl.h>
 #include <jansson.h>
+
+#include <openssl/ssl.h>
+#include <openssl/rsa.h>
+#include <openssl/x509.h>
+#include <openssl/evp.h>
+#include <openssl/sha.h>
+
 #include "../../libs/cjson/inc/cJSON.h"
 #include "../../libs/libmx/inc/libmx.h"
-#include "../../libs/openssl/openssl/err.h"
-#include "../../libs/openssl/openssl/ssl.h"
-#include "../../libs/openssl/openssl/sha.h"
 
 #define MAX_CLIENTS 100
 #define BUFFER_SZ 2048
 #define LENGTH 2048
 
 // gtk windows structure
-typedef struct {
+typedef struct
+{
     GtkWidget *screen;
     GtkCssProvider *provider;
 } t_screen;
 
-typedef struct s_log_in {
+typedef struct s_log_in
+{
 
     bool is_username_correct;
 
     bool is_password_correct;
-    
+
     GtkWidget *box;
 
     GtkWidget *welcome;
@@ -68,7 +74,8 @@ typedef struct s_log_in {
 
 } t_log_in;
 
-typedef struct s_registration {
+typedef struct s_registration
+{
 
     GtkWidget *welcome;
     GtkWidget *box;
@@ -88,7 +95,8 @@ typedef struct s_registration {
 
 } t_registration;
 
-typedef struct s_home {
+typedef struct s_home
+{
 
     GtkWidget *chat_gpt_box_for_label;
     GtkWidget *chat_gpt_label;
@@ -101,26 +109,26 @@ typedef struct s_home {
 
 } t_home;
 
-
-typedef struct {
-    //containers for easier display
+typedef struct
+{
+    // containers for easier display
     GtkWidget *main_grid;
     GtkWidget *chats_container;
-    //auth grids
+    // auth grids
     GtkWidget *log_in_conrainer;
     GtkWidget *registration_container;
     GtkWidget *registration_success_container;
 
-    //intro grid
+    // intro grid
     GtkWidget *intro_grid;
     GtkWidget *first_intro_screen;
     GtkWidget *second_intro_screen;
     GtkWidget *third_intro_screen;
     bool is_log_in_clicked;
 
-    //container to grout searchbar ghats ang groups
+    // container to grout searchbar ghats ang groups
     GtkWidget *three_rows_container;
-    //all grid boxes
+    // all grid boxes
     GtkWidget *left_menu_bar;
     GtkWidget *your_profile;
     GtkWidget *home;
@@ -132,10 +140,10 @@ typedef struct {
     GtkWidget *mini_groups;
 
     GtkWidget *mini_chats;
-    //chats list
+    // chats list
     GtkWidget *chats_list_grid_child;
     GtkWidget *goups_list_grid_child;
-    //count num of chats in chats list
+    // count num of chats in chats list
     int chat_pos_count;
     int group_pos_count;
     bool chat_search;
@@ -150,15 +158,15 @@ typedef struct {
 
     GtkWidget *create_new_chat_with_someone;
 
-
     GtkWidget *settings;
     GtkWidget *achievements;
     GtkWidget *dialog_with_blur;
 } t_grid;
 
-typedef struct s_client {
+typedef struct s_client
+{
     int serv_fd;
-    SSL *ssl;// client ssl structure with coneection to server
+    SSL *ssl; // client ssl structure with coneection to server
     struct sockaddr_in adr;
     int cl_socket;
     int id;
@@ -167,8 +175,9 @@ typedef struct s_client {
     char *avatarname;
 } t_client;
 
-typedef struct s_chat {
-    
+typedef struct s_chat
+{
+
     int id;
     char *sender;
     char *message;
@@ -183,13 +192,14 @@ typedef struct s_user
     char *lastmessage;
 } t_user;
 
-typedef struct s_Friend {
+typedef struct s_Friend
+{
     char *username;
     char *avatarname;
     char *lastmessage;
     bool in_chat;
     bool connected;
-    
+
     t_list *chat_history;
 } t_Friend;
 
@@ -202,17 +212,19 @@ typedef struct s_main
     bool connected;
     bool loaded;
 
-}   t_main;
+} t_main;
 
-typedef struct s_avatar {
-    
+typedef struct s_avatar
+{
+
     int width;
     int height;
     GdkPixbuf *avatar;
 
 } t_avatar;
 
-typedef struct s_scaled_avatar {
+typedef struct s_scaled_avatar
+{
 
     int width;
     int height;
@@ -220,7 +232,8 @@ typedef struct s_scaled_avatar {
 
 } t_scaled_avatar;
 
-typedef struct s_your_profile_avatar {
+typedef struct s_your_profile_avatar
+{
 
     int width;
     int height;
@@ -229,12 +242,13 @@ typedef struct s_your_profile_avatar {
 
 } t_your_profile_avatar;
 
-typedef struct s_achievements {
-    
-    bool first_step;    
+typedef struct s_achievements
+{
+
+    bool first_step;
     bool explorer;
     bool fickle;
-    bool milka; //xDDDD
+    bool milka; // xDDDD
     bool loving;
     bool secretive;
     bool smart;
@@ -259,10 +273,10 @@ extern t_list *user_list;
 extern int in_chat;
 extern GThread *send_thread;
 extern GThread *receive_thread;
-void load_custom_font(const char* font_path, GtkWidget* widget);
+void load_custom_font(const char *font_path, GtkWidget *widget);
 
-SSL_CTX* CTX_initialize_client();
-void open_client_connection(char* server_IP, int port);
+SSL_CTX *CTX_initialize_client();
+void open_client_connection(char *server_IP, int port);
 void close_connection(SSL *ssl);
 int open_ssl_connection();
 int send_message_to_server(char *buffer);
@@ -322,7 +336,7 @@ void show_registration(void);
 void show_success_registration(void);
 
 // void log_in_btn_clicked(GtkWidget *widget, gpointer data);
-//show intro screens
+// show intro screens
 void first_intro_screen();
 void second_intro_screen();
 void third_intro_screen();
@@ -332,8 +346,7 @@ void set_third_intro_screen_visible(void);
 
 void show_home(void);
 
-
-//unvisible grids
+// unvisible grids
 void set_unvisible_all(void);
 void set_unvisible_auth(void);
 void set_unvisible_intro(void);
@@ -350,18 +363,18 @@ void show_mini_groups(void);
 void show_mini_chats(void);
 void show_search_bar(void);
 
-//function to create new chat and
-//add it to mini chat grid.
-//As a parametr get number of existed chats,
-// so it can attach it to grit in a right way
+// function to create new chat and
+// add it to mini chat grid.
+// As a parametr get number of existed chats,
+//  so it can attach it to grit in a right way
 void create_new_chat(GtkToggleButton *toggle_button, gpointer user_data);
 
 void create_new_group(const int i,
                       const char *new_groupname);
-//help func to create grid with needed params
-GtkWidget *create_grid( const gint width,
-                        const gint height,
-                        const char *style );
+// help func to create grid with needed params
+GtkWidget *create_grid(const gint width,
+                       const gint height,
+                       const char *style);
 
 void call_new_chat_and_add_iter();
 void search_btn_clicked_chat(void);
@@ -385,7 +398,6 @@ void update_friend_list();
 
 void update_friend_list();
 
-
 void show_user_list_scrolled(t_list *current);
 void show_chats_with_added_friends(t_list *friend_list);
 void update_chat_history(gpointer friend_data);
@@ -407,19 +419,22 @@ void update_show_achievements();
 
 void update_current_chat_while_delete(t_Friend *friend_data, int old_message_id, const char *msg);
 
-typedef struct {
+typedef struct
+{
     gpointer chat_history;
     gpointer username_copy;
 } CallbackArgs;
 
-typedef struct {
+typedef struct
+{
     char *friend_name;
     t_list *messages_list;
     GtkWidget *chat_grid;
 } t_chat_info;
 
-typedef struct {
-    
+typedef struct
+{
+
     t_chat *chat_data;
     t_Friend *friend_data;
     GtkWidget *sent_box;
@@ -430,19 +445,8 @@ typedef struct {
 } SentMessageData;
 
 // typedef struct {
-    
+
 //     GtkWidget *sent_box;
 //     const char *msg;
 
 // } sent_container_with_btns;
-
-
-
-
-
-
-
-
-
-
-

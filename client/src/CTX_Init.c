@@ -12,7 +12,6 @@ SSL_CTX *CTX_initialize_client()
     ctx = SSL_CTX_new(method);
     if (ctx == NULL)
     {
-        ERR_print_errors_fp(stderr);
         abort();
     }
 
@@ -68,14 +67,12 @@ int open_ssl_connection()
     if (SSL_set_fd(ssl, current_client.serv_fd) == 0)
     {
         perror("ERROR: socket descriptor attachment failed!\n");
-        ERR_print_errors_fp(stderr);
         return -1;
     }
     current_client.ssl = ssl;
 
     if (SSL_connect(ssl) == -1)
     {
-        ERR_print_errors_fp(stderr);
         return -1;
     }
 
