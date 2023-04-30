@@ -18,7 +18,7 @@ OBJS = $(OBJDIR)/*.o
 
 OS := $(shell uname)
 
-all: $(LIBMX) $(CJSON) $(SQLITE) $(SERVER) $(CLIENT) reinstall
+all: install $(LIBMX) $(CJSON) $(SQLITE) $(SERVER) $(CLIENT) reinstall
 
 install:
 ifeq ($(OS), Darwin)
