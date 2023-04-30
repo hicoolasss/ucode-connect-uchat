@@ -1,60 +1,166 @@
-#include "header.h"
-int main(int argc, char *argv[])
-{
-	if(argc != 3) {
-		puts("Write ip adress of server");
-		exit(1);
-	}
-	int sock;
-	struct sockaddr_in client;
-	char message[1000] , server_reply[2000];
-	const char *ip = argv[1];
-	int host = atoi(argv[2]);
-	//Create socket
-	sock = socket(AF_INET , SOCK_STREAM , 0);
-	if (sock == -1)
-	{
-		printf("Could not create socket");
-	}
-	puts("Socket created");
-	
-	client.sin_addr.s_addr = inet_addr(ip);
-	client.sin_family = AF_INET;
-	client.sin_port = htons(host);
+#include "../inc/client.h"
+extern t_list *user_list;
 
-	//Connect to remote client
-	if (connect(sock , (struct sockaddr *)&client , sizeof(client)) < 0)
-	{
-		perror("connect failed. Error");
-		return 1;
-	}
-	
-	puts("Connected\n");
-	
-	//keep communicating with server
-	while(1)
-	{
-		printf("Enter message : ");
-		scanf("\n%200[0-9a-zA-Z.,! ]" , message);
-		
-		//Send some data
-		if( send(sock , message , sizeof(message), 0) < 0)
-		{
-			puts("Send failed");
-			return 1;
-		}
-		
-		//Receive a reply from the client
-		if( recv(sock , server_reply , sizeof(server_reply) , 0) < 0)
-		{
-			puts("recv failed");
-			break;
-		}
-		
-		puts("server reply :");
-		puts(server_reply);
-	}
-	
-	close(sock);
-	return 0;
+t_screen current_screen;
+t_main main_client;
+t_client current_client;
+t_grid current_grid;
+pthread_mutex_t cl_mutex;
+int in_chat = 0;
+_Atomic bool registered;
+pthread_mutex_t mutex_send = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mutex_recv = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t command_queue_mutex = PTHREAD_MUTEX_INITIALIZER;
+
+pthread_cond_t auth_cond = PTHREAD_COND_INITIALIZER;
+
+GAsyncQueue *message_queue;
+GThread *send_thread;
+GThread *receive_thread;
+
+// int send_all(SSL *sockfd, char *buf, int len);
+// int recv_all(SSL *sockfd, char *buf, int len);
+
+void loadstyles()
+{
+
+    current_screen.provider = gtk_css_provider_new();
+    gtk_css_provider_load_from_path(current_screen.provider,
+                                    "resources/style/theme.css");
+}
+
+void widget_styling(GtkWidget *widget, t_screen screen, const char *name_of_css_class)
+{
+
+    GtkStyleContext *context = gtk_widget_get_style_context(widget);
+
+    gtk_style_context_add_class(context, name_of_css_class);
+    gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(screen.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
+}
+
+void widget_restyling(GtkWidget *widget, t_screen screen, const char *name_of_removed_css_class, const char *name_of_css_class)
+{
+
+    GtkStyleContext *context = gtk_widget_get_style_context(widget);
+
+    gtk_style_context_remove_class(context, name_of_removed_css_class);
+    gtk_style_context_add_class(context, name_of_css_class);
+    gtk_style_context_add_provider(context, GTK_STYLE_PROVIDER(screen.provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
+}
+
+static gboolean on_app_close_request(GtkWindow *window, gpointer data)
+{
+    // Выполните здесь любые действия, необходимые перед выходом из приложения.
+    // Например, освободите ресурсы или сохраните настройки.
+    cJSON *json = cJSON_CreateObject();
+    cJSON_AddStringToObject(json, "login", current_client.login);
+    cJSON_AddStringToObject(json, "command", "<logout>");
+
+    g_async_queue_push(message_queue, json);
+
+    if (send_thread != NULL)
+    {
+        g_thread_join(send_thread);
+        g_thread_unref(send_thread);
+        send_thread = NULL;
+    }
+
+    if (receive_thread != NULL)
+    {
+        g_thread_join(receive_thread);
+        g_thread_unref(receive_thread);
+        receive_thread = NULL;
+    }
+    mx_printstr("exit success");
+
+    // Верните FALSE, чтобы разрешить приложению завершить работу.
+    return FALSE;
+}
+
+static void app_activate(GApplication *app)
+{
+
+    current_screen.screen = gtk_application_window_new(GTK_APPLICATION(app));
+
+    gtk_window_set_title(GTK_WINDOW(current_screen.screen), "TokyoNight chat");
+    gtk_window_set_default_size(GTK_WINDOW(current_screen.screen), 1200, 760);
+
+    g_signal_connect(current_screen.screen, "close-request", G_CALLBACK(on_app_close_request), NULL);
+
+    change_scheme_to_any_color("#171722",
+                               "#212130",
+                               "#B1BAE6",
+                               "#7AA2F7",
+                               "#434461",
+                               "#434461",
+                               "#6E78A8",
+                               "#13131A",
+                               "#565F89",
+                               "#565F89",
+                               "#565F89",
+                               "#0269A4",
+                               "#13131A",
+                               "#171722",
+                               "rgba(122, 162, 247, 0.35)",
+                               "#4A4A66",
+                               "#7AA2F7",
+                               "rgba(122, 162, 247, 0.5)",
+                               "#212130",
+                               "#434461",
+                               "#13131A");
+
+    // load_custom_font("../../resources/fonts/JetBrains_Mono/static/JetBrainsMono-Regular.ttf");
+    // load_custom_font("../../resources/fonts/Inter/static/Inter-Regular.ttf");
+    loadstyles();
+
+    widget_styling(current_screen.screen, current_screen, "background");
+
+    show_auth();
+
+    gtk_window_present(GTK_WINDOW(current_screen.screen));
+}
+
+int main(int argc, char **argv)
+{
+    if (argc != 3)
+    {
+        printf("Usage: %s <port>\n", argv[0]);
+        return EXIT_FAILURE;
+    }
+    main_client.ip = argv[1];
+    main_client.port = atoi(argv[2]);
+    main_client.context = CTX_initialize_client();
+
+    open_ssl_connection();
+    main_client.connected = false;
+    GtkApplication *app;
+    int stat = 0;
+
+    message_queue = g_async_queue_new();
+
+    app = gtk_application_new("com.github.darkchat", G_APPLICATION_DEFAULT_FLAGS);
+    g_signal_connect(app, "activate", G_CALLBACK(app_activate), NULL);
+    stat = g_application_run(G_APPLICATION(app), FALSE, NULL);
+
+    while (friend_list != NULL)
+    {
+        t_list *tmp = friend_list;
+        friend_list = friend_list->next;
+        free(tmp->data);
+        free(tmp);
+    }
+
+    while (user_list != NULL)
+    {
+        t_list *tmp = user_list;
+        user_list = user_list->next;
+        free(tmp->data);
+        free(tmp);
+    }
+
+    // close(current_client.serv_fd);
+    // SSL_free(current_client.ssl);
+    // SSL_CTX_free(main_client.context);
+
+    return stat;
 }
