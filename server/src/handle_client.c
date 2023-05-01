@@ -211,7 +211,7 @@ void *handle_client(void *args)
                             {
                                 if (strcmp(((t_client *)current_user->data)->login, username) == 0)
                                 {
-                                    ((t_client *)current_user->data)->connected = ((t_user *)current_friend->data)->connected;
+                                    ((t_user *)current_friend->data)->connected = ((t_client *)current_user->data)->connected;
                                     break;
                                 }
                                 current_user = current_user->next;
