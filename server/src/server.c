@@ -1,74 +1,104 @@
-#include "header.h"
+#include "../inc/server.h"
 
-int main()
+t_list *users_list;
+FILE *log_file;
+pthread_mutex_t clients_mutex;
+pthread_mutex_t logs_mutex;
+_Atomic unsigned int cli_count;
+// t_list *user_id;
+// int main(int argc, char **argv)
+// {
+//     if (argc != 2)
+//     {
+//         return EXIT_FAILURE;
+//     }
+//     int port = atoi(argv[1]);
+
+//     struct sockaddr_in cli_addr;
+
+//     // daemon_server();
+
+//     // close(STDIN_FILENO);
+//     // close(STDOUT_FILENO);
+//     // close(STDERR_FILENO);
+//     SSL_CTX *ctx = SSL_STX_Init();
+
+//     socklen_t adr_size = sizeof(cli_addr);
+
+//     int client_fd;
+//     struct sockaddr_in adr = {0};
+//     int serv_fd = open_server_connection(port, &adr, adr_size);
+
+//     while (1)
+//     {
+//         // accept client connection
+//         client_fd = accept(serv_fd, (struct sockaddr *)&adr, &adr_size);
+//         printf("SSL: client accepted\n");
+//         // printf("SSL: Connection: %s:%d\n", inet_ntoa(adr.sin_addr), ntohs(adr.sin_port));
+
+//         // handle client
+//         pthread_t thread;
+//         pthread_mutex_init(&clients_mutex, NULL);
+//         t_client *new_client = create_new_client(adr, client_fd);
+//         SSL *ssl;
+//         ssl = SSL_new(ctx);     // get new SSL state
+//         SSL_set_fd(ssl, client_fd); // set connection socket to SSL state
+
+//         if (SSL_accept(ssl) < 0)
+//         {
+//             ERR_print_errors_fp(stderr);
+//             close_connection(ssl);
+//             return -1;
+//         }
+
+//         new_client->ssl = ssl;
+//         pthread_create(&thread, NULL, handle_client, new_client);
+//         pthread_join(thread, NULL);
+//         sleep(1);
+//     }
+//     SSL_CTX_free(ctx);
+//     close(client_fd);
+//     return 0;
+// }
+
+int main(int argc, char **argv)
 {
-	int server_socket, client_socket, client_addr_size;
-	struct sockaddr_in server, client;
-	char message[1000], client_reply[2000];
-	pid_t childpid;
-	// Create socket
-	server_socket = socket(AF_INET, SOCK_STREAM, 0);
-	if (server_socket < 0)
-	{
-		printf("Could not create socket");
-	}
-	puts("Socket created");
+    if (argc != 2)
+    {
+        return EXIT_FAILURE;
+    }
+    daemon_server();
+    int port = atoi(argv[1]);
+    struct sockaddr_in cli_addr;
+    socklen_t adr_size = sizeof(cli_addr);
+    int client_fd;
+    SSL_CTX *ctx = SSL_STX_Init();
+    int server_fd = open_server_connection(port, &cli_addr, adr_size);
+    while (1)
+    {
+        struct sockaddr_in cli_addr;
+        socklen_t adr_size = sizeof(cli_addr);
+        int client_fd = accept(server_fd, (struct sockaddr *)&cli_addr, &adr_size);
+        // printf("SSL: client accepted\n");
 
-	// Prepare the sockaddr_in structure
-	memset(&server, '\0', sizeof(server));
-	server.sin_family = AF_INET;
-	server.sin_addr.s_addr = INADDR_ANY;
-	server.sin_port = htons(1234);
+        pthread_t thread;
+        pthread_mutex_init(&clients_mutex, NULL);
+        t_client *new_client = create_new_client(cli_addr, client_fd);
+        SSL *ssl = SSL_new(ctx);
+        SSL_set_fd(ssl, client_fd);
+        if (SSL_accept(ssl) < 0)
+        {
+            ERR_print_errors_fp(stderr);
+            close_connection(ssl);
+            continue;
+        }
+        new_client->ssl = ssl;
 
-	// Bind
-	if (bind(server_socket, (struct sockaddr *)&server, sizeof(server)) < 0)
-	{
-		// print the error message
-		perror("bind failed. Error");
-		return 1;
-	}
-	puts("bind done");
+        pthread_create(&thread, NULL, handle_client, new_client);
+        pthread_detach(thread);
+    }
 
-	// Listen
-	listen(server_socket, 3);
-
-	// Accept and incoming connection
-	puts("Waiting for incoming connections...");
-	client_addr_size = sizeof(struct sockaddr_in);
-
-	// accept connection from an incoming client
-
-	// Receive a message from client
-	while (1)
-	{
-		client_socket = accept(server_socket, (struct sockaddr *)&client, (socklen_t *)&client_addr_size);
-		if (client_socket < 0)
-		{
-			exit(1);
-		}
-		printf("Connection accepted from %s:%d\n", inet_ntoa(client.sin_addr), ntohs(client.sin_port));
-		if ((childpid = fork()) == 0)
-		{
-			close(server_socket);
-			while (recv(client_socket, client_reply, sizeof(client_reply), 0) > 0)
-			{
-				printf("Enter message : "); // Send the message back to client
-				scanf("\n%200[0-9a-zA-Z.,! ]", message);
-				if (send(client_socket, message, sizeof(message), 0) < 0)
-				{
-					puts("Send failed");
-					return 1;
-				}
-				puts("client reply :");
-				puts(client_reply);
-			}
-			if (recv(client_socket, client_reply, sizeof(client_reply), 0) == 0)
-			{
-				printf("Disconnected from %s:%d\n", inet_ntoa(client.sin_addr), ntohs(client.sin_port));
-				break;
-			}
-		}
-	}
-	close(client_socket);
-	return 0;
+    SSL_CTX_free(ctx);
+    close(server_fd);
+    return 0;
 }

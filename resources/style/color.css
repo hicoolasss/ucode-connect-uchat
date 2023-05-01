@@ -1,0 +1,66 @@
+/*AUTH START*/
+/*window background*/
+@define-color bg-win-col #171722;
+
+/*auth main box background*/
+@define-color bg-auth-main-box #212130;
+
+/*all text*/
+@define-color bit-text-col #B1BAE6;
+
+/*text in achievements*/
+@define-color small-text-col #7AA2F7;
+
+/*auth inputs background*/
+@define-color auth-input-bg-col #434461;
+
+/*auth inputs border color*/
+@define-color auth-input-border-col #434461;
+
+/*auth inputs border color hover*/
+@define-color auth-input-border-col-hover #6E78A8;
+
+/*big log in button*/
+@define-color big-log-in-button-bg #13131A;
+
+/*big log in button hover shadow*/
+@define-color big-log-in-button-shadow-hover #565F89;
+
+/*big log in button active shadow*/
+@define-color big-log-in-button-shadow-active #565F89;
+
+/*sign button text color*/
+@define-color sign-btn-text-col #565F89;
+
+/*sign button text color*/
+@define-color sign-btn-text-col-hover #0269A4;
+
+/*AUTH END*/
+
+/*all containers bg*/
+@define-color all-containers-bg #13131A;
+
+/*right chat container bg*/
+@define-color right-chat-container-bg #171722;
+
+/*all containers borders in rgba*/
+@define-color all-containers-borders-bg rgba(122, 162, 247, 0.35);
+
+/*left menu bar icon background*/
+@define-color left-menu-bar-icon-background #4A4A66;
+
+/*left menu bar icon hovers*/
+@define-color left-menu-bar-icon-hover #7AA2F7;
+
+/*chat and group label text color*/
+@define-color chat-and-group-label-text-color rgba(122, 162, 247, 0.5);
+
+/*log out container bg*/
+@define-color log-out-container-bg #212130;
+
+/*log out yes border*/
+@define-color log-out-yes-border #434461;
+
+/*log out no border*/
+@define-color log-out-no-border #13131A;
+
