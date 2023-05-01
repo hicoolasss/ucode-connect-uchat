@@ -237,10 +237,20 @@ gpointer recv_func()
             char *username = cJSON_GetObjectItemCaseSensitive(json, "username")->valuestring;
             char *avatarname = cJSON_GetObjectItemCaseSensitive(json, "avatarname")->valuestring;
 
+            t_list *current = user_list;
+            while(current) {
+                printf("%s\n", ((t_user*)current->data)->username);
+                current = current->next;
+            }
             int result = update_user_avatar(user_list, username, avatarname);
             if (result != 0)
             {
                 printf("User not found\n");
+            }
+            t_list *current_friend = friend_list;
+            while(current) {
+                printf("%s\n", ((t_user*)current->data)->username);
+                current = current->next;
             }
             result = update_user_avatar(friend_list, username, avatarname);
             if (result != 0)

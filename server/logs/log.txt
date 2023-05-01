@@ -162,3 +162,53 @@ Error: Unable to receive data from server
 
 Error: Unable to receive data from server
 
+ERROR: Socket binding failed
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error sending JSON: error:00000005:lib(0)::reason(5)
+
+Error: Unable to receive data from server
+
+Error: Unable to receive data from server
+
