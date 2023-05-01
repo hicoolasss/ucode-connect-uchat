@@ -164,9 +164,9 @@ t_list *process_json_object(cJSON *json_object)
         cJSON *json_friend_avatarname = cJSON_GetObjectItem(json_friend, "avatarname");
         t_Friend *new_friend = (t_Friend *)malloc(sizeof(t_Friend));         // Изменено на t_Friend
         if (cJSON_IsTrue(cJSON_GetObjectItem(json_friend, "connected")))
-            new_friend->connected = false;
-        else
             new_friend->connected = true;
+        else
+            new_friend->connected = false;
         new_friend->username = mx_strdup(json_friend_username->valuestring); // Использование strdup для копирования строки
         new_friend->avatarname = mx_strdup(json_friend_avatarname->valuestring);
         if (json_lastmessage->valuestring != NULL)

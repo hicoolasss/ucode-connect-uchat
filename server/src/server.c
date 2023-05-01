@@ -67,13 +67,14 @@ int main(int argc, char **argv)
     {
         return EXIT_FAILURE;
     }
-    daemon_server();
+    // daemon_server();
     int port = atoi(argv[1]);
     struct sockaddr_in cli_addr;
     socklen_t adr_size = sizeof(cli_addr);
     int client_fd;
     SSL_CTX *ctx = SSL_STX_Init();
     int server_fd = open_server_connection(port, &cli_addr, adr_size);
+    pthread_mutex_init(&clients_mutex, NULL);
     while (1)
     {
         struct sockaddr_in cli_addr;
@@ -82,7 +83,6 @@ int main(int argc, char **argv)
         // printf("SSL: client accepted\n");
 
         pthread_t thread;
-        pthread_mutex_init(&clients_mutex, NULL);
         t_client *new_client = create_new_client(cli_addr, client_fd);
         SSL *ssl = SSL_new(ctx);
         SSL_set_fd(ssl, client_fd);

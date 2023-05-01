@@ -209,9 +209,11 @@ void *handle_client(void *args)
                             t_list *current_user = users_list;
                             while (current_user != NULL)
                             {
+                                printf("%s - %s\n",((t_client *)current_user->data)->login, username);
                                 if (strcmp(((t_client *)current_user->data)->login, username) == 0)
                                 {
-                                    ((t_user *)current_friend->data)->connected = ((t_client *)current_user->data)->connected;
+                                    printf("%d = %d\n", ((t_user *)current_friend->data)->connected, ((t_client *)current_user->data)->connected);
+                                    ((t_user *)current_friend->data)->connected = true;
                                     break;
                                 }
                                 current_user = current_user->next;
