@@ -133,12 +133,8 @@ void *handle_client(void *args)
 
                 if (strcmp(command, "<logout>") == 0)
                 {
-                    int cmd = SSL_write(current_client->ssl, command, mx_strlen(command));
-                    if (cmd <= 0)
-                    {
-                        write_json_error(current_client->ssl, cmd);
-                    }
                     t_list *current = users_list;
+                    int cmd = 0;
                     while (current != NULL)
                     {
                         if (strcmp(((t_client *)current->data)->login, current_client->login) != 0 && ((t_client *)current->data)->connected == true)
@@ -156,6 +152,11 @@ void *handle_client(void *args)
                             }
                         }
                         current = current->next;
+                    }
+                    cmd = SSL_write(current_client->ssl, command, mx_strlen(command));
+                    if (cmd <= 0)
+                    {
+                        write_json_error(current_client->ssl, cmd);
                     }
                     is_run = false;
                     // break;
@@ -209,15 +210,13 @@ void *handle_client(void *args)
                             t_list *current_user = users_list;
                             while (current_user != NULL)
                             {
-                                printf("%s - %s\n",((t_client *)current_user->data)->login, username);
                                 if (strcmp(((t_client *)current_user->data)->login, username) == 0)
                                 {
-                                    printf("%d = %d\n", ((t_user *)current_friend->data)->connected, ((t_client *)current_user->data)->connected);
                                     ((t_user *)current_friend->data)->connected = true;
                                     break;
                                 }
                                 else ((t_user *)current_friend->data)->connected = false;
-                                
+
                                 current_user = current_user->next;
                             }
                             current_friend = current_friend->next;
