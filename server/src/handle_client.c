@@ -216,6 +216,8 @@ void *handle_client(void *args)
                                     ((t_user *)current_friend->data)->connected = true;
                                     break;
                                 }
+                                else ((t_user *)current_friend->data)->connected = false;
+                                
                                 current_user = current_user->next;
                             }
                             current_friend = current_friend->next;
