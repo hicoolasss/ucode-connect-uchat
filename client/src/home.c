@@ -159,7 +159,7 @@ static void user_data_to_chat_gpt(gpointer chat_gpt_entry)
 
     GtkWidget *open_ai_avatar = gtk_image_new_from_file("resources/images/openai.svg");
 
-    const char *api_key = "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";
+    const char *api_key = "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";
 
     char *response = get_chatgpt_response(question, api_key);
     char *text = extract_text_from_response(response);

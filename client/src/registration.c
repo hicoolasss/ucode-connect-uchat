@@ -358,7 +358,9 @@ void show_registration()
 
     gtk_entry_set_placeholder_text(GTK_ENTRY(current_registration.username), " Username");
     gtk_entry_set_placeholder_text(GTK_ENTRY(current_registration.password), " Password");
+    gtk_entry_set_visibility(GTK_ENTRY(current_registration.password), FALSE);
     gtk_entry_set_placeholder_text(GTK_ENTRY(current_registration.confirm_password), "  Confirm Password");
+    gtk_entry_set_visibility(GTK_ENTRY(current_registration.confirm_password), FALSE);
 
     gtk_box_append(GTK_BOX(current_registration.box), current_registration.welcome);
 

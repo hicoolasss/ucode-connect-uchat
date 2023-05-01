@@ -142,6 +142,9 @@ gpointer recv_func()
             }
             char *friendname = cJSON_GetObjectItemCaseSensitive(json, "friendname")->valuestring;
             char *avatarname = cJSON_GetObjectItemCaseSensitive(json, "avatarname")->valuestring;
+
+            mx_printstr(avatarname);
+            mx_printstr("\n");
             add_new_friend(&friend_list, friendname, avatarname);
         }
         else if (mx_strcmp(command, "<send_message_in_chat>") == 0)
@@ -185,7 +188,25 @@ gpointer recv_func()
             if (new_node && new_node->data)
             {
                 t_chat *chat = (t_chat *)new_node->data;
-                update_current_chat(chat, friendname);
+
+                t_Friend *friend_data = NULL;
+                t_list *temp = friend_list;
+
+                // Найти друзей с заданным именем пользователя
+                while (temp)
+                {
+                    friend_data = (t_Friend *)temp->data;
+                    if (mx_strcmp(friend_data->username, friendname) == 0)
+                    {
+                        break;
+                    }
+                    temp = temp->next;
+                }
+                if (friend_data->in_chat)
+                {
+                    // update_current_chat_while_delete(friend_data, id, msg);
+                    update_current_chat(chat, friendname);
+                }
                 // printf("%s\n", chat->message);
             }
             t_chat *data = message_data;
@@ -238,8 +259,9 @@ gpointer recv_func()
             char *avatarname = cJSON_GetObjectItemCaseSensitive(json, "avatarname")->valuestring;
 
             t_list *current = user_list;
-            while(current) {
-                printf("%s\n", ((t_user*)current->data)->username);
+            while (current)
+            {
+                printf("%s\n", ((t_user *)current->data)->username);
                 current = current->next;
             }
             int result = update_user_avatar(user_list, username, avatarname);
@@ -248,8 +270,9 @@ gpointer recv_func()
                 printf("User not found\n");
             }
             t_list *current_friend = friend_list;
-            while(current) {
-                printf("%s\n", ((t_user*)current->data)->username);
+            while (current)
+            {
+                printf("%s\n", ((t_user *)current->data)->username);
                 current = current->next;
             }
             result = update_user_avatar(friend_list, username, avatarname);
@@ -257,7 +280,7 @@ gpointer recv_func()
             {
                 printf("User not found\n");
             }
-            //get_scaled_image();
+            // get_scaled_image();
         }
         else if (mx_strcmp(command, "<delete_message_in_chat>") == 0)
         {

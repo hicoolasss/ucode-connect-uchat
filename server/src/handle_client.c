@@ -258,8 +258,7 @@ void *handle_client(void *args)
                     else
                     {
                         cJSON *json = cJSON_CreateObject();
-                        char *avatarname = sql_get_image(db, friendname);
-                        cJSON_AddStringToObject(json, "avatarname", avatarname);
+
                         t_list *current = users_list;
                         while (current != NULL)
                         {
@@ -274,9 +273,12 @@ void *handle_client(void *args)
                                 else
                                 {
                                     cJSON_AddStringToObject(json, "friendname", current_client->login);
+                                    char *avatarname = sql_get_image(db, friendname);
+                                    cJSON_AddStringToObject(json, "avatarname", avatarname);
                                     char *json_str = cJSON_Print(json);
                                     SSL_write(ssl, json_str, mx_strlen(json_str));
                                     cJSON_DeleteItemFromObject(json, "friendname");
+                                    cJSON_DeleteItemFromObject(json, "avatarname");
                                 }
                             }
                             if (strcmp(((t_client *)current->data)->login, current_client->login) == 0 && strcmp(((t_client *)current->data)->login, friendname) != 0)
@@ -290,9 +292,12 @@ void *handle_client(void *args)
                                 else
                                 {
                                     cJSON_AddStringToObject(json, "friendname", friendname);
+                                    char *avatarname = sql_get_image(db, current_client->login);
+                                    cJSON_AddStringToObject(json, "avatarname", avatarname);
                                     char *json_str = cJSON_Print(json);
                                     SSL_write(ssl, json_str, mx_strlen(json_str));
                                     cJSON_DeleteItemFromObject(json, "friendname");
+                                    cJSON_DeleteItemFromObject(json, "avatarname");
                                 }
                             }
                             current = current->next;

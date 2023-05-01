@@ -76,7 +76,7 @@ t_list *add_message_to_chat_history(t_list **friend_list, const char *username, 
     // Обновить последнее сообщение для друга
     friend_data->lastmessage = mx_strdup(new_chat->message);
 
-    update_show_chats_with_added_friends(*friend_list, username);
+    update_added_current_friend(*friend_list, username);
 
     return friend_data->chat_history ? mx_list_last(friend_data->chat_history) : NULL;
 }
@@ -105,7 +105,7 @@ void add_new_friend(t_list **friend_list, const char *username, const char *avat
     friend_data->lastmessage = "Nothing here...";
     friend_data->chat_history = NULL;
     friend_data->in_chat = false;
-    friend_data->avatarname = mx_strdup(avatarname);
+    friend_data->avatarname = g_strdup(avatarname);
 
     t_list *new_friend_node = (t_list *)malloc(sizeof(t_list));
     if (!new_friend_node)
@@ -118,7 +118,7 @@ void add_new_friend(t_list **friend_list, const char *username, const char *avat
     new_friend_node->next = *friend_list;
     *friend_list = new_friend_node;
 
-    //update_show_chats_with_added_friends(*friend_list, username);
+    update_show_chats_with_added_friends(*friend_list);
 }
 
 void delete_message(t_list **friend_list, char *username, int message_id, char *message_text)

@@ -402,7 +402,9 @@ gboolean send_receive_msg(gpointer user_data);
 
 t_list *add_message_to_chat_history(t_list **friend_list, const char *username, t_chat *new_chat);
 
-void update_show_chats_with_added_friends(t_list *friend_list, const char *username);
+void update_added_current_friend(t_list *friend_list, const char *username);
+
+void update_show_chats_with_added_friends(t_list *friend_list);
 
 void show_friend_info(gpointer data);
 
