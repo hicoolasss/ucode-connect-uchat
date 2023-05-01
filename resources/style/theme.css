@@ -1568,9 +1568,6 @@
     font-weight: 500;
     font-size: 16px;
     line-height: 19px;
-    display: flex;
-    align-items: center;
-    text-align: center;
 
     color: #B6B6E1;
 }
@@ -1581,9 +1578,6 @@
     font-weight: 500;
     font-size: 14px;
     line-height: 19px;
-    display: flex;
-    align-items: center;
-    text-align: center;
 
     color: #B6B6E1;
 }
