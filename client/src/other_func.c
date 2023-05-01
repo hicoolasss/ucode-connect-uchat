@@ -163,7 +163,7 @@ t_list *process_json_object(cJSON *json_object)
         cJSON *json_lastmessage = cJSON_GetObjectItem(json_friend, "lastmessage");
         cJSON *json_friend_avatarname = cJSON_GetObjectItem(json_friend, "avatarname");
         t_Friend *new_friend = (t_Friend *)malloc(sizeof(t_Friend));         // Изменено на t_Friend
-        if (cJSON_IsTrue(cJSON_GetObjectItem(json_friend_list, "connected")))
+        if (cJSON_IsTrue(cJSON_GetObjectItem(json_friend, "connected")))
             new_friend->connected = true;
         else
             new_friend->connected = false;
