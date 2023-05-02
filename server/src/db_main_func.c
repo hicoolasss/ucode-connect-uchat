@@ -316,7 +316,7 @@ int save_image_to_db(sqlite3 *db, const char *username, const char *filename)
 char *sql_get_image(sqlite3 *db, const char *username) {
     sqlite3_stmt *stmt;
     char *filename = NULL;
-    const char *sql = "SELECT avatarname FROM users WHERE username = ?";
+    const char *sql = "SELECT avatarname FROM users WHERE id = ?";
      int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
 
     if (result != SQLITE_OK)
@@ -326,7 +326,9 @@ char *sql_get_image(sqlite3 *db, const char *username) {
         write_logs(logbuf);
         filename = NULL;
     }
-    sqlite3_bind_text(stmt, 1, username, -1, SQLITE_TRANSIENT);
+
+    int user_id = get_user_id(db, username);
+    sqlite3_bind_int(stmt, 1, user_id);
 
     result = sqlite3_step(stmt);
     if (result == SQLITE_ROW)

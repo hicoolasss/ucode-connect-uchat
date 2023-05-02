@@ -3,8 +3,7 @@
 int recv_all(SSL *sockfd, char *buf, int len);
 int send_all(SSL *sockfd, char *buf, int len);
 void remove_client(int socket_fd);
-void print_message(char *login, char *message);
-
+bool is_client_connected_by_nickname(t_list *clients, const char *nickname);
 void *handle_client(void *args)
 {
     sql_create_db();
@@ -215,7 +214,8 @@ void *handle_client(void *args)
                                     ((t_user *)current_friend->data)->connected = true;
                                     break;
                                 }
-                                else ((t_user *)current_friend->data)->connected = false;
+                                else
+                                    ((t_user *)current_friend->data)->connected = false;
 
                                 current_user = current_user->next;
                             }
@@ -260,7 +260,11 @@ void *handle_client(void *args)
                         cJSON *json = cJSON_CreateObject();
 
                         t_list *current = users_list;
-                        while (current != NULL)
+                        bool sent_to_both_users = false;
+                        bool sent_to_friend = false;
+                        bool sent_to_client = false;
+
+                        while (current != NULL && !sent_to_both_users)
                         {
                             if (strcmp(((t_client *)current->data)->login, friendname) == 0)
                             {
@@ -273,12 +277,17 @@ void *handle_client(void *args)
                                 else
                                 {
                                     cJSON_AddStringToObject(json, "friendname", current_client->login);
-                                    char *avatarname = sql_get_image(db, friendname);
+                                    char *avatarname = sql_get_image(db, current_client->login);
                                     cJSON_AddStringToObject(json, "avatarname", avatarname);
+                                    t_list *current = users_list;
+                                    bool connected = is_client_connected_by_nickname(current, current_client->login);
+                                    cJSON_AddBoolToObject(json, "connected", connected);
                                     char *json_str = cJSON_Print(json);
                                     SSL_write(ssl, json_str, mx_strlen(json_str));
                                     cJSON_DeleteItemFromObject(json, "friendname");
                                     cJSON_DeleteItemFromObject(json, "avatarname");
+                                    cJSON_DeleteItemFromObject(json, "connected");
+                                    sent_to_friend = true;
                                 }
                             }
                             if (strcmp(((t_client *)current->data)->login, current_client->login) == 0 && strcmp(((t_client *)current->data)->login, friendname) != 0)
@@ -292,15 +301,29 @@ void *handle_client(void *args)
                                 else
                                 {
                                     cJSON_AddStringToObject(json, "friendname", friendname);
-                                    char *avatarname = sql_get_image(db, current_client->login);
+                                    char *avatarname = sql_get_image(db, friendname);
                                     cJSON_AddStringToObject(json, "avatarname", avatarname);
+                                    t_list *current = users_list;
+                                    bool connected = is_client_connected_by_nickname(current, friendname);
+                                    cJSON_AddBoolToObject(json, "connected", connected);
                                     char *json_str = cJSON_Print(json);
                                     SSL_write(ssl, json_str, mx_strlen(json_str));
                                     cJSON_DeleteItemFromObject(json, "friendname");
                                     cJSON_DeleteItemFromObject(json, "avatarname");
+                                    cJSON_DeleteItemFromObject(json, "connected");
+                                    sent_to_client = true;
                                 }
                             }
-                            current = current->next;
+
+                            // Если команда отправлена обоим пользователям, выходим из цикла
+                            if (sent_to_friend && sent_to_client)
+                            {
+                                sent_to_both_users = true;
+                            }
+                            else
+                            {
+                                current = current->next;
+                            }
                         }
                         cJSON_Delete(json);
                     }
@@ -535,4 +558,24 @@ void *handle_client(void *args)
         }
     }
     return NULL;
+}
+
+bool is_client_connected_by_nickname(t_list *clients, const char *nickname)
+{
+    t_list *current = clients;
+
+    while (current != NULL)
+    {
+        t_client *client = (t_client *)current->data;
+
+        if (strcmp(client->login, nickname) == 0)
+        {
+            return client->connected;
+        }
+
+        current = current->next;
+    }
+
+    // Если клиент с таким никнеймом не найден, возвращаем false
+    return false;
 }

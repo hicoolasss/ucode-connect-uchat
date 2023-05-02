@@ -281,7 +281,7 @@ gpointer send_func();
 gpointer recv_func();
 int stable_sending(SSL *ssl, void *buf, int size);
 int stable_recv(SSL *ssl, void *buf, int size);
-void add_new_friend(t_list **friend_list, const char *username, const char *avatarname);
+void add_new_friend(t_list **friend_list, const char *username, const char *avatarname, bool connected);
 char *registration(int status);
 int recv_all(SSL *sockfd, char *buf, int len);
 int send_all(SSL *sockfd, char *buf, int len);

@@ -108,14 +108,6 @@ gpointer recv_func()
                 break;
             }
             friend_list = process_json_object(received_json);
-
-            t_list *current = friend_list;
-            while (current)
-            {
-                printf("%d", ((t_Friend *)current->data)->connected);
-                current = current->next;
-            }
-
             show_chats_with_added_friends(friend_list);
 
             cJSON_Delete(received_json);
@@ -123,6 +115,7 @@ gpointer recv_func()
         else if (mx_strcmp(command, "<add_friend>") == 0)
         {
             char temp[128];
+            bool connected;
             int len = stable_recv(current_client.ssl, temp, sizeof(temp));
             if (len < 0)
             {
@@ -142,10 +135,12 @@ gpointer recv_func()
             }
             char *friendname = cJSON_GetObjectItemCaseSensitive(json, "friendname")->valuestring;
             char *avatarname = cJSON_GetObjectItemCaseSensitive(json, "avatarname")->valuestring;
-
-            mx_printstr(avatarname);
-            mx_printstr("\n");
-            add_new_friend(&friend_list, friendname, avatarname);
+            cJSON *json_connected = cJSON_GetObjectItemCaseSensitive(json, "connected");
+            if (json_connected != NULL && cJSON_IsTrue(json_connected))
+                connected = true;
+            else
+                connected = false;
+            add_new_friend(&friend_list, friendname, avatarname, connected);
         }
         else if (mx_strcmp(command, "<send_message_in_chat>") == 0)
         {
@@ -156,7 +151,6 @@ gpointer recv_func()
                 printf("Error: Unable to receive data from server\n");
                 break;
             }
-            printf("\n%s\n", temp);
             cJSON *json = cJSON_Parse(temp);
             if (!json)
             {
@@ -258,29 +252,16 @@ gpointer recv_func()
             char *username = cJSON_GetObjectItemCaseSensitive(json, "username")->valuestring;
             char *avatarname = cJSON_GetObjectItemCaseSensitive(json, "avatarname")->valuestring;
 
-            t_list *current = user_list;
-            while (current)
-            {
-                printf("%s\n", ((t_user *)current->data)->username);
-                current = current->next;
-            }
             int result = update_user_avatar(user_list, username, avatarname);
             if (result != 0)
             {
                 printf("User not found\n");
-            }
-            t_list *current_friend = friend_list;
-            while (current)
-            {
-                printf("%s\n", ((t_user *)current->data)->username);
-                current = current->next;
             }
             result = update_user_avatar(friend_list, username, avatarname);
             if (result != 0)
             {
                 printf("User not found\n");
             }
-            // get_scaled_image();
         }
         else if (mx_strcmp(command, "<delete_message_in_chat>") == 0)
         {
