@@ -102,6 +102,7 @@ static void get_scaled_image_chats_for_friend_list(t_Friend *current)
         g_print("Ошибка при загрузке изображения.3\n");
         return;
     }
+    printf("current->avatarname: %s\n", current->avatarname);
 
     // Масштабирование исходного изображения до размера аватара
     GdkPixbuf *scaled_pixbuf = gdk_pixbuf_scale_simple(source_pixbuf, 60, 60, GDK_INTERP_BILINEAR);
@@ -1220,7 +1221,7 @@ void update_show_chats_with_added_friends(t_list *friend_list)
 
         GtkWidget *username_label = gtk_label_new(friend_data->username);
 
-        // get_scaled_image_chats_for_friend_list(friend_data);
+        get_scaled_image_chats_for_friend_list(friend_data);
 
         GtkWidget *user_avatar = gtk_image_new_from_pixbuf(scaled_avatar);
 
