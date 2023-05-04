@@ -1,7 +1,8 @@
 # TokyoNight chat 
 
-This is our implementation of the real-time messaging app for the ucode-connect-uchat project.
+TokyoNight chat was developed in about four months thanks to the diligence of a team of two highly skilled developers. In the process of creating this project, such advanced technologies and tools as SQLite3, cJSON, OpenSSL and GTK4 were used, which ensured its high quality and functionality.
 
+After TokyoNight chat was presented as a presentation to an audience of students, this project received the highest marks and well-deserved recognition for its excellent features and technical implementation. This proves the skill of the development team and their ability to create products that meet the highest requirements.
 
 ## Developers
 
