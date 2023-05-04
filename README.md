@@ -12,7 +12,7 @@ After TokyoNight chat was presented as a presentation to an audience of students
 
 ## Demo
 
-Here you can find our demo - https://www.youtube.com/watch?v=fcCUp_We3Ng&ab_channel=criops
+Here you can find our demo - https://www.youtube.com/watch?v=1IZhQ5ZzmQM&t=55s&ab_channel=criops
 
 
 - ### Login
